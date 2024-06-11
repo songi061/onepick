@@ -2,6 +2,8 @@ package com.example.onepickApi.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CompanyReviewRepository extends JpaRepository<CompanyReviewRepository, Long>{
+import com.example.onepickApi.entity.CompanyReview;
+
+public interface CompanyReviewRepository extends JpaRepository<CompanyReview, Long>{
 
 }
