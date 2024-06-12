@@ -65,7 +65,7 @@ public class UserCommunityController {
 		return ub;
 	}
 	
-	// 커뮤니티 게시물 리스트
+	// 커뮤니티 전체 게시물 리스트
 	@GetMapping("/community-board")
 	public List<UserBoard> communityList(){
 		List<UserBoard> ubList = ubRepo.findAll();
