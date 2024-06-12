@@ -10,6 +10,10 @@ public class QnaController {
 	public void qnaForm() {	
 	}
 	
+	@RequestMapping("/qnaList")
+	public void qnaList() {	
+	}
+	
 	@RequestMapping("/qnaEdit")
 	public void qnaEdit() {	
 	}
