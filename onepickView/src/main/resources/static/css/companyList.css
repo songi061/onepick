@@ -1,0 +1,15 @@
+@charset "UTF-8";
+.title{
+	font-size:xx-large;
+	font-weight:bolder;
+	padding:10px;
+}
+.companies{
+	display:flex;
+	justify-content:space-around;
+}
+.company{
+	border:1px solid black;
+	border-radius:10px;
+	width:300px;
+}
