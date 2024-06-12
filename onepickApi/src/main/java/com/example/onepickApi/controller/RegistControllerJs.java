@@ -80,4 +80,22 @@ public class RegistControllerJs {
 		
 	}
 	
+	
+	@PostMapping("/company")
+	public ResponseEntity<String> registCompany(@RequestBody Company company){
+		System.out.println("company 회원가입 중.." + company);
+		String newPw = bCryptPasswordEncoder.encode(company.getPassword());
+		String role = "ROLE_COMPANY";
+		
+		company.setPassword(newPw);
+		company.setRole(role);
+		Company result = companyRepository.save(company);
+		if(result != null) {
+			return new ResponseEntity<>("가입 성공", HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>("가입 실패", HttpStatus.OK);
+		}
+		
+	}
+	
 }
