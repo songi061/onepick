@@ -27,12 +27,19 @@
 	xhttp.onload = function() {
 		console.log(JSON.parse(this.responseText));
 		let data = JSON.parse(this.responseText);
-// 		document.querySelector(".company_info").innerHTML = 
-// 			"<div>" + data.name +"</div><div> ⭐"+ "평점" +"</div><div>"+ data.sector +"</div><div>" 
-// 			+ data.ceo + "</div><div>"  + data.employeesNum + "</div><div>"  + data.size + "</div><div>" 
-// 			+ data.major + "</div><div>"  + data.yrSales + "</div><div>"  + data.url + "</div>";
+		const listContainer = document.querySelector('.companies');
+           data.forEach(company => {
+        	   console.log(company)
+               const listItem = document.createElement('div');
+               listItem.className = 'company';
+               listItem.innerHTML = "<div><a href='/company/companyDetail?username="+ company.username +"'>회사명 :"+ company.name+"</a></div><div>업종 : " +company.sector+
+               "</div> <div>회사규모 : " + company.size + "</div><div>사원수 : "+ company.employeesNum+
+               "</div><div>연매출액 : " + company.yrSales + "</div><div>주소 : "+company.addr +
+               "</div><div id='icon'><span>♡</span><span>☆</span></div>";
+               listContainer.appendChild(listItem);
+           });
 	  }
-	xhttp.open("GET", "http://localhost:9001/api/v1/company", true);
+	xhttp.open("GET", "http://localhost:9001/api/v1/company/", true);
 	xhttp.send();
 </script>
 </body>

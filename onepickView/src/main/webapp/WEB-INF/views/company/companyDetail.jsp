@@ -26,13 +26,11 @@
 const username = "${username}";
     const xhttp = new XMLHttpRequest();
 	xhttp.onload = function() {
-		console.log(JSON.parse(this.responseText));
+		console.log(this.responseText);
 		let data = JSON.parse(this.responseText);
 		document.querySelector(".company_info").innerHTML = 
 			"<div>" + data.name +"</div><div> ⭐"+ "평점" +"</div><div>"+ data.sector +"</div><div>" 
-			+ data.ceo + "</div><div>"  + data.employeesNum + "</div><div>"  + data.size + "</div><div>" 
-			+ data.major + "</div><div>"  + data.yrSales + "</div><div>"  + data.url + "</div>";
-// 	  document.getElementById("demo").innerHTML = this.responseText;
+			+ data.ceo + "</div><div>"  + data.employeesNum + "</div><div>"  + data.size + "</div><div>" + data.yrSales + "</div><div>"  + data.url + "</div>";
 	  }
 	xhttp.open("GET", "http://localhost:9001/api/v1/company/detail?username="+username, true);
 	xhttp.send();
