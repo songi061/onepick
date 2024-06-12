@@ -6,7 +6,7 @@
 			<div class="d-flex ms-auto">
 				<div class="border-end pe-3 me-3">
 					<a class="btn btn-sm btn-outline-dark" href="/loginForm">로그인</a>
-					<a class="btn btn-sm btn-outline-dark" href="/joinForm">회원가입</a>
+					<a class="btn btn-sm btn-outline-dark" href="/regForm">회원가입</a>
 				</div>
 				<a class="btn btn-sm btn-outline-dark" href="/">기업회원 서비스</a>
 			</div>
