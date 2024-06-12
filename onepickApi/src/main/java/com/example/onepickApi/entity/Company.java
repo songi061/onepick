@@ -35,8 +35,6 @@ public class Company extends BaseEntity {
 	    @Column(nullable = false)
 	    private String size;
 	    @Column(nullable = false)
-	    private String major;
-	    @Column(nullable = false)
 	    private String yrSales;
 	
 }
