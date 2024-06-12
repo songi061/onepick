@@ -12,9 +12,14 @@ public class Controller_jia {
 
 	@RequestMapping("/companyDetail")
 	public void companyDetail(@RequestParam("username") String username, Model model) {
+		System.out.println(username);
 		model.addAttribute("username", username);
 	}
 	@RequestMapping("/companyList")
 	public void companyList() {
+	}
+	@RequestMapping("/recruitDetail")
+	public void recruitDetail(@RequestParam("jno") Long jno, Model model) {
+		model.addAttribute("jno", jno);
 	}
 }
