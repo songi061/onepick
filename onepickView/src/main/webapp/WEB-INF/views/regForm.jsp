@@ -27,8 +27,9 @@
 	<div class="tab-content bg-white p-4 rounded " id="pills-tabContent">
 	  <div class="tab-pane fade show active" id="pills-user" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
 		  <div class="mb-3">
-		   	<label class="form-label">아이디</label>
+		   	<label class="form-label d-flex">아이디<button class="ms-auto btn btn-sm btn-onepick" onclick="userIdcheck()">중복확인</button></label>
 	  		<input type="text" name="username" class="form-control" placeholder="아이디">
+	  		<div id="userIdcheck_msg"></div>
 		  </div>
 		  <div class="mb-3">
 		   	<label class="form-label">비밀번호</label>
@@ -80,8 +81,9 @@
 	  </div>
 	  <div class="tab-pane fade" id="pills-company" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
 	  	<div class="mb-3">
-		   	<label class="form-label">아이디</label>
+		   	<label class="form-label d-flex">아이디<button class="ms-auto btn btn-sm btn-onepick" onclick="companyIdcheck()">중복확인</button></label>
 	  		<input type="text" name="username" class="form-control" placeholder="아이디">
+	  		<div id="companyIdcheck_msg"></div>
 		  </div>
 		  <div class="mb-3">
 		   	<label class="form-label">비밀번호</label>
@@ -105,7 +107,8 @@
 		  </div>
 		  <div class="mb-3">
 		   	<label class="form-label">업종</label>
-	  		<input type="text" name="sector" class="form-control" placeholder="업종">
+	  		<select id="sector" class="form-select" name="sector">
+			</select>
 		  </div>
 		  <div class="mb-3">
 		   	<label class="form-label">사원수(명)</label>
@@ -117,7 +120,18 @@
 		  </div>
 		  <div class="mb-3">
 		   	<label class="form-label">기업 규모</label>
-	  		<input type="text" name="size" class="form-control" placeholder="기업 규모">
+	  		<select class="form-select" name="size">
+	  			<option value="대기업">대기업</option>
+	  			<option value="대기업 계열사·자회사">대기업 계열사·자회사</option>
+	  			<option value="중소기업(300명이하)">중소기업(300명이하)</option>
+	  			<option value="중견기업(300명이상)">중견기업(300명이상)</option>
+	  			<option value="밴처기업">밴처기업</option>
+	  			<option value="외국계(외국투자기업)">외국계(외국투자기업)</option>
+	  			<option value="외국계(외국법인기업)">외국계(외국법인기업)</option>
+	  			<option value="국내 공공기관·공기업">국내 공공기관·공기업</option>
+	  			<option value="비영리단체·협회·교육재단">비영리단체·협회·교육재단</option>
+	  			<option value="외국기관·비영리기구·단체">외국기관·비영리기구·단체</option>
+			</select>
 		  </div>
 		  <div class="mb-3">
 		   	<label class="form-label">연 매출액</label>
@@ -131,7 +145,49 @@
 	  </div>
 	</div>
 </div>
+<script>
+	const xhttp1 = new XMLHttpRequest();
+	xhttp1.onload = function() {
+	  let objs = JSON.parse(this.responseText);
+	  //console.log(objs);
+	  objs.forEach((obj)=>{
+		  document.getElementById("sector").innerHTML += '<option value=' + obj["산업/업종명"] + '>' + obj["산업/업종명"] + '</option>';
+	  });
+	  //console.log(this.responseText);
+	  }
+	xhttp1.open("GET", "/json/sector_category.json", true);
+	xhttp1.send();
+	
+	function userIdcheck(){
+		const username = document.querySelector("#pills-user").querySelector("input[name='username']");
+		console.log(username.value);
+		const xhttp2 = new XMLHttpRequest();
+		xhttp2.onload = function() {
+			const responseText = this.responseText;
+			document.getElementById("userIdcheck_msg").innerHTML = 
+				  (responseText === "중복된 아이디입니다.") ? 
+			                '<span class="text-danger">' + responseText + '</span>' :
+			                '<span class="text-primary">' + responseText + '</span>';
+		  }
+		xhttp2.open("GET", "http://localhost:9001/api/v1/register/user?username=" + username.value, true);
+		xhttp2.send();
+	}
+	
+	function companyIdcheck(){
+		const username = document.querySelector("#pills-company").querySelector("input[name='username']");
+		console.log(username.value);
+		const xhttp2 = new XMLHttpRequest();
+		xhttp2.onload = function() {
+			const responseText = this.responseText;
+			document.getElementById("companyIdcheck_msg").innerHTML = 
+				  (responseText === "중복된 아이디입니다.") ? 
+			                '<span class="text-danger">' + responseText + '</span>' :
+			                '<span class="text-primary">' + responseText + '</span>';
+		  }
+		xhttp2.open("GET", "http://localhost:9001/api/v1/register/company?username=" + username.value, true);
+		xhttp2.send();
+	}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
-
 </html>
