@@ -37,7 +37,7 @@ public class Qna extends BaseEntity {
 	@Column(columnDefinition = "TEXT", nullable = false)
 	private String content;
 	private String category;
-	@Column(columnDefinition = "TEXT", nullable = false)
+	@Column(columnDefinition = "TEXT")
 	private String response;
 	
 	private boolean secret;
