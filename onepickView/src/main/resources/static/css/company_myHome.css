@@ -1,0 +1,88 @@
+@charset "UTF-8";
+
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 50px 20px 50px ;
+}
+
+.company_myInfo, .myrecruit_list {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    background-color: #f1f1f1; 
+    padding: 15px;
+    border-radius: 5px; 
+}
+
+.company_myInfo img {
+    width: 100px; 
+    height: 100px;
+    object-fit: cover; 
+    border-radius: 50%; 
+    border: 2px solid #42d056 ; 
+}
+
+.company_myInfo div {
+    font-size: 16px;
+    color: #333;
+}
+
+
+.links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.links div {
+    background-color: #42d056; 
+    color: #fff; 
+    padding: 10px;
+    border-radius: 5px; 
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.links div a {
+    color: inherit; 
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.links div:hover {
+    background-color: #0056b3; 
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .btn-onepick {
+        width: 100%;
+        text-align: center;
+    }
+
+    .company_myInfo {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .company_myInfo img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .links {
+        grid-template-columns: 1fr;
+    }
+}

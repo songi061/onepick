@@ -14,7 +14,7 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 	<div class="container">
 		<div class="title">기업 목록</div>
-		<div class="recruit_list">
+		<div class="company_list">
 		
 		</div>
 		
@@ -29,18 +29,18 @@
 		let data = JSON.parse(this.responseText);
 		console.log(data);
 		
-// 		const listContainer = document.querySelector('.recruit_list');
-//            data.forEach(company => {
-//                const listItem = document.createElement('div');
-//                listItem.className = 'company';
-//                listItem.innerHTML = "<div><a href='/company/companyDetail?username="+ company.username +"'>회사명 :"+ company.name+"</a></div><div>업종 : " +company.sector+
-//                "</div> <div>회사규모 : " + company.size + "</div><div>사원수 : "+ company.employeesNum+
-//                "</div><div>연매출액 : " + company.yrSales + "</div><div>주소 : "+company.addr +
-//                "</div><div id='icon'><span>♡</span><span>☆</span></div>";
-//                listContainer.appendChild(listItem);
-//            });
+		const listContainer = document.querySelector('.company_list');
+           data.forEach(company => {
+               const listItem = document.createElement('div');
+               listItem.className = 'company';
+               listItem.innerHTML = "<div><a href='/company/companyDetail?username="+ company.username +"'>"+ company.name+"</a></div><div>" +company.sector+
+               "</div> <div>" + company.size + "</div><div>사원수 : "+ company.employeesNum+
+               " 명 </div><div>연매출액 : " + company.yrSales + " 원 </div><div>주소 : " + company.addr +
+               "</div><div id='icon'><span onclick=''>♡</span></div>";
+               listContainer.appendChild(listItem);
+           });
 	  }
-	xhttp.open("GET", "http://localhost:9001/api/v1/recruit/myrecruit", true);
+	xhttp.open("GET", "http://localhost:9001/api/v1/company/", true);
 	xhttp.send();
 </script>
 </body>

@@ -1,15 +1,85 @@
 @charset "UTF-8";
-.title{
-	font-size:xx-large;
-	font-weight:bolder;
-	padding:10px;
+
+
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 50px 20px 50px ;
 }
-.companies{
-	display:flex;
-	justify-content:space-around;
+
+.company_list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
 }
-.company{
-	border:1px solid black;
-	border-radius:10px;
-	width:300px;
+
+.company {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
 }
+
+.company a, a:visited {
+    text-decoration: none;
+    font-weight: bold;
+    color: #42d056;
+}
+
+.company div {
+    margin: 5px 0;
+}
+
+#icon {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+#icon span {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+
+.company_list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.company {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    transition: box-shadow 0.3s;
+}
+
+.company:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.company a {
+    color: #007bff;
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-decoration: none;
+}
+
+.company div {
+    font-size: 14px;
+    color: #666666;
+}
+
+
+#icon span {
+    font-size: 20px;
+    cursor: pointer;
+    color: #ff6b6b; /* Heart icon color */
+}
+

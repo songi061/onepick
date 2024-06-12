@@ -8,14 +8,25 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="/css/style.css" rel="stylesheet">
+<link href="/css/company_myHome.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
 	<div class="container">
-	마이페이지
+	<div class='title'>My Home</div>
 	<button class="btn btn-onepick" onclick="location.href=''">내정보수정</button>
 		<div class="company_myInfo">
-		
+		</div>
+		<div class='title'>내 공고 리스트</div>
+		<button>더보기</button>
+		<div class="myrecruit_list">
+		dddddd
+		</div>
+		<div class="links">
+			<div><a href=''>채용공고작성</a></div>
+			<div><a href=''>스크랩한지원자</a></div>
+			<div><a href=''>지원내역관리</a></div>
+			<div><a href=''>QnA관리</a></div>
 		</div>
 		
 	</div>
