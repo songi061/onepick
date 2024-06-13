@@ -17,6 +17,10 @@
 	<table id="data_board_detail">
 	</table>
 </div>
+<div id="reply_regist">
+	<input type="text" name="content">
+	<input type="submit" value="등록">
+</div>
 <div id="reply_detail">
 	<table id="data_reply_detail">
 	</table>
@@ -70,13 +74,6 @@ $(document).ready(function(){
 		}
 	});
 });
-
-
-
-
-
-
-
 
 
 </script>
