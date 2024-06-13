@@ -77,7 +77,7 @@
 			  <label class="form-check-label" for="militaryService2">병역사항 있음</label>
 			</div>
 		  </div>
-		  <button class="btn btn-onepick w-100">회원가입</button>
+		  <button class="btn btn-onepick w-100" onclick="registUser()">회원가입</button>
 	  </div>
 	  <div class="tab-pane fade" id="pills-company" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
 	  	<div class="mb-3">
@@ -137,7 +137,7 @@
 		   	<label class="form-label">연 매출액</label>
 	  		<input type="text" name="yrSales" class="form-control" placeholder="연 매출액">
 		  </div>
-		  <button class="btn btn-onepick w-100">회원가입</button>
+		  <button class="btn btn-onepick w-100" onclick="registCompany()">회원가입</button>
 	  </div>
 	  <div class="d-flex pt-3 border-top mt-3">
 	  	<div>이미 회원이세요?</div>
@@ -186,6 +186,74 @@
 		  }
 		xhttp2.open("GET", "http://localhost:9001/api/v1/register/company?username=" + username.value, true);
 		xhttp2.send();
+	}
+	
+	function registUser(){
+		const username = document.querySelector("#pills-user").querySelector("input[name='username']");
+		const name = document.querySelector("#pills-user").querySelector("input[name='name']");
+		const password = document.querySelector("#pills-user").querySelector("input[name='password']");
+		const birthDate = document.querySelector("#pills-user").querySelector("input[name='birthDate']");
+		const gender = document.querySelector("#pills-user").querySelector("input[name='gender']");
+		const email = document.querySelector("#pills-user").querySelector("input[name='email']");
+		const tel = document.querySelector("#pills-user").querySelector("input[name='tel']");
+		const addr = document.querySelector("#pills-user").querySelector("input[name='addr']");
+		const militaryService = document.querySelector("#pills-user").querySelector("input[name='militaryService']");
+		const user = {
+			username : username.value,
+			name : name.value,
+			password : password.value,
+			birthDate : birthDate.value,
+			gender : gender.value,
+			email : email.value,
+			tel : tel.value,
+			addr : addr.value,
+			militaryService : militaryService.value
+		}
+		const sendData = JSON.stringify(user);
+		const xhttp = new XMLHttpRequest();
+		xhttp.onload = function() {
+		  console.log(this.responseText);
+		  }
+		xhttp.open("POST", "http://localhost:9001/api/v1/register/user", true);
+		xhttp.setRequestHeader("Content-type", "application/json");
+		xhttp.send(sendData);
+	}
+	
+	function registCompany(){
+		const username = document.querySelector("#pills-company").querySelector("input[name='username']");
+		const name = document.querySelector("#pills-company").querySelector("input[name='name']");
+		const password = document.querySelector("#pills-company").querySelector("input[name='password']");
+		const ceo = document.querySelector("#pills-company").querySelector("input[name='ceo']");
+		const num = document.querySelector("#pills-company").querySelector("input[name='num']");
+		const addr = document.querySelector("#pills-company").querySelector("input[name='addr']");
+		const sector = document.querySelector("#pills-company").querySelector("select[name='sector']");
+		const employeesNum = document.querySelector("#pills-company").querySelector("input[name='employeesNum']");
+		const url = document.querySelector("#pills-company").querySelector("input[name='url']");
+		const size = document.querySelector("#pills-company").querySelector("select[name='size']");
+		const yrSales = document.querySelector("#pills-company").querySelector("input[name='yrSales']");
+		console.log(sector.value);
+		
+		const company = {
+				username : username.value,
+				name : name.value,
+				password : password.value,
+				ceo : ceo.value,
+				num : num.value,
+				addr : addr.value,
+				sector : sector.value,
+				employeesNum : employeesNum.value,
+				url : url.value,
+				size : size.value,
+				yrSales : yrSales.value
+			}
+			const sendData = JSON.stringify(company);
+			const xhttp = new XMLHttpRequest();
+			xhttp.onload = function() {
+			  console.log(this.responseText);
+			  }
+			xhttp.open("POST", "http://localhost:9001/api/v1/register/company", true);
+			xhttp.setRequestHeader("Content-type", "application/json");
+			xhttp.send(sendData);
 	}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

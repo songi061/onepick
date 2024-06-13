@@ -36,6 +36,5 @@ public class User extends BaseEntity {
     private String militaryService;
     @Column(nullable = false)
     private String role;
-    @Column(nullable = false)
     private String token;
 }
