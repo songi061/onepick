@@ -12,4 +12,10 @@ public class RegistLoginControllerJs {
 		return "regForm";
 	}
 	
+	@RequestMapping("/loginForm")
+	public String loginForm() {
+		System.out.println("로그인 폼 가자..");
+		return "loginForm";
+	}
+	
 }

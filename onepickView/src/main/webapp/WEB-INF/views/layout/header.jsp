@@ -8,7 +8,7 @@
 					<a class="btn btn-sm btn-outline-dark" href="/loginForm">로그인</a>
 					<a class="btn btn-sm btn-outline-dark" href="/regForm">회원가입</a>
 				</div>
-				<a class="btn btn-sm btn-outline-dark" href="/">기업회원 서비스</a>
+				<button id="serviceBtn" onclick="menuChange()" class="btn btn-sm btn-outline-dark">기업회원 서비스</button>
 			</div>
 		</div>
 	</div>
@@ -20,11 +20,55 @@
 	        </div>
 	      </a>
 	
-	      <ul class="nav nav-pills">
+	      <ul id="userMenu" class="nav nav-pills">
 	        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">채용정보</a></li>
 	        <li class="nav-item"><a href="#" class="nav-link">기업정보</a></li>
-	        <li class="nav-item"><a href="#" class="nav-link">커뮤니티</a></li>
+	        <li class="nav-item"><a href="#" class="nav-link">개인회원 커뮤니티</a></li>
+	        <li class="nav-item">
+		        <div class="dropdown">
+				  <button class="nav-link dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">고객센터</button>
+				  <ul class="dropdown-menu">
+				    <li><a class="dropdown-item" href="#">QnA</a></li>
+				    <li><a class="dropdown-item" href="#">FAQ</a></li>
+				    <li><a class="dropdown-item" href="#">공지사항</a></li>
+				  </ul>
+				
+				</div>
+			</li>
+	      </ul>
+	      
+	      <ul id="companyMenu" class="nav nav-pills" style="display:none">
+	        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">인재채용</a></li>
+	        <li class="nav-item"><a href="#" class="nav-link">기업정보</a></li>
+	        <li class="nav-item"><a href="#" class="nav-link">기업회원 커뮤니티</a></li>
+	        <li class="nav-item">
+		        <div class="dropdown">
+				  <button class="nav-link dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">고객센터</button>
+				  <ul class="dropdown-menu">
+				    <li><a class="dropdown-item" href="#">QnA</a></li>
+				    <li><a class="dropdown-item" href="#">FAQ</a></li>
+				    <li><a class="dropdown-item" href="#">공지사항</a></li>
+				  </ul>
+				</div>
+			</li>
 	      </ul>
 	    </div>
     </div>
 </header>
+<script>
+	const menuBtn = document.querySelector("#serviceBtn");
+	const userMenu = document.querySelector("#userMenu").style;
+	const companyMenu = document.querySelector("#companyMenu").style;
+	console.log(menuBtn);
+	function menuChange(){
+		if (companyMenu.display=="none"){
+			menuBtn.innerText = "개인회원 서비스";
+			userMenu.display="none";
+			companyMenu.display="";
+		}else{
+			menuBtn.innerText = "기업회원 서비스";
+			companyMenu.display="none";
+			userMenu.display="";
+		}
+	}
+</script>
