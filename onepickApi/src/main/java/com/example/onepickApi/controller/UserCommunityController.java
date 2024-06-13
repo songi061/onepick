@@ -68,7 +68,7 @@ public class UserCommunityController {
 	
 	// 커뮤니티 전체 게시물 리스트
 	@GetMapping("/community-board")
-	public List<UserBoard> communityList(@RequestParam(value="category", required = false) String category){
+	public List<UserBoard> communityList(@RequestParam("category") String category){
 		System.out.println(category);
 		List<UserBoard> result= ubRepo.findByCategory(category);
 		System.out.println(result);
