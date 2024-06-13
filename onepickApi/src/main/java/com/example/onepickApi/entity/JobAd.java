@@ -75,8 +75,9 @@ public class JobAd extends BaseEntity {
 	@Column(name = "etcWelfare", nullable = false, columnDefinition = "TEXT")
 	private String etcWelfare;
 
-	@Column(name = "attachFileUrl", columnDefinition = "TEXT")
-	private String attachFileUrl;
+	private String fileName;
+	private String filePath;
+	private Long fileSize;
 
 	@Column(name = "empName", nullable = false, length = 30)
 	private String empName;
