@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.onepickApi.dto.userBoardDto;
+import com.example.onepickApi.dto.UserBoardDto;
 import com.example.onepickApi.entity.User;
 import com.example.onepickApi.entity.UserBoard;
 import com.example.onepickApi.repository.UserBoardRepository;
@@ -30,7 +31,7 @@ public class UserCommunityController {
 	UserBoardRepository ubRepo;
 
 	@PostMapping("/community-board")
-	public UserBoard communityForm(HttpServletRequest request, @RequestBody userBoardDto boardDto){
+	public UserBoard communityForm(HttpServletRequest request, @RequestBody UserBoardDto boardDto){
 		
 		System.out.println("xxxxxxxxxxxxxxx");
 		System.out.println(boardDto);
@@ -50,7 +51,7 @@ public class UserCommunityController {
 		
 		String writer = request.getHeader("writer");
 		*/
-		User user = uRepo.findById(boardDto.getUid()).get();
+		User user = uRepo.findById(boardDto.getUsername()).get();
 		
 		
 		UserBoard ub_ = new UserBoard();
@@ -67,12 +68,12 @@ public class UserCommunityController {
 	
 	// 커뮤니티 전체 게시물 리스트
 	@GetMapping("/community-board")
-	public List<UserBoard> communityList(){
-		List<UserBoard> ubList = ubRepo.findAll();
+	public List<UserBoard> communityList(@RequestParam(value="category", required = false) String category){
+		System.out.println(category);
+		List<UserBoard> result= ubRepo.findByCategory(category);
+		System.out.println(result);
+		return result;
 		
-		
-		
-		return null;
 	}
 	
 //	// 커뮤니티 게시물 상세보기

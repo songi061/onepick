@@ -22,18 +22,9 @@
 	</div>
 	<div class="col-8">
 	    <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
-	      <div id="data_freeBoard">
-	      	<table>
-	      	</table>	
-	      </div>
-	      <div id="data_job_hunting">
-	      	<table>
-			</table>    
-	      </div>
-	      <div id="data_turnover">
-	      	<table>
-			</table>
-	      </div>
+	      <div id="data_freeBoard"></div>
+	      <div id="data_job_hunting"></div>
+	      <div id="data_turnover"></div>
 	    </div>
 	  </div>
 </div>
@@ -41,18 +32,22 @@
 	// 게시물 조회 - 자유글
 	$(document).ready(function(){
 		$('#freeBoard').click(function(){
-			
 			$.ajax({
 				type: 'GET',
-				url: '/api/v1/user/community-board',
+				url: 'http://localhost:9001/api/v1/user/community-board?category=freeBoard',
+				//data: { categoty: "freeBoard"},
 				dataType: 'json',
 				success: function(data){
 					console.log(data);
-					$(data).empty();
+					$('#data_job_hunting').empty();
+					$('#data_turnover').empty();
 					
-					if (data !== null && typeof data === 'List') { // 객체인지 확인
-	                    const str = '<ul><li>'+'번호 : '+data.bno +' '+ '제목 : '+data.title + ' '+'내용 : '+data.content +' '+'글쓴이 : '+data.writer.username+'</li></ul>';
-		                    $('#data_freeBoard').html(str);
+					if (data !== null) {
+						let str = '';
+						for(var i=0; i<data.length; i++){
+							str += '<ul><li>'+'번호 : '+data[i].ubno +' '+ '제목 : '+data[i].title + ' '+'내용 : '+data[i].content +' '+'글쓴이 : '+data[i].user.username+'</li></ul>';
+						}
+						$('#data_freeBoard').html(str);
 					}
 				},
 				error:function(error){
@@ -65,18 +60,22 @@
 	// 게시물 조회 - 취업준비
 	$(document).ready(function(){
 		$('#job_hunting').click(function(){
-			
 			$.ajax({
 				type: 'GET',
-				url: '/board/getList/',
+				url: 'http://localhost:9001/api/v1/user/community-board',
+				data: { category: "job_hunting"},
 				dataType: 'json',
 				success: function(data){
 					console.log(data);
-					$(data).empty();
+					$('#data_freeBoard').empty();
+					$('#data_turnover').empty();
 					
-					if (data !== null && typeof data === 'object') { // 객체인지 확인
-	                    const str = '<ul><li>'+'번호 : '+data.bno +' '+ '제목 : '+data.title + ' '+'내용 : '+data.content +' '+'글쓴이 : '+data.writer.username+'</li></ul>';
-		                    $('#data_job_hunting').html(str);
+					if (data !== null) {
+						let str = '';
+						for(var i=0; i<data.length; i++){
+	                    str += '<ul><li>'+'번호 : '+data[i].ubno +' '+ '제목 : '+data[i].title + ' '+'내용 : '+data[i].content +' '+'글쓴이 : '+data[i].user.username+'</li></ul>';
+						}
+						$('#data_job_hunting').html(str);
 					}
 				},
 				error:function(error){
@@ -89,18 +88,22 @@
 	// 게시물 조회 - 이직
 	$(document).ready(function(){
 		$('#turnover').click(function(){
-			
 			$.ajax({
 				type: 'GET',
-				url: '/board/getList/',
+				url: 'http://localhost:9001/api/v1/user/community-board',
+				data: { category: "turnover"},
 				dataType: 'json',
 				success: function(data){
 					console.log(data);
-					$(data).empty();
+					$('#data_freeBoard').empty();
+					$('#data_turnover').empty();
 					
-					if (data !== null && typeof data === 'object') { // 객체인지 확인
-	                    const str = '<ul><li>'+'번호 : '+data.bno +' '+ '제목 : '+data.title + ' '+'내용 : '+data.content +' '+'글쓴이 : '+data.writer.username+'</li></ul>';
-		                    $('#data_turnover').html(str);
+					if (data !== null) {
+						let str = '';
+						for(var i=0; i<data.length; i++){
+	                    	str += '<ul><li>'+'번호 : '+data[i].ubno +' '+ '제목 : '+data[i].title + ' '+'내용 : '+data[i].content +' '+'글쓴이 : '+data[i].user.username+'</li></ul>';
+						}
+						$('#data_turnover').html(str);
 					}
 				},
 				error:function(error){
