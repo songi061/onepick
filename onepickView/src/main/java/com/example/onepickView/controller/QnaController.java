@@ -14,7 +14,8 @@ public class QnaController {
 	}
 	
 	@RequestMapping("/qnaList")
-	public void qnaList() {	
+	public String qnaList() {
+		return "admin/qnaList";
 	}
 	
 	@RequestMapping("/qnaDetail")
@@ -23,6 +24,15 @@ public class QnaController {
 	}
 	
 	@RequestMapping("/qnaEdit")
-	public void qnaEdit() {	
+	public void qnaEdit(@RequestParam("bno") Long bno, Model model) {
+		model.addAttribute("bno", bno);
+	}
+	
+	@RequestMapping("user/myQnaList")
+	public void userMyQnaList() {
+	}
+	
+	@RequestMapping("company/myQnaList")
+	public void companyMyQnaList() {
 	}
 }

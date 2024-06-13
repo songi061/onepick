@@ -19,11 +19,9 @@
         <thead>
             <tr>
                 <th>번호</th>
-                <th>회원</th>
                 <th>카테고리</th>
                 <th>제목</th>
                 <th>상태</th>
-                <th>작성자</th>
                 <th>작성일자</th>
             </tr>
         </thead>
@@ -38,7 +36,7 @@
 <script>
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost:9001/api/v1/qna",
+        url: "http://localhost:9001/api/v1/myqna",
         method: "GET",
         success: function(data){ // 요청이 성공적으로 완료됐을 경우 호출될 콜백함수 -- 서버로부터 받은 응답 데이터를 인자로 받는다
             var tbody = $("#qnaTableBody");
@@ -47,15 +45,6 @@ $(document).ready(function(){
                 // index: 현재 반복의 인덱스 , qna: 현재 요소
                 var row = $("<tr>").attr("data-bno", qna.bno); // 각 행에 data-bno 속성을 추가
                 row.append($("<td>").text(qna.bno));
-                
-                // 회원/기업 구분 처리
-                var userCategory = $("<td>");
-                if (qna.user && qna.user.username) {
-                    userCategory.text("개인");
-                } else if (qna.company && qna.company.username) {
-                    userCategory.text("기업");
-                }
-                row.append(userCategory);
 
                 row.append($("<td>").text(qna.category));
                 row.append($("<td>").text(qna.title));
@@ -69,14 +58,6 @@ $(document).ready(function(){
                     }
                 row.append(responseStatus);
                 
-                // 작성자 처리
-                var author = $("<td>");
-                if (qna.user && qna.user.username) {
-                    author.text(qna.user.username);
-                } else if (qna.company && qna.company.username) {
-                    author.text(qna.company.username);
-                }
-                row.append(author);
 
                 // 작성일 처리
                 var regdate = qna.regdate ? new Date(qna.regdate) : null;
