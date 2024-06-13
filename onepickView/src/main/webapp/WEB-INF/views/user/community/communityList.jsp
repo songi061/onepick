@@ -10,7 +10,7 @@
 <link href="/css/style.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
-<jsp:include page="../layout/header.jsp"></jsp:include>
+<jsp:include page="..//../layout/header.jsp"></jsp:include>
 <div class="container">
 	  <div class="col-4">
 	    <div id="list-example" class="list-group list-group-horizontal">
@@ -34,8 +34,8 @@
 		$('#freeBoard').click(function(){
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:9001/api/v1/user/community-board?category=freeBoard',
-				//data: { categoty: "freeBoard"},
+				url: 'http://localhost:9001/api/v1/user/community-board',
+				data: { category: "freeBoard"},
 				dataType: 'json',
 				success: function(data){
 					console.log(data);
@@ -73,7 +73,7 @@
 					if (data !== null) {
 						let str = '';
 						for(var i=0; i<data.length; i++){
-	                    str += '<ul><li>'+'번호 : '+data[i].ubno +' '+ '제목 : '+data[i].title + ' '+'내용 : '+data[i].content +' '+'글쓴이 : '+data[i].user.username+'</li></ul>';
+	                    	str += '<ul><li>'+'번호 : '+data[i].ubno +' '+ '제목 : '+data[i].title + ' '+'내용 : '+data[i].content +' '+'글쓴이 : '+data[i].user.username+'</li></ul>';
 						}
 						$('#data_job_hunting').html(str);
 					}
@@ -96,7 +96,7 @@
 				success: function(data){
 					console.log(data);
 					$('#data_freeBoard').empty();
-					$('#data_turnover').empty();
+					$('#data_job_hunting').empty();
 					
 					if (data !== null) {
 						let str = '';
@@ -114,7 +114,7 @@
 	});
 </script>
 </div>
-<jsp:include page="../layout/footer.jsp"></jsp:include>
+<jsp:include page="..//../layout/footer.jsp"></jsp:include>
 </body>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </html>
