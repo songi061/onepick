@@ -50,6 +50,7 @@
             </label>
         </div>
         <input type="submit" onclick="submitForm(event)">
+        <input type="text" name="bno">
         <input type="hidden" name="username">
         <input type="hidden" name="secret">
     </form>
@@ -62,6 +63,8 @@
     function submitForm(event){
     	event.preventDefault();
         alert("등록 완료되었습니다.");
+
+        const bno = document.querySelector("input[name='bno']");
 
         var form = document.forms['frm'];
         var usernameOption = form['usernameOption'].value;
@@ -82,12 +85,11 @@
         var formData = $(form).serialize();
 
         $.ajax({
-            type: 'POST',
-            url: 'http://localhost:9001/api/v1/qna',
+            type: 'GET',
+            url: 'http://localhost:9001/api/v1/qna' + bno.value,
             data: formData,
             success: function(response){
                 console.log(response);
-                window.location.href = "/qnaList";
             },
             error: function(){
                 console.log("에러 발생");
