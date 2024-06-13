@@ -11,16 +11,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Data
-public class Company extends BaseEntity {
+public class Company extends BaseEntity implements Member{
 
 		@Id
-	    private String username;
-
+		private String username;
+		@Column(nullable = false)
+		private String password;
+		@Column(nullable = false)
+		private String role;
 	    @Column(name = "logo")
 	    private String logo;
 	    private String name;
-	    @Column(nullable = false)
-	    private String password;
 	    @Column(nullable = false)
 	    private String ceo;
 	    @Column(nullable = false)
@@ -36,8 +37,6 @@ public class Company extends BaseEntity {
 	    private String size;
 	    @Column(nullable = false)
 	    private String yrSales;
-	    @Column(nullable = false)
-	    private String role;
 	    private String token;
 	
 }

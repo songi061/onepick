@@ -30,6 +30,8 @@ public class RegistControllerJs {
 	@Autowired
 	CompanyRepository companyRepository;
 	
+	
+	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
@@ -71,6 +73,7 @@ public class RegistControllerJs {
 		
 		user.setPassword(newPw);
 		user.setRole(role);
+		
 		User result = userRepository.save(user);
 		if(result != null) {
 			return new ResponseEntity<>("가입 성공", HttpStatus.OK);
@@ -90,7 +93,9 @@ public class RegistControllerJs {
 		company.setPassword(newPw);
 		company.setRole(role);
 		Company result = companyRepository.save(company);
+		
 		if(result != null) {
+			
 			return new ResponseEntity<>("가입 성공", HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>("가입 실패", HttpStatus.OK);

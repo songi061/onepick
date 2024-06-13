@@ -26,6 +26,7 @@
 	</ul>
 	<div class="tab-content bg-white p-4 rounded " id="pills-tabContent">
 	  <div class="tab-pane fade show active" id="pills-user" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+	  	<form name="frmUser">
 		  <div class="mb-3">
 		   	<label class="form-label">아이디</label>
 	  		<input type="text" name="username" class="form-control" placeholder="아이디">
@@ -35,7 +36,8 @@
 		   	<label class="form-label">비밀번호</label>
 	  		<input type="password" name="password" class="form-control" placeholder="비밀번호">
 		  </div>
-		  <button class="btn btn-onepick w-100" onclick="loginUser()">로그인</button>
+		  <button class="btn btn-onepick w-100" onclick="loginUser(event)">로그인</button>
+		 </form>
 	  </div>
 	  <div class="tab-pane fade" id="pills-company" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
 	  	<div class="mb-3">
@@ -56,35 +58,47 @@
 	</div>
 </div>
 <script>
-	function logintUser(){
-		const username = document.querySelector("#pills-user").querySelector("input[name='username']");
-		const name = document.querySelector("#pills-user").querySelector("input[name='name']");
-		const password = document.querySelector("#pills-user").querySelector("input[name='password']");
-		const birthDate = document.querySelector("#pills-user").querySelector("input[name='birthDate']");
-		const gender = document.querySelector("#pills-user").querySelector("input[name='gender']");
-		const email = document.querySelector("#pills-user").querySelector("input[name='email']");
-		const tel = document.querySelector("#pills-user").querySelector("input[name='tel']");
-		const addr = document.querySelector("#pills-user").querySelector("input[name='addr']");
-		const militaryService = document.querySelector("#pills-user").querySelector("input[name='militaryService']");
-		const user = {
-			username : username.value,
-			name : name.value,
-			password : password.value,
-			birthDate : birthDate.value,
-			gender : gender.value,
-			email : email.value,
-			tel : tel.value,
-			addr : addr.value,
-			militaryService : militaryService.value
-		}
-		const sendData = JSON.stringify(user);
+	function loginUser(e){
+		e.preventDefault();
+		const form = document.forms['frmUser'];
+		var formData = new FormData(form);
+		var params = new URLSearchParams();
+
+	    for (var pair of formData.entries()) {
+	        params.append(pair[0], pair[1]);
+	    }
+		
+	    var serializedData = params.toString();
+	    console.log(serializedData);
+	
 		const xhttp = new XMLHttpRequest();
 		xhttp.onload = function() {
-		  console.log(this.responseText);
-		  }
-		xhttp.open("POST", "http://localhost:9001/api/v1/register/user", true);
-		xhttp.setRequestHeader("Content-type", "application/json");
-		xhttp.send(sendData);
+			var headers = xhttp.getAllResponseHeaders();
+			console.log("headers : " + headers);
+			var token = xhttp.getResponseHeader("Authorization");
+			console.log("JWT Token: " + token.split(" ")[1]);
+			
+			localStorage.setItem("jwtToken", token.split(" ")[1]);
+			// 헤더 값 읽기
+			let role = xhttp.getResponseHeader("Role");
+			let username = xhttp.getResponseHeader("username");
+			localStorage.setItem("role", role);
+			localStorage.setItem("username", username);
+			
+			console.log("role : " + role);
+			console.log("username : " + username);
+			
+			location.href="/"
+			
+			//if(role == 'ROLE_REPORTER'){
+			//	document.getElementById("demo3").innerHTML = "<button onclick='writeArticle()'>기사쓰기</button>";
+			//}else if(role == 'ROLE_MANAGER'){
+			//	document.getElementById("demo3").innerHTML = "<button onclick='requestManager()'>관리자페이지</button>";
+			//}
+		}
+		xhttp.open("POST", "http://localhost:9001/login");
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send(serializedData);
 	}
 	
 	function loginCompany(){

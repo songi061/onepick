@@ -13,13 +13,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Data
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Member{
+
 	@Id
 	private String username;
 	@Column(nullable = false)
-	private String name;
-	@Column(nullable = false)
 	private String password;
+	@Column(nullable = false)
+	private String role;
+	@Column(nullable = false)
+	private String name;
 	@Column(nullable = false)
 	private LocalDate birthDate;
 	@Column(nullable = false)
@@ -34,7 +37,5 @@ public class User extends BaseEntity {
     private String filePath;
     private Long fileSize;
     private String militaryService;
-    @Column(nullable = false)
-    private String role;
     private String token;
 }
