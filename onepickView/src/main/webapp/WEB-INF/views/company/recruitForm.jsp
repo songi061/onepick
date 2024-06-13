@@ -8,13 +8,14 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="/css/style.css" rel="stylesheet">
+<link href="/css/recruitForm.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
 	<div class="container">
-		
+		<div class="title">채용공고등록</div>
 		<div class="recruit_form">
-		채용공고등록폼
+		
 			<form>
 				<input type="text" name="wantedTitle" placeholder="채용공고 제목을 입력하세요">
 				<div class="section_title">모집 업종</div>
@@ -25,6 +26,7 @@
 				<textarea name="jobCont"></textarea>
 				<div class="section_title">필요스킬</div>
 				<input type="text" name="skillName">
+				<div onclick="addSkill()" class="add-skill-btn"> ➕ 필요스킬추가하기 </div>
 				<div class="section_title">접수마감일</div>
 				<input type="date" name="receiptCloseDt">
 				<div class="section_title">경험</div>
@@ -51,6 +53,9 @@
 				<input type="text" name="etcWelfare">
 				<div class="section_title">회사소개첨부파일</div>
 				<input type="file" name="attachFileUrl">
+				<div class="section_title">병역특례채용희망</div>
+				<input type="radio" name="mltsvcExcHope" value="y"> 특례채용희망
+				<input type="radio" name="mltsvcExcHope" value="n"> 해당없음
 				<div class="section_title">담당자이름</div>
 				<input type="text" name="empName">
 				<div class="section_title">담당자이메일</div>
@@ -84,6 +89,8 @@ let selectedRegion1 = null;
 let selectedRegion1El = null;
 let selectedSalary = null;
 let selectedWorkType = null;
+
+//필요스킬 추가버튼 누를때마다 더해주기??????????
 
 //제출버튼 클릭시 서버로 데이터 보내주기
 

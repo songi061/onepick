@@ -1,0 +1,111 @@
+@charset "UTF-8";
+
+/* Title styling */
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Apply list container */
+.apply_list {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Individual list item styling */
+.apply_list_item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    transition: background-color 0.3s;
+}
+
+.apply_list_item:hover {
+    background-color: #e9ecef;
+}
+
+/* Apply list item elements */
+.apply_list_item > div {
+    flex: 1;
+    padding: 0 10px;
+}
+
+.apply_list_item .apply_title {
+    font-weight: bold;
+    color: #495057;
+    flex: 2;
+}
+
+.apply_list_item .apply_resume a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.apply_list_item .apply_resume a:hover {
+    color: #0056b3;
+}
+
+.apply_list_item .apply_user,
+.apply_list_item .apply_date {
+    text-align: center;
+    color: #6c757d;
+}
+
+/* Status badges */
+.apply_list_item .apply_status {
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.apply_list_item .apply_status.지원완료 {
+    background-color: #28a745;
+    color: white;
+}
+
+.apply_list_item .apply_status.진행중 {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.apply_list_item .apply_status.연락됨 {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.apply_list_item .apply_status.불합격 {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .apply_list_item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .apply_list_item > div {
+        padding: 5px 0;
+    }
+    
+    .apply_list_item .apply_status {
+        width: 100%;
+        text-align: left;
+        padding: 8px;
+        margin-top: 5px;
+    }
+}

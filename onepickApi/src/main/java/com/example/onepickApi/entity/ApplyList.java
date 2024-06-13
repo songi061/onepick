@@ -38,7 +38,7 @@ public class ApplyList extends BaseEntity {
 	private User user;
 
 	@Column(nullable = false)
-	private int status;
+	private String status;
 
 	@Column(nullable = false, columnDefinition="TEXT")
 	private String save;

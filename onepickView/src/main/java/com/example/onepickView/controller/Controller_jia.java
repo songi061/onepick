@@ -35,4 +35,10 @@ public class Controller_jia {
 	@RequestMapping("/recruitForm")
 	public void recruitForm() {
 	}
+	@RequestMapping("/applyList")
+	public void applyList() {
+	}
+	@RequestMapping("/scrapList")
+	public void scrapList() {
+	}
 }
