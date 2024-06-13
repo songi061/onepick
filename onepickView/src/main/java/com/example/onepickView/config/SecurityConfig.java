@@ -21,7 +21,7 @@ public class SecurityConfig {
 		
 		// 인증하지 않겠다(permitAll)나머지는 인증을 거친다(anyRequest)
 		http.authorizeHttpRequests((auth) -> auth
-			.requestMatchers("/user/**").hasAnyRole("ADMIN", "MEMBER") //ROLE_는 자동 붙어짐
+			.requestMatchers("/user/**").hasAnyRole("ADMIN", "USER") //ROLE_는 자동 붙어짐
 			.requestMatchers("/company/**").hasAnyRole("ADMIN", "COMPANY") //ROLE_는 자동 붙어짐
 			.requestMatchers("/admin/**").hasAnyRole("ADMIN")
 			.anyRequest().permitAll()
