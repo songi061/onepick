@@ -49,6 +49,10 @@ border: 1px solid lightgrey;
   	border: 2px solid #F5ECCE;
   	font-size : 14px;
 }
+fieldset {
+  background-color: #eeeeee;
+  border: 2px solid lightgrey;
+}
 </style>
 <script src="/js/resume.js"></script>
 </head>
@@ -135,6 +139,7 @@ border: 1px solid lightgrey;
 	</div>
 	
 	<div>
+	<fieldset>
 		<span>경력사항</span><br>
 		입사일자<input type="date" name="startDate" class="datebox">
 		퇴사일자<input type="date" name="endDate" class="datebox"><br>
@@ -155,18 +160,41 @@ border: 1px solid lightgrey;
 		
 		<label for="select_job2">직무</label>
 		<select name="position" id="select_job2" class="selectbox">
-			<option value="">직무 선택</option>
+			<option value="">업종을 먼저 선택해주세요</option>
 		</select>
 		
 
 		업무<input type="text" name="work" placeholder="내용을 입력하세요" class="textbox"><br>
+	</fieldset>
 	</div>
 	
 	<div>
+	
 		<span>보유능력</span><br>
 		<label for="select_skill">타입</label>
 		<select name="skillName" id="select_skill" class="selectbox">
 			<option value="">스킬 선택</option>
+			<option value="java">java</option>
+			<option value="python">python</option>
+			<option value="javascript">javascript</option>
+			<option value="c++">c++</option>
+			<option value="Ruby">Ruby</option>
+			<option value="SQL">SQL</option>
+			<option value="R">R</option>
+			<option value="C">C</option>
+			<option value="ERP">ERP</option>
+			<option value="HTML/CSS">HTML/CSS</option>
+			<option value="React">React</option>
+			<option value="Angular">Angular</option>
+			<option value="Vue.js">Vue.js</option>
+			<option value="Django">Django</option>
+			<option value="네트워크 보안">네트워크 보안</option>
+			<option value="Swift(IOS)">Swift(IOS)</option>
+			<option value="Kotlin">Kotlin</option>
+			<option value="Flutter">Flutter</option>
+			<option value="Excel">Excel</option>
+			<option value="외국어능통">외국어능통</option>
+			
 		</select>
 		내용<input type="text" name="oa_content" placeholder="내용을 입력하세요" class="textbox">
 	</div>
