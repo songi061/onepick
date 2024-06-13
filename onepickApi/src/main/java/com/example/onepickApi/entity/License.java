@@ -32,8 +32,7 @@ public class License extends BaseEntity {
 	@JoinColumn(name = "uid", referencedColumnName = "username", nullable = false)
 	private User user;
 
-	private String type;
-	private String name;
+	private String lname;
 	private String org;
 	private LocalDate getDate;
 	

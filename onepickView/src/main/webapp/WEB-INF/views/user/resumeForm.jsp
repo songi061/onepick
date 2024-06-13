@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>1PICK!</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<link href="css/style.css" rel="stylesheet">
+<link href="/css/style.css" rel="stylesheet">
+
 <style>
 .textbox{
 	width: 30%;
@@ -48,13 +50,15 @@ border: 1px solid lightgrey;
   	font-size : 14px;
 }
 </style>
+<script src="/js/resume.js"></script>
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
 <div class="container">
-<form>
+<form name="frm">
 	<input type="checkbox" id="disclo_check" name="disclo" value="public">
   	<label for="disclo_check">공개여부</label><br>
+  	
 	이력서 제목<input type="text" name="title" placeholder="이력서 제목을 입력해주세요" class="textbox"><br>
 	자기소개서 제목<input type="text" name="selfInfoTitle" placeholder="자기소개서 제목을 입력해주세요" class="textbox"><br>
 	자기소개서 내용<br>
@@ -77,7 +81,7 @@ border: 1px solid lightgrey;
 	<select name="region2" id="select3" class="selectbox">
 		<option value="">시 선택</option>
 	</select>	
-	<select name="region2_2" id="select4" class="selectbox">
+	<select name="region2_1" id="select4" class="selectbox">
 		<option value="">구 선택</option>
 	</select>
 	</div>
@@ -103,13 +107,13 @@ border: 1px solid lightgrey;
 		<span>사회활동</span><br>
 		시작일<input type="date" name="startDay" class="datebox">
 		종료일<input type="date" name="endDay" class="datebox"><br>
-		참여기관<input type="text" name="org" placeholder="내용을 입력하세요" class="textbox"><br>
-		활동내역<input type="text" name="content" placeholder="내용을 입력해주세요" class="textbox"><br>
+		참여기관<input type="text" name="ex_org" placeholder="내용을 입력하세요" class="textbox"><br>
+		활동내역<input type="text" name="ex_content" placeholder="내용을 입력해주세요" class="textbox"><br>
 	</div>
 	
 	<div>
 		<span>자격증</span><br>
-		자격증명<input type="text" name="name" placeholder="내용을 입력하세요" class="textbox"><br>
+		자격증명<input type="text" name="lname" placeholder="내용을 입력하세요" class="textbox"><br>
 		발급기관<input type="text" name="org" placeholder="내용을 입력하세요" class="textbox"><br>
 		취득일<input type="date" name="getDate" class="datebox"><br>
 	</div>
@@ -121,8 +125,9 @@ border: 1px solid lightgrey;
 		학교명<input type="text" name="eduName" placeholder="내용을 입력하세요" class="textbox">
 		전공학과<input type="text" name="major" placeholder="내용을 입력하세요" class="textbox"><br>
 		학점<input type="text" name="score" placeholder="내용을 입력하세요" class="textbox">
+		
 		<label for="select_degree">상태</label>
-		<select name="status" id="select_degree" class="selectbox">
+		<select name="s_status" id="select_degree" class="selectbox">
 			<option value="graduate">졸업</option>
 			<option value="dropout">중퇴</option>
 			<option value="deferral">휴학</option>
@@ -133,25 +138,27 @@ border: 1px solid lightgrey;
 		<span>경력사항</span><br>
 		입사일자<input type="date" name="startDate" class="datebox">
 		퇴사일자<input type="date" name="endDate" class="datebox"><br>
-		회사명<input type="text" name="name" placeholder="내용을 입력하세요" class="textbox">
+		회사명<input type="text" name="company_name" placeholder="내용을 입력하세요" class="textbox">
 		직급<input type="text" name="rank" placeholder="내용을 입력하세요" class="textbox"><br>
+		
 		<label for="select_career">상태</label>
-		<select name="status" id="select_career" class="selectbox">
-			<option value="unemployed">무직</option>
+		<select name="career_status" id="select_career" class="selectbox">
 			<option value="working">재직중</option>
+			<option value="unemployed">퇴사</option>
 			<option value="etc">기타</option>
 		</select>
 		
-		<label for="select_career2">업종</label>
-		<select name="type" id="select_career2" class="selectbox">
+		<label for="select_sector2">업종</label>
+		<select name="c_type" id="select_sector2" class="selectbox">
 			<option value="">업종 선택</option>
 		</select><br>
 		
-		<label for="select_career3">직무</label>
-		<select name="position" id="select_career3" class="selectbox">
+		<label for="select_job2">직무</label>
+		<select name="position" id="select_job2" class="selectbox">
 			<option value="">직무 선택</option>
 		</select>
 		
+
 		업무<input type="text" name="work" placeholder="내용을 입력하세요" class="textbox"><br>
 	</div>
 	
@@ -161,138 +168,40 @@ border: 1px solid lightgrey;
 		<select name="skillName" id="select_skill" class="selectbox">
 			<option value="">스킬 선택</option>
 		</select>
-		내용<input type="text" name="content" placeholder="내용을 입력하세요" class="textbox">
+		내용<input type="text" name="oa_content" placeholder="내용을 입력하세요" class="textbox">
 	</div>
 	
-	<input type="button" value="등록하기" onclick="" class="btn btn-onepick">
+	<input type="button" value="등록하기" onclick="postData(event)" class="btn btn-onepick">
 </form>
 </div>
 
-
 <script>
-
-//희망근무지역
-const xhttp1 = new XMLHttpRequest();
-xhttp1.onload = function() {
-	const select1 = document.getElementById("select1");
-    const select2 = document.getElementById("select2");
-    const select3 = document.getElementById("select3");
-    const select4 = document.getElementById("select4");
-    
-    let data = JSON.parse(this.responseText);
-
-    // Populate select1 and select3 with keys from the data
-    data.forEach((item, idx) => {
-        const key = Object.keys(item)[0];
-        /* console.log(idx + "번째 데이터 : " + key); */
-
-        // Create separate option objects for select1 and select3
-        const option1 = document.createElement("option");
-        option1.value = key;
-        option1.text = key;
-        select1.appendChild(option1);
-
-        const option2 = document.createElement("option");
-        option2.value = key;
-        option2.text = key;
-        select3.appendChild(option2);
-    });
-
-    // Function to update select2 based on select1's selected value
-    function updateSelect1() {
-        const selectedKey = select1.value;
-
-        // Clear previous options
-        select2.innerHTML = '<option value="">구를 선택하세요!</option>';
-
-        if (selectedKey) {
-            const selectedItem = data.find(item => Object.keys(item)[0] === selectedKey);
-            if (selectedItem) {
-                const values = selectedItem[selectedKey];
-                
-                values.forEach(value => {
-                    const option = document.createElement("option");
-                    option.value = value;
-                    option.text = value;
-                    select2.appendChild(option);
-                });
-            }
-        }
-    }
-
-    // Function to update select4 based on select3's selected value
-    function updateSelect2() {
-        const selectedKey = select3.value;
-
-        // Clear previous options
-        select4.innerHTML = '<option value="">구를 선택하세요!</option>';
-
-        if (selectedKey) {
-            const selectedItem = data.find(item => Object.keys(item)[0] === selectedKey);
-            if (selectedItem) {
-                const values = selectedItem[selectedKey];
-                
-                values.forEach(value => {
-                    const option = document.createElement("option");
-                    option.value = value;
-                    option.text = value;
-                    select4.appendChild(option);
-                });
-            }
-        }
-    }
-    
-    select1.addEventListener('change', updateSelect1);
-    select3.addEventListener('change', updateSelect2);
-  }
-xhttp1.open("GET", "/json/korea-administrative-district.json", true);
-xhttp1.send();
-
-
-
-
-
-//관심업종
-const xhttp2 = new XMLHttpRequest();
-xhttp2.onload = function() {
-	const select = document.getElementById("select_sector");
-
-    let data = JSON.parse(this.responseText);
-
-    data.forEach((item, idx) => {
-        const sectorName = item["산업/업종명"];
-        /* console.log(idx + "번째 데이터 : " + sectorName); */
-
-        // Create option object for select
-        const option = document.createElement("option");
-        option.value = sectorName;
-        option.text = sectorName;
-        select.appendChild(option);
-    });
-    
-  }
-xhttp2.open("GET", "/json/sector.json", true);
-xhttp2.send();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function postData(e){
+	e.preventDefault();
+	console.log("aaaaaa");
+	var form = document.forms['frm'];
+	var formData = new FormData(form);
+	console.log(formData);
+	$.ajax({
+		type: "POST",
+		url : "http://localhost:9001/api/v1/resume",
+		data : formData,
+		dataType : "text",
+		contentType: false,  // 반드시 false로 설정
+	    processData: false,  // 반드시 false로 설정
+		success : function(data){
+			/* $("#demo").html(data); */
+			alert(data);
+		},
+		error : function(){
+			console.log("에러 발생");
+		}
+	
+	});
+}
 
 </script>
+
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">

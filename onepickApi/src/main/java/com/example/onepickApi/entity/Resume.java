@@ -2,6 +2,8 @@ package com.example.onepickApi.entity;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,12 +30,13 @@ public class Resume extends BaseEntity{
 	@ManyToOne
 	@JoinColumn(name = "uid", referencedColumnName = "username", nullable = false)
 	private User user;
-	@Column(nullable = false)
+	@Column
     private String title;
-	@Column(nullable = false)
-    private String def;
-	@Column(nullable = false)
-    private String disclo;
+	@Column
+    private String def = "N"; //대표이력서 설정 ("Y","N")
+	@Column
+    private String disclo = "private"; //공개,비공개 설정("public","private")
+
     private String portfolioUrl;
     private String selfInfoTitle;
     private String selfInfoContent;

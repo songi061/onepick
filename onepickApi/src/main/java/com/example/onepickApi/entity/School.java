@@ -42,8 +42,8 @@ public class School extends BaseEntity {
 	@Column(nullable = false)
 	private String eduName;
 	private String major;
-	private long score;
+	private String score;
 	@Column(nullable = false)
-	private String status;
+	private String s_status;
 
 }
