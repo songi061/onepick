@@ -23,9 +23,9 @@
 	    <label for="inputState" class="form-label">카테고리</label>
 	    <select id="Category" class="form-select">
 	      <option selected>카테고리를 선택하세요</option>
-	      <option value="자유글">자유글</option>
-	      <option value="취업준비">취업준비</option>
-	      <option value="이직">아직</option>
+	      <option value="freeBoard">자유글</option>
+	      <option value="job_hunting">취업준비</option>
+	      <option value="turnover">이직</option>
 	    </select>
 	  </div>
 	  <div class="col-12">

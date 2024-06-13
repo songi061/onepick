@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Component
 @Data
-public class userBoardDto {
+public class UserBoardDto {
 	
 	// 하드코딩 했으니 고쳐야 함.
-	private String uid="aaa";
+	private String username="aaa";
 	private String title;
 	private String content;
 	private String category;
