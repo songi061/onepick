@@ -30,7 +30,6 @@
 		  <div class="mb-3">
 		   	<label class="form-label">아이디</label>
 	  		<input type="text" name="username" class="form-control" placeholder="아이디">
-	  		<div id="userIdcheck_msg"></div>
 		  </div>
 		  <div class="mb-3">
 		   	<label class="form-label">비밀번호</label>
@@ -40,17 +39,19 @@
 		 </form>
 	  </div>
 	  <div class="tab-pane fade" id="pills-company" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
-	  	<div class="mb-3">
-		   	<label class="form-label">아이디</label>
-	  		<input type="text" name="username" class="form-control" placeholder="아이디">
-	  		<div id="companyIdcheck_msg"></div>
-		  </div>
-		  <div class="mb-3">
-		   	<label class="form-label">비밀번호</label>
-	  		<input type="password" name="password" class="form-control" placeholder="비밀번호">
-		  </div>
-		  <button class="btn btn-onepick w-100" onclick="loginCompany()">로그인</button>
+	  	<form name="frmCompany">
+	  		<div class="mb-3">
+			   	<label class="form-label">아이디</label>
+		  		<input type="text" name="username" class="form-control" placeholder="아이디">
+		  	</div>
+		  	<div class="mb-3">
+		   		<label class="form-label">비밀번호</label>
+	  			<input type="password" name="password" class="form-control" placeholder="비밀번호">
+		  	</div>
+		  	<button class="btn btn-onepick w-100" onclick="loginCompany()">로그인</button>
+		  </form>
 	  </div>
+	  
 	  <div class="d-flex pt-3 border-top mt-3">
 	  	<div>아직 회원이 아니세요?</div>
 	  	<a class="ms-auto link-success" href="/regForm">회원가입</a>
@@ -101,41 +102,47 @@
 		xhttp.send(serializedData);
 	}
 	
-	function loginCompany(){
-		const username = document.querySelector("#pills-company").querySelector("input[name='username']");
-		const name = document.querySelector("#pills-company").querySelector("input[name='name']");
-		const password = document.querySelector("#pills-company").querySelector("input[name='password']");
-		const ceo = document.querySelector("#pills-company").querySelector("input[name='ceo']");
-		const num = document.querySelector("#pills-company").querySelector("input[name='num']");
-		const addr = document.querySelector("#pills-company").querySelector("input[name='addr']");
-		const sector = document.querySelector("#pills-company").querySelector("select[name='sector']");
-		const employeesNum = document.querySelector("#pills-company").querySelector("input[name='employeesNum']");
-		const url = document.querySelector("#pills-company").querySelector("input[name='url']");
-		const size = document.querySelector("#pills-company").querySelector("select[name='size']");
-		const yrSales = document.querySelector("#pills-company").querySelector("input[name='yrSales']");
-		console.log(sector.value);
+	function loginCompany(e){
+		e.preventDefault();
+		const form = document.forms['frmCompany'];
+		var formData = new FormData(form);
+		var params = new URLSearchParams();
+
+	    for (var pair of formData.entries()) {
+	        params.append(pair[0], pair[1]);
+	    }
 		
-		const company = {
-				username : username.value,
-				name : name.value,
-				password : password.value,
-				ceo : ceo.value,
-				num : num.value,
-				addr : addr.value,
-				sector : sector.value,
-				employeesNum : employeesNum.value,
-				url : url.value,
-				size : size.value,
-				yrSales : yrSales.value
-			}
-			const sendData = JSON.stringify(company);
-			const xhttp = new XMLHttpRequest();
-			xhttp.onload = function() {
-			  console.log(this.responseText);
-			  }
-			xhttp.open("POST", "http://localhost:9001/api/v1/register/company", true);
-			xhttp.setRequestHeader("Content-type", "application/json");
-			xhttp.send(sendData);
+	    var serializedData = params.toString();
+	    console.log(serializedData);
+	
+		const xhttp = new XMLHttpRequest();
+		xhttp.onload = function() {
+			var headers = xhttp.getAllResponseHeaders();
+			console.log("headers : " + headers);
+			var token = xhttp.getResponseHeader("Authorization");
+			console.log("JWT Token: " + token.split(" ")[1]);
+			
+			localStorage.setItem("jwtToken", token.split(" ")[1]);
+			// 헤더 값 읽기
+			let role = xhttp.getResponseHeader("Role");
+			let username = xhttp.getResponseHeader("username");
+			localStorage.setItem("role", role);
+			localStorage.setItem("username", username);
+			
+			console.log("role : " + role);
+			console.log("username : " + username);
+			
+			location.href="/"
+			
+			//if(role == 'ROLE_REPORTER'){
+			//	document.getElementById("demo3").innerHTML = "<button onclick='writeArticle()'>기사쓰기</button>";
+			//}else if(role == 'ROLE_MANAGER'){
+			//	document.getElementById("demo3").innerHTML = "<button onclick='requestManager()'>관리자페이지</button>";
+			//}
+		}
+		xhttp.open("POST", "http://localhost:9001/login");
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send(serializedData);
 	}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

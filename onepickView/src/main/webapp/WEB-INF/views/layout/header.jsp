@@ -1,12 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header class="border-bottom">
 	<div class="bg-light py-2">
 		<div class="container d-flex">
 			<div class="d-flex ms-auto">
-				<div class="border-end pe-3 me-3">
+				<div id="logout_menu" class="border-end pe-3 me-3">
 					<a class="btn btn-sm btn-outline-dark" href="/loginForm">로그인</a>
 					<a class="btn btn-sm btn-outline-dark" href="/regForm">회원가입</a>
+				</div>
+				<div id="login_menu" class="border-end pe-3 me-3">
+					<a class="btn btn-sm btn-outline-dark" href="/loginForm">마이페이지</a>
+					<button class="btn btn-sm btn-outline-dark" onclick="logoutBtn()">로그아웃</button>
 				</div>
 				<button id="serviceBtn" onclick="menuChange()" class="btn btn-sm btn-outline-dark">기업회원 서비스</button>
 			</div>
@@ -70,5 +75,27 @@
 			companyMenu.display="none";
 			userMenu.display="";
 		}
+	}
+	
+	// localStorage에서 값 가져오기
+	let role = localStorage.getItem("role");
+	console.log(role);
+	let username = localStorage.getItem("username");
+	console.log(username);
+	const logout_menu = document.querySelector("#logout_menu");
+	const login_menu = document.querySelector("#login_menu");
+	
+	if (username == null){
+		login_menu.style.display="none";
+		logout_menu.style.display="";
+	}else{
+		login_menu.style.display="";
+		logout_menu.style.display="none";
+	}
+	
+	function logoutBtn(){
+		console.log("스토리지 값 삭제");
+		window.localStorage.clear();
+		location.href="/";
 	}
 </script>
