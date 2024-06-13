@@ -30,8 +30,9 @@ public class Oa extends BaseEntity{
 	@ManyToOne
 	@JoinColumn(name = "uid", referencedColumnName = "username", nullable = false)
 	private User user;
+	
 	@Column(nullable = false)
-    private String type;
-    private String content;
+    private String skillName;
+    private String oa_content;
     
 }

@@ -32,10 +32,10 @@ public class Career extends BaseEntity {
 
     private LocalDate startDate;
     private LocalDate endDate;
-    private String name;
+    private String companyName;
     private String rank;
-    private String status;
-    private String type;
+    private String career_status;
+    private String c_type;
     private String position;
     private String work;
     

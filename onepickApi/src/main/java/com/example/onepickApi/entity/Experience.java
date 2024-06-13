@@ -34,8 +34,8 @@ public class Experience extends BaseEntity {
 
     private LocalDate startDay;
     private LocalDate endDay;
-    private String org;
-    private String content;
+    private String ex_org;
+    private String ex_content;
     
     
 }
