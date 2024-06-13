@@ -1,10 +1,12 @@
 package com.example.onepickApi.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,14 +58,15 @@ public class QnaController {
 	}
 	
 	@GetMapping("/qna")
-	public String qnaList() {
+	public List<Qna> qnaList() {
 		List<Qna> list = qnaRepository.findAll();
-		return list.toString();
+		return list;
 	}
 	
 	
 	@GetMapping("/qna/{bno}")
-	public String qnaEdit(@RequestParam("bno") String bno) {
-		return "";
+	public Optional<Qna> qnaDetail(@PathVariable("bno") Long bno) {
+		Optional<Qna> result = qnaRepository.findById(bno);
+		return result;
 	}
 }
