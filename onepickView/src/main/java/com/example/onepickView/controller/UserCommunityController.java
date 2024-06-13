@@ -9,12 +9,12 @@ public class UserCommunityController {
 
 	@RequestMapping("/communityList")
 	public String communityList() {
-		return  "user/communityList";
+		return  "user/community/communityList";
 	}
 	
 	@RequestMapping("/communityForm")
 	public String communityForm() {
-		return  "user/communityForm";
+		return  "user/community/communityForm";
 	}
 	
 	
