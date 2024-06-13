@@ -17,43 +17,26 @@
     <form name="frm">
         <div>카테고리</div>
         <select name="category">
-            <option>회원가입/로그인</option>
-            <option>보안 서비스</option>
-            <option>이력서</option>
-            <option>입사지원</option>
-            <option>채용정보</option>
-            <option>이벤트</option>
+            <option>서비스 이용 문의</option>
+            <option>불량정보·오류 신고</option>
+            <option>서비스 제안·칭찬</option>
         </select>
-
         <div>
             <p>제목</p><input type="text" name="title">
         </div>
         <div>
             <p>작성자</p>
-            <label>
-                <input type="radio" name="usernameOption" value="anonymous"><span>익명</span>
-            </label>
-            <label>
-                <input type="radio" name="usernameOption" value="real"><span>실명</span>
-            </label>
+            ${username}
         </div>
         <div>
             <p>내용</p><input type="text" name="content">
         </div>
-        <div>
-            <p>공개여부</p>
-            <label>
-                <input type="radio" name="secretOption" value="public"><span>공개</span>
-            </label>
-            <label>
-                <input type="radio" name="secretOption" value="private"><span>비공개</span>
-            </label>
-        </div>
-        <input type="submit" onclick="submitForm(event)">
-        <input type="hidden" name="username">
-        <input type="hidden" name="secret">
+        <input type="submit" onclick="submitForm(event)" value="등록">
+        <input type="hidden" name="username" value="${username}">
     </form>
-
+  <a href="/qnaList">
+    <button>목록으로</button>
+  </a>
 </div>
 <jsp:include page="layout/footer.jsp"></jsp:include>
 </body>
@@ -64,20 +47,6 @@
         alert("등록 완료되었습니다.");
 
         var form = document.forms['frm'];
-        var usernameOption = form['usernameOption'].value;
-        var secretOption = form['secretOption'].value;
-
-        if(usernameOption === "anonymous"){
-            form['username'].value = "익명";
-        }else if(usernameOption === "real"){
-            form['username'].value = "이름"; // 이 부분은 실제 사용자 이름을 세션에서 가져와서 설정해야 합니다.
-        }
-
-        if(secretOption === "public"){
-            form['secret'].value = false;
-        }else if(secretOption === "private"){
-            form['secret'].value = true;
-        }
 
         var formData = $(form).serialize();
 

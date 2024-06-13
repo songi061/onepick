@@ -16,83 +16,73 @@
 <div class="container">
     <form name="frm">
         <div>카테고리</div>
-        <select name="category">
-            <option>회원가입/로그인</option>
-            <option>보안 서비스</option>
-            <option>이력서</option>
-            <option>입사지원</option>
-            <option>채용정보</option>
-            <option>이벤트</option>
+        <select name="category" id="category">
+            <option>서비스 이용 문의</option>
+            <option>불량정보·오류 신고</option>
+            <option>서비스 제안·칭찬</option>
         </select>
-
         <div>
-            <p>제목</p><input type="text" name="title">
+            <p>제목</p><input type="text" name="title" id="title">
         </div>
         <div>
             <p>작성자</p>
-            <label>
-                <input type="radio" name="usernameOption" value="anonymous"><span>익명</span>
-            </label>
-            <label>
-                <input type="radio" name="usernameOption" value="real"><span>실명</span>
-            </label>
+            <span id="username">${username}</span>
         </div>
         <div>
-            <p>내용</p><input type="text" name="content">
+            <p>내용</p><input type="text" name="content" id="content">
         </div>
-        <div>
-            <p>공개여부</p>
-            <label>
-                <input type="radio" name="secretOption" value="public"><span>공개</span>
-            </label>
-            <label>
-                <input type="radio" name="secretOption" value="private"><span>비공개</span>
-            </label>
-        </div>
-        <input type="submit" onclick="submitForm(event)">
-        <input type="text" name="bno">
-        <input type="hidden" name="username">
-        <input type="hidden" name="secret">
+        <input type="submit" onclick="submitForm(event)" value="수정">
+        <input type="hidden" name="username" value="${username}">
+        <input type="hidden" name="bno" id="bno" value="${bno}">
     </form>
-
+  <a href="/qnaList">
+    <button>목록</button>
+  </a>
 </div>
 <jsp:include page="layout/footer.jsp"></jsp:include>
 </body>
 <script>
+    $(document).ready(function(){
+        var bno = ${bno};
+        console.log("bno 값:"+ bno);
 
+        $.ajax({
+            url: "http://localhost:9001/api/v1/qna/" + bno,
+            method: "GET",
+            success: function(qna){
+                $("#title").val(qna.title);
+                $("#category").val(qna.category);
+                $("#content").val(qna.content);
+                $("#username").text(qna.user ? qna.user.username : (qna.company ? qna.company.username : ''));
+                $("#bno").val(qna.bno);
+            },
+            error: function(error){
+                console.log("에러 :", error);
+                console.log("에러 상세 정보: ", error.responseText);
+            }
+        });
+    });
+
+
+	
     function submitForm(event){
     	event.preventDefault();
         alert("등록 완료되었습니다.");
 
-        const bno = document.querySelector("input[name='bno']");
-
         var form = document.forms['frm'];
-        var usernameOption = form['usernameOption'].value;
-        var secretOption = form['secretOption'].value;
-
-        if(usernameOption === "anonymous"){
-            form['username'].value = "익명";
-        }else if(usernameOption === "real"){
-            form['username'].value = "이름"; // 이 부분은 실제 사용자 이름을 세션에서 가져와서 설정해야 합니다.
-        }
-
-        if(secretOption === "public"){
-            form['secret'].value = false;
-        }else if(secretOption === "private"){
-            form['secret'].value = true;
-        }
-
         var formData = $(form).serialize();
 
         $.ajax({
-            type: 'GET',
-            url: 'http://localhost:9001/api/v1/qna' + bno.value,
+            type: 'PUT',
+            url: 'http://localhost:9001/api/v1/qna',
             data: formData,
             success: function(response){
                 console.log(response);
+                window.location.href = "/qnaList";
             },
-            error: function(){
-                console.log("에러 발생");
+            error: function(error){
+                console.log("에러 :", error);
+                console.log("에러 상세 정보: ", error.responseText);
             }
         })
     }
