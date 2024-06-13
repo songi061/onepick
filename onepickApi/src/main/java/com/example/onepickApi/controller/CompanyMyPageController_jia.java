@@ -26,7 +26,6 @@ public class CompanyMyPageController_jia {
 	@GetMapping("/detail")
 	public ResponseEntity<Company> getComDetail(@RequestParam("username") String username) {
 		if(!companyRepo.findById(username).isEmpty()) {
-			System.out.println("xxxx");
 			return new ResponseEntity<>(companyRepo.findById(username).get(), HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

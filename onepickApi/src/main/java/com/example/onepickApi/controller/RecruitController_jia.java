@@ -1,7 +1,12 @@
 package com.example.onepickApi.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,12 +14,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.onepickApi.entity.JobAd;
+import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.JobAdRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +37,9 @@ public class RecruitController_jia {
 	
 	@Autowired
 	private JobAdRepository jobAdRepo;
+	@Autowired
+	private CompanyRepository companyRepo;
+	private final Path rootLocation = Paths.get("/upload");
 	
 	@GetMapping("/{jno}")
 	public ResponseEntity<JobAd> getComList(@PathVariable("jno") Long jno) {
@@ -52,6 +65,65 @@ public class RecruitController_jia {
 	@PutMapping("/{jno}")
 	public ResponseEntity<String> editJobad(@PathVariable("jno") Long jno) {
 //			jobAdRepo.save();
+			return new ResponseEntity<>("done", HttpStatus.OK);
+	}
+	
+	@PostMapping("/")
+	public ResponseEntity<String> regJobad(HttpServletRequest request, @ModelAttribute JobAd jobAd ,@RequestParam("attachFileUrl") MultipartFile file) {
+
+		
+		Enumeration<String> headers = request.getHeaderNames();
+		while(headers.hasMoreElements()) {
+			if(headers.nextElement().equals("username")) {
+				System.out.println(request.getHeader("username"));
+				
+				 try {
+			            // 만약 업로드할 폴더 없으면 만들기
+			            if (!Files.exists(rootLocation)) {
+			                Files.createDirectories(rootLocation);
+			            }
+
+			            if (file != null && !file.isEmpty()) {
+			                // 파일업로드
+			                String originalFilename = file.getOriginalFilename();
+			                String extension = originalFilename.substring(originalFilename.lastIndexOf('.'));
+			                String filename = UUID.randomUUID().toString() + extension;
+			                Path destinationFile = this.rootLocation.resolve(Paths.get(filename)).normalize().toAbsolutePath();
+
+			                // 파일이 이미 존재하면 덮어쓰기 또는 다른 처리를 해야 할 수 있음
+			                Files.copy(file.getInputStream(), destinationFile);
+
+			                String filePath = destinationFile.toString();
+
+			                // jobad 엔티티에 파일 정보 설정
+			                jobAd.setFileName(filename);
+			                jobAd.setFilePath(filePath);
+			                jobAd.setFileSize(file.getSize());
+			                jobAd.setCompany(companyRepo.findById(request.getHeader("username")).get());
+
+			                System.out.println(jobAd);
+			                // jobad 엔티티 저장
+			    			jobAdRepo.save(jobAd);
+			            }
+			        } catch (IOException e) {
+			            throw new RuntimeException("Could not create upload directory or save file!", e);
+			        }
+				
+				
+				
+				
+				
+			}
+		}
+		
+		
+	
+		
+		
+		
+		
+		
+		
 			return new ResponseEntity<>("done", HttpStatus.OK);
 	}
 }
