@@ -74,7 +74,7 @@
 			</div>
 			<div class="form-check form-check-inline">
 			  <input class="form-check-input" type="radio" name="militaryService" id="militaryService2" value="없음">
-			  <label class="form-check-label" for="militaryService2">병역사항 있음</label>
+			  <label class="form-check-label" for="militaryService2">병역사항 없음</label>
 			</div>
 		  </div>
 		  <button class="btn btn-onepick w-100" onclick="registUser()">회원가입</button>

@@ -64,7 +64,7 @@ public class RegistControllerJs {
 		String newPw = bCryptPasswordEncoder.encode(user.getPassword());
 		String role = "";
 		if(user.getUsername().equals("admin")) {
-			role = "ROLE_admin";
+			role = "ROLE_ADMIN";
 		}else {
 			role = "ROLE_USER";
 		}
