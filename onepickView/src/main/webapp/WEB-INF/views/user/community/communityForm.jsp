@@ -17,7 +17,7 @@
 	    제목<input type="text" name="title" class="form-control" id="inputTitle" placeholder="제목을 입력하세요.">
 	  </div>
 	  <div class="col-md-6">
-	    내용<textarea class="form-control" id="inputContent" name="content">내용을 입력하세요.</textarea>
+	    내용<textarea class="form-control" id="inputContent" name="content" placeholder="내용을 입력하세요."></textarea>
 	  </div>
 	  <div class="col-md-4">
 	    <label for="inputState" class="form-label">카테고리</label>

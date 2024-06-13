@@ -34,5 +34,5 @@ public class UserBoard extends BaseEntity {
 
 	private String category;
 	private Integer report;
-	
+	private Integer views;
 }

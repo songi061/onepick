@@ -12,21 +12,19 @@
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="..//../layout/header.jsp"></jsp:include>
 <div class="container">
-	  <div class="col-4">
+	<div class="col-4">
 	    <div id="list-example" class="list-group list-group-horizontal">
-	      <a class="list-group-item list-group-item-active" id="freeBoard" aria-current="true" href="#list-item-1">자유글</a>
-	      <a class="list-group-item list-group-item-action" id="job_hunting" href="#list-item-2">취업준비</a>
-	      <a class="list-group-item list-group-item-action" id="turnover" href="#list-item-3">이직</a>
+			<a class="list-group-item list-group-item-active" id="freeBoard" aria-current="true" href="#list-item-1">자유글</a>
+	      	<a class="list-group-item list-group-item-action" id="job_hunting" href="#list-item-2">취업준비</a>
+	      	<a class="list-group-item list-group-item-action" id="turnover" href="#list-item-3">이직</a>
 	    </div>
-	  </div>
 	</div>
-	<div class="col-8">
-	    <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
-	      <div id="data_freeBoard"></div>
-	      <div id="data_job_hunting"></div>
-	      <div id="data_turnover"></div>
-	    </div>
-	  </div>
+<div class="col-8">
+	<div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+		<div id="data_freeBoard"><table id="freeBoard"></table></div>
+		<div id="data_job_hunting"><table id="job_hunting"></table></div>
+		<div id="data_turnover"><table id="turnover"></table></div>
+	</div>
 </div>
 <script>
 	// 게시물 조회 - 자유글
@@ -43,9 +41,9 @@
 					$('#data_turnover').empty();
 					
 					if (data !== null) {
-						let str = '';
+						let str = '<tr><th>'+'번호'+'<th>'+'제목'+'<th>'+'내용'+'<th>'+'글쓴이'+'</th></tr>';
 						for(var i=0; i<data.length; i++){
-							str += '<ul><li>'+'번호 : '+data[i].ubno +' '+ '제목 : '+data[i].title + ' '+'내용 : '+data[i].content +' '+'글쓴이 : '+data[i].user.username+'</li></ul>';
+							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +'</td> '+ '<td>'+data[i].title + '</td>'+'<td>'+data[i].content +'</td>'+'<td>'+data[i].user.username+'</td></tr>';
 						}
 						$('#data_freeBoard').html(str);
 					}
@@ -71,9 +69,9 @@
 					$('#data_turnover').empty();
 					
 					if (data !== null) {
-						let str = '';
+						let str = '<tr><th>'+'번호'+'<th>'+'제목'+'<th>'+'내용'+'<th>'+'글쓴이'+'</th></tr>';
 						for(var i=0; i<data.length; i++){
-	                    	str += '<ul><li>'+'번호 : '+data[i].ubno +' '+ '제목 : '+data[i].title + ' '+'내용 : '+data[i].content +' '+'글쓴이 : '+data[i].user.username+'</li></ul>';
+							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +'</td> '+ '<td>'+data[i].title + '</td>'+'<td>'+data[i].content +'</td>'+'<td>'+data[i].user.username+'</td></tr>';
 						}
 						$('#data_job_hunting').html(str);
 					}
@@ -99,9 +97,9 @@
 					$('#data_job_hunting').empty();
 					
 					if (data !== null) {
-						let str = '';
+						let str = '<tr><th>'+'번호'+'<th>'+'제목'+'<th>'+'내용'+'<th>'+'글쓴이'+'</th></tr>';
 						for(var i=0; i<data.length; i++){
-	                    	str += '<ul><li>'+'번호 : '+data[i].ubno +' '+ '제목 : '+data[i].title + ' '+'내용 : '+data[i].content +' '+'글쓴이 : '+data[i].user.username+'</li></ul>';
+							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +'</td> '+ '<td>'+data[i].title + '</td>'+'<td>'+data[i].content +'</td>'+'<td>'+data[i].user.username+'</td></tr>';
 						}
 						$('#data_turnover').html(str);
 					}
@@ -112,6 +110,18 @@
 			});
 		});
 	});
+	
+	// 정보가 표시되는 div를 button으로 해서 누르면 상세페이지로 이동하게 하기
+	// -->행 클릭 시 상세 페이지로 이동
+
+	
+	$(document).on('click', '.clickable', function(){
+		// let idList = document.querySelectorAll('.clickable').id;
+		console.log(this.id);
+		window.location.href = '/user/communityList/'+this.id;
+	});	
+	
+	
 </script>
 </div>
 <jsp:include page="..//../layout/footer.jsp"></jsp:include>
