@@ -5,7 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.onepickApi.entity.JobAd;
+import com.example.onepickApi.entity.Skill;
 import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.JobAdRepository;
+import com.example.onepickApi.repository.SkillRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -39,11 +43,18 @@ public class RecruitController_jia {
 	private JobAdRepository jobAdRepo;
 	@Autowired
 	private CompanyRepository companyRepo;
+	@Autowired
+	private SkillRepository skillRepo;
 	private final Path rootLocation = Paths.get("/upload");
 	
 	@GetMapping("/{jno}")
-	public ResponseEntity<JobAd> getComList(@PathVariable("jno") Long jno) {
-			return new ResponseEntity<>(jobAdRepo.findById(jno).get(), HttpStatus.OK);
+	public ResponseEntity<Map<String,Object>> getComList(@PathVariable("jno") Long jno) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("jobad", jobAdRepo.findById(jno).get());
+		map.put("skill", skillRepo.findAllByJno(jno));
+		
+			return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 	@GetMapping("/myrecruit")
 	public ResponseEntity<List<JobAd>> myrecruit(HttpServletRequest request) {
@@ -69,9 +80,9 @@ public class RecruitController_jia {
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<String> regJobad(HttpServletRequest request, @ModelAttribute JobAd jobAd ,@RequestParam("attachFileUrl") MultipartFile file) {
+	public ResponseEntity<String> regJobad(HttpServletRequest request, @ModelAttribute JobAd jobAd , @ModelAttribute Skill skill, @RequestParam("attachFileUrl") MultipartFile file) {
 
-		
+		 
 		Enumeration<String> headers = request.getHeaderNames();
 		while(headers.hasMoreElements()) {
 			if(headers.nextElement().equals("username")) {
@@ -99,12 +110,21 @@ public class RecruitController_jia {
 			                jobAd.setFileName(filename);
 			                jobAd.setFilePath(filePath);
 			                jobAd.setFileSize(file.getSize());
-			                jobAd.setCompany(companyRepo.findById(request.getHeader("username")).get());
-
-			                System.out.println(jobAd);
-			                // jobad 엔티티 저장
-			    			jobAdRepo.save(jobAd);
+			                
 			            }
+			            jobAd.setCompany(companyRepo.findById(request.getHeader("username")).get());
+			            System.out.println(jobAd);
+			              
+		                // jobad 엔티티 저장
+		    			jobAdRepo.save(jobAd);
+		    			
+		    			 //skill 엔티티에 정보 저장
+		                skill.setJobAd(jobAd);
+		                skill.setCompany(companyRepo.findById(request.getHeader("username")).get());
+		                
+		                System.out.println(skill);
+		    			//skill 엔티티에 정보 저장
+		    			skillRepo.save(skill);
 			        } catch (IOException e) {
 			            throw new RuntimeException("Could not create upload directory or save file!", e);
 			        }

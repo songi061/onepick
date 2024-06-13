@@ -1,0 +1,98 @@
+@charset "UTF-8";
+
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Scrap list container */
+.scrap_list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Individual scrap item card styling */
+.scrap_list_item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.scrap_list_item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Image styling */
+.scrap_list_item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+/* Information container */
+.scrap_info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* Scrap title link */
+.scrap_title a {
+    font-weight: bold;
+    color: #007bff;
+    text-decoration: none;
+    margin-bottom: 5px;
+    transition: color 0.3s;
+}
+
+.scrap_title a:hover {
+    color: #0056b3;
+}
+
+/* Name and details styling */
+.scrap_name {
+    color: #495057;
+    margin-bottom: 5px;
+}
+
+.scrap_job,
+.scrap_region {
+    color: #6c757d;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    .scrap_list {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .scrap_list_item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .scrap_list_item img {
+        margin-bottom: 10px;
+    }
+
+    .scrap_info {
+        align-items: flex-start;
+    }
+}
