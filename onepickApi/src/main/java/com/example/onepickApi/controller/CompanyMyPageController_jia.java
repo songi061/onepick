@@ -39,6 +39,12 @@ public class CompanyMyPageController_jia {
 			return new ResponseEntity<>(companyList, HttpStatus.OK);
 	}
 	
+	@GetMapping("/mydetail")
+	public ResponseEntity<Company> getMydetail(@RequestParam("username") String username) {
+		Company company = companyRepo.findById(username).get();
+			return new ResponseEntity<>(company, HttpStatus.OK);
+	}
+	
 	
 	
 	

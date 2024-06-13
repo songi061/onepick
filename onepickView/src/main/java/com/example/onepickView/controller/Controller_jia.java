@@ -22,4 +22,17 @@ public class Controller_jia {
 	public void recruitDetail(@RequestParam("jno") Long jno, Model model) {
 		model.addAttribute("jno", jno);
 	}
+	@RequestMapping("/myHome")
+	public void myHome() {
+	}
+	@RequestMapping("/recruitList")
+	public void recruitList() {
+	}
+	@RequestMapping("/recruitEdit")
+	public void recruitEdit(@RequestParam("jno") Long jno, Model model) {
+		model.addAttribute("jno", jno);
+	}
+	@RequestMapping("/recruitForm")
+	public void recruitForm() {
+	}
 }
