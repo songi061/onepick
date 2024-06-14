@@ -35,9 +35,10 @@ xhttp.onload = function() {
 	})
   }
 xhttp.open("GET", "http://localhost:9001/api/v1/recruit/myrecruit", true);
-xhttp.setRequestHeader("username", "aaa");
-xhttp.setRequestHeader("role", "ROLE_COMPANY");
-xhttp.setRequestHeader("Access-Control-Expose-Headers", "username, role")
+xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
+xhttp.setRequestHeader("username", localStorage.getItem("username"));
+xhttp.setRequestHeader("role", localStorage.getItem("role"));
+xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role")
 xhttp.send();
 
 

@@ -25,8 +25,32 @@
 				<div class="section_title">상세 직무내용</div>
 				<textarea name="jobCont"></textarea>
 				<div class="section_title">필요스킬</div>
-				<input type="text" name="skillName">
+				<select name="skillName">
+					 <option value="">스킬 선택</option>
+			         <option value="java">java</option>
+			         <option value="python">python</option>
+			         <option value="javascript">javascript</option>
+			         <option value="c++">c++</option>
+			         <option value="Ruby">Ruby</option>
+			         <option value="SQL">SQL</option>
+			         <option value="R">R</option>
+			         <option value="C">C</option>
+			         <option value="ERP">ERP</option>
+			         <option value="HTML/CSS">HTML/CSS</option>
+			         <option value="React">React</option>
+			         <option value="Angular">Angular</option>
+			         <option value="Vue.js">Vue.js</option>
+			         <option value="Django">Django</option>
+			         <option value="네트워크 보안">네트워크 보안</option>
+			         <option value="Swift(IOS)">Swift(IOS)</option>
+			         <option value="Kotlin">Kotlin</option>
+			         <option value="Flutter">Flutter</option>
+			         <option value="Excel">Excel</option>
+			         <option value="외국어능통">외국어능통</option>
+				</select>
 				<div onclick="addSkill()" class="add-skill-btn"> ➕ 필요스킬추가하기 </div>
+				<div class='skillContainer'></div>
+				<div class="btn btn-onepick" style="display:none;" id="saveBtn" onclick="saveSkills(event)">저장</div>
 				<div class="section_title">접수마감일</div>
 				<input type="date" name="receiptCloseDt">
 				<div class="section_title">경험</div>
@@ -62,7 +86,7 @@
 				<input type="text" name="empEmail">
 				<div class="section_title">담당자연락처</div>
 				<input type="text" name="empTel">
-				<input class="btn btn-onepick" type="submit" value="공고등록" onclick="regJobAd(event)">
+				<input class="btn btn-onepick" type="submit" value="공고수정" onclick="editJobAd(event)">
 				
 			</form>
 		</div>
@@ -80,6 +104,7 @@ const region1El = document.querySelector("select[name=region1]");
 const region2El = document.querySelector("select[name=region2]");
 const salaryEl = document.querySelector("select[name=salTpNm]");
 const workTypeEl = document.querySelector("select[name=empTpNm]");
+const skillContainer = document.querySelector(".skillContainer")
 
 let selectedSector1 = null;
 let selectedSector1El = null;
@@ -89,16 +114,29 @@ let selectedRegion1 = null;
 let selectedRegion1El = null;
 let selectedSalary = null;
 let selectedWorkType = null;
+let skillExisted = false;
+let arrItems = [];
 
 const jno = "${jno}";
 
-console.log(jno);
 const xhttp = new XMLHttpRequest();
 xhttp.onload = function() {
 	console.log(JSON.parse(this.responseText));
 	let data = JSON.parse(this.responseText);
 	let jobad = data.jobad;
 	let skills = data.skill;
+	console.log(skills)
+	
+	skills.forEach(skill=>{
+		console.log(skill)
+		console.log(skill.skillName)
+		let skillItems = document.createElement("span");
+		skillItems.classList = "skill_items"
+		skillItems.setAttribute("id", skill.skillName);
+		skillItems.style.margin="5px";
+		skillItems.innerHTML=skill.skillName + "<span onclick='deleteSkill(event)'>❌</span>";
+		skillContainer.appendChild(skillItems);
+	})
 
 	const wantedTitle = document.querySelector("input[name=wantedTitle]");
 	const sector1 = document.querySelector("select[name=sector1]");
@@ -120,8 +158,14 @@ xhttp.onload = function() {
 	const empEmail = document.querySelector("input[name=empEmail]");
 	const empTel = document.querySelector("input[name=empTel]");
 	const experience = document.querySelector("select[name=experience]");
-	/////////스킬 해결해주기 ++++++ 세부카테고리 목록 선택안되어짐
 	const skillName = document.querySelector("input[name=skillName]");
+	
+/*
+ 
+	/////////세부카테고리 목록 선택안되어짐
+	//파일 수정안할시에 원래 파일 다시 넣어주기
+	
+*/
 	
 	
 	wantedTitle.value=jobad.wantedTitle;
@@ -150,7 +194,6 @@ xhttp.onload = function() {
 	            }
 	        }, 100); 
 	}
-	
 	// 가져온 데이터에 맞는 옵션 미리 선택해주기
 	selectOption(sector1, jobad.sector1);
 	selectOption(sector2, jobad.sector2);
@@ -191,17 +234,65 @@ xhttp.send();
 
 
 
+//필요스킬 추가버튼 누를때마다 밑에 더해주기
+function addSkill(){
+	//클릭시에 선택된 option의 text값을 빼서 밑에 넣어줌
+	const skillNameEl = document.querySelector("select[name=skillName]");
+			
+	//만약 스킬이 선택이 안되었거나, 되었더라도 이미 추가되어있는 스킬이라면 추가 안되도록 처리
+	if(skillNameEl.value !=""){
+		if(!skillContainer.querySelector("#"+ skillNameEl.value)){
+			let skillItems = document.createElement("span");
+			skillItems.classList = "skill_items"
+			skillItems.setAttribute("id", skillNameEl.value);
+			skillItems.style.margin="5px";
+			skillItems.innerHTML=skillNameEl.value + "<span onclick='deleteSkill(event)'>❌</span>";
+			skillContainer.appendChild(skillItems);
+			document.querySelector("#saveBtn").style.display="block";
+		}
+		
+	}
+	
+}
+
+function deleteSkill(e){
+	e.target.parentElement.remove()
+	document.querySelector("#saveBtn").style.display="block";
+}
+
+//스킬 저장 버튼 
+function saveSkills(e){
+	//다시 클릭했을 경우를 위해서 초기화 시켜주기
+	arrItems=[];
+	//버튼 클릭하자마자 버튼 안보이게 하기
+	e.target.style.display="none";
+	const childNodes = document.querySelectorAll(".skill_items");
+	
+	childNodes.forEach(skill=>{
+		//여기서 skill List만들어준 후 저장하기
+       arrItems.push(skill.getAttribute("id"));
+  });
+  console.log(arrItems); // 생성된 배열 출력
+ 	
+}
+
+
+
 //제출버튼 클릭시 서버로 데이터 보내주기
-function regJobAd(event){
+
+function editJobAd(event){
 	event.preventDefault();
 
 	let form = document.querySelector("form");
 	let formData = new FormData(form);
+	
 
-	 fetch("http://localhost:9001/api/v1/recruit/", {
-		    method: "POST",
+	 fetch("http://localhost:9001/api/v1/recruit/"+jno, {
+		    method: "PUT",
 		    headers: {
-		        "username": "aaa",
+		    	  'jwtToken': localStorage.getItem("jwtToken"),
+		    	  'username': localStorage.getItem("username"),
+		    	  'role':localStorage.getItem("role")
 		      },
 		    body: formData, 
 		  }).then(response => {
@@ -213,7 +304,8 @@ function regJobAd(event){
 		            return response.text();
 		        }})
 			.then(result => {
-			    console.log(result);
+				//공고등록 성공시 skill등록해주기><
+			   addSkills(result);
 			})
 			.catch(error => {
 			    console.log('Error:', error);
@@ -222,208 +314,235 @@ function regJobAd(event){
 }
 
 
+//스킬들 스킬테이블에 넣어주기
+function addSkills(jno){
+	 fetch("http://localhost:9001/api/v1/recruit/skill/"+jno, {
+				    method: "PUT",
+				    headers: {
+				    	"Content-Type": "application/json",
+				    	'jwtToken': localStorage.getItem("jwtToken"),
+				    	'username': localStorage.getItem("username"),
+				    	'role':localStorage.getItem("role")
+				      },
+				    body: JSON.stringify(arrItems), 
+				  }).then(response => {
+				        // 응답이 JSON인지 텍스트인지에 따라 처리
+				        const contentType = response.headers.get("content-type");
+				        if (contentType && contentType.indexOf("application/json") !== -1) {
+				            return response.json();
+				        } else {
+				            return response.text();
+				        }})
+					.then(result => {
+					    //공고와 skill모두 등록 성공시 공고리스트로이동
+					    location.href="/company/recruitList"
+					})
+					.catch(error => {
+					    console.log('Error:', error);
+					});
+}
 
 //업종
-    fetch('/json/sector_category.json')
-        .then(response => response.json())
-        .then(data => {
-            let i = 0;
-            // 업종 상위 카테고리 뿌려주기
-            while (i < data.length) {
-                const sectorCateCode = data[i].코드;
-                const sectorCategory = data[i]["산업/업종명"];
-                if (sectorCategory != null) {
-                	let optionItems = document.createElement('option');
-                	optionItems.classList = "sectorCategories"; 
-                	optionItems.setAttribute("value", sectorCategory); 
-                	optionItems.setAttribute("id", "sectorCategory" + sectorCateCode); 
-                	optionItems.innerHTML =	sectorCategory;
-                	sector1El.appendChild(optionItems);
-                }
-                i++;
-            }
-    
-            //상위카테고리가 변할때마다 값 추적
-            sector1El.addEventListener('change', function() {
-            	sector2El.innerHTML="";
-                // 선택된 option의 value 가져오기
-                selectedSector1 = sector1El.value;
-                // 선택된 option의 id 가져오기
-                const selectedOption = sector1El.options[sector1El.selectedIndex];
-                selectedSector1El = selectedOption.id;
-                console.log(document.getElementById(selectedSector1El))
-                document.getElementById(selectedSector1El).selected = "selected";
+  fetch('/json/sector_category.json')
+      .then(response => response.json())
+      .then(data => {
+          let i = 0;
+          // 업종 상위 카테고리 뿌려주기
+          while (i < data.length) {
+              const sectorCateCode = data[i].코드;
+              const sectorCategory = data[i]["산업/업종명"];
+              if (sectorCategory != null) {
+              	let optionItems = document.createElement('option');
+              	optionItems.classList = "sectorCategories"; 
+              	optionItems.setAttribute("value", sectorCategory); 
+              	optionItems.setAttribute("id", "sectorCategory" + sectorCateCode); 
+              	optionItems.innerHTML =	sectorCategory;
+              	sector1El.appendChild(optionItems);
+              }
+              i++;
+          }
+  
+          //상위카테고리가 변할때마다 값 추적
+          sector1El.addEventListener('change', function() {
+          	sector2El.innerHTML="";
+              // 선택된 option의 value 가져오기
+              selectedSector1 = sector1El.value;
+              // 선택된 option의 id 가져오기
+              const selectedOption = sector1El.options[sector1El.selectedIndex];
+              selectedSector1El = selectedOption.id;
+              console.log(document.getElementById(selectedSector1El))
+              document.getElementById(selectedSector1El).selected = "selected";
 
-                // 사용자가 선택한 상위카테고리 클릭시 해당 카테고리 내 상세 직무 카테고리 뿌려주기
-                if(selectedSector1){
-                    fetch('/json/sector.json')
-                    .then(response => response.json())
-                    .then(data => {
-//                     	console.log(data);
-                        let j = 0;
-                        while (j < data.length) {
-                            const sectorCode = data[j]["코드"];
-                            const sectorTitle = data[j]["산업/업종명"];
-                            if (Number(selectedSector1El.slice(14)) == data[j]["상위코드"]) {
-                                let optionItems = document.createElement('option');
-                            	optionItems.setAttribute("value", sectorTitle); 
-                            	optionItems.setAttribute("id", "sectorTitle" + sectorCode); 
-                            	optionItems.innerHTML =	sectorTitle;
-                            	sector2El.appendChild(optionItems)
-                            }
-                            j++;
-                        }
-                    });
-                }
-            })
-        })
-       
+              // 사용자가 선택한 상위카테고리 클릭시 해당 카테고리 내 상세 직무 카테고리 뿌려주기
+              if(selectedSector1){
+                  fetch('/json/sector.json')
+                  .then(response => response.json())
+                  .then(data => {
+//                   	console.log(data);
+                      let j = 0;
+                      while (j < data.length) {
+                          const sectorCode = data[j]["코드"];
+                          const sectorTitle = data[j]["산업/업종명"];
+                          if (Number(selectedSector1El.slice(14)) == data[j]["상위코드"]) {
+                              let optionItems = document.createElement('option');
+                          	optionItems.setAttribute("value", sectorTitle); 
+                          	optionItems.setAttribute("id", "sectorTitle" + sectorCode); 
+                          	optionItems.innerHTML =	sectorTitle;
+                          	sector2El.appendChild(optionItems)
+                          }
+                          j++;
+                      }
+                  });
+              }
+          })
+      })
+     
 //직무
-    fetch('/json/job_category.json')
-        .then(response => response.json())
-        .then(data => {
-            let i = 0;
-            // 직무 상위 카테고리 뿌려주기
-            while (i < data.length) {
-            	 const cateCode = data[i].코드;
-                 const jobCategory = data[i].상위직무;
-                if (jobCategory != null) {
-                	let optionItems = document.createElement('option');
-                	optionItems.classList = "jobCategories"; 
-                	optionItems.setAttribute("value", jobCategory); 
-                	optionItems.setAttribute("id", "jobCategory" + cateCode); 
-                	optionItems.innerHTML =	jobCategory;
-                	position1El.appendChild(optionItems)
-                }
-                i++;
-            }
-    
-            //상위카테고리가 변할때마다 값 추적
-            position1El.addEventListener('change', function() {
-            	position2El.innerHTML="";
-                // 선택된 option의 value 가져오기
-                selectedPosition1 = position1El.value;
-                // 선택된 option의 id 가져오기
-                const selectedOption = position1El.options[position1El.selectedIndex];
-                selectedPosition1El = selectedOption.id;
-                // 사용자가 선택한 상위카테고리 클릭시 해당 카테고리 내 상세 직무 카테고리 뿌려주기
-                if(selectedPosition1){
-                    fetch('/json/job.json')
-                    .then(response => response.json())
-                    .then(data => {
-//                     	console.log(data)
-                        let j = 0;
-                        while (j < data.length) {
-                        	const jobCode = data[j]["직무 코드"];
-                            const positionTitle = data[j]["직무 키워드명"];
-                            if (Number(selectedPosition1El.slice(11)) === data[j]["직무 상위 코드"]) {
-                                let optionItems = document.createElement('option');
-                            	optionItems.setAttribute("value", positionTitle); 
-                            	optionItems.setAttribute("id", "positionTitle" + jobCode); 
-                            	optionItems.innerHTML =	positionTitle;
-                            	position2El.appendChild(optionItems)
-                            }
-                            j++;
-                        }
-                    });
-                }
-            })
-        })
+  fetch('/json/job_category.json')
+      .then(response => response.json())
+      .then(data => {
+          let i = 0;
+          // 직무 상위 카테고리 뿌려주기
+          while (i < data.length) {
+          	 const cateCode = data[i].코드;
+               const jobCategory = data[i].상위직무;
+              if (jobCategory != null) {
+              	let optionItems = document.createElement('option');
+              	optionItems.classList = "jobCategories"; 
+              	optionItems.setAttribute("value", jobCategory); 
+              	optionItems.setAttribute("id", "jobCategory" + cateCode); 
+              	optionItems.innerHTML =	jobCategory;
+              	position1El.appendChild(optionItems)
+              }
+              i++;
+          }
+  
+          //상위카테고리가 변할때마다 값 추적
+          position1El.addEventListener('change', function() {
+          	position2El.innerHTML="";
+              // 선택된 option의 value 가져오기
+              selectedPosition1 = position1El.value;
+              // 선택된 option의 id 가져오기
+              const selectedOption = position1El.options[position1El.selectedIndex];
+              selectedPosition1El = selectedOption.id;
+              // 사용자가 선택한 상위카테고리 클릭시 해당 카테고리 내 상세 직무 카테고리 뿌려주기
+              if(selectedPosition1){
+                  fetch('/json/job.json')
+                  .then(response => response.json())
+                  .then(data => {
+//                   	console.log(data)
+                      let j = 0;
+                      while (j < data.length) {
+                      	const jobCode = data[j]["직무 코드"];
+                          const positionTitle = data[j]["직무 키워드명"];
+                          if (Number(selectedPosition1El.slice(11)) === data[j]["직무 상위 코드"]) {
+                              let optionItems = document.createElement('option');
+                          	optionItems.setAttribute("value", positionTitle); 
+                          	optionItems.setAttribute("id", "positionTitle" + jobCode); 
+                          	optionItems.innerHTML =	positionTitle;
+                          	position2El.appendChild(optionItems)
+                          }
+                          j++;
+                      }
+                  });
+              }
+          })
+      })
 	
 //지역
-    fetch('/json/korea-administrative-district.json')
-        .then(response => response.json())
-        .then(data => {
-            let i = 0;
-            // 지역 상위 카테고리 뿌려주기
-            while (i < data.length) {
-            	  const city = Object.keys(data[i]);
-                if (city != null) {
-                	let optionItems = document.createElement('option');
-                	optionItems.classList = "cities"; 
-                	optionItems.setAttribute("value", city); 
-                	optionItems.setAttribute("id", "city" + i); 
-                	optionItems.innerHTML =	city;
-                	region1El.appendChild(optionItems)
-                }
-                i++;
-            }
-    
-            //상위카테고리가 변할때마다 값 추적
-            region1El.addEventListener('change', function() {
-            	region2El.innerHTML="";
-                // 선택된 option의 value 가져오기
-                selectedRegion1 = region1El.value;
-                // 선택된 option의 id 가져오기
-                const selectedOption = region1El.options[region1El.selectedIndex];
-                selectedRegion1El = selectedOption.id;
-                // 사용자가 선택한 상위카테고리 클릭시 해당 카테고리 내 상세 지역 카테고리 뿌려주기
-                if(selectedRegion1){
-                	   const ccode = Number(selectedRegion1El.slice(4));
-                       const gu = Object.values(data[ccode])[0];
-                    	
-                        let j = 0;
-                        while (j < gu.length) {
-                            const guName = gu[j];
-                            let optionItems = document.createElement('option');
-                           	optionItems.setAttribute("value", guName); 
-                           	optionItems.setAttribute("id", "gu" + j); 
-                           	optionItems.innerHTML =	guName;
-                           	region2El.appendChild(optionItems)
-                            j++;
-                        }
-               
-                }
-            })
-        })
+  fetch('/json/korea-administrative-district.json')
+      .then(response => response.json())
+      .then(data => {
+          let i = 0;
+          // 지역 상위 카테고리 뿌려주기
+          while (i < data.length) {
+          	  const city = Object.keys(data[i]);
+              if (city != null) {
+              	let optionItems = document.createElement('option');
+              	optionItems.classList = "cities"; 
+              	optionItems.setAttribute("value", city); 
+              	optionItems.setAttribute("id", "city" + i); 
+              	optionItems.innerHTML =	city;
+              	region1El.appendChild(optionItems)
+              }
+              i++;
+          }
+  
+          //상위카테고리가 변할때마다 값 추적
+          region1El.addEventListener('change', function() {
+          	region2El.innerHTML="";
+              // 선택된 option의 value 가져오기
+              selectedRegion1 = region1El.value;
+              // 선택된 option의 id 가져오기
+              const selectedOption = region1El.options[region1El.selectedIndex];
+              selectedRegion1El = selectedOption.id;
+              // 사용자가 선택한 상위카테고리 클릭시 해당 카테고리 내 상세 지역 카테고리 뿌려주기
+              if(selectedRegion1){
+              	   const ccode = Number(selectedRegion1El.slice(4));
+                     const gu = Object.values(data[ccode])[0];
+                  	
+                      let j = 0;
+                      while (j < gu.length) {
+                          const guName = gu[j];
+                          let optionItems = document.createElement('option');
+                         	optionItems.setAttribute("value", guName); 
+                         	optionItems.setAttribute("id", "gu" + j); 
+                         	optionItems.innerHTML =	guName;
+                         	region2El.appendChild(optionItems)
+                          j++;
+                      }
+             
+              }
+          })
+      })
 //임금조건
-  fetch('/json/salary.json')
-        .then(response => response.json())
-        .then(data => {
-            let i = 0;
-            // 임금 조건뿌려주기
-            while (i < data.length) {
-            	const salary = data[i].학력
-                if (salary != null) {
-                	let optionItems = document.createElement('option');
-                	optionItems.classList = "salaries"; 
-                	optionItems.setAttribute("value", salary); 
-                	optionItems.setAttribute("id", "salary" + i); 
-                	optionItems.innerHTML =	salary;
-                	salaryEl.appendChild(optionItems)
-                }
-                i++;
-            }
-            salaryEl.addEventListener('change', function() {
-                // 선택된 option의 value 가져오기
-                selectedSalary = salaryEl.value;
-            })
-        })
+fetch('/json/salary.json')
+      .then(response => response.json())
+      .then(data => {
+          let i = 0;
+          // 임금 조건뿌려주기
+          while (i < data.length) {
+          	const salary = data[i].학력
+              if (salary != null) {
+              	let optionItems = document.createElement('option');
+              	optionItems.classList = "salaries"; 
+              	optionItems.setAttribute("value", salary); 
+              	optionItems.setAttribute("id", "salary" + i); 
+              	optionItems.innerHTML =	salary;
+              	salaryEl.appendChild(optionItems)
+              }
+              i++;
+          }
+          salaryEl.addEventListener('change', function() {
+              // 선택된 option의 value 가져오기
+              selectedSalary = salaryEl.value;
+          })
+      })
 //고용형태
-  fetch('/json/workType.json')
-        .then(response => response.json())
-        .then(data => {
-//         	console.log(data)
-            let i = 0;
-            // 고용형태 조건뿌려주기
-            while (i < data.length) {
-            	const workType = data[i].근무형태
-                if (workType != null) {
-                	let optionItems = document.createElement('option');
-                	optionItems.classList = "workTypes"; 
-                	optionItems.setAttribute("value", workType); 
-                	optionItems.setAttribute("id", "workType" + i); 
-                	optionItems.innerHTML =	workType;
-                	workTypeEl.appendChild(optionItems)
-                }
-                i++;
-            }
-            workTypeEl.addEventListener('change', function() {
-                // 선택된 option의 value 가져오기
-                selectedWorkType = workTypeEl.value;
-                console.log(selectedWorkType)
-            })
-        })
+fetch('/json/workType.json')
+      .then(response => response.json())
+      .then(data => {
+//       	console.log(data)
+          let i = 0;
+          // 고용형태 조건뿌려주기
+          while (i < data.length) {
+          	const workType = data[i].근무형태
+              if (workType != null) {
+              	let optionItems = document.createElement('option');
+              	optionItems.classList = "workTypes"; 
+              	optionItems.setAttribute("value", workType); 
+              	optionItems.setAttribute("id", "workType" + i); 
+              	optionItems.innerHTML =	workType;
+              	workTypeEl.appendChild(optionItems)
+              }
+              i++;
+          }
+          workTypeEl.addEventListener('change', function() {
+              // 선택된 option의 value 가져오기
+              selectedWorkType = workTypeEl.value;
+              console.log(selectedWorkType)
+          })
+      })
 
 
 

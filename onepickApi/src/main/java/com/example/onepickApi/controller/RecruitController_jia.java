@@ -56,7 +56,7 @@ public class RecruitController_jia {
 		map.put("jobad", jobAdRepo.findById(jno).get());
 		map.put("skill", skillRepo.findAllByJno(jno));
 		
-			return new ResponseEntity<>(map, HttpStatus.OK);
+		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 	
 	@GetMapping("/myrecruit")
@@ -78,11 +78,59 @@ public class RecruitController_jia {
 			return new ResponseEntity<>("done", HttpStatus.OK);
 	}
 	
+	
 	@PutMapping("/{jno}")
-	public ResponseEntity<String> editJobad(@PathVariable("jno") Long jno) {
-//			jobAdRepo.save();
-			return new ResponseEntity<>("done", HttpStatus.OK);
+	public ResponseEntity<String> editJobad(@PathVariable("jno") Long jnoLong, HttpServletRequest request, @ModelAttribute JobAd jobAd, @RequestParam("attachFileUrl") MultipartFile file) {
+		String jno = null;
+		Enumeration<String> headers = request.getHeaderNames();
+		while(headers.hasMoreElements()) {
+			if(headers.nextElement().equals("username")) {
+				System.out.println(request.getHeader("username"));
+				
+				 try {
+			            // 만약 업로드할 폴더 없으면 만들기
+			            if (!Files.exists(rootLocation)) {
+			                Files.createDirectories(rootLocation);
+			            }
+
+			            if (file != null && !file.isEmpty()) {
+			                // 파일업로드
+			                String originalFilename = file.getOriginalFilename();
+			                String extension = originalFilename.substring(originalFilename.lastIndexOf('.'));
+			                String filename = UUID.randomUUID().toString() + extension;
+			                Path destinationFile = this.rootLocation.resolve(Paths.get(filename)).normalize().toAbsolutePath();
+
+			                // 파일이 이미 존재하면 덮어쓰기 또는 다른 처리를 해야 할 수 있음
+			                Files.copy(file.getInputStream(), destinationFile);
+
+			                String filePath = destinationFile.toString();
+
+			                // jobad 엔티티에 파일 정보 설정
+			                jobAd.setFileName(filename);
+			                jobAd.setFilePath(filePath);
+			                jobAd.setFileSize(file.getSize());
+			                
+			            }else {
+			            	//파일 수정된거 없으면 원래 등록되어있던 파일 다시 넣어주기
+			            	jobAd.setFileName(jobAdRepo.findById(jnoLong).get().getFileName());
+			                jobAd.setFilePath(jobAdRepo.findById(jnoLong).get().getFilePath());
+			                jobAd.setFileSize(jobAdRepo.findById(jnoLong).get().getFileSize());
+			            }
+			            jobAd.setCompany(companyRepo.findById(request.getHeader("username")).get());
+			            System.out.println(jobAd);
+			              
+		                // jobad 엔티티 저장
+		    			JobAd jobad = jobAdRepo.save(jobAd);
+		    			jno = Long.toString(jobad.getJno());
+
+			        } catch (IOException e) {
+			            throw new RuntimeException("Could not create upload directory or save file!", e);
+			        }
+			}
+		}
+			return new ResponseEntity<>(jno, HttpStatus.OK);
 	}
+	
 	
 	@PostMapping("/")
 	public ResponseEntity<String> regJobad( HttpServletRequest request, @ModelAttribute JobAd jobAd, @RequestParam("attachFileUrl") MultipartFile file) {
@@ -139,6 +187,38 @@ public class RecruitController_jia {
 				System.out.println(request.getHeader("username"));
 			}
 		}
+		
+		for(int i = 0; i<list.size(); i++) {
+			Skill skill = new Skill();
+			
+		//skill 엔티티에 정보 저장
+	       skill.setJobAd(jobAdRepo.findById(jno).get());
+	       skill.setCompany(companyRepo.findById(request.getHeader("username")).get());
+	       skill.setSkillName(list.get(i));
+	       
+	     //skill 엔티티에 정보 저장
+			skillRepo.save(skill);
+		}
+			return new ResponseEntity<>("done", HttpStatus.OK);
+	}
+	
+	@PutMapping("/skill")
+	public ResponseEntity<String> editSkill(@RequestParam("jno") Long jno, HttpServletRequest request, @RequestBody List<String> list) {
+		Enumeration<String> headers = request.getHeaderNames();
+		while(headers.hasMoreElements()) {
+			if(headers.nextElement().equals("username")) {
+				System.out.println(request.getHeader("username"));
+			}
+		}
+		
+		//원래 등록되어있던 스킬 다 지워주기
+		List<Skill> oldList = skillRepo.findAllByJno(jno);
+		
+		for(Skill s : oldList) {
+			skillRepo.delete(s);
+		}
+		
+		
 		
 		for(int i = 0; i<list.size(); i++) {
 			Skill skill = new Skill();
