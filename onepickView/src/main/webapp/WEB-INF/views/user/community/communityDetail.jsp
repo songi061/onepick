@@ -17,16 +17,19 @@
 	<table id="data_board_detail">
 	</table>
 </div>
+<hr>
 <div id="reply_regist">
-	<input type="text" name="content">
-	<input type="submit" value="등록">
+	<form class="replyForm" id="replyForm">
+		<input id="input_reply_content" type="text" name="content" size="50" placeholder="솔직하고 따뜻한 답변을 남겨주세요.">
+		<button id="btn_postComment">등록</button>
+	</form>
 </div>
-<div id="reply_detail">
+<div id="commentSection">
 	<table id="data_reply_detail">
 	</table>
 </div>
-
 <script>
+// 게시글 디테일 불러오기
 $(document).ready(function(){
 	const ubno = ${ubno};
 	$.ajax({
@@ -35,47 +38,91 @@ $(document).ready(function(){
 		//data: { ubno: "job_hunting"},
 		dataType: 'json',
 		success: function(data){
-			console.log(data);
+// 			console.log(data);
 			$(data).empty();
 			
 			if (data !== null) {
 				let str = '';
-				str += '<tr><td>'+data.category +'</td></tr> '+ '<tr><td>'+data.title + '</td></tr>'+'<tr><td>'+data.views +
-				'</td></tr>'+'<tr><td>'+data.user.username+'</td></tr>'+'<tr><td>'+data.regdate + '</td></tr>'+
-				'<tr><td>'+data.view+'</td></tr>';
+				str += '<tr><td>'+data.category +'</td></tr> '+ 
+					'<tr><td>'+data.title + '</td></tr>'+
+					'<tr><td>'+data.views +'</td></tr>'+
+					'<tr><td>'+data.user.username+'</td></tr>'+
+					'<tr><td>'+data.regdate + '</td></tr>';
 				$('#data_board_detail').html(str);
 			}
-		},
-		error:function(error){
-			alert(error);
-		}
-	});
-});
-
-$(document).ready(function(){
-	const ubno = ${ubno};
-	$.ajax({
-		type: 'GET',
-		url: 'http://localhost:9001/api/v1/user/community-comment?ubno='+ubno,
-		data: { ubno: ubno},
-		dataType: 'json',
-		success: function(data){
-			console.log(data);
-			$(data).empty();
+			// 초기 댓글 로드
+			loadComments();
 			
-			if (data !== null) {
-				let str = '';
-				str += '<tr><td>'+data.reply_content+'</td></tr>'+'<tr><td>'+data.reply_username+'</td></tr>'+'<tr><td>'+data.reply_report+'</td></tr>'+'<tr><td>'+data.regdate+'</td></tr>';
-				$('#data_reply_detail').html(str);
-			}
 		},
 		error:function(error){
 			alert(error);
 		}
 	});
+	
+	
+	// 해당게시글에서 댓글작성 매서드
+	$('#btn_postComment').click(function(event){
+		event.preventDefault();
+		
+		let content =$('#input_reply_content').val();
+		console.log("content :" +content);
+		console.log("username :" +username);
+			
+		$.ajax({
+			type: 'post',
+			url: 'http://localhost:9001/api/v1/user/community-comment',
+			headers:{
+				'Authorization' : 'Bearer ' + 'token',
+				'writer': 'token_writer'
+			},
+			data: JSON.stringify({
+				content: content,
+				username: username
+			}),
+			contentType: 'application/json; charset=utf-8',
+			dataType:'json',
+			success: function(data){
+				alert("댓글이 등록되었습니다.");
+				console.log(data);
+				loadComments();	// 댓글 등록 후 댓글 목록을 새로 불러옴
+			},
+			error: function(xhr, status, error) {
+				// 요청이 실패한 경우 처리할 코드
+				console.error("Request failed with status code: " + xhr.status);
+			}
+				
+		});
+	});
+	
+	// 해당 게시글의 댓글 불러오기
+	// $(document).ready(function(){
+		function loadComments(){
+			const ubno = ${ubno};
+			$.ajax({
+				type: 'GET',
+				url: 'http://localhost:9001/api/v1/user/community-comment?ubno='+ubno,
+				//data: { ubno: ubno},
+				dataType: 'json',
+				success: function(da){
+					if(da !== null){
+						let str = '';
+						da.forEach(data=>{
+							str += '<tr><td>'+data.content+'</td></tr>'+
+								'<tr><td>'+data.user.username+'</td></tr>'+
+								'<tr><td>'+data.report+'</td></tr>'+
+								'<tr><td>'+data.regdate+'</td></tr>';
+						});
+						$('#data_reply_detail').html(str);
+					}
+				console.log(da);
+						
+				},
+				error: function(error){
+					alert(error);
+				}
+			});
+		}
 });
-
-
 </script>
 </div>
 <jsp:include page="..//../layout/footer.jsp"></jsp:include>
