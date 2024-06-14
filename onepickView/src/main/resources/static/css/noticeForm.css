@@ -1,0 +1,82 @@
+#page_title{
+    font: 900 30px/60px 'Pretendard-Regular';
+    margin: 20px;
+}
+
+form{
+    width: 1200px; height: 600px;
+    border-top: 2px solid lightgray;
+    border-bottom: 2px solid lightgray;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+form div{
+    width: 100%;
+}
+p{
+    display: inline-block;
+    width: 10%;
+    float: left;
+    font-weight: 800;
+    text-align: center;
+    border-right: 1px solid lightgray;
+    box-sizing: border-box;
+}
+
+input{
+    font-family: 'Pretendard-Regular';
+    color: #333;
+    border: 0;
+}
+input:focus {outline:none;}
+
+input[name="title"]{
+    margin-left: 20px;
+}
+
+textarea{
+    width: 1000px;
+    height: 500px;
+    border: none;
+    position: relative;
+    top: 20px; left: 20px;
+}
+textarea:focus {outline:none;}
+
+#frm_title{
+    width: 100%;
+    line-height: 40px;
+    border-bottom: 1px solid lightgray;
+}
+#frm_content{
+    width: 100%; height: 560px;
+}
+#frm_content>p{
+    line-height: 560px;
+}
+
+#noticeBtn_a{
+    width: 100px;
+}
+.noticeBtn{
+    border: 1px solid gainsboro;
+    width: 100px; height: 40px;
+    background-color: #fff;
+    color: #666;
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+input[type="submit"]{
+    border: 0;
+    background-color: #42d056;
+    color: #fff;
+    position: absolute;
+    left: 1407px;
+}
+
+input[type="submit"]:hover{
+    transition-duration: 0.5s;
+    background-color: #26af3a;
+}

@@ -7,6 +7,7 @@
 <title>1PICK!</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="css/style.css" rel="stylesheet">
+<link href="css/noticeDetail.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.js"
 	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
 	crossorigin="anonymous"></script>
@@ -14,8 +15,7 @@
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="layout/header.jsp"></jsp:include>
 <div class="container">
-  <h1>공지사항</h1>
- 
+  <div id="page_title">공지사항</div>
   <div id="detail_wrap">
     <ul id="detail_head">
         <li id="notice">공지</li>
@@ -26,8 +26,8 @@
         <div id="content"></div>
     </ul>
   </div>
-  <a href="/noticeList">
-    <button>목록</button>
+  <a href="/noticeList" id="listBtn_wrap">
+    <button id="list">목록</button>
   </a>
 </div>
 <jsp:include page="layout/footer.jsp"></jsp:include>

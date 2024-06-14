@@ -7,6 +7,7 @@
 <title>1PICK!</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="css/style.css" rel="stylesheet">
+<link href="css/noticeList.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.js"
 	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
 	crossorigin="anonymous"></script>
@@ -14,13 +15,13 @@
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="layout/header.jsp"></jsp:include>
 <div class="container">
-  <h1>공지사항</h1>
-    <table class="table">
+  <div id="page_title">공지사항</div>
+    <table class="table noti">
         <thead>
-            <tr>
-                <th>번호</th>
-                <th>제목</th>
-                <th>작성일자</th>
+            <tr id="tbl_header">
+                <th id="notice">분류</th>
+                <th id="title">제목</th>
+                <th id="date">작성일자</th>
             </tr>
         </thead>
         <tbody id="noticeTableBody">
@@ -41,7 +42,7 @@ $(document).ready(function(){
             $.each(data, function(index, notice){ // 서버로부터 받은 G&A리스트를
                 // index: 현재 반복의 인덱스 , qna: 현재 요소
                 var row = $("<tr>").attr("data-nno", notice.nno); // 각 행에 data-bno 속성을 추가
-                row.append($("<td>").text(notice.nno));
+                row.append($("<td class='category'>").text("공지"));
                 row.append($("<td>").text(notice.title));
 
                 // 작성일 처리
@@ -77,5 +78,5 @@ $(document).ready(function(){
 
 });
 </script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>
