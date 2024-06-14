@@ -18,4 +18,15 @@ public class RegistLoginControllerJs {
 		return "loginForm";
 	}
 	
+	@RequestMapping("/custom403page")
+	public String custom403page() {
+		System.out.println("custom403page 가자..");
+		return "custom403page";
+	}
+	
+//	@RequestMapping("/test")
+//	public String test() {
+//		System.out.println("test 가자..");
+//		return "test";
+//	}
 }
