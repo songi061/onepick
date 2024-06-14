@@ -74,28 +74,26 @@
 	
 		const xhttp = new XMLHttpRequest();
 		xhttp.onload = function() {
-			var headers = xhttp.getAllResponseHeaders();
-			console.log("headers : " + headers);
-			var token = xhttp.getResponseHeader("Authorization");
-			console.log("JWT Token: " + token.split(" ")[1]);
-			
-			localStorage.setItem("jwtToken", token.split(" ")[1]);
-			// 헤더 값 읽기
-			let role = xhttp.getResponseHeader("Role");
-			let username = xhttp.getResponseHeader("username");
-			localStorage.setItem("role", role);
-			localStorage.setItem("username", username);
-			
-			console.log("role : " + role);
-			console.log("username : " + username);
-			
-			location.href="/"
-			
-			//if(role == 'ROLE_REPORTER'){
-			//	document.getElementById("demo3").innerHTML = "<button onclick='writeArticle()'>기사쓰기</button>";
-			//}else if(role == 'ROLE_MANAGER'){
-			//	document.getElementById("demo3").innerHTML = "<button onclick='requestManager()'>관리자페이지</button>";
-			//}
+			if (xhttp.status === 200) {
+				var headers = xhttp.getAllResponseHeaders();
+				console.log("headers : " + headers);
+				var token = xhttp.getResponseHeader("Authorization");
+				console.log("JWT Token: " + token.split(" ")[1]);
+				
+				localStorage.setItem("jwtToken", token.split(" ")[1]);
+				// 헤더 값 읽기
+				let role = xhttp.getResponseHeader("Role");
+				let username = xhttp.getResponseHeader("username");
+				localStorage.setItem("role", role);
+				localStorage.setItem("username", username);
+				
+				console.log("role : " + role);
+				console.log("username : " + username);
+				
+				location.href="/";
+			}else{
+				 alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
+			}
 		}
 		xhttp.open("POST", "http://localhost:9001/login");
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -117,28 +115,28 @@
 	
 		const xhttp = new XMLHttpRequest();
 		xhttp.onload = function() {
-			var headers = xhttp.getAllResponseHeaders();
-			console.log("headers : " + headers);
-			var token = xhttp.getResponseHeader("Authorization");
-			console.log("JWT Token: " + token.split(" ")[1]);
+			if (xhttp.status === 200) {
+				var headers = xhttp.getAllResponseHeaders();
+				console.log("headers : " + headers);
+				var token = xhttp.getResponseHeader("Authorization");
+				console.log("JWT Token: " + token.split(" ")[1]);
+				
+				localStorage.setItem("jwtToken", token.split(" ")[1]);
+				// 헤더 값 읽기
+				let role = xhttp.getResponseHeader("Role");
+				let username = xhttp.getResponseHeader("username");
+				localStorage.setItem("role", role);
+				localStorage.setItem("username", username);
+				
+				console.log("role : " + role);
+				console.log("username : " + username);
+				
+				location.href="/";
+				
+			}else{
+				alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
+			}
 			
-			localStorage.setItem("jwtToken", token.split(" ")[1]);
-			// 헤더 값 읽기
-			let role = xhttp.getResponseHeader("Role");
-			let username = xhttp.getResponseHeader("username");
-			localStorage.setItem("role", role);
-			localStorage.setItem("username", username);
-			
-			console.log("role : " + role);
-			console.log("username : " + username);
-			
-			location.href="/"
-			
-			//if(role == 'ROLE_REPORTER'){
-			//	document.getElementById("demo3").innerHTML = "<button onclick='writeArticle()'>기사쓰기</button>";
-			//}else if(role == 'ROLE_MANAGER'){
-			//	document.getElementById("demo3").innerHTML = "<button onclick='requestManager()'>관리자페이지</button>";
-			//}
 		}
 		xhttp.open("POST", "http://localhost:9001/login");
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

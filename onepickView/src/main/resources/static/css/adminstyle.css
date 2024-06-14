@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+/*공용 css*/
+.min-h-100{
+	min-height : 100vh
+}
+
+/*header css*/
+.header_logo_size{
+	display:inline-block;
+	width: 150px;
+}
