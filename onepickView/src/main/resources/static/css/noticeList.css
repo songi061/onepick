@@ -1,0 +1,86 @@
+@charset "UTF-8";
+
+#page_title{
+    font: 900 30px/60px 'Pretendard-Regular';
+    margin: 20px;
+}
+
+.noti>thead{
+    background-color: lightgray !important;
+}
+.category{
+    color: #42d056 !important;
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Table header styling */
+.table thead tr {
+    color: #333;
+}
+
+#tbl_header{
+	width: 100%;
+	background-color: lightgray;
+}
+
+.table thead th {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Table body styling */
+.table tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.table tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.table tbody td {
+    padding: 12px 15px;
+}
+
+#notice{
+    width: 10%;
+}
+#title{
+    width: 80%;
+    font-weight: 900;
+}
+#date{
+    width: 10%;
+}
+
+#writeBtn_a{
+	width: 70px;
+	float: right;
+}
+
+.btn-onepick {
+    --bs-btn-color: #fff !important;
+    --bs-btn-bg: #42d056 !important;
+    --bs-btn-border-color: #42d056 !important;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #26af3a;
+    --bs-btn-hover-border-color: #26af3a !important;
+    --bs-btn-focus-shadow-rgb: 66, 208, 86;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #26af3a;
+    --bs-btn-active-border-color: #26af3a;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #42d056;
+    --bs-btn-disabled-border-color: #42d056;
+}

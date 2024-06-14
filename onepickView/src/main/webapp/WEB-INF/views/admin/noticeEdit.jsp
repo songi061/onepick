@@ -6,26 +6,29 @@
 <meta charset="UTF-8">
 <title>1PICK!</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<link href="css/style.css" rel="stylesheet">
+<link href="/css/adminstyle.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/noticeForm.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"
 	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
 	crossorigin="anonymous"></script>
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
-<jsp:include page="../layout/header.jsp"></jsp:include>
+<jsp:include page="../layout/adminHeader.jsp"></jsp:include>
 <div class="container">
+<div id="page_title">공지사항</div>
     <form name="frm">
-        <div>
-            <p>제목</p><input type="text" name="title" id="title">
-        </div>
-            <p>내용</p><input type="text" name="content" id="content">
-        </div>
-        <input type="submit" onclick="submitForm(event)" value="수정">
+        <div id="frm_title">
+                    <p>제목</p><input type="text" name="title" id="title">
+                </div>
+                <div id="frm_content">
+                    <p>내용</p><textarea type="text" name="content" id="content"></textarea>
+                </div>
+                <input type="submit" onclick="submitForm(event)" value="수정" class="noticeBtn">
         <input type="hidden" name="nno" id="nno" value="${nno}">
     </form>
-  <a href="/admin/noticeList">
-    <button>목록으로</button>
-  </a>
+    <a href="/admin/noticeList" id="noticeBtn_a">
+        <button class="noticeBtn">목록</button>
+    </a>
 </div>
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
@@ -77,5 +80,5 @@
         })
     }
 </script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>
