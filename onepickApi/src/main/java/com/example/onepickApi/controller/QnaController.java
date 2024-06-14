@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -43,14 +47,28 @@ public class QnaController {
 	// memberRepo
 	
 	@PostMapping("/qna")
-	public ResponseEntity<Qna> qnaRegist(@RequestBody QnaDto qnaDto) {
+	public ResponseEntity<Qna> qnaRegist(@RequestBody QnaDto qnaDto, @RequestParam("username") String username) {
+		System.out.println(username);
 		Qna qna = new Qna();
 		qna.setTitle(qnaDto.getTitle());
 		qna.setContent(qnaDto.getContent());
 		qna.setCategory(qnaDto.getCategory());
 		
 		
-		// memberRepo로 username일치하면 그거 넣는걸로 코드 바꾸기
+		Optional<User> result1 = userRepository.findById(username);
+		Optional<Company> result2 = companyRepository.findById(username);
+		
+		if(result1.isPresent()) {
+			System.out.println(result1);
+			User user = new User();
+			user.setUsername(qnaDto.getUser().getUsername());
+			qna.setUser(user);
+		}else if(result2.isPresent()) {
+			System.out.println(result2);
+			Company company = new Company();
+			company.setUsername(qnaDto.getCompany().getUsername());
+			qna.setCompany(company);
+		}
 		
 //		User user = new User();
 //		user.setUsername("test_user");
@@ -58,15 +76,6 @@ public class QnaController {
 		
 //		Company company = new Company();
 //		company.setUsername("test_company");
-//		qna.setCompany(company);
-		
-		
-//		User user = new User();
-//		user.setUsername(qnaDto.getUser().getUsername());
-//		qna.setUser(user);
-//		
-//		Company company = new Company();
-//		company.setUsername(qnaDto.getCompany().getUsername());
 //		qna.setCompany(company);
 		
 		Qna result = qnaRepository.save(qna);
@@ -126,4 +135,5 @@ public class QnaController {
 		}
 	}
 	
+
 }

@@ -28,11 +28,11 @@ public class QnaController {
 		model.addAttribute("bno", bno);
 	}
 	
-	@RequestMapping("user/myQnaList")
+	@RequestMapping("/user/myQnaList")
 	public void userMyQnaList() {
 	}
 	
-	@RequestMapping("company/myQnaList")
+	@RequestMapping("/company/myQnaList")
 	public void companyMyQnaList() {
 	}
 }
