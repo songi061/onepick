@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -123,11 +122,6 @@ public class UserCommunityController {
 		return ur2;
 	}
 	
-	// 구직자 마이페이지 내가 쓴 게시물 리스트
-	@GetMapping("/community-myboard")
-	public String communityMyBoardList(){
-		return "";
-	}
 	
 //	@PutMapping("/community-board")
 //	public String community(){
@@ -138,5 +132,26 @@ public class UserCommunityController {
 	public String communityDeletion(){
 		return "";
 	}
+	
+	
+	// 구직자 마이페이지 - 내가 쓴 게시글 목록 조회
+	@GetMapping("/community-myboard")
+	public List<UserBoard> communityMyBoardList(@RequestBody UserBoardDto boardDto){
+		User user = new User();
+		user.setUsername(boardDto.getUsername());
+		
+		List<UserBoard> ubList = ubRepo.findByUser(user);
+		
+		return ubList;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
