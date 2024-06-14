@@ -52,39 +52,43 @@ $(document).ready(function(){
 			}
 			// 초기 댓글 로드
 			loadComments();
-			
 		},
 		error:function(error){
 			alert(error);
 		}
 	});
-	
-	
+
+
 	// 해당게시글에서 댓글작성 매서드
 	$('#btn_postComment').click(function(event){
 		event.preventDefault();
 		
-		let content =$('#input_reply_content').val();
-		console.log("content :" +content);
-		console.log("username :" +username);
-			
+		var content = $('#input_reply_content').val();
+		console.log("content :" +content)
+		console.log("username :" +username)
+		
+		
 		$.ajax({
 			type: 'post',
 			url: 'http://localhost:9001/api/v1/user/community-comment',
-			headers:{
-				'Authorization' : 'Bearer ' + 'token',
-				'writer': 'token_writer'
-			},
+			//headers:{
+			//	'Authorization' : 'Bearer ' + 'token',
+			//	'writer': 'token_writer'
+			//},
 			data: JSON.stringify({
-				content: content,
-				username: username
+				"content": content,
+				"username": username,
+				"ubno": ubno
 			}),
 			contentType: 'application/json; charset=utf-8',
 			dataType:'json',
 			success: function(data){
-				alert("댓글이 등록되었습니다.");
-				console.log(data);
-				loadComments();	// 댓글 등록 후 댓글 목록을 새로 불러옴
+				if(data !== null){
+					alert("댓글이 등록되었습니다.");
+					console.log(data);
+					loadComments();	// 댓글 등록 후 댓글 목록을 새로 불러옴
+					
+				}
 			},
 			error: function(xhr, status, error) {
 				// 요청이 실패한 경우 처리할 코드
@@ -98,10 +102,11 @@ $(document).ready(function(){
 	// $(document).ready(function(){
 		function loadComments(){
 			const ubno = ${ubno};
+			console.log(ubno)
 			$.ajax({
 				type: 'GET',
 				url: 'http://localhost:9001/api/v1/user/community-comment?ubno='+ubno,
-				//data: { ubno: ubno},
+				//data: {ubno: ubno},
 				dataType: 'json',
 				success: function(da){
 					if(da !== null){
@@ -122,6 +127,8 @@ $(document).ready(function(){
 				}
 			});
 		}
+		
+		
 });
 </script>
 </div>
