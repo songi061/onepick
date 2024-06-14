@@ -9,7 +9,8 @@ import lombok.Data;
 public class UserBoardDto {
 	
 	// 하드코딩 했으니 고쳐야 함.
-	private String username="aaa";
+	private Long ubno = 0L;
+	private String username;
 	private String title;
 	private String content;
 	private String category;

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,6 +48,7 @@ public class RecruitController_jia {
 	private SkillRepository skillRepo;
 	private final Path rootLocation = Paths.get("/upload");
 	
+	
 	@GetMapping("/{jno}")
 	public ResponseEntity<Map<String,Object>> getComList(@PathVariable("jno") Long jno) {
 		
@@ -56,6 +58,7 @@ public class RecruitController_jia {
 		
 			return new ResponseEntity<>(map, HttpStatus.OK);
 	}
+	
 	@GetMapping("/myrecruit")
 	public ResponseEntity<List<JobAd>> myrecruit(HttpServletRequest request) {
 		
@@ -68,11 +71,13 @@ public class RecruitController_jia {
 		List<JobAd> myJobAdList = jobAdRepo.findByUsername(request.getHeader("username"));
 			return new ResponseEntity<>(myJobAdList, HttpStatus.OK);
 	}
+	
 	@DeleteMapping("/{jno}")
 	public ResponseEntity<String> deleteJobad(@PathVariable("jno") Long jno) {
 			jobAdRepo.deleteById(jno);
 			return new ResponseEntity<>("done", HttpStatus.OK);
 	}
+	
 	@PutMapping("/{jno}")
 	public ResponseEntity<String> editJobad(@PathVariable("jno") Long jno) {
 //			jobAdRepo.save();
@@ -80,9 +85,8 @@ public class RecruitController_jia {
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<String> regJobad(HttpServletRequest request, @ModelAttribute JobAd jobAd , @ModelAttribute Skill skill, @RequestParam("attachFileUrl") MultipartFile file) {
-
-		 
+	public ResponseEntity<String> regJobad( HttpServletRequest request, @ModelAttribute JobAd jobAd, @RequestParam("attachFileUrl") MultipartFile file) {
+		String jno = null;
 		Enumeration<String> headers = request.getHeaderNames();
 		while(headers.hasMoreElements()) {
 			if(headers.nextElement().equals("username")) {
@@ -116,34 +120,37 @@ public class RecruitController_jia {
 			            System.out.println(jobAd);
 			              
 		                // jobad 엔티티 저장
-		    			jobAdRepo.save(jobAd);
-		    			
-		    			 //skill 엔티티에 정보 저장
-		                skill.setJobAd(jobAd);
-		                skill.setCompany(companyRepo.findById(request.getHeader("username")).get());
-		                
-		                System.out.println(skill);
-		    			//skill 엔티티에 정보 저장
-		    			skillRepo.save(skill);
+		    			JobAd jobad = jobAdRepo.save(jobAd);
+		    			jno = Long.toString(jobad.getJno());
+
 			        } catch (IOException e) {
 			            throw new RuntimeException("Could not create upload directory or save file!", e);
 			        }
-				
-				
-				
-				
-				
+			}
+		}
+			return new ResponseEntity<>(jno, HttpStatus.OK);
+	}
+	
+	@PostMapping("/skill")
+	public ResponseEntity<String> regSkill(@RequestParam("jno") Long jno, HttpServletRequest request, @RequestBody List<String> list) {
+		Enumeration<String> headers = request.getHeaderNames();
+		while(headers.hasMoreElements()) {
+			if(headers.nextElement().equals("username")) {
+				System.out.println(request.getHeader("username"));
 			}
 		}
 		
-		
-	
-		
-		
-		
-		
-		
-		
+		for(int i = 0; i<list.size(); i++) {
+			Skill skill = new Skill();
+			
+		//skill 엔티티에 정보 저장
+	       skill.setJobAd(jobAdRepo.findById(jno).get());
+	       skill.setCompany(companyRepo.findById(request.getHeader("username")).get());
+	       skill.setSkillName(list.get(i));
+	       
+	     //skill 엔티티에 정보 저장
+			skillRepo.save(skill);
+		}
 			return new ResponseEntity<>("done", HttpStatus.OK);
 	}
 }

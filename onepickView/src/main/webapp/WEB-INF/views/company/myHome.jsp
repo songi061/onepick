@@ -14,7 +14,7 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 	<div class="container">
 	<div class='title'>My Home</div>
-	<button class="btn btn-onepick" onclick="location.href=''">내정보수정</button>
+	<button class="btn btn-onepick" onclick="location.href='/company/companyEdit'">내정보수정</button>
 		<div class="company_myInfo">
 		</div>
 		<div class='title'>내 공고 리스트</div>
@@ -36,14 +36,16 @@
 
     const xhttp = new XMLHttpRequest();
 	xhttp.onload = function() {
-	
 		let data = JSON.parse(this.responseText);
-		console.log(data);
 		document.querySelector(".company_myInfo").innerHTML = 
 			"<img src='' alt='로고'><div>" + data.name +"</div><div> ⭐"+ "평점" +"</div><div>"+ data.sector +"</div><div>" 
 			+ data.ceo + "</div><div>"  + data.employeesNum + "</div><div>"  + data.size + "</div><div>" + data.yrSales + "</div><div>"  + data.url + "</div>";
 	  }
-	xhttp.open("GET", "http://localhost:9001/api/v1/company/mydetail?username=aaa", true);
+	xhttp.open("GET", "http://localhost:9001/api/v1/company/mydetail", true);
+	xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
+	xhttp.setRequestHeader("username", localStorage.getItem("username"));
+	xhttp.setRequestHeader("role", localStorage.getItem("role"));
+	xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role");
 	xhttp.send();
 </script>
 </body>

@@ -25,8 +25,32 @@
 				<div class="section_title">상세 직무내용</div>
 				<textarea name="jobCont"></textarea>
 				<div class="section_title">필요스킬</div>
-				<input type="text" name="skillName">
+				<select name="skillName">
+					 <option value="">스킬 선택</option>
+			         <option value="java">java</option>
+			         <option value="python">python</option>
+			         <option value="javascript">javascript</option>
+			         <option value="c++">c++</option>
+			         <option value="Ruby">Ruby</option>
+			         <option value="SQL">SQL</option>
+			         <option value="R">R</option>
+			         <option value="C">C</option>
+			         <option value="ERP">ERP</option>
+			         <option value="HTML/CSS">HTML/CSS</option>
+			         <option value="React">React</option>
+			         <option value="Angular">Angular</option>
+			         <option value="Vue.js">Vue.js</option>
+			         <option value="Django">Django</option>
+			         <option value="네트워크 보안">네트워크 보안</option>
+			         <option value="Swift(IOS)">Swift(IOS)</option>
+			         <option value="Kotlin">Kotlin</option>
+			         <option value="Flutter">Flutter</option>
+			         <option value="Excel">Excel</option>
+			         <option value="외국어능통">외국어능통</option>
+				</select>
 				<div onclick="addSkill()" class="add-skill-btn"> ➕ 필요스킬추가하기 </div>
+				<div class='skillContainer'></div>
+				<div class="btn btn-onepick" style="display:none;" id="saveBtn" onclick="saveSkills(event)">저장</div>
 				<div class="section_title">접수마감일</div>
 				<input type="date" name="receiptCloseDt">
 				<div class="section_title">경험</div>
@@ -80,6 +104,7 @@ const region1El = document.querySelector("select[name=region1]");
 const region2El = document.querySelector("select[name=region2]");
 const salaryEl = document.querySelector("select[name=salTpNm]");
 const workTypeEl = document.querySelector("select[name=empTpNm]");
+const skillContainer = document.querySelector(".skillContainer")
 
 let selectedSector1 = null;
 let selectedSector1El = null;
@@ -89,8 +114,52 @@ let selectedRegion1 = null;
 let selectedRegion1El = null;
 let selectedSalary = null;
 let selectedWorkType = null;
+let skillExisted = false;
+let arrItems = [];
 
-//필요스킬 추가버튼 누를때마다 더해주기??????????
+
+//필요스킬 추가버튼 누를때마다 밑에 더해주기
+function addSkill(){
+	//클릭시에 선택된 option의 text값을 빼서 밑에 넣어줌
+	const skillNameEl = document.querySelector("select[name=skillName]");
+			
+	//만약 스킬이 선택이 안되었거나, 되었더라도 이미 추가되어있는 스킬이라면 추가 안되도록 처리
+	if(skillNameEl.value !=""){
+		if(!skillContainer.querySelector("#"+ skillNameEl.value)){
+			let skillItems = document.createElement("span");
+			skillItems.classList = "skill_items"
+			skillItems.setAttribute("id", skillNameEl.value);
+			skillItems.style.margin="5px";
+			skillItems.innerHTML=skillNameEl.value + "<span onclick='deleteSkill(event)'>❌</span>";
+			skillContainer.appendChild(skillItems);
+			document.querySelector("#saveBtn").style.display="block";
+		}
+		
+	}
+	
+}
+
+function deleteSkill(e){
+	e.target.parentElement.remove()
+}
+
+//스킬 저장 버튼 
+function saveSkills(e){
+	//다시 클릭했을 경우를 위해서 초기화 시켜주기
+	arrItems=[];
+	//버튼 클릭하자마자 버튼 안보이게 하기
+	e.target.style.display="none";
+	const childNodes = document.querySelectorAll(".skill_items");
+	
+	childNodes.forEach(skill=>{
+		//여기서 skill List만들어준 후 저장하기
+         arrItems.push(skill.getAttribute("id"));
+    });
+    console.log(arrItems); // 생성된 배열 출력
+   	
+}
+
+
 
 //제출버튼 클릭시 서버로 데이터 보내주기
 
@@ -99,8 +168,9 @@ function regJobAd(event){
 
 	let form = document.querySelector("form");
 	let formData = new FormData(form);
-
-	 fetch("http://localhost:9001/api/v1/recruit/", {
+	
+  
+  	 fetch("http://localhost:9001/api/v1/recruit/", {
 		    method: "POST",
 		    headers: {
 		        "username": "aaa",
@@ -115,15 +185,39 @@ function regJobAd(event){
 		            return response.text();
 		        }})
 			.then(result => {
-			    console.log(result);
+				//공고등록 성공시 skill등록해주기><
+			   addSkills(result);
 			})
 			.catch(error => {
 			    console.log('Error:', error);
 			});
 	
 }
-
-
+//스킬들 스킬테이블에 넣어주기
+function addSkills(jno){
+	 fetch("http://localhost:9001/api/v1/recruit/skill?jno="+jno, {
+				    method: "POST",
+				    headers: {
+				    	"Content-Type": "application/json",
+				        "username": "aaa",
+				      },
+				    body: JSON.stringify(arrItems), 
+				  }).then(response => {
+				        // 응답이 JSON인지 텍스트인지에 따라 처리
+				        const contentType = response.headers.get("content-type");
+				        if (contentType && contentType.indexOf("application/json") !== -1) {
+				            return response.json();
+				        } else {
+				            return response.text();
+				        }})
+					.then(result => {
+					    //공고와 skill모두 등록 성공시 공고리스트로이동
+					    location.href="/company/recruitList"
+					})
+					.catch(error => {
+					    console.log('Error:', error);
+					});
+}
 
 //업종
     fetch('/json/sector_category.json')
