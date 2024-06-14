@@ -12,33 +12,21 @@
 	crossorigin="anonymous"></script>
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
-<jsp:include page="layout/header.jsp"></jsp:include>
+<jsp:include page="../layout/header.jsp"></jsp:include>
 <div class="container">
     <form name="frm">
-        <div>카테고리</div>
-        <select name="category">
-            <option>서비스 이용 문의</option>
-            <option>불량정보·오류 신고</option>
-            <option>서비스 제안·칭찬</option>
-        </select>
         <div>
             <p>제목</p><input type="text" name="title">
         </div>
-        <div>
-            <p>작성자</p>
-            ${username}
-        </div>
-        <div>
             <p>내용</p><input type="text" name="content">
         </div>
         <input type="submit" onclick="submitForm(event)" value="등록">
-        <input type="hidden" name="username" value="${username}">
     </form>
-  <a href="/qnaList">
+  <a href="/admin/noticeList">
     <button>목록으로</button>
   </a>
 </div>
-<jsp:include page="layout/footer.jsp"></jsp:include>
+<jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
 <script>
     function submitForm(event){
@@ -51,14 +39,15 @@
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:9001/api/v1/qna',
+            url: 'http://localhost:9001/api/v1/notice',
             data: formData,
             success: function(response){
                 console.log(response);
-                window.location.href = "/qnaList";
+                window.location.href = "/admin/noticeList";
             },
-            error: function(){
-                console.log("에러 발생");
+            error: function(error){
+            	 console.log("에러 :", error);
+                 console.log("에러 상세 정보: ", error.responseText);
             }
         })
     }
