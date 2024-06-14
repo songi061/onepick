@@ -150,6 +150,7 @@ xhttp.onload = function() {
 	            }
 	        }, 100); 
 	}
+	
 	// 가져온 데이터에 맞는 옵션 미리 선택해주기
 	selectOption(sector1, jobad.sector1);
 	selectOption(sector2, jobad.sector2);
