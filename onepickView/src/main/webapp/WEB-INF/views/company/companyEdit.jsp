@@ -136,10 +136,11 @@ xhttp2.onload = function() {
 	  size_.value = company.size;
 	  yrSales_.value = company.yrSales;
   }
-xhttp2.open("GET", "http://localhost:9001/api/v1/company/mydetail?username=" + token_username, true);
+xhttp2.open("GET", "http://localhost:9001/api/v1/company/mydetail");
 xhttp2.setRequestHeader("Authorization", "Bearer " + token);
 xhttp2.setRequestHeader("username", token_username);
 xhttp2.setRequestHeader("role", token_role);
+xhttp2.setRequestHeader("Access-Control-Expose-Headers", "Authorization, username, role");
 xhttp2.send();
 
 function editCompany(event){
