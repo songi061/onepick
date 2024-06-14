@@ -190,7 +190,6 @@ xhttp5.send();
 
 function postData(e){
 	e.preventDefault();
-	console.log("aaaaaa");
 	var form = document.forms['frm'];
 	var formData = new FormData(form);
 	console.log(formData);
@@ -202,7 +201,6 @@ function postData(e){
 		contentType: false,  // 반드시 false로 설정
 	    processData: false,  // 반드시 false로 설정
 		success : function(data){
-			/* $("#demo").html(data); */
 			alert(data);
 		},
 		error : function(){

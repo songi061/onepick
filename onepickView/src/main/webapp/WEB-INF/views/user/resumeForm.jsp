@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>1PICK!</title>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="/css/style.css" rel="stylesheet">
-
 <style>
 .textbox{
 	width: 30%;
@@ -169,7 +168,6 @@ fieldset {
 	</div>
 	
 	<div>
-	
 		<span>보유능력</span><br>
 		<label for="select_skill">타입</label>
 		<select name="skillName" id="select_skill" class="selectbox">
@@ -202,33 +200,6 @@ fieldset {
 	<input type="button" value="등록하기" onclick="postData(event)" class="btn btn-onepick">
 </form>
 </div>
-
-<script>
-function postData(e){
-	e.preventDefault();
-	console.log("aaaaaa");
-	var form = document.forms['frm'];
-	var formData = new FormData(form);
-	console.log(formData);
-	$.ajax({
-		type: "POST",
-		url : "http://localhost:9001/api/v1/resume",
-		data : formData,
-		dataType : "text",
-		contentType: false,  // 반드시 false로 설정
-	    processData: false,  // 반드시 false로 설정
-		success : function(data){
-			/* $("#demo").html(data); */
-			alert(data);
-		},
-		error : function(){
-			console.log("에러 발생");
-		}
-	
-	});
-}
-
-</script>
 
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>

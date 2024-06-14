@@ -21,6 +21,7 @@
 	box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
 	border-radius: 15px;
 	width : 500px;
+	padding : 20px;
 }
 
 .res li{
@@ -66,12 +67,11 @@
 <h1>이력서 리스트</h1>
 <hr>
 
-</div>
 
-<div id="resumeList">
-	
-</div>
 
+<div id="resumeList"></div>
+
+</div>
 
 <script>
      $(document).ready(function() {
@@ -103,8 +103,8 @@
                      
                      ul.append(div);
                      // li 태그 추가
-  
-                     ul.append('<li><a href="user/resumeDetail/' + resume.rno + '">' + resume.title + '</a></li>');
+  					 ul.append('<li><a href="/user/resumeDetail?rno=' + resume.rno + '">' + resume.title + '</a></li>');
+         
                      if(resume.moddate == null){
                          var regdate = new Date(resume.regdate).toISOString().split('T')[0];
                          ul.append('<li>최종수정날짜 : ' + regdate + '</li>');
@@ -124,11 +124,7 @@
                          var rno = $(this).data('rno'); // 삭제할 이력서 번호 가져오기
                          deleteResume(rno); // 삭제 함수 호출
                      });
-                     
-                     
-                     
-                     
-                     
+
                      
                  });
              },

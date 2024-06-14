@@ -119,15 +119,30 @@ public class UserResumeController_msi {
 		return resumeList;
 	}
 
+	
+	
 	// 개별이력서 가져오기
-	@GetMapping("/{rno}")
-	public String getResume(@PathVariable("rno") Long rno) {
-		Optional<Resume> result = repo.findById(rno);
-		Resume resume = result.get();
-		System.out.println("이력서 개별 출력 : " + resume);
-		return "";
-	}
+	/*
+	 * @GetMapping("/{rno}") public Resume getResume(@PathVariable("rno") Long rno)
+	 * { Optional<Resume> result = repo.findById(rno); Resume resume = result.get();
+	 * System.out.println("이력서 개별 출력 : " + resume); return resume; }
+	 */
+	
+	 @GetMapping("/resume/{rno}")
+    public ResponseEntity<?> getResume(@PathVariable("rno") Long rno) {
+        Optional<Resume> result = repo.findById(rno);
+        
+        if (result.isPresent()) {
+            Resume resume = result.get();
+            System.out.println("이력서 개별 출력 : " + resume);
+            return ResponseEntity.ok(resume);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
+	
+	
 	// 이력서 수정하기
 	@PutMapping("/resume")
 	public String updateResume() {
