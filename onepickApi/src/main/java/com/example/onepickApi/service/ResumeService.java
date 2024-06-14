@@ -1,5 +1,8 @@
 package com.example.onepickApi.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,6 +83,37 @@ public class ResumeService {
 		return "등록완료";
 		
 	}
+	
+	
+	@Transactional
+    public void deleteResumeById(Long rno) {
+		Optional<Resume> result = resumeRepo.findById(rno);
+		Resume resume = result.get();
+	
+		
+        // 자식 엔티티 삭제
+        List<Experience> experiences = experienceRepo.findByResume_Rno(resume.getRno());
+        experienceRepo.deleteAll(experiences);
+        
+        
+        List<Career> careers = careerRepo.findByResume_Rno(resume.getRno());
+        careerRepo.deleteAll(careers);
+        
+        
+        List<Oa> oa = oaRepo.findByResume_Rno(resume.getRno());
+        oaRepo.deleteAll(oa);
+        
+        
+        List<School> sc = schoolRepo.findByResume_Rno(resume.getRno());
+        schoolRepo.deleteAll(sc);
+        
+        
+        List<License> li = licenseRepo.findByResume_Rno(resume.getRno());
+        licenseRepo.deleteAll(li);
+
+        // 부모 엔티티 삭제
+        resumeRepo.deleteById(rno);
+    }
 	
 	
 }
