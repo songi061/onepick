@@ -35,4 +35,20 @@ public class UserCommunityController {
 		
 		return "";
 	}
+	
+	// 구직자 마이페이지 - 내가 쓴 게시글 목록 조회
+	@RequestMapping("/myBoard")
+	public String myBoard() {
+		
+		return "user/myBoardList";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
