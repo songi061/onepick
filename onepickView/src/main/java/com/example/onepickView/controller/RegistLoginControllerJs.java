@@ -24,9 +24,9 @@ public class RegistLoginControllerJs {
 		return "custom403page";
 	}
 	
-//	@RequestMapping("/test")
-//	public String test() {
-//		System.out.println("test 가자..");
-//		return "test";
-//	}
+	@RequestMapping("/test")
+	public String test() {
+		System.out.println("test 가자..");
+		return "test";
+	}
 }
