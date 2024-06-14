@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.onepickApi.dto.UserBoardDto;
+import com.example.onepickApi.dto.UserReplyDto;
 import com.example.onepickApi.entity.User;
 import com.example.onepickApi.entity.UserBoard;
 import com.example.onepickApi.entity.UserReply;
@@ -98,7 +99,36 @@ public class UserCommunityController {
 		List<UserReply> ur = urRepo.findByUserBoard(ub);
 		return ur;
 	}
+	
+	// 댓글등록
+	@PostMapping("/community-comment")
+	public void registReply(@RequestBody UserReplyDto urDto) {
 		
+		String username_ = urDto.getUsername();
+		Long ubno_ = urDto.getUbno();
+		String content_ = urDto.getContent();
+		Integer report_=urDto.getReport();
+		
+		UserReply ur = new UserReply();
+		User user = uRepo.findById(username_).get();
+		UserBoard ub = ubRepo.findById(ubno_).get();
+		ur.setUser(user);
+		ur.setUserBoard(ub);
+		ur.setContent(content_);
+		ur.setRegdate(null);	// 이렇게 쓰는거 맞나?
+		ur.setReport(report_);
+		
+		urRepo.save(ur);
+	}
+	
+	// 댓글등록 후 바로 표시
+	
+	
+	
+	
+	
+	
+	
 	// 구직자 마이페이지 내가 쓴 게시물 리스트
 	@GetMapping("/community-myboard")
 	public String communityMyBoardList(){

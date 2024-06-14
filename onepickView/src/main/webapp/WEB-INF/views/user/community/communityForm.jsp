@@ -39,9 +39,9 @@
 				
 				event.preventDefault();
 				
-				var title = $('input[name=title]').val();
-				var content = $('textarea[name=content]').val();
-				var category = $('#Category').val();
+				let title = $('input[name=title]').val();
+				let content = $('textarea[name=content]').val();
+				let category = $('#Category').val();
 				//var username = $('input[name=username]').val();
 				console.log(content)
 				
