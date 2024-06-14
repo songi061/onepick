@@ -140,7 +140,8 @@ function addSkill(){
 }
 
 function deleteSkill(e){
-	e.target.parentElement.remove()
+	e.target.parentElement.remove();
+	document.querySelector("#saveBtn").style.display="block";
 }
 
 //스킬 저장 버튼 
@@ -173,7 +174,9 @@ function regJobAd(event){
   	 fetch("http://localhost:9001/api/v1/recruit/", {
 		    method: "POST",
 		    headers: {
-		        "username": "aaa",
+		    	'jwtToken': localStorage.getItem("jwtToken"),
+		    	'username': localStorage.getItem("username"),
+		    	'role':localStorage.getItem("role")
 		      },
 		    body: formData, 
 		  }).then(response => {
@@ -199,7 +202,9 @@ function addSkills(jno){
 				    method: "POST",
 				    headers: {
 				    	"Content-Type": "application/json",
-				        "username": "aaa",
+				    	'jwtToken': localStorage.getItem("jwtToken"),
+				    	'username': localStorage.getItem("username"),
+				    	'role':localStorage.getItem("role")
 				      },
 				    body: JSON.stringify(arrItems), 
 				  }).then(response => {
