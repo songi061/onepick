@@ -71,7 +71,9 @@
 					if (data !== null) {
 						let str = '<tr><th>'+'번호'+'<th>'+'제목'+'<th>'+'내용'+'<th>'+'글쓴이'+'</th></tr>';
 						for(var i=0; i<data.length; i++){
-							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +'</td> '+ '<td>'+data[i].title + '</td>'+'<td>'+data[i].content +'</td>'+'<td>'+data[i].user.username+'</td></tr>';
+							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +'</td> '+ 
+								'<td>'+data[i].title + '</td>'+'<td>'+data[i].content +'</td>'+
+								'<td>'+data[i].user.username+'</td></tr>';
 						}
 						$('#data_job_hunting').html(str);
 					}

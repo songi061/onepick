@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,25 +40,23 @@ public class UserCommunityController {
 	@PostMapping("/community-board")
 	public UserBoard communityForm(HttpServletRequest request, @RequestBody UserBoardDto boardDto){
 		
-		System.out.println("xxxxxxxxxxxxxxx");
-		System.out.println(boardDto);
-		//User user_ = uRepo.findByUsername(boardDto.getUser());
-		//User user = uRepo.save(user_);
-		// 토큰으로 user 구분
-		//System.out.println("user : " + user);
+		System.out.println("xxxxxxxxxxxxxxxxxxxxxx");
+		System.out.println("봐라 : " + boardDto);
 		
+		// 사용자 확인 코드
 		/*
 		Enumeration<String> headers = request.getHeaderNames();
 		while(headers.hasMoreElements()) {
 			System.out.println(headers.nextElement());
-			if(headers.nextElement().equals("writer")) {
-				System.out.println(request.getHeader("writer"));
+			if(headers.nextElement().equals("username")) {
+				System.out.println(request.getHeader("username"));
 			}
 		}
-		
-		String writer = request.getHeader("writer");
 		*/
-		User user = uRepo.findById(boardDto.getUsername()).get();
+		//String username = request.getHeader("username");
+		
+		User user = new User();
+		user.setUsername(boardDto.getUsername());
 		
 		UserBoard ub_ = new UserBoard();
 		ub_.setTitle(boardDto.getTitle());
@@ -102,32 +101,27 @@ public class UserCommunityController {
 	
 	// 댓글등록
 	@PostMapping("/community-comment")
-	public void registReply(@RequestBody UserReplyDto urDto) {
+	public UserReply registReply(@RequestBody UserReplyDto urDto) {
 		
-		String username_ = urDto.getUsername();
 		Long ubno_ = urDto.getUbno();
+		System.out.println("************ubno************"+ubno_);
 		String content_ = urDto.getContent();
 		Integer report_=urDto.getReport();
+		User user = new User();
+		user.setUsername(urDto.getUsername());
 		
 		UserReply ur = new UserReply();
-		User user = uRepo.findById(username_).get();
-		UserBoard ub = ubRepo.findById(ubno_).get();
 		ur.setUser(user);
+		UserBoard ub = ubRepo.findById(ubno_).get();
 		ur.setUserBoard(ub);
 		ur.setContent(content_);
 		ur.setRegdate(null);	// 이렇게 쓰는거 맞나?
 		ur.setReport(report_);
+		System.out.println(ur);
+		UserReply ur2 = urRepo.save(ur);
 		
-		urRepo.save(ur);
+		return ur2;
 	}
-	
-	// 댓글등록 후 바로 표시
-	
-	
-	
-	
-	
-	
 	
 	// 구직자 마이페이지 내가 쓴 게시물 리스트
 	@GetMapping("/community-myboard")

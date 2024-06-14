@@ -36,26 +36,30 @@
 		// 게시글 등록
 		$(document).ready(function(){
 			$('#communityForm').submit(function(event){
-				
 				event.preventDefault();
 				
-				let title = $('input[name=title]').val();
-				let content = $('textarea[name=content]').val();
-				let category = $('#Category').val();
-				//var username = $('input[name=username]').val();
-				console.log(content)
+				var title = $('input[name=title]').val();
+				var content = $('textarea[name=content]').val();
+				var category = $('#Category').val();
+				console.log("title:"+title)
+				console.log("content:"+content)
+				console.log("category:"+category)
+				console.log("username:"+username)
 				
 				$.ajax({
 					type: 'post',
 					url: 'http://localhost:9001/api/v1/user/community-board',
-					headers: {
-						'Authorization' : 'Bearer ' + 'token',
-						'writer': 'token_writer'
-					},
+					//headers: {
+					//	"jwtToken" : localStorage.getItem("jwtToken"),
+			        //    "username" : localStorage.getItem("username"),
+			        //    "role" : localStorage.getItem("role")
+					//},
 					data: JSON.stringify({
 						title: title,
 						content: content,
-						category: category
+						category: category,
+						username: username
+						
 					}),
 					contentType: 'application/json; charset=utf-8',
 					dataType:'json',
