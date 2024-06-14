@@ -39,6 +39,7 @@ public class ApplyList extends BaseEntity {
 
 	@Column(nullable = false)
 	private String status;
+	private boolean ratingStatus;
 
 	@Column(nullable = false, columnDefinition="TEXT")
 	private String save;

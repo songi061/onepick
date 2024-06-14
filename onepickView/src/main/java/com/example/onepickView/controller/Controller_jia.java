@@ -41,4 +41,10 @@ public class Controller_jia {
 	@RequestMapping("/scrapList")
 	public void scrapList() {
 	}
+	@RequestMapping("/reviewForm")
+	public void reviewForm() {
+	}
+	@RequestMapping("/reviewList")
+	public void reviewList() {
+	}
 }

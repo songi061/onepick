@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.interviewees_list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.interviewees_list_item {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background-color: #f1f3f5;
+}
+
+.interviewees_list_item div {
+    margin-bottom: 8px;
+}
+
+.interviewees_list_item .btn {
+    align-self: flex-start;
+}
+
+
+
