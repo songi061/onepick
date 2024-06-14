@@ -48,7 +48,7 @@
 		   		<label class="form-label">비밀번호</label>
 	  			<input type="password" name="password" class="form-control" placeholder="비밀번호">
 		  	</div>
-		  	<button class="btn btn-onepick w-100" onclick="loginCompany()">로그인</button>
+		  	<button class="btn btn-onepick w-100" onclick="loginCompany(event)">로그인</button>
 		  </form>
 	  </div>
 	  
@@ -113,7 +113,8 @@
 	    var serializedData = params.toString();
 	    console.log(serializedData);
 	
-		const xhttp = new XMLHttpRequest();
+	   
+	    const xhttp = new XMLHttpRequest();
 		xhttp.onload = function() {
 			if (xhttp.status === 200) {
 				var headers = xhttp.getAllResponseHeaders();
@@ -132,15 +133,14 @@
 				console.log("username : " + username);
 				
 				location.href="/";
-				
 			}else{
-				alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
+				 alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
 			}
-			
 		}
 		xhttp.open("POST", "http://localhost:9001/login");
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhttp.send(serializedData);
+		
 	}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

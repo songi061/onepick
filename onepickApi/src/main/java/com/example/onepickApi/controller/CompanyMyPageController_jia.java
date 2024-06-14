@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +25,8 @@ public class CompanyMyPageController_jia {
 	@Autowired
 	private CompanyRepository companyRepo;
 	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@GetMapping("/detail")
 	public ResponseEntity<Company> getComDetail(@RequestParam("username") String username) {
@@ -45,7 +50,23 @@ public class CompanyMyPageController_jia {
 	}
 	
 	
-	
+	@PutMapping("/")
+	public ResponseEntity<String> postCompany(@RequestBody Company company){
+		System.out.println("company 회원가입 중.." + company);
+		String newPw = bCryptPasswordEncoder.encode(company.getPassword());
+		String role = "ROLE_COMPANY";
+		
+		company.setPassword(newPw);
+		company.setRole(role);
+		Company result = companyRepo.save(company);
+		
+		if(result != null) {
+			
+			return new ResponseEntity<>("수정 성공", HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>("수정 실패", HttpStatus.OK);
+		}
+	}
 	
 	
 	

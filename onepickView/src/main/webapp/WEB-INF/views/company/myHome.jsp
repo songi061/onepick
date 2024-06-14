@@ -14,7 +14,7 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 	<div class="container">
 	<div class='title'>My Home</div>
-	<button class="btn btn-onepick" onclick="location.href=''">내정보수정</button>
+	<button class="btn btn-onepick" onclick="location.href='/company/companyEdit'">내정보수정</button>
 		<div class="company_myInfo">
 		</div>
 		<div class='title'>내 공고 리스트</div>
