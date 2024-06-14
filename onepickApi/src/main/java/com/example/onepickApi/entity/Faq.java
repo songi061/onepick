@@ -25,7 +25,5 @@ public class Faq extends BaseEntity {
 	private String title;
 
 	@Column(columnDefinition = "TEXT", nullable = false)
-	private String content;
-	@Column(columnDefinition = "TEXT", nullable = false)
 	private String response;
 }
