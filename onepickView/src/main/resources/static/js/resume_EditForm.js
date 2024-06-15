@@ -46,7 +46,7 @@ xhttp1.onload = function() {
     // Function to update select2 based on select1's selected value
     function updateSelect1() {
         const selectedKey = select1.value;
-
+		
         // Clear previous options
         select2.innerHTML = '<option value="">구를 선택하세요!</option>';
 
@@ -87,8 +87,8 @@ xhttp1.onload = function() {
         }
     }
     
-    select1.addEventListener('change', updateSelect1);
-    select3.addEventListener('change', updateSelect2);
+    select1.addEventListener('DOMContentLoaded', updateSelect1);
+    select3.addEventListener('DOMContentLoaded', updateSelect2);
   }
 xhttp1.open("GET", "/json/korea-administrative-district.json", true);
 xhttp1.send();
@@ -124,7 +124,7 @@ xhttp3.onload = function() {
     const data = JSON.parse(this.responseText);
 
     // 관심업종 선택 변경 시 관심직무 업데이트
-    selectSector.addEventListener('change', function() {
+    selectSector.addEventListener('DOMContentLoaded', function() {
         const selectedSectorCode = selectSector.value;
 
         // 관심직무 옵션 초기화
@@ -175,7 +175,7 @@ xhttp5.onload = function() {
     const data = JSON.parse(this.responseText);
 
     // 관심업종 선택 변경 시 관심직무 업데이트
-    selectSector.addEventListener('change', function() {
+    selectSector.addEventListener('DOMContentLoaded', function() {
         const selectedSectorCode = selectSector.value;
 
         // 관심직무 옵션 초기화
@@ -199,33 +199,6 @@ xhttp5.send();
 
 
 
-
-
-
-
-
-function postData(e){
-	e.preventDefault();
-	var form = document.forms['frm'];
-	var formData = new FormData(form);
-	console.log(formData);
-	$.ajax({
-		type: "POST",
-		url : "http://localhost:9001/api/v1/resume",
-		data : formData,
-		dataType : "text",
-		contentType: false,  // 반드시 false로 설정
-	    processData: false,  // 반드시 false로 설정
-		success : function(data){
-			alert(data);
-			window.location.href = "/user/resumeList";
-		},
-		error : function(){
-			console.log("에러 발생");
-		}
-	
-	});
-}
 
 
 

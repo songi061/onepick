@@ -26,4 +26,12 @@ public class UserController_msi {
 		
 		return "user/resumeDetail";
 	}
+	
+	
+	@RequestMapping("/resumeEdit")
+	public String resumeEdit(@RequestParam("rno")Long rno, Model model) {
+		model.addAttribute("rno",rno);
+		
+		return "user/resumeEdit";
+	}
 }

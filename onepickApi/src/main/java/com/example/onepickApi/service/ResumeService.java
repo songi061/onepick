@@ -1,6 +1,8 @@
 package com.example.onepickApi.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,5 +117,34 @@ public class ResumeService {
         resumeRepo.deleteById(rno);
     }
 	
+	
+	@Transactional
+    public Map<String, Object> getResumeDetails(Long rno) {
+        Optional<Resume> resumeResult = resumeRepo.findById(rno);
+
+        if (!resumeResult.isPresent()) {
+            throw new IllegalArgumentException("Resume not found for rno: " + rno);
+        }
+
+        Resume resume = resumeResult.get();
+
+        // 자식 엔티티 조회
+        List<Experience> experiences = experienceRepo.findByResume_Rno(rno);
+        List<Career> careers = careerRepo.findByResume_Rno(rno);
+        List<Oa> oaList = oaRepo.findByResume_Rno(rno);
+        List<School> schools = schoolRepo.findByResume_Rno(rno);
+        List<License> licenses = licenseRepo.findByResume_Rno(rno);
+
+        // 결과를 맵에 담기
+        Map<String, Object> result = new HashMap<>();
+        result.put("resume", resume);
+        result.put("experiences", experiences);
+        result.put("careers", careers);
+        result.put("oaList", oaList);
+        result.put("schools", schools);
+        result.put("licenses", licenses);
+
+        return result;
+    }
 	
 }

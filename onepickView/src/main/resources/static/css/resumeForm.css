@@ -1,0 +1,155 @@
+@charset "UTF-8";
+
+
+#box {
+    margin: auto; /* centering the container */
+    padding: 40px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background-color: #FAFAFA;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin-top : 50px;
+    margin-bottom : 50px;
+    
+}
+
+.textbox {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.shorttextbox {
+    width: 50%;
+    height: 40px;
+    padding: 10px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.selectbox {
+    width: 30%;
+    height: 35px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    margin: 15px;
+}
+
+.datebox {
+    width: 30%;
+    height: 35px;
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+    font-size: 14px;
+    margin: 15px;
+    
+}
+
+.longtext {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    
+}
+
+.btn2 {
+    width: 100%;
+    height: 40px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 60px;
+    
+}
+
+.btn2:hover {
+    background-color: #0056b3;
+    color: white;
+} 
+
+.checkbox-container {
+    display: inline-block;
+    position: relative;
+    padding-left: 35px; 
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 18px; 
+    user-select: none; 
+}
+
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+}
+
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+
+.checkbox-container .checkmark:after {
+    left: 9px; /* 체크 아이콘의 위치 */
+    top: 5px; /* 체크 아이콘의 위치 */
+    width: 6px; /* 체크 아이콘의 너비 */
+    height: 12px; /* 체크 아이콘의 높이 */
+    border: solid green;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg); /* 체크 아이콘 회전 */
+}
+
+
+.checkbox-container .checkbox-label {
+    margin-left: 40px; /* 체크박스 레이블의 왼쪽 여백 */
+}
+
+.subtitle{
+	font-weight : bold;
+	font-size : 1.1em;
+	color : #045FB4;
+	margin-bottom : 15px;
+
+}
