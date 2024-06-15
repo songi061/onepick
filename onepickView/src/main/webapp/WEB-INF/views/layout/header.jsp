@@ -19,11 +19,17 @@
 	</div>
 	<div class="container">
 	    <div class="d-flex flex-wrap justify-content-center py-3">
-	      <a href="/" class="d-block d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-	        <div class="header_logo_size">
-	        	<img class="img-fluid" src="/img/logo.png" alt="logo">
-	        </div>
-	      </a>
+			<div class="d-flex align-items-center me-md-auto ">
+				<a href="/" class="d-block d-flex align-items-center mb-3 mb-md-0 link-body-emphasis text-decoration-none me-3">
+					<div class="header_logo_size">
+						<img class="img-fluid" src="/img/logo.png" alt="logo">
+					</div>
+				</a>
+				<div class="input-group search_box">
+					<input type="text" class="form-control border-onepick" placeholder="통합검색" aria-label="통합검색" aria-describedby="searchResultBtn">
+					<button class="btn btn-outline-onepick" type="button" id="searchResultBtn">검색</button>
+				</div>
+			</div>
 	
 	      <ul id="userMenu" class="nav nav-pills">
 	        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">채용정보</a></li>
@@ -43,7 +49,7 @@
 	      </ul>
 	      
 	      <ul id="companyMenu" class="nav nav-pills" style="display:none">
-	        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">인재채용</a></li>
+	        <li class="nav-item"><a href="/company/userSearchList" class="nav-link active" aria-current="page">인재채용</a></li>
 	        <li class="nav-item"><a href="#" class="nav-link">기업정보</a></li>
 	        <li class="nav-item"><a href="#" class="nav-link">기업회원 커뮤니티</a></li>
 	        <li class="nav-item">

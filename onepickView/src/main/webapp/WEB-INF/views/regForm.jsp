@@ -203,12 +203,26 @@
 			name : name.value,
 			password : password.value,
 			birthDate : birthDate.value,
-			gender : gender.value,
+			gender : "",
 			email : email.value,
 			tel : tel.value,
 			addr : addr.value,
-			militaryService : militaryService.value
+			militaryService : ""
 		}
+		// 성별 처리
+		if (document.querySelector("#gender1").checked) {
+			user.gender = "남성";
+		} else if (document.querySelector("#gender2").checked) {
+			user.gender = "여성";
+		}
+
+		// 병역사항 처리
+		if (document.querySelector("#militaryService1").checked) {
+			user.militaryService = "있음";
+		} else if (document.querySelector("#militaryService2").checked) {
+			user.militaryService = "없음";
+		}
+
 		const sendData = JSON.stringify(user);
 		const xhttp = new XMLHttpRequest();
 		xhttp.onload = function() {

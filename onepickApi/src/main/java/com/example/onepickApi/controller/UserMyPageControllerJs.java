@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,92 +12,71 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.onepickApi.entity.Company;
-import com.example.onepickApi.repository.CompanyRepository;
+import com.example.onepickApi.entity.User;
+import com.example.onepickApi.repository.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @CrossOrigin("*")
-@RequestMapping("/api/v1/company")
-@RestController
-public class CompanyMyPageController_jia {
+@Controller
+@RequestMapping("/api/v1/user/")
+public class UserMyPageControllerJs {
 
 	@Autowired
-	private CompanyRepository companyRepo;
+	UserRepository userRepository;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	private final Path rootLocation = Paths.get("/upload");
 	
-	@GetMapping("/detail")
-	public ResponseEntity<Company> getComDetail(HttpServletRequest request) {
-		Enumeration<String> headers = request.getHeaderNames();
-		while(headers.hasMoreElements()) {
-			System.out.println(headers.nextElement());
-			if(headers.nextElement().equals("username")) {
-				System.out.println(request.getHeader("username"));
-			}
-		}
-		if(!companyRepo.findById(request.getHeader("username")).isEmpty()) {
-			return new ResponseEntity<>(companyRepo.findById(request.getHeader("username")).get(), HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
-	
-	@GetMapping("/")
-	public ResponseEntity<List<Company>> getComList() {
-		List<Company> companyList = companyRepo.findAll();
-			return new ResponseEntity<>(companyList, HttpStatus.OK);
-	}
-	
 	@GetMapping("/mydetail")
-	public ResponseEntity<Company> getMydetail(HttpServletRequest request) {
+	public ResponseEntity<User> getUser(HttpServletRequest request){
 		Enumeration<String> headers = request.getHeaderNames();
 		while(headers.hasMoreElements()) {
 			System.out.println(headers.nextElement());
 			if(headers.nextElement().equals("username")) {
 				System.out.println(request.getHeader("username"));
+			
 			}
 		}
-		Company company = companyRepo.findById(request.getHeader("username")).get();
-			return new ResponseEntity<>(company, HttpStatus.OK);
+		User user = userRepository.findById(request.getHeader("username")).get();
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
-	
 	
 	@PutMapping("/")
-	public ResponseEntity<String> postCompany(@RequestBody Company company){
-		System.out.println("company 정보 수정 중.." + company);
-		String newPw = bCryptPasswordEncoder.encode(company.getPassword());
-		String role = "ROLE_COMPANY";
+	public ResponseEntity<String> postUser(@RequestBody User user){
+		System.out.println("User 정보 수정 중.." + user);
+		String newPw = bCryptPasswordEncoder.encode(user.getPassword());
+		String role = "ROLE_USER";
 		
-		company.setPassword(newPw);
-		company.setRole(role);
-		Company result = companyRepo.save(company);
+		user.setPassword(newPw);
+		user.setRole(role);
+		User result = userRepository.save(user);
 		
 		if(result != null) {
-			
 			return new ResponseEntity<>("수정 성공", HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>("수정 실패", HttpStatus.OK);
 		}
+		
 	}
 	
 	@PutMapping("/file")
-	public ResponseEntity<Company> updateFile(HttpServletRequest request, @RequestParam("file") MultipartFile file){
+	public ResponseEntity<User> updateFile(HttpServletRequest request, @RequestParam("file") MultipartFile file){
 		System.out.println("사진 업데이트 중...");
 		Enumeration<String> headers = request.getHeaderNames();
-		Company company = new Company();
+		User user = new User();
 		while(headers.hasMoreElements()) {
 			if(headers.nextElement().equals("username")) {
 				System.out.println(request.getHeader("username"));
@@ -121,14 +99,14 @@ public class CompanyMyPageController_jia {
 
 			                String filePath = destinationFile.toString();
 			                
-			                Optional<Company> result = companyRepo.findById(username);
+			                Optional<User> result = userRepository.findById(username);
 			                
-			                company = result.get();
+			                user = result.get();
 			                
 			                // jobad 엔티티에 파일 정보 설정
-			                company.setFileName(filename);
-			                company.setFilePath(filePath);
-			                company.setFileSize(file.getSize());
+			                user.setFileName(filename);
+			                user.setFilePath(filePath);
+			                user.setFileSize(file.getSize());
 			                
 			            //}else {
 			            	//파일 수정된거 없으면 원래 등록되어있던 파일 다시 넣어주기
@@ -137,8 +115,8 @@ public class CompanyMyPageController_jia {
 			                //jobAd.setFileSize(jobAdRepo.findById(jnoLong).get().getFileSize());
 			            //}
 			            //jobAd.setCompany(companyRepo.findById(request.getHeader("username")).get());
-			            System.out.println(company);
-			            companyRepo.updateFileInfo(username, filename, filePath, file.getSize());
+			            System.out.println(user);
+			            userRepository.updateFileInfo(username, filename, filePath, file.getSize());
 			              
 		                // jobad 엔티티 저장
 		    			//JobAd jobad = jobAdRepo.save(jobAd);
@@ -150,8 +128,7 @@ public class CompanyMyPageController_jia {
 			}
 		}
 			            
-		return new ResponseEntity<>(company, HttpStatus.OK);
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
-	
 	
 }
