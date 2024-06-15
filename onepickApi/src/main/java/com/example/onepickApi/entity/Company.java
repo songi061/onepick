@@ -32,7 +32,9 @@ public class Company extends BaseEntity implements Member{
 	    private String sector;
 	    @Column(nullable = false)
 	    private int employeesNum;
-	    private String url;
+	    private String fileName;
+		private String filePath;
+		private Long fileSize;
 	    @Column(nullable = false)
 	    private String size;
 	    @Column(nullable = false)

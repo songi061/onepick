@@ -10,7 +10,7 @@
 					<a class="btn btn-sm btn-outline-dark" href="/regForm">회원가입</a>
 				</div>
 				<div id="login_menu" class="border-end pe-3 me-3">
-					<a class="btn btn-sm btn-outline-dark" href="/loginForm">마이페이지</a>
+					<button class="btn btn-sm btn-outline-dark" onclick="mypage()">마이페이지</button>
 					<button class="btn btn-sm btn-outline-dark" onclick="logoutBtn()">로그아웃</button>
 				</div>
 				<button id="serviceBtn" onclick="menuChange()" class="btn btn-sm btn-outline-dark">기업회원 서비스</button>
@@ -93,6 +93,14 @@
 		logout_menu.style.display="none";
 	}
 	
+	function mypage(){
+		if(role == "ROLE_COMPANY"){
+			location.href="/company/myHome";
+		}else{
+			location.href="/user/myHome";
+		}
+	}
+
 	function logoutBtn(){
 		console.log("스토리지 값 삭제");
 		window.localStorage.clear();

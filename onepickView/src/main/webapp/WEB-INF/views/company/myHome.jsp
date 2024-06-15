@@ -48,10 +48,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <input type="file" name="logo">
+        <input type="file" name="file">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="updateLogo()">변경</button>
+        <button type="button" class="btn btn-primary" onclick="updateFile(event)">변경</button>
       </div>
     </div>
   </div>
@@ -73,10 +73,10 @@
 		document.querySelector("#companyYrSales").innerHTML = data.yrSales;
 		document.querySelector("#companyUrl").innerHTML = data.url;
 		
-		if(data.logo == null){
+		if(data.fileName == null){
 			document.querySelector(".profileImg_box img").src="/img/no_img.jpg";
 		}else{
-			document.querySelector(".profileImg_box img").src="/img/" + data.logo;
+			document.querySelector(".profileImg_box img").src="/images/" + data.fileName;
 		}
 		
 		//document.querySelector(".company_myInfo").innerHTML = 
@@ -90,10 +90,36 @@
 	xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role");
 	xhttp.send();
 	
-	function updateLogo(){
-		document.querySelector("input[name='logo']");
+	function updateFile(event){
+		event.preventDefault();
+		const fileInput = document.querySelector("input[name='file']");
+		const file = fileInput.files[0];
+		
+		if (file) {
+			const formData = new FormData();
+			formData.append('file', file);
+
+			const xhttp = new XMLHttpRequest();
+			xhttp.onload = function() {
+				console.log(this.responseText);
+				if (this.status === 200) {
+					// 성공적으로 업로드 후 필요한 작업 수행
+					console.log("File upload successful");
+					location.reload(); // 페이지를 새로고침하여 변경된 내용을 반영
+				} else {
+					console.error("File upload failed");
+				}
+			};
+			xhttp.open("PUT", "http://localhost:9001/api/v1/company/file", true);
+			xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
+			xhttp.setRequestHeader("username", localStorage.getItem("username"));
+			xhttp.setRequestHeader("role", localStorage.getItem("role"));
+			xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role");
+			xhttp.send(formData);
+		} else {
+			console.error("No file selected");
+		}
 	}
-	
 	
 </script>
 </body>
