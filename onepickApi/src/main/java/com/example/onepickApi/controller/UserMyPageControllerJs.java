@@ -128,7 +128,7 @@ public class UserMyPageControllerJs {
 			}
 		}
 			            
-		return new ResponseEntity<>(company, HttpStatus.OK);
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	
 }
