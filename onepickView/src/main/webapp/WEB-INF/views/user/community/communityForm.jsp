@@ -49,11 +49,11 @@
 				$.ajax({
 					type: 'post',
 					url: 'http://localhost:9001/api/v1/user/community-board',
-					//headers: {
-					//	"jwtToken" : localStorage.getItem("jwtToken"),
-			        //    "username" : localStorage.getItem("username"),
-			        //    "role" : localStorage.getItem("role")
-					//},
+					headers: {
+						"jwtToken" : localStorage.getItem("jwtToken"),
+			            "username" : localStorage.getItem("username"),
+			            "role" : localStorage.getItem("role")
+					},
 					data: JSON.stringify({
 						title: title,
 						content: content,
