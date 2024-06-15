@@ -31,17 +31,29 @@ const xhttp = new XMLHttpRequest();
 xhttp.onload = function() {
 	console.log(JSON.parse(this.responseText));
 	let data = JSON.parse(this.responseText);
+	let jobad = data.jobad;
+	let skills = data.skill;
+	let displayMlService = jobad.mltsvcExcHope == 'y' ? '🅾️' : '✖️ '
 	document.querySelector(".recruit_detail").innerHTML = 
-		"<div class='title'>" + data.wantedTitle +"</div><div class='section'><div class='section-title'>요약</div><div> 📅 마감 " + data.receiptCloseDt 
-		+ "</div><div> 📈 모집인원 "+data.collectPsncnt+"</div><div> 💼 직무 " + data.position1 + "   ,  "+ data.position2 +"</div><div> 📶 경력 " + data.experience + "</div><div> ✔️ 고용형태 " +
-		data.empTpNm + "</div><div> 📍 근무지역 " + data.region1 + "   ,  " + data.region2+ "</div><div> 🪪 스킬 : </div></div><div class='section'><div class='section-title'>주요 업무</div><div>" +
-		data.jobCont + "</div></div><div class='section'><div class='section-title'>복지 및 혜택</div><div>" +data.etcWelfare +"</div></div><div class='section'><div class='section-title'>추가 정보</div><div> 근무시간 " + data.WkdWkhCnt + "</div><div> 퇴직금 " + data.retirepay +
-		"</div><div> 임금 조건 " + data.salTpNm + "</div><div> 병역특례채용희망 " +data.mltsvcExcHope+ "</div></div><div class='section'><div class='section-title'>담당자정보</div><div> 담당자 이름  : "+
-		data.empName + "</div><div> 담당자이메일 : "  + data.empEmail + "</div><div> 담당자연락처 : "  + data.empTel + "</div></div>";
-		
-		
-		
+		"<div class='title'>" + data.wantedTitle +"</div><div class='section'><div class='section-title'>요약</div><div> 📅 마감 " + jobad.receiptCloseDt 
+		+ "</div><div> 📈 모집인원 "+jobad.collectPsncnt+"</div><div> 💼 직무 " + jobad.position1 + "   ,  "+ jobad.position2 +"</div><div> 📶 경력 " + jobad.experience + "</div><div> ✔️ 고용형태 " +
+		jobad.empTpNm + "</div><div> 📍 근무지역 " + jobad.region1 + "   ,  " + jobad.region2+ "</div><div class='skillContainer'> 🪪 스킬 : </div></div><div class='section'><div class='section-title'>주요 업무</div><div>" +
+		jobad.jobCont + "</div></div><div class='section'><div class='section-title'>복지 및 혜택</div><div>" +jobad.etcWelfare +"</div></div><div class='section'><div class='section-title'>추가 정보</div><div> 근무시간 " + jobad.wkdWkhCnt + "</div><div> 퇴직금 " + jobad.retirepay +
+		"</div><div> 임금 조건 " + jobad.salTpNm + "</div><div> 병역특례채용희망 " + displayMlService + "</div></div><div class='section'><div class='section-title'>담당자정보</div><div> 담당자 이름  : "+
+		jobad.empName + "</div><div> 담당자이메일 : "  + jobad.empEmail + "</div><div> 담당자연락처 : "  + jobad.empTel + "</div></div>";
+		const skillContainer = document.querySelector(".skillContainer");
+		 skills.forEach(skill=>{
+				let skillItems = document.createElement("span");
+				skillItems.classList = "skill_items"
+				skillItems.style.margin="5px";
+				skillItems.innerHTML= "📌 " + skill.skillName + ", ";
+				skillContainer.appendChild(skillItems);
+			  console.log(skill.skillName)
+			  
+		  })
+  
   }
+ 
 xhttp.open("GET", "http://localhost:9001/api/v1/recruit/"+jno, true);
 xhttp.send();
 
