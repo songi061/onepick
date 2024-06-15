@@ -43,7 +43,7 @@
 	      </ul>
 	      
 	      <ul id="companyMenu" class="nav nav-pills" style="display:none">
-	        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">인재채용</a></li>
+	        <li class="nav-item"><a href="/company/userSearchList" class="nav-link active" aria-current="page">인재채용</a></li>
 	        <li class="nav-item"><a href="#" class="nav-link">기업정보</a></li>
 	        <li class="nav-item"><a href="#" class="nav-link">기업회원 커뮤니티</a></li>
 	        <li class="nav-item">

@@ -12,4 +12,9 @@ public class CompanyControllerJs {
 		System.out.println("companyEdit....");
 		return "/company/companyEdit";
 	}
+	
+	@RequestMapping("/userSearchList")
+	public String userSearchList() {
+		return "/company/userSearchList";
+	}
 }

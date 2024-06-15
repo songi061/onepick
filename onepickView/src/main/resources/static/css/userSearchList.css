@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+.profileImg_box img {
+    width: 100px; 
+    height: 100px;
+    object-fit: cover; 
+    border-radius: 50%; 
+    border: 2px solid #42d056 ; 
+}
