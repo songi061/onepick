@@ -13,4 +13,7 @@ public interface CompanyReviewRepository extends JpaRepository<CompanyReview, Lo
 
 	@Query(value="select * from company_review where cid=:cid", nativeQuery=true)
 	public List<CompanyReview> findByCid(@Param("cid") String cid);
+	
+	@Query(value="select AVG(rating) FROM company_review where cid=:cid", nativeQuery=true)
+	public Long getAvgScore(@Param("cid") String cid);
 }

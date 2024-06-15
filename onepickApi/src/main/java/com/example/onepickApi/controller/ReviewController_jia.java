@@ -105,5 +105,25 @@ public class ReviewController_jia {
 			map.put("receivedList", receivedList);
 			return new ResponseEntity<>(map, HttpStatus.OK);
 		}
+		
+		@GetMapping("/avg-rating")
+		public ResponseEntity<Long> calcAvgScrore(HttpServletRequest request) {
+			Long avgScore = null;
+			Enumeration<String> headers = request.getHeaderNames();
+			while(headers.hasMoreElements()) {
+				if(headers.nextElement().equals("username")) {
+					System.out.println(request.getHeader("username"));
+					System.out.println(request.getHeader("role"));
+					if(request.getHeader("role").equals("ROLE_USER")) {
+						//유저리뷰테이블에서 찾아서 평균계산해주기
+						avgScore = userReviewRepo.getAvgScore(request.getHeader("username"));
+					}else if(request.getHeader("role").equals("ROLE_COMPANY")) {
+						//기업리뷰테이블에서 찾아서 평균계산해주기
+						avgScore = companyReviewRepo.getAvgScore(request.getHeader("username"));
+					}
+				}
+			}
+				return new ResponseEntity<>(avgScore, HttpStatus.OK);
+		}
 	
 }
