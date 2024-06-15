@@ -14,22 +14,17 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 	<div class="container">
 		<div class="title">기업 목록</div>
-		<div class="company_list">
-		
-		</div>
-		
-		
+		<div class="company_list">	</div>
 	</div>
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 
 <script>
+const listContainer = document.querySelector('.company_list');
 
     const xhttp = new XMLHttpRequest();
 	xhttp.onload = function() {
 		let data = JSON.parse(this.responseText);
-		console.log(data);
-		
-		const listContainer = document.querySelector('.company_list');
+		  if (data && data.length > 0) {
            data.forEach(company => {
                const listItem = document.createElement('div');
                listItem.className = 'company';
@@ -39,6 +34,10 @@
                "</div><div id='icon'><span onclick=''>♡</span></div>";
                listContainer.appendChild(listItem);
            });
+		  }else{
+			  // 기업리스트가 없을경우
+		        listContainer.innerHTML = '등록된 기업이 존재하지 않습니다.';
+		  }
 	  }
 	xhttp.open("GET", "http://localhost:9001/api/v1/company/", true);
 	xhttp.send();

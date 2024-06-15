@@ -1,0 +1,65 @@
+@charset "UTF-8";
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333333;
+    text-align: center;
+}
+
+/* 공고 리스트 컨테이너 스타일 */
+.recruit_list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* 공고 아이템 스타일 */
+.recruit_list > div {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* 공고 정보 스타일 */
+.recruit_list > div > div {
+    flex: 1;
+    color: #555555;
+    margin-bottom: 10px;
+}
+
+/* 공고 제목 스타일 */
+.recruit_list > div > div:first-child {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 5px;
+}
+
+
+.recruit_list .btn:hover {
+    background-color: #0056b3;
+}
+
+.recruit_list .btn:focus {
+    outline: none;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .recruit_list > div {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .recruit_list .btn {
+        width: 100%;
+        margin: 5px 0;
+    }
+}

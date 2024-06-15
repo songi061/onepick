@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+/* 타이틀 스타일 */
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333333;
+}
+
+/* 리스트 컨테이너 스타일 */
+.received_list,
+.registered_list {
+    margin-bottom: 40px;
+}
+
+/* 리스트 아이템 스타일 */
+.received_list_item,
+.registered_list_item {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 사용자 이름 스타일 */
+.user_name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #555555;
+}
+
+/* 리뷰 컨테이너 스타일 */
+.reviewContainer {
+    display: flex;
+    align-items: center;
+}
+
+/* 별 이미지 스타일 */
+.reviewContainer img {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .received_list_item,
+    .registered_list_item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .reviewContainer img {
+        width: 25px;
+        height: 25px;
+    }
+}
