@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+.recruit_box .companyName{
+	
+}
+.recruit_box .recruitTitle{
+	
+}
+.recruit_box .recruitInfo{
+	
+}
+.recruit_box  .logo img {
+    width: 100px; 
+    height: auto;
+    object-fit: cover; 
+ }

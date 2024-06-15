@@ -61,7 +61,9 @@
 	display:inline-block;
 	width: 150px;
 }
-
+header .search_box .form-control{
+	margin:0;
+}
 .border-onepick {
     border-color:  #42d056 !important;
 }

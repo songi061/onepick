@@ -1,8 +1,13 @@
 package com.example.onepickApi.entity;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,5 +45,10 @@ public class Company extends BaseEntity implements Member{
 	    @Column(nullable = false)
 	    private String yrSales;
 	    private String token;
+	    
+	    // Company는 여러 JobAd를 가질 수 있음 (일대다 관계)
+	    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	    private List<JobAd> jobAds;
+
 	
 }
