@@ -1,5 +1,7 @@
 package com.example.onepickApi.controller;
 
+import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +39,7 @@ public class UserCommunityController {
 	@Autowired
 	UserReplyRepository urRepo;
 
+	// 게시물 등록
 	@PostMapping("/community-board")
 	public UserBoard communityForm(HttpServletRequest request, @RequestBody UserBoardDto boardDto){
 		
@@ -43,7 +47,6 @@ public class UserCommunityController {
 		System.out.println("봐라 : " + boardDto);
 		
 		// 사용자 확인 코드
-		/*
 		Enumeration<String> headers = request.getHeaderNames();
 		while(headers.hasMoreElements()) {
 			System.out.println(headers.nextElement());
@@ -51,7 +54,7 @@ public class UserCommunityController {
 				System.out.println(request.getHeader("username"));
 			}
 		}
-		*/
+		
 		//String username = request.getHeader("username");
 		
 		User user = new User();
@@ -92,13 +95,13 @@ public class UserCommunityController {
 	// 게시물의 댓글보기
 	@GetMapping("/community-comment")
 	public List<UserReply> communityReply(@RequestParam("ubno") Long ubno){
-
+		// Map<String, Optional> map = new HashMap<>();
 		UserBoard ub = ubRepo.findById(ubno).get();
 		List<UserReply> ur = urRepo.findByUserBoard(ub);
 		return ur;
 	}
 	
-	// 댓글등록
+	// 댓글 등록
 	@PostMapping("/community-comment")
 	public UserReply registReply(@RequestBody UserReplyDto urDto) {
 		
@@ -114,7 +117,7 @@ public class UserCommunityController {
 		UserBoard ub = ubRepo.findById(ubno_).get();
 		ur.setUserBoard(ub);
 		ur.setContent(content_);
-		ur.setRegdate(null);	// 이렇게 쓰는거 맞나?
+		ur.setRegdate(new Date());	// 이렇게 쓰는거 맞나?
 		ur.setReport(report_);
 		System.out.println(ur);
 		UserReply ur2 = urRepo.save(ur);
@@ -122,12 +125,38 @@ public class UserCommunityController {
 		return ur2;
 	}
 	
+	// 게시글 수정
+	@PutMapping("/community-board")
+	public UserBoard community(HttpServletRequest request, @RequestBody UserBoardDto boardDto){
+		
+		// 사용자 확인 코드
+		Enumeration<String> headers = request.getHeaderNames();
+		while(headers.hasMoreElements()) {
+			System.out.println(headers.nextElement());
+			if(headers.nextElement().equals("username")) {
+				System.out.println(request.getHeader("username"));
+			}
+		}
+				
+		//String username = request.getHeader("username");
+				
+		User user = new User();
+		user.setUsername(boardDto.getUsername());
+			
+		UserBoard ub_ = new UserBoard();
+		ub_.setTitle(boardDto.getTitle());
+		ub_.setContent(boardDto.getContent());
+		ub_.setCategory(boardDto.getCategory());
+		ub_.setUser(user);
+		UserBoard ub = ubRepo.save(ub_);
+			
+		System.out.println("수정된 userBoard : " + ub);
+		ubRepo.save(ub);
+		
+		return ub;
+	}
 	
-//	@PutMapping("/community-board")
-//	public String community(){
-//		return "";
-//	}
-	
+	// 게시글 삭제
 	@DeleteMapping("/community-board")
 	public String communityDeletion(){
 		return "";
@@ -144,14 +173,6 @@ public class UserCommunityController {
 		
 		return ubList;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

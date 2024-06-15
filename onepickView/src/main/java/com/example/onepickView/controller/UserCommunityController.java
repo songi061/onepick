@@ -33,7 +33,7 @@ public class UserCommunityController {
 	@RequestMapping("/communityEdit")
 	public String communityRevision() {
 		
-		return "";
+		return "user/community/communityEdit";
 	}
 	
 	// 구직자 마이페이지 - 내가 쓴 게시글 목록 조회

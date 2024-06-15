@@ -21,7 +21,13 @@
 	</div>
 <div class="col-8">
 	<div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
-		<div id="data_freeBoard"><table id="freeBoard"></table></div>
+		<div id="data_freeBoard">
+			<table id="freeBoard">
+				<tr>
+					<th>게시글 번호</th><th>제목</th><th>내용</th><th>글쓴이</th><th>조회수</th>
+				</tr>
+			</table>
+		</div>
 		<div id="data_job_hunting"><table id="job_hunting"></table></div>
 		<div id="data_turnover"><table id="turnover"></table></div>
 	</div>
@@ -41,9 +47,13 @@
 					$('#data_turnover').empty();
 					
 					if (data !== null) {
-						let str = '<tr><th>'+'번호'+'<th>'+'제목'+'<th>'+'내용'+'<th>'+'글쓴이'+'</th></tr>';
+						let str = '';
 						for(var i=0; i<data.length; i++){
-							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +'</td> '+ '<td>'+data[i].title + '</td>'+'<td>'+data[i].content +'</td>'+'<td>'+data[i].user.username+'</td></tr>';
+							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +
+								'</td> '+ '<td>'+data[i].title + '</td>'+
+								'<td>'+data[i].content +'</td>'+
+								'<td>'+data[i].user.username+'</td>'+
+								'<td>'+data[i].views+'</td></tr>';
 						}
 						$('#data_freeBoard').html(str);
 					}
@@ -69,11 +79,13 @@
 					$('#data_turnover').empty();
 					
 					if (data !== null) {
-						let str = '<tr><th>'+'번호'+'<th>'+'제목'+'<th>'+'내용'+'<th>'+'글쓴이'+'</th></tr>';
+						let str = '';
 						for(var i=0; i<data.length; i++){
-							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +'</td> '+ 
-								'<td>'+data[i].title + '</td>'+'<td>'+data[i].content +'</td>'+
-								'<td>'+data[i].user.username+'</td></tr>';
+							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +
+								'</td> '+ '<td>'+data[i].title + '</td>'+
+								'<td>'+data[i].content +'</td>'+
+								'<td>'+data[i].user.username+'</td>'+
+								'<td>'+data[i].views+'</td></tr>';
 						}
 						$('#data_job_hunting').html(str);
 					}
@@ -99,9 +111,13 @@
 					$('#data_job_hunting').empty();
 					
 					if (data !== null) {
-						let str = '<tr><th>'+'번호'+'<th>'+'제목'+'<th>'+'내용'+'<th>'+'글쓴이'+'</th></tr>';
+						let str = '';
 						for(var i=0; i<data.length; i++){
-							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +'</td> '+ '<td>'+data[i].title + '</td>'+'<td>'+data[i].content +'</td>'+'<td>'+data[i].user.username+'</td></tr>';
+							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +
+								'</td> '+ '<td>'+data[i].title + '</td>'+
+								'<td>'+data[i].content +'</td>'+
+								'<td>'+data[i].user.username+'</td>'+
+								'<td>'+data[i].views+'</td></tr>';
 						}
 						$('#data_turnover').html(str);
 					}

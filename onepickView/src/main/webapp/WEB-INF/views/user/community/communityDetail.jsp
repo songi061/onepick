@@ -14,8 +14,7 @@
 <div class="container">
 <h3>구직자 커뮤니티</h3>
 <div id="board_detail">
-	<table id="data_board_detail">
-	</table>
+	<table id="data_board_detail"></table>
 </div>
 <hr>
 <div id="reply_regist">
@@ -24,10 +23,12 @@
 		<button id="btn_postComment">등록</button>
 	</form>
 </div>
+<hr>
 <div id="commentSection">
 	<table id="data_reply_detail">
 	</table>
 </div>
+<hr>
 <script>
 // 게시글 디테일 불러오기
 $(document).ready(function(){
@@ -127,8 +128,6 @@ $(document).ready(function(){
 				}
 			});
 		}
-		
-		
 });
 </script>
 </div>

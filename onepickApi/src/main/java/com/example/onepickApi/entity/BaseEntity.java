@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 @MappedSuperclass
 @Data
 public abstract class BaseEntity {
-
    
     private Date regdate;
     private Date moddate;
