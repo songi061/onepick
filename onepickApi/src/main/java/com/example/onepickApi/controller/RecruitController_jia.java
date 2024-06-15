@@ -179,8 +179,8 @@ public class RecruitController_jia {
 			return new ResponseEntity<>(jno, HttpStatus.OK);
 	}
 	
-	@PostMapping("/skill")
-	public ResponseEntity<String> regSkill(@RequestParam("jno") Long jno, HttpServletRequest request, @RequestBody List<String> list) {
+	@PostMapping("/skill/{jno}")
+	public ResponseEntity<String> regSkill(@PathVariable("jno") Long jno, HttpServletRequest request, @RequestBody List<String> list) {
 		Enumeration<String> headers = request.getHeaderNames();
 		while(headers.hasMoreElements()) {
 			if(headers.nextElement().equals("username")) {
@@ -202,8 +202,8 @@ public class RecruitController_jia {
 			return new ResponseEntity<>("done", HttpStatus.OK);
 	}
 	
-	@PutMapping("/skill")
-	public ResponseEntity<String> editSkill(@RequestParam("jno") Long jno, HttpServletRequest request, @RequestBody List<String> list) {
+	@PutMapping("/skill/{jno}")
+	public ResponseEntity<String> editSkill(@PathVariable("jno") Long jno, HttpServletRequest request, @RequestBody List<String> list) {
 		Enumeration<String> headers = request.getHeaderNames();
 		while(headers.hasMoreElements()) {
 			if(headers.nextElement().equals("username")) {

@@ -16,7 +16,6 @@
 		<div class="title">평점 등록</div>
 		<div class="interviewees_list">
 		평점 등록할 수 있는 지원자가 존재하지 않습니다.
-		
 			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
@@ -57,9 +56,10 @@
            });
 	  }
 	xhttp.open("GET", "http://localhost:9001/api/v1/company/review", true);
-	xhttp.setRequestHeader("username", "aaa");
-	xhttp.setRequestHeader("role", "ROLE_COMPANY");
-	xhttp.setRequestHeader("Access-Control-Expose-Headers", "username, role")
+	xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
+	xhttp.setRequestHeader("username", localStorage.getItem("username"));
+	xhttp.setRequestHeader("role", localStorage.getItem("role"));
+	xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role")
 	xhttp.send();
 	
 	
@@ -110,9 +110,10 @@
 				  }
 				xhttp.open("POST", "http://localhost:9001/api/v1/company/review?uid="+userId+"&jno="+jno, true);
 				xhttp.setRequestHeader("Content-Type", "application/json"); 
-				xhttp.setRequestHeader("username", "aaa");
-				xhttp.setRequestHeader("role", "ROLE_COMPANY");
-				xhttp.setRequestHeader("Access-Control-Expose-Headers", "username, role")
+				xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
+				xhttp.setRequestHeader("username", localStorage.getItem("username"));
+				xhttp.setRequestHeader("role", localStorage.getItem("role"));
+				xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role")
 				xhttp.send(JSON.stringify(data));
 				
 			})

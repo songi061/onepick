@@ -17,15 +17,16 @@
 		<div class="recruit_form">
 		
 			<form>
+				<div class="section_title">채용공고 제목</div>
 				<input type="text" name="wantedTitle" placeholder="채용공고 제목을 입력하세요">
 				<div class="section_title">모집 업종</div>
-				<select name="sector1"></select>	<select name="sector2"></select>
+				<select name="sector1"><option value="">업종 상위 카테고리 선택</option></select>	<select name="sector2"><option value="">업종 하위 카테고리 선택</option></select>
 				<div class="section_title">모집 직무</div>
-				<select name="position1"></select> <select name="position2"></select>
+				<select name="position1"><option value="">직무 상위 카테고리 선택</option></select> <select name="position2"><option value="">직무 하위 카테고리 선택</option></select>
 				<div class="section_title">상세 직무내용</div>
 				<textarea name="jobCont"></textarea>
 				<div class="section_title">필요스킬</div>
-				<select name="skillName">
+				<select name="skillName" style="display:none;">
 					 <option value="">스킬 선택</option>
 			         <option value="java">java</option>
 			         <option value="python">python</option>
@@ -48,13 +49,15 @@
 			         <option value="Excel">Excel</option>
 			         <option value="외국어능통">외국어능통</option>
 				</select>
-				<div onclick="addSkill()" class="add-skill-btn"> ➕ 필요스킬추가하기 </div>
+				<div onclick="showSkillOption()" class="showOptionbtn"> ➕ 필요스킬추가하기 </div>
+				<div style="display:none;" onclick="addSkill()" class="add-skill-btn"> ➕ 필요스킬추가하기 </div>
 				<div class='skillContainer'></div>
 				<div class="btn btn-onepick" style="display:none;" id="saveBtn" onclick="saveSkills(event)">저장</div>
 				<div class="section_title">접수마감일</div>
 				<input type="date" name="receiptCloseDt">
 				<div class="section_title">경험</div>
 				<select name="experience">
+					<option value="">경력 선택</option>
 					<option value="경력무관">경력무관</option>
 					<option value="신입">신입</option>
 					<option value="1~5년">1~5년</option>
@@ -62,13 +65,13 @@
 					<option value="11년 이상">11년 이상</option>
 				</select>
 				<div class="section_title">고용형태</div>
-				<select name="empTpNm"></select>
+				<select name="empTpNm"><option value="">고용형태 선택</option></select>
 				<div class="section_title">모집인원</div>
 				<input type="text" name="collectPsncnt" value="1"> 명
 				<div class="section_title">임금조건</div>
-				<select name="salTpNm"></select>
+				<select name="salTpNm"><option value="">임금조건 선택</option></select>
 				<div class="section_title">근무지역</div>
-				<select name="region1"></select>	<select name="region2"></select>
+				<select name="region1"><option value="">지역 상위 카테고리 선택</option></select>	<select name="region2"><option value="">직무 하위 카테고리 선택</option></select>
 				<div class="section_title">근무시간</div>
 				<input type="text" name="WkdWkhCnt">
 				<div class="section_title">퇴직금</div>
@@ -104,7 +107,10 @@ const region1El = document.querySelector("select[name=region1]");
 const region2El = document.querySelector("select[name=region2]");
 const salaryEl = document.querySelector("select[name=salTpNm]");
 const workTypeEl = document.querySelector("select[name=empTpNm]");
+const skillNameEl = document.querySelector("select[name=skillName]");
 const skillContainer = document.querySelector(".skillContainer")
+const showOptionbtn = document.querySelector(".showOptionbtn");
+const addSkillBtn = document.querySelector(".add-skill-btn");
 
 let selectedSector1 = null;
 let selectedSector1El = null;
@@ -117,6 +123,12 @@ let selectedWorkType = null;
 let skillExisted = false;
 let arrItems = [];
 
+function showSkillOption(){
+//기존버튼 숨기고 추가버튼과 스킬옵션 보이게하기
+	showOptionbtn.style.display = "none";
+	addSkillBtn.style.display = "block";
+	skillNameEl.style.display = "block";
+}
 
 //필요스킬 추가버튼 누를때마다 밑에 더해주기
 function addSkill(){
@@ -151,6 +163,11 @@ function saveSkills(e){
 	//버튼 클릭하자마자 버튼 안보이게 하기
 	e.target.style.display="none";
 	const childNodes = document.querySelectorAll(".skill_items");
+	
+	//기존버튼 보이게하고 추가버튼과 스킬옵션 숨기기
+	showOptionbtn.style.display = "block";
+	addSkillBtn.style.display = "none";
+	skillNameEl.style.display = "none";
 	
 	childNodes.forEach(skill=>{
 		//여기서 skill List만들어준 후 저장하기
@@ -188,6 +205,7 @@ function regJobAd(event){
 		            return response.text();
 		        }})
 			.then(result => {
+				console.log(result)
 				//공고등록 성공시 skill등록해주기><
 			   addSkills(result);
 			})
@@ -198,7 +216,7 @@ function regJobAd(event){
 }
 //스킬들 스킬테이블에 넣어주기
 function addSkills(jno){
-	 fetch("http://localhost:9001/api/v1/recruit/skill?jno="+jno, {
+	 fetch("http://localhost:9001/api/v1/recruit/skill/"+jno, {
 				    method: "POST",
 				    headers: {
 				    	"Content-Type": "application/json",
