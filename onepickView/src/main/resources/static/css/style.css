@@ -62,6 +62,9 @@
 	width: 150px;
 }
 
+.border-onepick {
+    border-color:  #42d056 !important;
+}
 
 * {
     margin: 0;
@@ -95,7 +98,7 @@ img {
 p{
     margin-bottom: 0 !important;
 }
-=======
+
 
 /* 구직자 마이페이지-커뮤니티 관리(사이드바)*/
 .sidebar {
