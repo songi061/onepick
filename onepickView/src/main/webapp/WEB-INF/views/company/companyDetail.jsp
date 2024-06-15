@@ -36,7 +36,11 @@
 			"<div>" + data.name +"</div><div> ⭐"+ "평점" +"</div><div>"+ data.sector +"</div><div>" 
 			+ data.ceo + "</div><div>"  + data.employeesNum + "</div><div>"  + data.size + "</div><div>" + data.yrSales + "</div><div>"  + data.url + "</div>";
 	  }
-	xhttp.open("GET", "http://localhost:9001/api/v1/company/detail?username="+username, true);
+	xhttp.open("GET", "http://localhost:9001/api/v1/company/detail", true);
+	xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
+	xhttp.setRequestHeader("username", localStorage.getItem("username"));
+	xhttp.setRequestHeader("role", localStorage.getItem("role"));
+	xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role")
 	xhttp.send();
 	
 

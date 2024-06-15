@@ -23,13 +23,12 @@
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 
 <script>
+const listContainer = document.querySelector('.apply_list');
 
     const xhttp = new XMLHttpRequest();
 	xhttp.onload = function() {
 		let datas = JSON.parse(this.responseText);
-		console.log(datas)
-		
-		const listContainer = document.querySelector('.apply_list');
+		if (datas && datas.length > 0) {
            datas.forEach(data => {
                const listItem = document.createElement('div');
                listItem.className = 'apply_list_item';
@@ -37,11 +36,16 @@
                "</div> <div>" + data.status + "</div>";
                listContainer.appendChild(listItem);
            });
+		}else{
+			 // 지원한 지원자가 아직 없을경우
+	        listContainer.innerHTML = '지원한 지원자가 아직 존재하지 않습니다.';
+		}
 	  }
 	xhttp.open("GET", "http://localhost:9001/api/v1/apply/company", true);
-	xhttp.setRequestHeader("username", "aaa");
-	xhttp.setRequestHeader("role", "ROLE_COMPANY");
-	xhttp.setRequestHeader("Access-Control-Expose-Headers", "username, role")
+	xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
+	xhttp.setRequestHeader("username", localStorage.getItem("username"));
+	xhttp.setRequestHeader("role", localStorage.getItem("role"));
+	xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role")
 	xhttp.send();
 </script>
 </body>

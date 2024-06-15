@@ -15,7 +15,6 @@
 	<div class="container">
 		<div class="title">평점 등록</div>
 		<div class="interviewees_list">
-		평점 등록할 수 있는 지원자가 존재하지 않습니다.
 			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
@@ -24,7 +23,7 @@
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			      </div>
 			      <div class="modal-body" >
-			        <img id="star1" class="stars" style='width:30px; 'src="/icon/star.png"><img id="star2" class="stars" style='width:30px; 'src="/icon/star.png"><img id="star3" class="stars" style='width:30px; 'src="/icon/star.png"><img id="star4" class="stars" style='width:30px; 'src="/icon/star.png"><img id="star5" class="stars" style='width:30px; 'src="/icon/star.png">
+			        <img id="star1" class="stars" style="width:30px; display:inline-block;" src="/icon/star.png"><img id="star2" class="stars" style="width:30px; display:inline-block;" src="/icon/star.png"><img id="star3" class="stars" style="width:30px; display:inline-block;" src="/icon/star.png"><img id="star4" class="stars" style="width:30px; display:inline-block;" src="/icon/star.png"><img id="star5" class="stars" style="width:30px; display:inline-block;" src="/icon/star.png">
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-primary" id="regBtn" data-bs-dismiss="modal">평점등록하기</button>
@@ -39,21 +38,23 @@
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 
 <script>
+const listContainer = document.querySelector('.interviewees_list');
 
     const xhttp = new XMLHttpRequest();
 	xhttp.onload = function() {
 		let datas = JSON.parse(this.responseText);
-		console.log(datas)
-		
-		const listContainer = document.querySelector('.interviewees_list');
+		  if (datas && datas.length > 0) {
            datas.forEach(data => {
-        	   console.log(data)
                const listItem = document.createElement('div');
                listItem.className = 'interviewees_list_item';
                let userName = data.user.name;
                listItem.innerHTML = "<div><div>"+ data.jobAd.wantedTitle+"</div><span style='display:none;' class='jno'>"+ data.jobAd.jno+"</span><div>"+ data.resume.title+"</div><span style='display:none;' class='userId'>"+ data.user.username+"</span><div class='user_name'>"+data.user.name+"</div><button data-bs-toggle='modal' data-bs-target='#exampleModal' class='btn btn-onepick' onclick='openRegModal(event)'>평점등록</button> </div>";
                listContainer.appendChild(listItem);
            });
+		  }else{
+			  // 공고가 없을경우
+		        listContainer.innerHTML = '아직 평점등록을 할 수 있는 지원자가 존재하지 않습니다.';
+		  }
 	  }
 	xhttp.open("GET", "http://localhost:9001/api/v1/company/review", true);
 	xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
@@ -105,7 +106,7 @@
 				const xhttp = new XMLHttpRequest();
 				xhttp.onload = function() {
 					//화면 업데이트해주기(해당리스트 없애주기)
-					e.target.parentElement.remove();
+					e.target.parentElement.parentElement.remove();
 					
 				  }
 				xhttp.open("POST", "http://localhost:9001/api/v1/company/review?uid="+userId+"&jno="+jno, true);

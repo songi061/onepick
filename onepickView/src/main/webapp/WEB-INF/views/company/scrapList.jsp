@@ -23,13 +23,13 @@
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 
 <script>
+const listContainer = document.querySelector('.scrap_list');
 
     const xhttp = new XMLHttpRequest();
 	xhttp.onload = function() {
 		let datas = JSON.parse(this.responseText);
-		console.log(datas)
-		
-		const listContainer = document.querySelector('.scrap_list');
+	
+		if (datas && datas.length > 0) {
            datas.forEach(data => {
        
         	   let age = 2024 - Number(data.user.birthDate.slice(0,4));
@@ -40,6 +40,10 @@
                "</div> <div class='scrap_job'>" + data.resume.job + "</div><div class='scrap_region'>" +data.resume.region1+"</div></div>";
                listContainer.appendChild(listItem);
            });
+		}else{
+			 // 스크랩한 구직자가 없을경우
+	        listContainer.innerHTML = '내가 스크랩한 구직자가 아직 존재하지 않습니다.';
+		}
 	  }
 	xhttp.open("GET", "http://localhost:9001/api/v1/resume-scrap", true);
 	xhttp.setRequestHeader("username", "aaa");
