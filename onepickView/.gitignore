@@ -39,3 +39,5 @@ out/
 
 
 /src/main/resources/serviceAccountKey.json
+/src/main/resources/static/js/notification.js
+/src/main/resources/static/js/firebase-messaging-sw.js
