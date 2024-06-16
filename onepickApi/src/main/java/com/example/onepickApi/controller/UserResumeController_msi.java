@@ -1,6 +1,7 @@
 package com.example.onepickApi.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,15 +129,14 @@ public class UserResumeController_msi {
 	 * System.out.println("이력서 개별 출력 : " + resume); return resume; }
 	 */
 	
-	 @GetMapping("/resume/{rno}")
-    public ResponseEntity<?> getResume(@PathVariable("rno") Long rno) {
-        Optional<Resume> result = repo.findById(rno);
-        
-        if (result.isPresent()) {
-            Resume resume = result.get();
-            System.out.println("이력서 개별 출력 : " + resume);
-            return ResponseEntity.ok(resume);
-        } else {
+	@GetMapping("/resume/{rno}")
+	public ResponseEntity<?> getResume(@PathVariable("rno") Long rno) {
+        try {
+            Map<String, Object> result = resumeService.getResumeDetails(rno);
+            System.out.println("이력서 및 관련 데이터 출력 : " + result);
+            
+            return ResponseEntity.ok(result);
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
     }
