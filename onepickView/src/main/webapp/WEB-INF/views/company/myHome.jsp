@@ -22,18 +22,17 @@
 			</div>
 			<div>
 				<div class="fw-blod fs-4" id="companyName">회사이름</div>
-				<div>⭐"평점" <span id="companyScore"></span> <span class="text-secondary mx-2"> | </span> <span id="companySector">섹터</span> <span class="text-secondary mx-2"> | </span> <span id="companyCeo">ceo</span> <span class="text-secondary mx-2"> | </span> <span id="companyEmployeesNum">employeesNum</span> <span class="text-secondary mx-2"> | </span> <span id="companySize">size</span> <span class="text-secondary mx-2"> | </span> <span id="companyYrSales">yrSales</span> <span class="text-secondary mx-2"> | </span> <span id="companyUrl">url</span></div>
+				<div>⭐ <span id="companyScore"></span> <span class="text-secondary mx-2"> | </span> <span id="companySector">섹터</span> <span class="text-secondary mx-2"> | </span> <span id="companyCeo">ceo</span> <span class="text-secondary mx-2"> | </span> <span id="companyEmployeesNum">employeesNum</span> <span class="text-secondary mx-2"> | </span> <span id="companySize">size</span> <span class="text-secondary mx-2"> | </span> <span id="companyYrSales">yrSales</span> <span class="text-secondary mx-2"> | </span> <span id="companyUrl">url</span></div>
 			</div>
 		</div>
 		<div class='title'>내 공고 리스트</div>
-		<button>더보기</button>
+		<button class="btn btn-onepick showMoreBtn" onclick="showMore()" style="display:none;">더보기</button>
 		<div class="myrecruit_list">
-		dddd
 		</div>
 		<div class="links">
-			<div><a href=''>채용공고작성</a></div>
-			<div><a href=''>스크랩한지원자</a></div>
-			<div><a href=''>지원내역관리</a></div>
+			<div><a href='/company/recruitForm'>채용공고작성</a></div>
+			<div><a href='/company/scrapList'>스크랩한지원자</a></div>
+			<div><a href='/company/applyList'>지원내역관리</a></div>
 			<div><a href=''>QnA관리</a></div>
 		</div>
 		
@@ -60,28 +59,79 @@
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 
 <script>
+const recruitListContainer = document.querySelector(".myrecruit_list");
+const showMoreBtn = document.querySelector(".showMoreBtn");
 
     const xhttp = new XMLHttpRequest();
 	xhttp.onload = function() {
 		let data = JSON.parse(this.responseText);
-		document.querySelector("#companyName").innerHTML = data.name;
-		document.querySelector("#companyScore").innerHTML = "점수넣어줘ㅓ";
-		document.querySelector("#companySector").innerHTML = data.sector;
-		document.querySelector("#companyCeo").innerHTML = data.ceo;
-		document.querySelector("#companyEmployeesNum").innerHTML = data.employeesNum;
-		document.querySelector("#companySize").innerHTML = data.size;
-		document.querySelector("#companyYrSales").innerHTML = data.yrSales;
-		document.querySelector("#companyUrl").innerHTML = data.url;
-		
+		let myInfo = data.myInfo;
+		let myJobad = data.myJobad;
+		let displayUrl = myInfo.url ? myInfo.url : "<a href='/company/companyDetail?username="+localStorage.getItem("username")+"'>기업 상세페이지로 가기</a>"
+		document.querySelector("#companyName").innerHTML = myInfo.name;
+
+		document.querySelector("#companySector").innerHTML = myInfo.sector;
+		document.querySelector("#companyCeo").innerHTML = myInfo.ceo;
+		document.querySelector("#companyEmployeesNum").innerHTML = myInfo.employeesNum;
+		document.querySelector("#companySize").innerHTML = myInfo.size;
+		document.querySelector("#companyYrSales").innerHTML = myInfo.yrSales;
+		document.querySelector("#companyUrl").innerHTML = displayUrl;
 		if(data.fileName == null){
 			document.querySelector(".profileImg_box img").src="/img/no_img.jpg";
 		}else{
-			document.querySelector(".profileImg_box img").src="/images/" + data.fileName;
+			document.querySelector(".profileImg_box img").src="/images/" + myInfo.fileName;
 		}
 		
-		//document.querySelector(".company_myInfo").innerHTML = 
-		//	"<img src='' alt='로고'><div>" + data.name +"</div><div> "+ "평점" +"</div><div>"+ data.sector +"</div><div>" 
-		//	+ data.ceo + "</div><div>"  + data.employeesNum + "</div><div>"  + data.size + "</div><div>" + data.yrSales + "</div><div>"  + data.url + "</div>";
+		
+		if (myJobad && myJobad.length > 0) {
+			 // 처음 세 개의 항목을 추가합니다.
+		    myJobad.slice(0, 3).forEach(data => {
+		        let displayDate = data.moddate ? data.moddate.slice(0, 10) : data.regdate.slice(0, 10);
+		        const listItem = document.createElement('div');
+		          listItem.innerHTML = "<div><div><a href='/company/recruitDetail?jno="+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 최종수정날짜 : "  + displayDate + "</div> <span style='display:none;' class='jno'>"+ data.jno+"</span> <button class='btn btn-onepick' onclick='editJobad(event)'>수정</button> <button class='btn btn-onepick' onclick='deleteJobad(event)'>삭제</button></div>";
+		          recruitListContainer.appendChild(listItem);
+		    });
+			 
+		    // 항목이 3개 초과인 경우 "더보기" 버튼을 표시합니다.
+		    if (myJobad.length > 3) {
+		        showMoreBtn.style.display = "block";
+
+		        // "더보기" 버튼 클릭 시 나머지 항목을 추가하는 이벤트 리스너를 설정합니다.
+		        showMoreBtn.addEventListener('click', () => {
+		            myJobad.slice(3).forEach(data => {
+	                let displayDate = data.moddate ? data.moddate.slice(0, 10) : data.regdate.slice(0, 10);
+	                const listItem = document.createElement('div');
+	                listItem.innerHTML = "<div><div><a href='/company/recruitDetail?jno="+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 최종수정날짜 : "  + displayDate + "</div> <span style='display:none;' class='jno'>"+ data.jno+"</span> <button class='btn btn-onepick' onclick='editJobad(event)'>수정</button> <button class='btn btn-onepick' onclick='deleteJobad(event)'>삭제</button></div>";
+		            recruitListContainer.appendChild(listItem);
+		    })
+		 // 나머지 항목을 모두 추가한 후 "더보기" 버튼을 숨깁니다.
+            showMoreBtn.style.display = "none";
+	        })
+	    }
+		}else{
+			 // 공고가 없을경우
+	        recruitListContainer.innerHTML = '등록된 공고가 아직 존재하지 않습니다.';
+		}
+		
+		//평균평점불러오기
+		const xhttp = new XMLHttpRequest();
+		xhttp.onload = function() {
+			console.log(this.responseText);
+			console.log(Number(this.responseText));
+			console.log(Number(this.responseText).toFixed(1));
+		if(this.responseText != null || this.responseText !=""){
+			document.querySelector("#companyScore").innerHTML = Number(this.responseText).toFixed(1);
+		}else{
+			document.querySelector("#companyScore").innerHTML="0.0"
+		}
+		  }
+		xhttp.open("GET", "http://localhost:9001/api/v1/company/avg-rating", true);
+		xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
+		xhttp.setRequestHeader("username", localStorage.getItem("username"));
+		xhttp.setRequestHeader("role", localStorage.getItem("role"));
+		xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role")
+		xhttp.send();
+		
 	  }
 	xhttp.open("GET", "http://localhost:9001/api/v1/company/mydetail", true);
 	xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));

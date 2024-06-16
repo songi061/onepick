@@ -5,7 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.onepickApi.entity.Company;
 import com.example.onepickApi.repository.CompanyRepository;
+import com.example.onepickApi.repository.JobAdRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -34,7 +37,8 @@ public class CompanyMyPageController_jia {
 
 	@Autowired
 	private CompanyRepository companyRepo;
-	
+	@Autowired
+	private JobAdRepository jobAdRepo;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
@@ -63,16 +67,22 @@ public class CompanyMyPageController_jia {
 	}
 	
 	@GetMapping("/mydetail")
-	public ResponseEntity<Company> getMydetail(HttpServletRequest request) {
+	public ResponseEntity<Map<String,Object>> getMydetail(HttpServletRequest request) {
 		Enumeration<String> headers = request.getHeaderNames();
 		while(headers.hasMoreElements()) {
 			System.out.println(headers.nextElement());
 			if(headers.nextElement().equals("username")) {
 				System.out.println(request.getHeader("username"));
 			}
+			if(!companyRepo.findById(request.getHeader("username")).isEmpty()) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("myInfo", companyRepo.findById(request.getHeader("username")).get());
+				map.put("myJobad", jobAdRepo.findByUsername(request.getHeader("username")));
+				System.out.println(map);
+				return new ResponseEntity<>(map, HttpStatus.OK);
+			}
 		}
-		Company company = companyRepo.findById(request.getHeader("username")).get();
-			return new ResponseEntity<>(company, HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	
