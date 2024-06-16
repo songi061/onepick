@@ -45,10 +45,4 @@ public class Company extends BaseEntity implements Member{
 	    @Column(nullable = false)
 	    private String yrSales;
 	    private String token;
-	    
-//	    // Company는 여러 JobAd를 가질 수 있음 (일대다 관계)
-//	    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	    private List<JobAd> jobAds;
-
-	
 }
