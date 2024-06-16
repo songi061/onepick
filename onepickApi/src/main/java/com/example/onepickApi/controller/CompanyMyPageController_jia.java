@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.onepickApi.entity.Company;
 import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.JobAdRepository;
-import com.example.onepickApi.service.NotificationService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -43,12 +41,8 @@ public class CompanyMyPageController_jia {
 	private JobAdRepository jobAdRepo;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-
 	
 	private final Path rootLocation = Paths.get("/upload");
-	
-	
-	
 	
 	@GetMapping("/detail")
 	public ResponseEntity<Company> getComDetail(HttpServletRequest request) {

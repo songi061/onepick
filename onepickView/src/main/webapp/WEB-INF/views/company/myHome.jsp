@@ -9,16 +9,12 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="/css/style.css" rel="stylesheet">
 <link href="/css/company_myHome.css" rel="stylesheet">
-<script src="/js/notification.js" type="module"></script>
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
 	<div class="container">
 	<div class='title'>My Home</div>
-	<div style="display:flex;  justify-content: space-between;">
-		<button class="btn btn-onepick" onclick="location.href='/company/companyEdit'">내정보수정</button>
-		<img  data-bs-toggle="modal" data-bs-target="#exampleModal1" style="padding:5px; background-color:#42d056 ; border: 2px solid #42d056; width:40px; border-radius:10px;" src="/icon/notification-setting.png">
-	</div>	
+	<button class="btn btn-onepick" onclick="location.href='/company/companyEdit'">내정보수정</button>
 		<div class="company_myInfo">
 			<div class="profileImg_box position-relative">
 				<img src="" alt="회사로고">
@@ -60,24 +56,6 @@
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">🔔 푸쉬 알림 받기</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        웹 푸쉬 알림을 통해 필요한 소식을 모두 받아보실 수 있습니다.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">다음에</button>
-        <button type="button" class="btn btn-primary" onclick="setNotification()">알림 받기</button>
-      </div>
-    </div>
-  </div>
-</div>
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 
 <script>
@@ -192,8 +170,6 @@ const showMoreBtn = document.querySelector(".showMoreBtn");
 			console.error("No file selected");
 		}
 	}
-	
-
 	
 </script>
 </body>

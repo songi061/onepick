@@ -37,6 +37,5 @@ public class User extends BaseEntity implements Member{
     private String filePath;
     private Long fileSize;
     private String militaryService;
-    @Column(unique = true)
     private String token;
 }
