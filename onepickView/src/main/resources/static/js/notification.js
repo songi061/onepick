@@ -22,29 +22,34 @@
 
     // Initialize Firebase Cloud Messaging and get a reference to the service
     const messaging = getMessaging(app);
+    
+    // 서비스 워커 등록 및 FCM 토큰 가져오기
+	let currentToken = null;
 
+// 서비스 워커 등록
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/firebase-messaging-sw.js')
+   .then(async (registration) => {
+      console.log('Service Worker registered with scope:', registration.scope);
+      try {
+        currentToken = await getToken(messaging, { vapidKey: 'BLcSeRWoHAyawxByQ1N__CdtF49_9xrIDS4sW0Zu5VuS3zXZvM9xyym054TN276SxN_za2eeV7mBak77Zetgf2Q', serviceWorkerRegistration: registration });
+        if (currentToken) {
+          console.log('FCM Token:', currentToken);
+        } else {
+          console.log('No registration token available. Request permission to generate one.');
+        }
+      } catch (err) {
+        console.error('An error occurred while retrieving token. ', err);
+      }
+    })
+    .catch((err) => {
+      console.error('Service Worker registration failed:', err);
+    });
+}
 
-	// FCM Token 가져오기
-	export async function requestFCMToken() {
-	  try {
-	    const token = await getToken(messaging, { vapidKey: 'BLcSeRWoHAyawxByQ1N__CdtF49_9xrIDS4sW0Zu5VuS3zXZvM9xyym054TN276SxN_za2eeV7mBak77Zetgf2Q' });
-	    console.log('FCM Token:', token);
-	    return token;
-	  } catch (err) {
-	    console.error('FCM Token Error:', err);
-	  }
-	}
 // setNotification 함수를 정의하고 window 객체에 등록
 window.setNotification = async function() {
-  console.log("실행 중...");
-    // 로컬 저장소 값 확인
-    const jwtToken = localStorage.getItem('jwtToken');
-    const username = localStorage.getItem('username');
-    const role = localStorage.getItem('role');
-    
-    console.log(jwtToken)
-    console.log(username)
-    console.log(role)
+
 
   try {
     const permission = await Notification.requestPermission();
@@ -52,19 +57,22 @@ window.setNotification = async function() {
     const notificationBtn = document.querySelector("#exampleModal1 .modal-footer");
 
     if (permission === 'granted') {
-      const token = await requestFCMToken();
-      console.log('FCM Token:', token);
+     if (!currentToken) {
+        console.log('No FCM Token found, requesting a new one...');
+        currentToken = await getToken(messaging, { vapidKey: 'BLcSeRWoHAyawxByQ1N__CdtF49_9xrIDS4sW0Zu5VuS3zXZvM9xyym054TN276SxN_za2eeV7mBak77Zetgf2Q' });
+        console.log('New FCM Token:', currentToken);
+      }
 
       // 서버에 토큰 전송
       await fetch('http://localhost:9001/api/v1/notification/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          "jwtToken" : localStorage.getItem("jwtToken"),
-		  "username" : localStorage.getItem("username"),
-		  "role" : localStorage.getItem("role")
+          "jwtToken": localStorage.getItem("jwtToken"),
+          "username": localStorage.getItem("username"),
+          "role": localStorage.getItem("role")
         },
-        body: JSON.stringify({ token: token })
+        body: JSON.stringify({ token: currentToken })
       });
 
       // 모달 안내메시지 변경
@@ -85,26 +93,3 @@ onMessage(messaging, (payload) => {
   // Customize notification here
 });
 
-// 서비스 워커 등록
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/firebase-messaging-sw.js')
-    .then((registration) => {
-      console.log('Service Worker registered with scope:', registration.scope);
-      // FCM 토큰 요청 시 서비스 워커 사용
-      getToken(messaging, { vapidKey: 'BLcSeRWoHAyawxByQ1N__CdtF49_9xrIDS4sW0Zu5VuS3zXZvM9xyym054TN276SxN_za2eeV7mBak77Zetgf2Q', serviceWorkerRegistration: registration })
-        .then((currentToken) => {
-          if (currentToken) {
-            console.log('FCM Token:', currentToken);
-            // 서버에 토큰을 저장하거나 필요한 처리를 수행합니다.
-          } else {
-            console.log('No registration token available. Request permission to generate one.');
-          }
-        })
-        .catch((err) => {
-          console.error('An error occurred while retrieving token. ', err);
-        });
-    })
-    .catch((err) => {
-      console.error('Service Worker registration failed:', err);
-    });
-}
