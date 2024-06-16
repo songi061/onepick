@@ -7,7 +7,7 @@
     margin: 50px 20px 50px ;
 }
 
-.company_myInfo, .myrecruit_list {
+.company_myInfo {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -29,7 +29,21 @@
     font-size: 16px;
     color: #333;
 }
+.myrecruit_list {
+    display: block; /* 컨테이너가 블록 요소로 작동하도록 함 */
+    margin: 10px 0; /* 항목 간에 여백을 추가 */
+    padding: 0;
+}
 
+/* 각 리스트 아이템의 스타일 */
+.myrecruit_list div {
+    display: block; /* 각 항목을 블록 요소로 설정 */
+    margin-bottom: 10px; /* 항목 간의 간격 추가 */
+    padding: 5px;
+    margin:10px;
+    border-radius: 5px; /* 모서리 둥글게 */
+    background-color: #f9f9f9; /* 배경색 추가 */
+}
 
 .links {
     display: grid;

@@ -1,6 +1,7 @@
 package com.example.onepickApi.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,9 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.onepickApi.dto.JobAdDto;
+import com.example.onepickApi.entity.JobAd;
 import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.JobAdRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @CrossOrigin("*")
 @RequestMapping("/api/v1/main")
@@ -26,10 +29,11 @@ public class MainControllerJs {
 	CompanyRepository companyRepository;
 	
 	@GetMapping("/recruit/receipt-closedate")
-	public ResponseEntity<List<JobAdDto>> getReceiptClosedate(){
+	public ResponseEntity<List<JobAd>> getReceiptClosedate(HttpServletRequest request){
 		System.out.println("마감일 공고 출력");
-		List<JobAdDto> jobAds = jobAdRepository.findAllJobAdsWithCompanyOrderedByReceiptCloseDt();
-		System.out.println(jobAds);
-		return new ResponseEntity<>(jobAds, HttpStatus.OK);
+		List<JobAd> list = jobAdRepository.findAll();
+		
+		System.out.println(list);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 }

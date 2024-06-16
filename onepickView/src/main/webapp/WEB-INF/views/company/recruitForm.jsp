@@ -17,15 +17,15 @@
 		<div class="recruit_form">
 		
 			<form>
-				<div class="section_title">채용공고 제목</div>
+				<div class="section_title">채용공고 제목 *</div>
 				<input type="text" name="wantedTitle" placeholder="채용공고 제목을 입력하세요">
-				<div class="section_title">모집 업종</div>
+				<div class="section_title">모집 업종 *</div>
 				<select name="sector1"><option value="">업종 상위 카테고리 선택</option></select>	<select name="sector2"><option value="">업종 하위 카테고리 선택</option></select>
-				<div class="section_title">모집 직무</div>
+				<div class="section_title">모집 직무 *</div>
 				<select name="position1"><option value="">직무 상위 카테고리 선택</option></select> <select name="position2"><option value="">직무 하위 카테고리 선택</option></select>
-				<div class="section_title">상세 직무내용</div>
+				<div class="section_title">상세 직무내용 *</div>
 				<textarea name="jobCont"></textarea>
-				<div class="section_title">필요스킬</div>
+				<div class="section_title">필요스킬 *</div>
 				<select name="skillName" style="display:none;">
 					 <option value="">스킬 선택</option>
 			         <option value="java">java</option>
@@ -48,31 +48,31 @@
 			         <option value="Flutter">Flutter</option>
 			         <option value="Excel">Excel</option>
 			         <option value="외국어능통">외국어능통</option>
-				</select>
+				</select> 
 				<div onclick="showSkillOption()" class="showOptionbtn"> ➕ 필요스킬추가하기 </div>
 				<div style="display:none;" onclick="addSkill()" class="add-skill-btn"> ➕ 필요스킬추가하기 </div>
 				<div class='skillContainer'></div>
 				<div class="btn btn-onepick" style="display:none;" id="saveBtn" onclick="saveSkills(event)">저장</div>
-				<div class="section_title">접수마감일</div>
+				<div class="section_title">접수마감일 *</div>
 				<input type="date" name="receiptCloseDt">
 				<div class="section_title">경험</div>
 				<select name="experience">
-					<option value="">경력 선택</option>
+					<option value="">경력 선택 </option>
 					<option value="경력무관">경력무관</option>
 					<option value="신입">신입</option>
 					<option value="1~5년">1~5년</option>
 					<option value="6~10년">6~10년</option>
 					<option value="11년 이상">11년 이상</option>
 				</select>
-				<div class="section_title">고용형태</div>
+				<div class="section_title">고용형태 *</div>
 				<select name="empTpNm"><option value="">고용형태 선택</option></select>
-				<div class="section_title">모집인원</div>
+				<div class="section_title">모집인원 *</div>
 				<input type="text" name="collectPsncnt" value="1"> 명
-				<div class="section_title">임금조건</div>
+				<div class="section_title">임금조건 *</div>
 				<select name="salTpNm"><option value="">임금조건 선택</option></select>
-				<div class="section_title">근무지역</div>
+				<div class="section_title">근무지역 *</div>
 				<select name="region1"><option value="">지역 상위 카테고리 선택</option></select>	<select name="region2"><option value="">직무 하위 카테고리 선택</option></select>
-				<div class="section_title">근무시간</div>
+				<div class="section_title">근무시간 *</div>
 				<input type="text" name="WkdWkhCnt">
 				<div class="section_title">퇴직금</div>
 				<input type="text" name="retirepay">
@@ -83,13 +83,13 @@
 				<div class="section_title">병역특례채용희망</div>
 				<input type="radio" name="mltsvcExcHope" value="y"> 특례채용희망
 				<input type="radio" name="mltsvcExcHope" value="n"> 해당없음
-				<div class="section_title">담당자이름</div>
+				<div class="section_title">담당자이름 *</div>
 				<input type="text" name="empName">
-				<div class="section_title">담당자이메일</div>
+				<div class="section_title">담당자이메일 *</div>
 				<input type="text" name="empEmail">
-				<div class="section_title">담당자연락처</div>
+				<div class="section_title">담당자연락처 *</div>
 				<input type="text" name="empTel">
-				<input class="btn btn-onepick" type="submit" value="공고등록" onclick="regJobAd(event)">
+				<input class="btn btn-onepick" type="submit" value="공고등록" onclick="return regJobAd(event)">
 				
 			</form>
 		</div>
@@ -111,6 +111,20 @@ const skillNameEl = document.querySelector("select[name=skillName]");
 const skillContainer = document.querySelector(".skillContainer")
 const showOptionbtn = document.querySelector(".showOptionbtn");
 const addSkillBtn = document.querySelector(".add-skill-btn");
+const wantedTitleEl = document.querySelector("input[name=wantedTitle]")
+const jobContEl = document.querySelector("select[name=jobCont]")
+const receiptCloseDtEl = document.querySelector("input[name=receiptCloseDt]")
+const empTpNmEl = document.querySelector("input[name=empTpNm]")
+const collectPsncntEl = document.querySelector("input[name=collectPsncnt]")
+const salTpNmEl = document.querySelector("input[name=salTpNm]")
+const WkdWkhCntEl = document.querySelector("input[name=WkdWkhCnt]")
+const empNameEl = document.querySelector("input[name=empName]")
+const empEmailEl = document.querySelector("input[name=empEmail]")
+const empTelEl = document.querySelector("input[name=empTel]")
+
+
+
+
 
 let selectedSector1 = null;
 let selectedSector1El = null;
@@ -183,6 +197,16 @@ function saveSkills(e){
 
 function regJobAd(event){
 	event.preventDefault();
+	
+	if(!wantedTitleEl.value || !sector1.value || !sector2.value 
+		|| !region1.value || !region2.value || !position1.value 
+		|| !position2.value || !workTypeEl.value  || !salaryEl.value 
+		|| !skillNameEl.value || !receiptCloseDtEl.value || !empTpNmEl.value
+		|| !collectPsncntEl.value || !salTpNmEl.value || !WkdWkhCntEl.value
+		|| !empNameEl.value || !empEmailEl.value || !empTelEl.value ){
+		alert("필수 입력값이 모두 입력되지 않았습니다. 다시 시도해주세요")
+		return false;
+	}
 
 	let form = document.querySelector("form");
 	let formData = new FormData(form);

@@ -39,11 +39,14 @@
 
 			const xhttp = new XMLHttpRequest();
 			xhttp.onload = function () {
-				console.log(this.responseText);
+				//console.log(this.responseText);
 				let objs = JSON.parse(this.responseText);
-				console.log(objs);
+				//console.log(objs);
 				objs.forEach(obj => {
-					let logoSrc = obj.company.fileName == null ? "/img/no_img" : "/images/" + obj.company.fileName;
+					console.log(obj);
+					let logoSrc = obj.company.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.company.fileName;
+					console.log(logoSrc);
+					/*
 					let html = `
 						<div class='col-md-6 col-xl-4 mb-3'>
 							<a class='d-block border text-decoration-none rounded p-4 pointer recruit_box' href='#'>
@@ -54,6 +57,7 @@
 							</a>
 						</div>`;
 					document.querySelector("#receipt_close_dt_list").innerHTML += html;
+					*/
 				});
 				
 			}
