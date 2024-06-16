@@ -13,9 +13,8 @@ public class QnaController {
 	public void qnaForm() {	
 	}
 	
-	@RequestMapping("/qnaList")
-	public String qnaList() {
-		return "admin/qnaList";
+	@RequestMapping("/admin/qnaList")
+	public void qnaList() {
 	}
 	
 	@RequestMapping("/qnaDetail")

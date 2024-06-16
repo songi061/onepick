@@ -59,14 +59,12 @@ public class QnaController {
 		Optional<Company> result2 = companyRepository.findById(username);
 		
 		if(result1.isPresent()) {
-			System.out.println(result1);
 			User user = new User();
-			user.setUsername(qnaDto.getUser().getUsername());
+			user.setUsername(username);
 			qna.setUser(user);
 		}else if(result2.isPresent()) {
-			System.out.println(result2);
 			Company company = new Company();
-			company.setUsername(qnaDto.getCompany().getUsername());
+			company.setUsername(username);
 			qna.setCompany(company);
 		}
 		
