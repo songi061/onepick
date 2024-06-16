@@ -1,0 +1,143 @@
+@charset "UTF-8";
+
+#ctn {
+    max-width: 800px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+}
+
+
+
+.def_div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.def_div input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.def {
+    font-size: 1.1em;
+    font-weight: bold;
+   color: #585858;
+   
+}
+
+.delete-link {
+    color: #dc3545;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.delete-link:hover {
+    text-decoration: underline;
+}
+
+#def_btn {
+    background-color: #2E9AFE;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition-duration: 0.4s;
+    font-weight: bold;
+  
+}
+
+#def_btn:hover {
+    background-color: #87CEEB;
+    color: #2E2E2E;
+}
+
+.res {
+    border: 1px solid lightgrey;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+    list-style-type: none;
+}
+
+
+.res li {
+    margin-bottom: 8px;
+}
+
+.res li a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.res li a:hover {
+    text-decoration: underline;
+}
+
+
+.checkbox-container {
+    display: inline-block;
+    position: relative;
+    padding-left: 35px; 
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 18px; 
+    user-select: none; 
+}
+
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+}
+
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+
+.checkbox-container .checkmark:after {
+    left: 9px; /* 체크 아이콘의 위치 */
+    top: 5px; /* 체크 아이콘의 위치 */
+    width: 6px; /* 체크 아이콘의 너비 */
+    height: 12px; /* 체크 아이콘의 높이 */
+    border: solid green;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg); /* 체크 아이콘 회전 */
+}
+
+
+.checkbox-container .checkbox-label {
+    margin-left: 40px; /* 체크박스 레이블의 왼쪽 여백 */
+}
