@@ -26,21 +26,47 @@
         </div>
         <div>
             <p>작성자</p>
-            ${username}
+            <span id="username_display"></name>
         </div>
         <div>
             <p>내용</p><input type="text" name="content">
         </div>
         <input type="submit" onclick="submitForm(event)" value="등록">
-        <input type="hidden" name="username" value="${username}">
+        <input type="hidden" name="username" id="username_input">
     </form>
-  <a href="/qnaList">
+  <a href="/admin/qnaList">
     <button>목록으로</button>
   </a>
 </div>
 <jsp:include page="layout/footer.jsp"></jsp:include>
 </body>
 <script>
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function() {
+        console.log(xhttp.status);
+    var headers = xhttp.getAllResponseHeaders();
+    console.log("headers : " + headers);
+    var token = xhttp.getResponseHeader("Authorization");
+    console.log("JWT Token: " + token.split(" ")[1]);
+
+    localStorage.setItem("jwtToken", token.split(" ")[1]);
+    // 헤더 값 읽기
+    let role = xhttp.getResponseHeader("Role");
+    let username = xhttp.getResponseHeader("username");
+    localStorage.setItem("role", role);
+    localStorage.setItem("username", username);
+
+    console.log("role : " + role);
+    console.log("username : " + username);
+    };
+    
+    let storedUsername = localStorage.getItem("username");
+    if(storedUsername){
+        $('#username_display').text(storedUsername);
+        $('#username_input').val(storedUsername);
+    }
+		
+		
     function submitForm(event){
     	event.preventDefault();
         alert("등록 완료되었습니다.");
@@ -55,7 +81,7 @@
             data: formData,
             success: function(response){
                 console.log(response);
-                window.location.href = "/qnaList";
+                window.location.href = "/admin/qnaList";
             },
             error: function(){
                 console.log("에러 발생");

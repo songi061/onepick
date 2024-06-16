@@ -7,6 +7,7 @@
 <title>1PICK!</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="/css/adminstyle.css" rel="stylesheet">
+<link href="/css/faqList.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.js"
     integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
     crossorigin="anonymous"></script>
@@ -14,13 +15,12 @@
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/adminHeader.jsp"></jsp:include>
 <div class="container">
-  <h1>FAQ</h1>
-
+  <div id="page_title">FAQ</div>
   <div class="accordion" id="faqAccordion">
     <!-- FAQ 항목이 추가될 곳 -->
   </div>
 
-  <a href="/admin/faqForm"><button class="btn btn-primary mt-3">글쓰기</button></a>
+  <a href="/admin/faqForm"><button class="btn btn-onepick">FAQ 작성하기</button></a>
 </div>
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
