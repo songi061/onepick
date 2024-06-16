@@ -44,5 +44,6 @@ public class Company extends BaseEntity implements Member{
 	    private String size;
 	    @Column(nullable = false)
 	    private String yrSales;
+	    @Column(unique = true)
 	    private String token;
 }
