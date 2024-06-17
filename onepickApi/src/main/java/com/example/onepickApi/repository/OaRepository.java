@@ -9,4 +9,6 @@ import com.example.onepickApi.entity.Oa;
 
 public interface OaRepository extends JpaRepository<Oa, Long> {
 	List<Oa> findByResume_Rno(Long rno);
+	
+	Oa findByResumeRno(Long rno);
 }

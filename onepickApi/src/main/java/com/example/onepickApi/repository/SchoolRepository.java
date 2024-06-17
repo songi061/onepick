@@ -9,4 +9,6 @@ import com.example.onepickApi.entity.School;
 
 public interface SchoolRepository extends JpaRepository<School, Long>{
 	List<School> findByResume_Rno(Long rno);
+	
+	School findByResumeRno(Long rno);
 }
