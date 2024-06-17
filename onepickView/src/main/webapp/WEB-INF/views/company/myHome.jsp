@@ -29,7 +29,9 @@
 			</div>
 		</div>
 		<div class='title'>내 공고 리스트</div>
-		<a class="showMoreBtn fs-6 link-primary d-inline link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover cursor" onclick="showMore()" style="display:none;">더보기</a>
+		<div class="clearfix">
+			<a class="showMoreBtn float-end fs-6 link-primary d-inline link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover cursor" onclick="showMore()" style="display:none;">더보기</a>
+		</div>
 		<div class="myrecruit_list">
 		</div>
 		<div class="links">
