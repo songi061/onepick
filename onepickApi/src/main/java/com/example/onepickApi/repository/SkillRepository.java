@@ -12,4 +12,7 @@ public interface SkillRepository extends JpaRepository<Skill, Long>{
 
 	@Query(value="select * from skill where jno=:jno", nativeQuery=true)
 	public List<Skill> findAllByJno(@Param("jno") Long jno);
+
+	@Query(value="SELECT jno FROM skill WHERE skill_name=:skillName", nativeQuery=true)
+	public List<Long> findBySkillName(@Param("skillName") String skillName);
 }

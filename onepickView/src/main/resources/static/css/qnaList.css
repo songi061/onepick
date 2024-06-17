@@ -1,0 +1,92 @@
+@charset "UTF-8";
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Table header styling */
+.table thead tr {
+    color: #333;
+}
+
+#tbl_header{
+	width: 100%;
+	background-color: lightgray;
+}
+
+.table thead th {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Table body styling */
+.table tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.table tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.table tbody td {
+    padding: 12px 15px;
+}
+
+#writeBtn_a{
+	width: 70px;
+	float: right;
+}
+
+#title{
+    width: 30%;
+    font-weight: 900;
+}
+
+.title{
+	font-weight: 700;
+}
+
+#num, #sort, #date, #status, #date, #response{
+    width: 10%;
+}
+
+.category{
+    color: #42d056 !important;
+}
+
+.ing, .clear{
+	margin: 0 auto;
+    width: 70px;
+    border: 1px solid gainsboro;
+    box-sizing: border-box;
+    background-color: rgb(240, 240, 240);
+    color: #999;
+}
+
+.clear{
+	border: 1px solid #736cf7;
+	background-color: #736cf7;
+    color: #fff;
+}
+
+.inputBtn{
+	width: 70px;
+    border: 1px solid gainsboro;
+    background-color: #fff;
+    color: #999;
+}
+
+.inputBtn:hover{
+    background-color: dimgray;
+    transition-duration: 0.5s;
+    color: #fff;
+}

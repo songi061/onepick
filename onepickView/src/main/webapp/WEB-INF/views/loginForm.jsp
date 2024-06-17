@@ -84,13 +84,18 @@
 				// 헤더 값 읽기
 				let role = xhttp.getResponseHeader("Role");
 				let username = xhttp.getResponseHeader("username");
-				localStorage.setItem("role", role);
-				localStorage.setItem("username", username);
+				if(role=="ROLE_COMPANY"){
+					alert("로그인에 실패했습니다.");
+					
+				}else{
+					localStorage.setItem("role", role);
+					localStorage.setItem("username", username);
+					
+					console.log("role : " + role);
+					console.log("username : " + username);
+					location.href="/";
+				}
 				
-				console.log("role : " + role);
-				console.log("username : " + username);
-				
-				location.href="/";
 			}else{
 				 alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
 			}
@@ -129,10 +134,18 @@
 				localStorage.setItem("role", role);
 				localStorage.setItem("username", username);
 				
-				console.log("role : " + role);
-				console.log("username : " + username);
+				if(role=="ROLE_USER"){
+					alert("로그인에 실패했습니다.");
+					
+				}else{
+					localStorage.setItem("role", role);
+					localStorage.setItem("username", username);
+					
+					console.log("role : " + role);
+					console.log("username : " + username);
+					location.href="/";
+				}
 				
-				location.href="/";
 			}else{
 				 alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
 			}
