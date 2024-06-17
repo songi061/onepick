@@ -15,4 +15,5 @@ public interface ResumeRepository extends JpaRepository<Resume, Long>{
 
 	@Query(value="SELECT * FROM resume WHERE uid =:username AND def = :def", nativeQuery=true)
 	Resume findByUserAndDef(@Param("username") String username, @Param("def") String def);
+
 }
