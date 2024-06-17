@@ -214,6 +214,9 @@ function postData(e){
 		url : "http://localhost:9001/api/v1/resume",
 		data : formData,
 		dataType : "text",
+		headers: {
+            'username': username  // HTTP 요청 헤더에 username 추가
+        }, 
 		contentType: false,  // 반드시 false로 설정
 	    processData: false,  // 반드시 false로 설정
 		success : function(data){

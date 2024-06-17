@@ -9,7 +9,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="/css/style.css" rel="stylesheet">
 <link href="/css/resumeForm.css" rel="stylesheet">
-<script src="/js/resume_EditForm.js"></script>
 </head>
 <body>
 <jsp:include page="../layout/header.jsp"></jsp:include>
@@ -166,46 +165,49 @@
 		내용<input type="text" name="oa_content" id="oa_content" placeholder="내용을 입력하세요" class="textbox">
 	</div>
 	
-	<input type="button" value="등록하기" onclick="postData(event)" class="btn2">
+	<input type="button" value="수정하기" onclick="putData(event)" class="btn2">
 </form>
 </div>
 
+
+
 <script>
 $(document).ready(function() {
-	$('.longtext').keyup(function (e){
-	    var content = $(this).val();
-	    $('#counter').html("("+content.length+" / 500)");    //글자수 실시간 카운팅
+    // 글자수 실시간 카운팅
+    $('.longtext').keyup(function (e){
+        var content = $(this).val();
+        $('#counter').html("("+content.length+" / 500)");
 
-	    if (content.length > 500){
-	        alert("최대 500자까지 입력 가능합니다.");
-	        $(this).val(content.substring(0, 500));
-	        $('#counter').html("(500 / 500)");
-	    }
-	});
-	
-	
-	var rno = <%= request.getParameter("rno") %>;
+        if (content.length > 500){
+            alert("최대 500자까지 입력 가능합니다.");
+            $(this).val(content.substring(0, 500));
+            $('#counter').html("(500 / 500)");
+        }
+    });
+
+    var rno = <%= request.getParameter("rno") %>;
+
     // AJAX 요청 보내기
     $.ajax({
-    	url: 'http://localhost:9001/api/v1/resume/' + rno,
-	    type: 'GET',
-	    dataType: 'json',
+        url: 'http://localhost:9001/api/v1/resume/' + rno,
+        type: 'GET',
+        dataType: 'json',
         success: function(data) {
-        	console.log(data);
+            //console.log('Resume data:', data);
             var resume = data.resume;
+
             // 각 input 요소에 값 설정
             $('#disclo_check').prop('checked', resume.disclo === 'public');
             $('#title').val(resume.title);
             $('#selfInfoTitle').val(resume.selfInfoTitle);
             $('#selfInfoContent').val(resume.selfInfoContent);
             $('#portfolioUrl').val(resume.portfolioUrl);
-            $('#select1').val(resume.region1);
-            $('#select2').val(resume.region1_1);
-            $('#select3').val(resume.region2);
-            $('#select4').val(resume.region2_1);
-            $('#select_sector').val(resume.sector);
-            $('#select_job').val(resume.job);
-            
+
+            // 데이터를 로드한 후 select 요소를 업데이트
+            updateSelectElements(resume);
+            updateJobSectorElements(resume);
+            updateJobSectorElements2(data);
+
             var experiences = data.experiences[0]; // 예시로 첫 번째 경험을 사용
             $('#startDay').val(experiences.startDay);
             $('#endDay').val(experiences.endDay);
@@ -230,31 +232,270 @@ $(document).ready(function() {
             $('#endDate').val(career.endDate);
             $('#companyName').val(career.companyName);
             $('#rank').val(career.rank);
-            $('#select_sector2').val(career.c_type);
-            $('#select_job2').val(career.position);
+            //$('#select_sector2').val(career.c_type);
+            //$('#select_job2').val(career.position);
             $('#select_career').val(career.career_status);
             $('#work').val(career.work);
 
             var skill = data.oaList[0]; // 예시로 첫 번째 스킬을 사용
             $('#select_skill').val(skill.skillName);
             $('#oa_content').val(skill.oa_content);
-            
-            
-            
-            
-            
-            
-            
         },
         error: function(xhr, status, error) {
             console.error('AJAX 요청 실패:', status, error);
         }
     });
+
+    function updateSelectElements(resume) {
+        const xhttp1 = new XMLHttpRequest();
+        xhttp1.onload = function() {
+            const select1 = document.getElementById("select1");
+            const select2 = document.getElementById("select2");
+            const select3 = document.getElementById("select3");
+            const select4 = document.getElementById("select4");
+
+            let data = JSON.parse(this.responseText);
+            //console.log('Administrative data:', data);
+
+            // select1과 select3에 데이터 키를 추가
+            data.forEach((item) => {
+                const key = Object.keys(item)[0];
+
+                // select1과 select3에 옵션 추가
+                const option1 = document.createElement("option");
+                option1.value = key;
+                option1.text = key;
+                select1.appendChild(option1);
+
+                const option3 = document.createElement("option");
+                option3.value = key;
+                option3.text = key;
+                select3.appendChild(option3);
+            });
+
+            // select1의 선택된 값에 따라 select2 업데이트 함수
+            function updateSelect1() {
+                const selectedKey = select1.value;
+                select2.innerHTML = '<option value="">구를 선택하세요!</option>';
+
+                if (selectedKey) {
+                    const selectedItem = data.find(item => Object.keys(item)[0] === selectedKey);
+                    if (selectedItem) {
+                        const values = selectedItem[selectedKey];
+                        values.forEach(value => {
+                            const option = document.createElement("option");
+                            option.value = value;
+                            option.text = value;
+                            select2.appendChild(option);
+                        });
+                    }
+                }
+            }
+
+            // select3의 선택된 값에 따라 select4 업데이트 함수
+            function updateSelect2() {
+                const selectedKey = select3.value;
+                select4.innerHTML = '<option value="">구를 선택하세요!</option>';
+
+                if (selectedKey) {
+                    const selectedItem = data.find(item => Object.keys(item)[0] === selectedKey);
+                    if (selectedItem) {
+                        const values = selectedItem[selectedKey];
+                        values.forEach(value => {
+                            const option = document.createElement("option");
+                            option.value = value;
+                            option.text = value;
+                            select4.appendChild(option);
+                        });
+                    }
+                }
+            }
+
+            // select1과 select3의 change 이벤트에 함수 연결
+            select1.addEventListener('change', updateSelect1);
+            select3.addEventListener('change', updateSelect2);
+
+            // 데이터 로드 후 resume 객체에서 초기 값 설정
+            select1.value = resume.region1;
+            select3.value = resume.region2;
+            updateSelect1();
+            updateSelect2();
+
+            // select2와 select4의 값 설정
+            setTimeout(() => {
+                select2.value = resume.region1_1;
+                select4.value = resume.region2_1;
+            }, 100); // 약간의 딜레이를 두어 옵션이 로드될 시간을 확보
+        };
+
+        xhttp1.open("GET", "/json/korea-administrative-district.json", true);
+        xhttp1.send();
+    }
+
+    function updateJobSectorElements(resume) {
+        // 관심업종
+        const xhttp2 = new XMLHttpRequest();
+        xhttp2.onload = function() {
+            const selectSector = document.getElementById("select_sector");
+            
+            const data = JSON.parse(this.responseText);
+            
+
+            data.forEach(item => {
+                const sectorName = item["상위직무"];
+                const option = document.createElement("option");
+                option.value = item["상위직무"];
+                option.text = sectorName;
+                selectSector.appendChild(option);
+            });
+
+            // 초기값 설정
+            selectSector.value = resume.sector;
+        };
+        xhttp2.open("GET", "/json/job_category.json", true);
+        xhttp2.send();
+
+        // 관심직무
+        const xhttp3 = new XMLHttpRequest();
+        xhttp3.onload = function() {
+            const selectSector = document.getElementById("select_sector");
+            const selectJob = document.getElementById("select_job");
+            
+            const data = JSON.parse(this.responseText);
+            
+
+            // 관심업종 선택 변경 시 관심직무 업데이트
+            function updateSelectJob() {
+                const selectedSectorCode = selectSector.value;
+
+                // 관심직무 옵션 초기화
+                selectJob.innerHTML = '<option value="">관심직무 선택</option>';
+
+                data.forEach(item => {
+                    if (item["직무명"] == selectedSectorCode) {
+                        const option = document.createElement("option");
+                        option.text = item["직무 키워드명"];
+                        option.value = item["직무 키워드명"];
+                        selectJob.appendChild(option);
+                    }
+                });
+            }
+
+            selectSector.addEventListener('change', updateSelectJob);
+
+            // 초기값 설정
+            setTimeout(() => {
+                updateSelectJob();
+                selectJob.value = resume.job;
+            }, 100); // 약간의 딜레이를 두어 옵션이 로드될 시간을 확보
+        
+        };
+        xhttp3.open("GET", "/json/job.json", true);
+        xhttp3.send();
+    }
+        
+    
+    
+    function updateJobSectorElements2(resume) {
+        // 업종
+        const xhttp4 = new XMLHttpRequest();
+        xhttp4.onload = function() {
+            const selectSector2 = document.getElementById("select_sector2");
+            
+            const data = JSON.parse(this.responseText);
+
+            data.forEach(item => {
+                const sectorName = item["상위직무"];
+                const option = document.createElement("option");
+                option.value = item["상위직무"];
+                option.text = sectorName;
+                selectSector2.appendChild(option);
+            });
+
+            // 초기값 설정
+            if (resume.careers && resume.careers.length > 0) {
+                selectSector2.value = resume.careers[0].c_type;
+            }
+        };
+        xhttp4.open("GET", "/json/job_category.json", true);
+        xhttp4.send();
+
+        // 직무
+        const xhttp5 = new XMLHttpRequest();
+        xhttp5.onload = function() {
+            const selectSector2 = document.getElementById("select_sector2");
+            const selectJob2 = document.getElementById("select_job2");
+            
+            const data = JSON.parse(this.responseText);
+
+            // 직무 옵션 초기화
+            if(selectSector2.value == null){
+            	selectJob2.innerHTML = '<option value="">직무 선택</option>';
+            }
+         	// 업종 선택에 따른 직무 업데이트 실행
+            updateSelectJob2();
+         	
+         	
+            // 업종 선택 변경 시 직무 업데이트 함수 정의
+            function updateSelectJob2() {
+                const selectedSectorCode = selectSector2.value;
+
+                selectJob2.innerHTML = '<option value="">직무 선택</option>';
+
+                data.forEach(item => {
+                    if (item["직무명"] == selectedSectorCode) {
+                        const option = document.createElement("option");
+                        option.text = item["직무 키워드명"];
+                        option.value = item["직무 키워드명"];
+                        selectJob2.appendChild(option);
+                    }
+                });
+            }
+
+            selectSector2.addEventListener('change', updateSelectJob2);
+
+            // 초기값 설정
+
+            selectJob2.value = resume.careers[0].position;
+            console.log('포지션 출력 : '+resume.careers[0].position);
+
+            
+        };
+        xhttp5.open("GET", "/json/job.json", true);
+        xhttp5.send();
+    }
 });
 
 
+function putData(e){
+	var rno = <%= request.getParameter("rno") %>;
+	
+	e.preventDefault();
+	var form = document.forms['frm'];
+	var formData = new FormData(form);
+
+	$.ajax({
+		type: "PUT",
+		url: 'http://localhost:9001/api/v1/resume/' + rno,
+		data : formData,
+		dataType : "text",
+		contentType: false,  // 반드시 false로 설정
+	    processData: false,  // 반드시 false로 설정
+		success : function(data){
+			alert("수정완료!");
+			window.location.href = "/user/resumeList";
+		},
+		error : function(){
+			console.log("에러 발생");
+		}
+	
+	});
+}
+
 
 </script>
+<script src="/js/resume_EditForm.js"></script>
+
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

@@ -34,4 +34,13 @@ public class UserController_msi {
 		
 		return "user/resumeEdit";
 	}
+	
+	
+	@RequestMapping("/myHome")
+	public String myHome() {
+		
+		return "user/myHome";
+	}
+	
+	
 }

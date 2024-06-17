@@ -171,7 +171,7 @@
 </div>
 
 <script>
-	$('#longtext').keyup(function (e){
+	$('.longtext').keyup(function (e){
 	    var content = $(this).val();
 	    $('#counter').html("("+content.length+" / 500)");    //글자수 실시간 카운팅
 	

@@ -9,4 +9,6 @@ import com.example.onepickApi.entity.License;
 
 public interface LicenseRepository extends JpaRepository<License, Long> {
 	List<License> findByResume_Rno(Long rno);
+	
+	License findByResumeRno(Long rno);
 }

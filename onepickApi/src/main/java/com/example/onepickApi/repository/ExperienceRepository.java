@@ -10,4 +10,6 @@ import com.example.onepickApi.entity.Experience;
 public interface ExperienceRepository extends JpaRepository<Experience, Long>{
 
 	 List<Experience> findByResume_Rno(Long rno);
+	 
+	 Experience findByResumeRno(Long rno);
 }
