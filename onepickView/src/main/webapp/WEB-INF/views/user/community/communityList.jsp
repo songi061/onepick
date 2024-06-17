@@ -12,9 +12,10 @@
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="..//../layout/header.jsp"></jsp:include>
 <div class="container">
+	<div class="page_title"><h3>구직자 커뮤니티</h3></div>
 	<div class="col-4">
 	    <div id="list-example" class="list-group list-group-horizontal">
-			<a class="list-group-item list-group-item-active" id="freeBoard" aria-current="true" href="#list-item-1">자유글</a>
+    		<a class="list-group-item list-group-item-action" id="freeBoard" aria-current="true" href="#list-item-1" default>자유글</a>
 	      	<a class="list-group-item list-group-item-action" id="job_hunting" href="#list-item-2">취업준비</a>
 	      	<a class="list-group-item list-group-item-action" id="turnover" href="#list-item-3">이직</a>
 	    </div>
@@ -24,18 +25,31 @@
 		<div id="data_freeBoard">
 			<table id="freeBoard">
 				<tr>
-					<th>게시글 번호</th><th>제목</th><th>내용</th><th>글쓴이</th><th>조회수</th>
+					<th>게시글 번호</th><th>제목</th><th>내용</th><th>작성자</th>
 				</tr>
 			</table>
+			</div>
+		<div id="data_job_hunting">
+			<table id="job_hunting">
+				<tr>
+					<th>게시글 번호</th><th>제목</th><th>내용</th><th>작성자</th>
+				</tr>
+				
+			</table>
 		</div>
-		<div id="data_job_hunting"><table id="job_hunting"></table></div>
-		<div id="data_turnover"><table id="turnover"></table></div>
+		<div id="data_turnover">
+			<table id="turnover">
+				<tr>
+					<th>게시글 번호</th><th>제목</th><th>내용</th><th>작성자</th>
+				</tr>	
+			</table>
+		</div>
 	</div>
 </div>
 <script>
 	// 게시물 조회 - 자유글
 	$(document).ready(function(){
-		$('#freeBoard').click(function(){
+		$('#freeBoard').ready(function(){
 			$.ajax({
 				type: 'GET',
 				url: 'http://localhost:9001/api/v1/user/community-board',
@@ -71,7 +85,7 @@
 			$.ajax({
 				type: 'GET',
 				url: 'http://localhost:9001/api/v1/user/community-board',
-				data: { category: "job_hunting"},
+				data: {category: "job_hunting"},
 				dataType: 'json',
 				success: function(data){
 					console.log(data);
