@@ -36,4 +36,13 @@ public class MainControllerJs {
 		System.out.println(list);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
+	
+	@GetMapping("/recruit/suggestion")
+	public ResponseEntity<List<JobAd>> getReceiptSuggestion(HttpServletRequest request){
+		System.out.println("추천 공고 출력");
+		List<JobAd> list = jobAdRepository.findAllJobAdsWithCompanyOrderedByReceiptCloseDt();
+		
+		System.out.println(list);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 }
