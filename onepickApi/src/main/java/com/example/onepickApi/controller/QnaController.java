@@ -100,6 +100,7 @@ public class QnaController {
 		qna.setTitle(qnaDto.getTitle());
 		qna.setContent(qnaDto.getContent());
 		qna.setCategory(qnaDto.getCategory());
+		qna.setResponse(qnaDto.getResponse());
 		Qna result = qnaRepository.save(qna);
 		
 		return new ResponseEntity<>(result, HttpStatus.OK);
@@ -112,26 +113,29 @@ public class QnaController {
 	}
 	
 	@GetMapping("/usermyqna")
-	public ResponseEntity<Qna> userMyQna(@RequestParam("username") String username) {
+	public ResponseEntity<List<Qna>> userMyQna(@RequestParam("username") String username) {
+		System.out.println(username);
 		Optional<User> result = userRepository.findById(username);
 		if(result.isPresent()) {
-			Optional<Qna> qna = qnaRepository.findByUserUsername(username);
-			return new ResponseEntity<>(qna.get(), HttpStatus.OK);
+			List<Qna> qna = qnaRepository.findAllByUserUsername(username);
+			return new ResponseEntity<>(qna, HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 	
 	@GetMapping("/companymyqna")
-	public ResponseEntity<Qna> companyMyQna(@RequestParam("username") String username) {
-		Optional<Company> result = companyRepository.findById(username);
-		if(result.isPresent()) {
-			Optional<Qna> qna = qnaRepository.findByCompanyUsername(username);
-			return new ResponseEntity<>(qna.get(), HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+	public ResponseEntity<List<Qna>> companyMyQna(@RequestParam("username") String username) {
+	    System.out.println(username);
+	    Optional<Company> result = companyRepository.findById(username);
+	    if(result.isPresent()) {
+	        List<Qna> qnaList = qnaRepository.findAllByCompanyUsername(username);
+	        return new ResponseEntity<>(qnaList, HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
 	}
+
 	
 
 }

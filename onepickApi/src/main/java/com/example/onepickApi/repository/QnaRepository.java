@@ -17,4 +17,8 @@ public interface QnaRepository extends JpaRepository<Qna, Long>{
 	
 	Page<Qna> findAll(Pageable pageable);
 
+	List<Qna> findAllByCompanyUsername(String username);
+
+	List<Qna> findAllByUserUsername(String username);
+
 }
