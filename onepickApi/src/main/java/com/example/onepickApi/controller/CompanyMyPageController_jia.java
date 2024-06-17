@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.onepickApi.entity.Company;
 import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.JobAdRepository;
-import com.example.onepickApi.service.NotificationService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -50,8 +49,8 @@ public class CompanyMyPageController_jia {
 	
 	
 	
-	@GetMapping("/detail")
-	public ResponseEntity<Company> getComDetail(HttpServletRequest request) {
+	@GetMapping("/detail/{cid}")
+	public ResponseEntity<Company> getComDetail(HttpServletRequest request, @PathVariable("cid") String cid) {
 		Enumeration<String> headers = request.getHeaderNames();
 		while(headers.hasMoreElements()) {
 			System.out.println(headers.nextElement());
@@ -59,8 +58,8 @@ public class CompanyMyPageController_jia {
 				System.out.println(request.getHeader("username"));
 			}
 		}
-		if(!companyRepo.findById(request.getHeader("username")).isEmpty()) {
-			return new ResponseEntity<>(companyRepo.findById(request.getHeader("username")).get(), HttpStatus.OK);
+		if(!companyRepo.findById(cid).isEmpty()) {
+			return new ResponseEntity<>(companyRepo.findById(cid).get(), HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
