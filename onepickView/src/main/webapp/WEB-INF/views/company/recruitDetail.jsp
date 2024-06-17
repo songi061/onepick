@@ -262,7 +262,8 @@ function scrapJobad() {
 			document.querySelector("#scrapBtn img").src = "/icon/save.png";
 			}
 		}
-	xhttp.open("GET", "", true);
+	xhttp.open("GET", "http://localhost:9001/api/v1/job-scrap/"+jno, true);
+	xhttp.setRequestHeader("username", localStorage.getItem("username"));
 	xhttp.send();
 	}
 	

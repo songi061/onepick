@@ -15,7 +15,7 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 
 <div class="container" id="ctn">
-    <h3>이력서 리스트</h3>
+    <h3 class="page_title">이력서 리스트</h3>
     <hr>
     <div id="resumeList"></div>
 </div>

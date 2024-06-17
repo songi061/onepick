@@ -148,7 +148,7 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 
 <div class="container" id="myHomeContainer">
-    <h2>🏠My Home</h2>
+    <h2 class="page_title">🏠 My Home</h2>
     <hr>
     
     <div class="homeinfo">
