@@ -22,8 +22,11 @@
 			</div>
 			<div id="suggestion_section">
 				<h3 class="page_title">추천 채용공고</h3>
-				<div id="suggestion_list" class="row">
+				<div id="suggestion_list" class="row mb-5">
 				</div>
+			</div>
+			<h3 class="page_title">전체 채용공고</h3>
+			<div id="allJobAdList" class="row mb-5">
 			</div>
 		</div>
 
@@ -92,6 +95,31 @@
 			}else{
 				document.querySelector("#suggestion_section").style.display="none";
 			}
+			
+			const xhttp3 = new XMLHttpRequest();
+			xhttp3.onload = function () {
+				let objs = JSON.parse(this.responseText);
+				objs.forEach(obj => {
+					console.log(obj);
+					let logoSrc = obj.company.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.company.fileName;
+					console.log(logoSrc);
+					document.querySelector("#allJobAdList").innerHTML += 
+						"<div class='col-md-6 col-xl-4 mb-3'>"
+					+ "<a class='d-block d-flex align-items-center border text-decoration-none rounded p-4 pointer recruit_box' href='/company/recruitDetail?jno=" + obj.jno + "''>"
+					+ "<div class='logo w-25 me-3'><img src='" + logoSrc + "' alt='회사로고'></div>"
+					+ "<div class='w-75'>"
+					+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
+					+ "<div class='recruitTitle fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
+					+ "<div class='fs-6 text-secondary'> 공고 마감일 " + obj.receiptCloseDt + "</div>"
+					+ "<div class='recruitInfo text-ellipsis fs-6 text-secondary'> 모집 인원 " + obj.collectPsncnt + ", " + obj.position1 + ", " + obj.position2 + ", " + obj.region1 + ", " + obj.region2  + "</div>"
+					+ "</div></a></div>";
+				});
+				
+			}
+			xhttp3.open("GET", "http://localhost:9001/api/v1/main/recruit/allList");
+			xhttp3.setRequestHeader("Authorization", "Bearer " + token);
+			xhttp3.setRequestHeader("Access-Control-Expose-Headers", "Authorization");
+			xhttp3.send();
 			
 		</script>
 		<jsp:include page="layout/footer.jsp"></jsp:include>

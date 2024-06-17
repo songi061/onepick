@@ -137,4 +137,11 @@ p{
     margin: 20px;
 }
 
+.text-ellipsis{
+	width:100%;
+	text-overflow: ellipsis;
+  	white-space: nowrap;
+  	overflow: hidden;
+}
+
 

@@ -140,4 +140,10 @@ public class MainControllerJs {
 	    return new ResponseEntity<>(jobAdList, HttpStatus.OK);
 	}
 	
+	@GetMapping("/recruit/allList")
+	public ResponseEntity<List<JobAd>> getAllList(){
+		List<JobAd> allList = jobAdRepository.findByReceiptCloseDtAfterReceiptCloseDt();
+		return new ResponseEntity<>(allList, HttpStatus.OK);
+	} 
+	
 }
