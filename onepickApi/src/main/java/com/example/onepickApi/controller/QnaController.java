@@ -48,7 +48,8 @@ public class QnaController {
 	
 	@PostMapping("/qna")
 	public ResponseEntity<Qna> qnaRegist(@RequestBody QnaDto qnaDto, @RequestParam("username") String username) {
-		System.out.println(username);
+
+		System.out.println("들어온 username : "+username);
 		Qna qna = new Qna();
 		qna.setTitle(qnaDto.getTitle());
 		qna.setContent(qnaDto.getContent());
@@ -58,23 +59,12 @@ public class QnaController {
 		Optional<User> result1 = userRepository.findById(username);
 		Optional<Company> result2 = companyRepository.findById(username);
 		
-		if(result1.isPresent()) {
-			User user = new User();
-			user.setUsername(username);
-			qna.setUser(user);
+		if(result1.isPresent()) {		
+			qna.setUser(result1.get());
 		}else if(result2.isPresent()) {
-			Company company = new Company();
-			company.setUsername(username);
-			qna.setCompany(company);
+			qna.setCompany(result2.get());
 		}
 		
-//		User user = new User();
-//		user.setUsername("test_user");
-//		qna.setUser(user);
-		
-//		Company company = new Company();
-//		company.setUsername("test_company");
-//		qna.setCompany(company);
 		
 		Qna result = qnaRepository.save(qna);
 		return new ResponseEntity<>(result, HttpStatus.OK);
@@ -94,9 +84,21 @@ public class QnaController {
 	}
 	
 	@PutMapping("/qna")
-	public ResponseEntity<Qna> qnaEdit(@RequestBody QnaDto qnaDto, @RequestParam("bno") Long bno) {
+	public ResponseEntity<Qna> qnaEdit(@RequestBody QnaDto qnaDto, @RequestParam("bno") Long bno, @RequestParam("username") String username) {
 		Qna qna = new Qna();
 		qna.setBno(bno);
+		
+		System.out.println("들어온 username : "+username);
+		
+		Optional<User> result1 = userRepository.findById(username);
+		Optional<Company> result2 = companyRepository.findById(username);
+		
+		if(result1.isPresent()) {		
+			qna.setUser(result1.get());
+		}else if(result2.isPresent()) {
+			qna.setCompany(result2.get());
+		}
+		
 		qna.setTitle(qnaDto.getTitle());
 		qna.setContent(qnaDto.getContent());
 		qna.setCategory(qnaDto.getCategory());

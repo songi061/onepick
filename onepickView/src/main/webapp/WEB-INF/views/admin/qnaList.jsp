@@ -7,6 +7,7 @@
 <title>1PICK!</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="/css/adminstyle.css" rel="stylesheet">
+<link href="/css/qnaList.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.js"
 	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
 	crossorigin="anonymous"></script>
@@ -14,18 +15,18 @@
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/adminHeader.jsp"></jsp:include>
 <div class="container">
-  <h1>QNA List</h1>
+  <div class="page_title">Q&A</div>
     <table class="table">
         <thead>
             <tr>
-                <th>번호</th>
-                <th>회원</th>
-                <th>카테고리</th>
-                <th>제목</th>
-                <th>상태</th>
-                <th>작성자</th>
-                <th>작성일자</th>
-				<th>답변</th>
+                <th id="num">번호</th>
+                <th id="sort">구분</th>
+                <th id="cate">카테고리</th>
+                <th id="title">제목</th>
+                <th id="writer">작성자</th>
+                <th id="status">상태</th>
+                <th id="date">작성일자</th>
+				<th id="response">답변</th>
             </tr>
         </thead>
         <tbody id="qnaTableBody">
@@ -57,17 +58,8 @@ $(document).ready(function(){
                 }
                 row.append(userCategory);
 
-                row.append($("<td>").text(qna.category));
-                row.append($("<td>").text(qna.title));
-                   
-                // 답변여부 값에 따른 처리
-                var responseStatus = $("<td>");
-                    if(!qna.response || qna.response.trim() === ""){ //공백을 제거한 값이 빈 문자열인지 검사
-                        responseStatus.html('<p class="ing">답변대기</p>');
-                    } else {
-                        responseStatus.html('<p class="clear">답변완료</p>');
-                    }
-                row.append(responseStatus);
+                row.append($("<td class='category'>").text(qna.category));
+                row.append($("<td class='title'>").text(qna.title));
                 
                 // 작성자 처리
                 var author = $("<td>");
@@ -77,6 +69,17 @@ $(document).ready(function(){
                     author.text(qna.company.username);
                 }
                 row.append(author);
+                
+                   
+                // 답변여부 값에 따른 처리
+                var responseStatus = $("<td>");
+                    if(!qna.response || qna.response.trim() === ""){ //공백을 제거한 값이 빈 문자열인지 검사
+                        responseStatus.html('<p class="ing">답변대기</p>');
+                    } else {
+                        responseStatus.html('<p class="clear">답변완료</p>');
+                    }
+                row.append(responseStatus);
+               
 
                 // 작성일 처리
                 var regdate = qna.regdate ? new Date(qna.regdate) : null;
@@ -94,7 +97,7 @@ $(document).ready(function(){
 
                 var answerTd = $("<td>");
                 var answerLink = $("<a>").attr("href", "/qnaEdit?bno=" + qna.bno);
-                var answerButton = $("<button>").text("답변쓰기");
+                var answerButton = $("<button class='inputBtn'>").text("입력");
 
                 answerLink.append(answerButton);
                 answerTd.append(answerLink);

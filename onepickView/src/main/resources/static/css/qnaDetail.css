@@ -1,0 +1,76 @@
+@charset "UTF-8";
+
+#detail_wrap{
+    width: 100%;
+    border-top: 2px solid lightgray;
+}
+
+#detail_head{
+    height: 90px;
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#detail_head>li{
+    text-align: center;
+    line-height: 90px;
+    float: left;
+}
+
+#title{
+    font: 900 20px/30px 'Pretendard-Regular';
+    margin: 10px 0;
+}
+
+#detail_info{
+    display: flex;
+    flex-direction: row;
+}
+#detail_info>li:nth-child(2){
+    margin: 0 20px;
+}
+#category{
+    color: #42d056;
+}
+
+
+#content{
+    width: 100%;
+    height: 500px;
+    border-bottom: 2px solid lightgray;
+}
+
+#qnaBtn_wrap{
+    width: 130px;
+    position: absolute;
+    left: 1470px;
+    top: 150px;
+}
+#qnaBtn_a{
+    width: 60px;
+}
+.qnaBtn, #qnaListButton{
+    border: 1px solid gainsboro;
+    width: 60px; height: 40px;
+    background-color: #fff;
+    color: #666;
+    float: left;
+}
+#qnaBtn_wrap button:last-child{
+    margin-left: 3px;
+}
+
+#qnaListButton{
+	margin: 20px 0;
+}
+
+#content{
+	padding: 20px;
+}
+
+#response{
+	height: 300px;
+	background-color: #42d05528;
+	padding: 20px;
+}

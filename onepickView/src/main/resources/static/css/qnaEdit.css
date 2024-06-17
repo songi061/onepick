@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+form{
+    width: 1200px; height: 600px;
+    border-top: 2px solid lightgray;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+form div{
+    width: 100%;
+}
+p{
+    display: inline-block;
+    width: 10%;
+    float: left;
+    font-weight: 800;
+    text-align: center;
+    border-right: 1px solid lightgray;
+    box-sizing: border-box;
+}
+
+select{
+    border: none;
+    margin: 9px;
+}
+select:focus {outline:none;}
+
+input{
+    font-family: 'Pretendard-Regular';
+    color: #333;
+    border: 0;
+}
+input:focus {outline:none;}
+
+input[name="title"]{
+    margin-left: 20px;
+}
+
+#username_input{
+	margin-left: 20px;
+}
+
+textarea{
+    width: 1000px;
+    height: 200px;
+    border: none;
+    position: relative;
+    top: 0px; left: 20px;
+}
+textarea:focus {outline:none;}
+
+#frm_category, #frm_title, #frm_user{
+    width: 100%;
+    line-height: 40px;
+    border-bottom: 1px solid lightgray;
+}
+.frm_content{
+    width: 100%; height: 200px;
+    border-bottom: 1px solid lightgray;  
+}
+.frm_content>p{
+    line-height: 200px;
+}
+.frm_content:last-child{
+    border-bottom: 2px solid lightgray;
+}
+#qnaBtn_a{
+    width: 100px;
+}
+.qnaBtn{
+    border: 1px solid gainsboro;
+    width: 100px; height: 40px;
+    background-color: #fff;
+    color: #666;
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.qbn2{
+	position: absolute;
+	top: 160px;
+    left: 1406px;
+}
+
+input[type="submit"]{
+    border: 0;
+    background-color: #42d056;
+    color: #fff;
+    position: absolute;
+    left: 1406px;
+}
+
+input[type="submit"]:hover{
+    transition-duration: 0.5s;
+    background-color: #26af3a;
+}
+
+#content, #response{
+    margin-top: 10px;
+    height: 180px;
+}
