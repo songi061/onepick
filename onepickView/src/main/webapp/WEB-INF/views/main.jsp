@@ -9,6 +9,7 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
 			integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 		<link href="/css/style.css" rel="stylesheet">
+		<link href="/css/main.css" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-3.7.1.js"
 			integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 	</head>
@@ -16,19 +17,8 @@
 	<body class="d-flex flex-column h-100 min-h-100">
 		<jsp:include page="layout/header.jsp"></jsp:include>
 		<div class="container my-3">
+			<h3 class="mt-3 mb-4">채용공고 <span class="fs-6">⏰마감일 순</span></h3>
 			<div id="receipt_close_dt_list" class="row">
-				<div class="col-md-6 col-xl-4 mb-3">
-					<a class="d-block border text-decoration-none rounded p-4 pointer recruit_box" href="#">
-						<div class="logo">
-							<img src="" alt="회사로고">
-						</div>
-						<div class="companyName fs-6">회사명</div>
-						<div class="recruitTitle fs-4 fw-blod">공고제목</div>
-						<div class="recruitInfo fs-6 text-secondary">
-							공고내용 나열
-						</div>
-					</a>
-				</div>
 			</div>
 		</div>
 
@@ -46,18 +36,16 @@
 					console.log(obj);
 					let logoSrc = obj.company.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.company.fileName;
 					console.log(logoSrc);
-					/*
-					let html = `
-						<div class='col-md-6 col-xl-4 mb-3'>
-							<a class='d-block border text-decoration-none rounded p-4 pointer recruit_box' href='#'>
-								<div class='logo'><img src='${logoSrc}' alt='회사로고'></div>
-								<div class='companyName fs-6'>${obj.company.name}</div>
-								<div class='recruitTitle fs-4 fw-bold'>${obj.wantedTitle}</div>
-								<div class='recruitInfo fs-6 text-secondary'>${obj.sector1}</div>
-							</a>
-						</div>`;
-					document.querySelector("#receipt_close_dt_list").innerHTML += html;
-					*/
+					document.querySelector("#receipt_close_dt_list").innerHTML += 
+						"<div class='col-md-6 col-xl-4 mb-3'>"
+					+ "<a class='d-block d-flex align-items-center border text-decoration-none rounded p-4 pointer recruit_box' href='/company/recruitDetail?jno=" + obj.jno + "''>"
+					+ "<div class='logo me-3'><img src='" + logoSrc + "' alt='회사로고'></div>"
+					+ "<div>"
+					+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
+					+ "<div class='recruitTitle fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
+					+ "<div class='fs-6 text-secondary'> 공고 마감일 " + obj.receiptCloseDt + "</div>"
+					+ "<div class='recruitInfo fs-6 text-secondary'>" + obj.sector1 + "</div>"
+					+ "</div></a></div>";
 				});
 				
 			}

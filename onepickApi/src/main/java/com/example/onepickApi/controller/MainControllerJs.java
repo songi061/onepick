@@ -31,7 +31,7 @@ public class MainControllerJs {
 	@GetMapping("/recruit/receipt-closedate")
 	public ResponseEntity<List<JobAd>> getReceiptClosedate(HttpServletRequest request){
 		System.out.println("마감일 공고 출력");
-		List<JobAd> list = jobAdRepository.findAll();
+		List<JobAd> list = jobAdRepository.findAllJobAdsWithCompanyOrderedByReceiptCloseDt();
 		
 		System.out.println(list);
 		return new ResponseEntity<>(list, HttpStatus.OK);

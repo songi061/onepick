@@ -11,6 +11,8 @@
 }
 .recruit_box  .logo img {
     width: 100px; 
-    height: auto;
+    height: 100px;
     object-fit: cover; 
+    border-radius: 50%; 
+    border: 2px solid #42d056; 
  }
