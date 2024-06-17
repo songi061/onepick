@@ -20,4 +20,7 @@ public interface JobAdRepository extends JpaRepository<JobAd, Long> {
 	// 마감일 기준으로 정렬하여 모든 공고 조회
 	@Query(value="SELECT * FROM job_ad WHERE receipt_close_dt >= NOW() ORDER BY receipt_close_dt ASC LIMIT 6", nativeQuery=true)
     List<JobAd> findAllJobAdsWithCompanyOrderedByReceiptCloseDt();
+
+	@Query(value="SELECT * FROM job_ad WHERE jno=:jno and receipt_close_dt >= NOW()", nativeQuery=true)
+	JobAd findByJnoAndReceiptCloseDtAfterReceiptCloseDt(@Param("jno") Long jno);
 }
