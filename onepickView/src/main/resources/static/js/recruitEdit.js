@@ -1,109 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>1PICK!</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<link href="/css/style.css" rel="stylesheet">
-<link href="/css/recruitForm.css" rel="stylesheet">
-<!-- <link href="/js/recruitEdit.js"> -->
-</head>
-<body class="d-flex flex-column h-100 min-h-100">
-<jsp:include page="../layout/header.jsp"></jsp:include>
-	<div class="container">
-		<div class="title">채용공고수정폼</div>
-		<div class="recruit_detail"></div>
-		<div class="recruit_form">
-			<form>
-				<div class="section_title">채용공고 제목</div>
-				<input type="text" name="wantedTitle" placeholder="채용공고 제목을 입력하세요">
-				<div class="section_title">모집 업종</div>
-				<select style="display:none;" name="sector1"><option value="">업종 상위 카테고리 선택</option></select>	<select style="display:none;" name="sector2"><option value="">업종 하위 카테고리 선택</option></select>
-				<span class="sector1"></span>  <span class="sector2"></span>  <button class="btn btn-onepick btnEdit" id="sectorBtn">수정하기</button>
-				<div class="section_title">모집 직무</div>
-				<select style="display:none;" name="position1"><option value="">직무 상위 카테고리 선택</option></select> <select style="display:none;" name="position2"><option value="">직무 하위 카테고리 선택</option></select>
-				<span class="position1"></span>  <span class="position2"></span> <button class="btn btn-onepick btnEdit" id="positionBtn">수정하기</button>
-				<div class="section_title">상세 직무내용</div>
-				<textarea name="jobCont"></textarea>
-				<div class="section_title">필요스킬</div>
-				<select name="skillName" style="display:none;">
-					 <option value="">스킬 선택</option>
-			         <option value="java">java</option>
-			         <option value="python">python</option>
-			         <option value="javascript">javascript</option>
-			         <option value="c++">c++</option>
-			         <option value="Ruby">Ruby</option>
-			         <option value="SQL">SQL</option>
-			         <option value="R">R</option>
-			         <option value="C">C</option>
-			         <option value="ERP">ERP</option>
-			         <option value="HTML/CSS">HTML/CSS</option>
-			         <option value="React">React</option>
-			         <option value="Angular">Angular</option>
-			         <option value="Vue.js">Vue.js</option>
-			         <option value="Django">Django</option>
-			         <option value="네트워크 보안">네트워크 보안</option>
-			         <option value="Swift(IOS)">Swift(IOS)</option>
-			         <option value="Kotlin">Kotlin</option>
-			         <option value="Flutter">Flutter</option>
-			         <option value="Excel">Excel</option>
-			         <option value="외국어능통">외국어능통</option>
-				</select>
-				<div onclick="showSkillOption()" class="showOptionbtn"> ➕ 필요스킬추가하기 </div>
-				<div style="display:none;" onclick="addSkill()" class="add-skill-btn"> ➕ 필요스킬추가하기 </div>
-				<div class='skillContainer'></div>
-				<div class="btn btn-onepick" style="display:none;" id="saveBtn" onclick="saveSkills(event)">저장</div>
-				<div class="section_title">접수마감일</div>
-				<input type="date" name="receiptCloseDt">
-				<div class="section_title">경험</div>
-				<select name="experience">
-					<option value="">경력 선택</option>
-					<option value="경력무관">경력무관</option>
-					<option value="신입">신입</option>
-					<option value="1~5년">1~5년</option>
-					<option value="6~10년">6~10년</option>
-					<option value="11년 이상">11년 이상</option>
-				</select>
-				<div class="section_title">고용형태</div>
-				<select name="empTpNm"><option value="">고용형태 선택</option></select>
-				<div class="section_title">모집인원</div>
-				<input type="text" name="collectPsncnt" value="1"> 명
-				<div class="section_title">임금조건</div>
-				<select name="salTpNm"><option value="">임금조건 선택</option></select>
-				<div class="section_title">근무지역</div>
-				<select style="display:none;" name="region1"><option value="">지역 상위 카테고리 선택</option></select>	<select style="display:none;" name="region2"><option value="">직무 하위 카테고리 선택</option></select>
-				<span class="region1"></span>  <span class="region2"></span>  <button class="btn btn-onepick btnEdit" id="regionBtn">수정하기</button>
-				<div class="section_title">근무시간</div>
-				<input type="text" name="wkdWkhCnt">
-				<div class="section_title">퇴직금</div>
-				<input type="text" name="retirepay">
-				<div class="section_title">기타복리후생</div>
-				<input type="text" name="etcWelfare">
-				<div class="section_title">회사소개첨부파일</div>
-				<input type="file" name="attachFileUrl">
-				<div class="section_title">병역특례채용희망</div>
-				<input type="radio" name="mltsvcExcHope" value="y"> 특례채용희망
-				<input type="radio" name="mltsvcExcHope" value="n"> 해당없음
-				<div class="section_title">담당자이름</div>
-				<input type="text" name="empName">
-				<div class="section_title">담당자이메일</div>
-				<input type="text" name="empEmail">
-				<div class="section_title">담당자연락처</div>
-				<input type="text" name="empTel">
-				<input class="btn btn-onepick" type="submit" value="공고수정" onclick="editJobAd(event)">
-				
-			</form>
-		</div>
-		
-		
-	</div>
-<jsp:include page="../layout/footer.jsp"></jsp:include>
-
-<script>
-
 
 const sector1El = document.querySelector("select[name=sector1]");
 const sector2El = document.querySelector("select[name=sector2]");
@@ -118,7 +12,7 @@ const wantedTitle = document.querySelector("input[name=wantedTitle]");
 const jobCont = document.querySelector("textarea[name=jobCont]");
 const receiptCloseDt = document.querySelector("input[name=receiptCloseDt]");
 const collectPsncnt = document.querySelector("input[name=collectPsncnt]");
-const wkdWkhCnt = document.querySelector("input[name=wkdWkhCnt]");
+const WkdWkhCnt = document.querySelector("input[name=WkdWkhCnt]");
 const retirepay = document.querySelector("input[name=retirepay]");
 const etcWelfare = document.querySelector("input[name=etcWelfare]");
 const empName = document.querySelector("input[name=empName]");
@@ -153,9 +47,6 @@ function getRecruitInfo() {
     let jobad = data.jobad;
     let skills = data.skill;
 
-    console.log(jobad)
-    
-    
     // 스킬 값 넣어주기
     skills.forEach(skill => {
       let skillItems = document.createElement("span");
@@ -173,7 +64,7 @@ function getRecruitInfo() {
     jobCont.value = jobad.jobCont;
     receiptCloseDt.value = jobad.receiptCloseDt;
     collectPsncnt.value = jobad.collectPsncnt;
-    wkdWkhCnt.value = jobad.wkdWkhCnt;
+    WkdWkhCnt.value = jobad.WkdWkhCnt;
     retirepay.value = jobad.retirepay;
     etcWelfare.value = jobad.etcWelfare;
     empName.value = jobad.empName;
@@ -354,12 +245,19 @@ function editJobAd(event) {
   fetch("http://localhost:9001/api/v1/recruit/" + jno, {
     method: "PUT",
     headers: {
-        'jwtToken': localStorage.getItem("jwtToken"),
-        'username': localStorage.getItem("username"),
-        'role': localStorage.getItem("role")
+      'jwtToken': localStorage.getItem("jwtToken"),
+      'username': localStorage.getItem("username"),
+      'role': localStorage.getItem("role")
     },
     body: formData,
-  }).then(response => response.text()).then(result => {
+  }).then(response => {
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.indexOf("application/json") !== -1) {
+      return response.json();
+    } else {
+      return response.text();
+    }
+  }).then(result => {
     addSkills(result);
   }).catch(error => {
     console.log('Error:', error);
@@ -368,22 +266,24 @@ function editJobAd(event) {
 
 // 스킬들을 테이블에 넣어주는 함수
 function addSkills(jno) {
-
   fetch("http://localhost:9001/api/v1/recruit/skill/" + jno, {
     method: "PUT",
-    mode: "cors", // Ensure CORS is enabled
     headers: {
-    	"Content-Type": "application/json",
-        'jwtToken': localStorage.getItem("jwtToken"),
-        'username': localStorage.getItem("username"),
-        'role': localStorage.getItem("role"),
-        'Access-Control-Allow-Headers': 'Content-Type, jwtToken, username, role'
+      "Content-Type": "application/json",
+      'jwtToken': localStorage.getItem("jwtToken"),
+      'username': localStorage.getItem("username"),
+      'role': localStorage.getItem("role")
     },
     body: JSON.stringify(arrItems),
   }).then(response => {
-    console.log(response)
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.indexOf("application/json") !== -1) {
+      return response.json();
+    } else {
+      return response.text();
+    }
   }).then(result => {
-//     location.href = "/company/recruitList";
+    location.href = "/company/recruitList";
   }).catch(error => {
     console.log('Error:', error);
   });
@@ -612,23 +512,3 @@ document.addEventListener('DOMContentLoaded', function () {
 	      })
   
 });
-
-
-</script>
-
-</body>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-

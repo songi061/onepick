@@ -83,7 +83,10 @@ input[type="file"] {
     background-color: #ffffff;
     border-radius: 4px;
 }
-
+.sector1, .sector2, .region1, .region2, .position1, .position2, #regionBtn, #positionBtn, #sectorBtn{
+	margin:10px;
+	
+}
 /* Responsive design */
 @media (max-width: 768px) {
     .container {

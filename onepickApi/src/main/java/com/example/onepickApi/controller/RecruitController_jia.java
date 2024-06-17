@@ -71,6 +71,12 @@ public class RecruitController_jia {
 		List<JobAd> myJobAdList = jobAdRepo.findByUsername(request.getHeader("username"));
 			return new ResponseEntity<>(myJobAdList, HttpStatus.OK);
 	}
+	@GetMapping("/company-recruit/{cid}")
+	public ResponseEntity<List<JobAd>> companyRecruit(@PathVariable("cid") String cid) {
+		System.out.println("xxxx");
+		List<JobAd> myJobAdList = jobAdRepo.findByUsername(cid);
+			return new ResponseEntity<>(myJobAdList, HttpStatus.OK);
+	}
 	
 	@DeleteMapping("/{jno}")
 	public ResponseEntity<String> deleteJobad(@PathVariable("jno") Long jno) {
@@ -82,11 +88,7 @@ public class RecruitController_jia {
 	@PutMapping("/{jno}")
 	public ResponseEntity<String> editJobad(@PathVariable("jno") Long jnoLong, HttpServletRequest request, @ModelAttribute JobAd jobAd, @RequestParam("attachFileUrl") MultipartFile file) {
 		String jno = null;
-		Enumeration<String> headers = request.getHeaderNames();
-		while(headers.hasMoreElements()) {
-			if(headers.nextElement().equals("username")) {
-				System.out.println(request.getHeader("username"));
-				
+	
 				 try {
 			            // 만약 업로드할 폴더 없으면 만들기
 			            if (!Files.exists(rootLocation)) {
@@ -126,8 +128,7 @@ public class RecruitController_jia {
 			        } catch (IOException e) {
 			            throw new RuntimeException("Could not create upload directory or save file!", e);
 			        }
-			}
-		}
+		
 			return new ResponseEntity<>(jno, HttpStatus.OK);
 	}
 	
@@ -135,59 +136,48 @@ public class RecruitController_jia {
 	@PostMapping("/")
 	public ResponseEntity<String> regJobad( HttpServletRequest request, @ModelAttribute JobAd jobAd, @RequestParam("attachFileUrl") MultipartFile file) {
 		String jno = null;
-		Enumeration<String> headers = request.getHeaderNames();
-		while(headers.hasMoreElements()) {
-			if(headers.nextElement().equals("username")) {
-				System.out.println(request.getHeader("username"));
-				
-				 try {
-			            // 만약 업로드할 폴더 없으면 만들기
-			            if (!Files.exists(rootLocation)) {
-			                Files.createDirectories(rootLocation);
-			            }
+			 try {
+		            // 만약 업로드할 폴더 없으면 만들기
+		            if (!Files.exists(rootLocation)) {
+		                Files.createDirectories(rootLocation);
+		            }
 
-			            if (file != null && !file.isEmpty()) {
-			                // 파일업로드
-			                String originalFilename = file.getOriginalFilename();
-			                String extension = originalFilename.substring(originalFilename.lastIndexOf('.'));
-			                String filename = UUID.randomUUID().toString() + extension;
-			                Path destinationFile = this.rootLocation.resolve(Paths.get(filename)).normalize().toAbsolutePath();
+		            if (file != null && !file.isEmpty()) {
+		                // 파일업로드
+		                String originalFilename = file.getOriginalFilename();
+		                String extension = originalFilename.substring(originalFilename.lastIndexOf('.'));
+		                String filename = UUID.randomUUID().toString() + extension;
+		                Path destinationFile = this.rootLocation.resolve(Paths.get(filename)).normalize().toAbsolutePath();
 
-			                // 파일이 이미 존재하면 덮어쓰기 또는 다른 처리를 해야 할 수 있음
-			                Files.copy(file.getInputStream(), destinationFile);
+		                // 파일이 이미 존재하면 덮어쓰기 또는 다른 처리를 해야 할 수 있음
+		                Files.copy(file.getInputStream(), destinationFile);
 
-			                String filePath = destinationFile.toString();
+		                String filePath = destinationFile.toString();
 
-			                // jobad 엔티티에 파일 정보 설정
-			                jobAd.setFileName(filename);
-			                jobAd.setFilePath(filePath);
-			                jobAd.setFileSize(file.getSize());
-			                
-			            }
-			            jobAd.setCompany(companyRepo.findById(request.getHeader("username")).get());
-			            System.out.println(jobAd);
-			              
-		                // jobad 엔티티 저장
-		    			JobAd jobad = jobAdRepo.save(jobAd);
-		    			jno = Long.toString(jobad.getJno());
+		                // jobad 엔티티에 파일 정보 설정
+		                jobAd.setFileName(filename);
+		                jobAd.setFilePath(filePath);
+		                jobAd.setFileSize(file.getSize());
+		                
+		            }
+		            jobAd.setCompany(companyRepo.findById(request.getHeader("username")).get());
+		            System.out.println(jobAd);
+		              
+	                // jobad 엔티티 저장
+	    			JobAd jobad = jobAdRepo.save(jobAd);
+	    			jno = Long.toString(jobad.getJno());
 
-			        } catch (IOException e) {
-			            throw new RuntimeException("Could not create upload directory or save file!", e);
-			        }
-			}
-		}
-			return new ResponseEntity<>(jno, HttpStatus.OK);
+		        } catch (IOException e) {
+		            throw new RuntimeException("Could not create upload directory or save file!", e);
+		        }
+		
+	
+	return new ResponseEntity<>(jno, HttpStatus.OK);
 	}
 	
 	@PostMapping("/skill/{jno}")
 	public ResponseEntity<String> regSkill(@PathVariable("jno") Long jno, HttpServletRequest request, @RequestBody List<String> list) {
-		Enumeration<String> headers = request.getHeaderNames();
-		while(headers.hasMoreElements()) {
-			if(headers.nextElement().equals("username")) {
-				System.out.println(request.getHeader("username"));
-			}
-		}
-		
+		System.out.println("개로오 이게");
 		for(int i = 0; i<list.size(); i++) {
 			Skill skill = new Skill();
 			
@@ -204,21 +194,12 @@ public class RecruitController_jia {
 	
 	@PutMapping("/skill/{jno}")
 	public ResponseEntity<String> editSkill(@PathVariable("jno") Long jno, HttpServletRequest request, @RequestBody List<String> list) {
-		Enumeration<String> headers = request.getHeaderNames();
-		while(headers.hasMoreElements()) {
-			if(headers.nextElement().equals("username")) {
-				System.out.println(request.getHeader("username"));
-			}
-		}
-		
 		//원래 등록되어있던 스킬 다 지워주기
 		List<Skill> oldList = skillRepo.findAllByJno(jno);
 		
 		for(Skill s : oldList) {
 			skillRepo.delete(s);
 		}
-		
-		
 		
 		for(int i = 0; i<list.size(); i++) {
 			Skill skill = new Skill();
