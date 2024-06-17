@@ -1,5 +1,7 @@
 package com.example.onepickApi.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +21,8 @@ public interface UserRepository extends JpaRepository<User, String>{
 	@Transactional
 	@Query("UPDATE User u SET u.fileName = :fileName, u.filePath = :filePath, u.fileSize = :fileSize WHERE u.username = :username")
     void updateFileInfo(@Param("username") String username, @Param("fileName") String fileName, @Param("filePath") String filePath, @Param("fileSize") Long fileSize);
+
+	public List<User> findByUsernameContainingOrNameContaining(String username, String name);
+
 	
 }
