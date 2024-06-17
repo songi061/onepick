@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.onepickApi.entity.JobAd;
 import com.example.onepickApi.entity.Oa;
 import com.example.onepickApi.entity.Resume;
-import com.example.onepickApi.entity.User;
 import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.JobAdRepository;
 import com.example.onepickApi.repository.OaRepository;
@@ -143,6 +142,13 @@ public class MainControllerJs {
 	@GetMapping("/recruit/allList")
 	public ResponseEntity<List<JobAd>> getAllList(){
 		List<JobAd> allList = jobAdRepository.findByReceiptCloseDtAfterReceiptCloseDt();
+		return new ResponseEntity<>(allList, HttpStatus.OK);
+	} 
+	
+	@GetMapping("/recruit/allList/{keyword}")
+	public ResponseEntity<List<JobAd>> getAllListKeyword(@PathVariable("keyword") String keyword){
+		List<JobAd> allList = jobAdRepository.findByReceiptCloseDtAfterAndWantedTitleContaining(keyword);
+		System.out.println("검색으로" + allList);
 		return new ResponseEntity<>(allList, HttpStatus.OK);
 	} 
 	

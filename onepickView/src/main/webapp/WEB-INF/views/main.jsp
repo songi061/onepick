@@ -25,7 +25,13 @@
 				<div id="suggestion_list" class="row mb-5">
 				</div>
 			</div>
-			<h3 class="page_title">전체 채용공고</h3>
+			<div class="clearfix">
+				<h3 class="page_title float-start">전체 채용공고</h3>
+				<div class="float-end input-group main_seaerch_box mt-md-5">
+					<input type="text" class="form-control" placeholder="제목 검색" name="searchInput" aria-label="제목 검색" aria-describedby="jobAdSearchBtn">
+					<button class="btn btn-outline-secondary" type="button" id="jobAdSearchBtn">검색</button>
+				</div>
+			</div>
 			<div id="allJobAdList" class="row mb-5">
 			</div>
 		</div>
@@ -49,7 +55,7 @@
 					+ "<div class='logo w-25 me-3'><img src='" + logoSrc + "' alt='회사로고'></div>"
 					+ "<div class='w-75'>"
 					+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
-					+ "<div class='recruitTitle fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
+					+ "<div class='recruitTitle text-ellipsis fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
 					+ "<div class='fs-6 text-secondary'> 공고 마감일 " + obj.receiptCloseDt + "</div>"
 					+ "<div class='recruitInfo text-ellipsis fs-6 text-secondary'> 모집 인원 " + obj.collectPsncnt + ", " + obj.position1 + ", " + obj.position2 + ", " + obj.region1 + ", " + obj.region2  + "</div>"
 					+ "</div></a></div>";
@@ -96,30 +102,81 @@
 				document.querySelector("#suggestion_section").style.display="none";
 			}
 			
-			const xhttp3 = new XMLHttpRequest();
-			xhttp3.onload = function () {
-				let objs = JSON.parse(this.responseText);
-				objs.forEach(obj => {
-					console.log(obj);
-					let logoSrc = obj.company.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.company.fileName;
-					console.log(logoSrc);
-					document.querySelector("#allJobAdList").innerHTML += 
-						"<div class='col-md-6 col-xl-4 mb-3'>"
-					+ "<a class='d-block d-flex align-items-center border text-decoration-none rounded p-4 pointer recruit_box' href='/company/recruitDetail?jno=" + obj.jno + "''>"
-					+ "<div class='logo w-25 me-3'><img src='" + logoSrc + "' alt='회사로고'></div>"
-					+ "<div class='w-75'>"
-					+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
-					+ "<div class='recruitTitle fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
-					+ "<div class='fs-6 text-secondary'> 공고 마감일 " + obj.receiptCloseDt + "</div>"
-					+ "<div class='recruitInfo text-ellipsis fs-6 text-secondary'> 모집 인원 " + obj.collectPsncnt + ", " + obj.position1 + ", " + obj.position2 + ", " + obj.region1 + ", " + obj.region2  + "</div>"
-					+ "</div></a></div>";
-				});
-				
-			}
-			xhttp3.open("GET", "http://localhost:9001/api/v1/main/recruit/allList");
-			xhttp3.setRequestHeader("Authorization", "Bearer " + token);
-			xhttp3.setRequestHeader("Access-Control-Expose-Headers", "Authorization");
-			xhttp3.send();
+			
+			
+			const jobAdSearchBtn = document.querySelector("#jobAdSearchBtn");
+			const searchInput = document.querySelector("input[name='searchInput']");
+			
+			function mainAllList(){
+				const xhttp3 = new XMLHttpRequest();
+				xhttp3.onload = function () {
+					let objs = JSON.parse(this.responseText);
+					objs.forEach(obj => {
+						console.log(obj);
+						let logoSrc = obj.company.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.company.fileName;
+						console.log(logoSrc);
+						document.querySelector("#allJobAdList").innerHTML += 
+							"<div class='col-md-6 col-xl-4 mb-3'>"
+						+ "<a class='d-block d-flex align-items-center border text-decoration-none rounded p-4 pointer recruit_box' href='/company/recruitDetail?jno=" + obj.jno + "''>"
+						+ "<div class='logo w-25 me-3'><img src='" + logoSrc + "' alt='회사로고'></div>"
+						+ "<div class='w-75'>"
+						+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
+						+ "<div class='recruitTitle fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
+						+ "<div class='fs-6 text-secondary'> 공고 마감일 " + obj.receiptCloseDt + "</div>"
+						+ "<div class='recruitInfo text-ellipsis fs-6 text-secondary'> 모집 인원 " + obj.collectPsncnt + ", " + obj.position1 + ", " + obj.position2 + ", " + obj.region1 + ", " + obj.region2  + "</div>"
+						+ "</div></a></div>";
+					});
+					
+				}
+				xhttp3.open("GET", "http://localhost:9001/api/v1/main/recruit/allList");
+				xhttp3.setRequestHeader("Authorization", "Bearer " + token);
+				xhttp3.setRequestHeader("Access-Control-Expose-Headers", "Authorization");
+				xhttp3.send();
+			};
+			mainAllList();
+			
+			
+			
+			jobAdSearchBtn.addEventListener("click", function(){
+				let keyword = searchInput.value;
+				console.log("keyword " + keyword);
+				if(keyword.length == 0){
+					document.querySelector("#allJobAdList").innerHTML = "";
+					mainAllList();
+				}else{
+					const xhttp4 = new XMLHttpRequest();
+					xhttp4.onload = function () {
+						let objs = JSON.parse(this.responseText);
+						console.log(objs);
+						if(objs.length != 0){
+							objs.forEach(obj => {
+								console.log(obj);
+								let logoSrc = obj.company.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.company.fileName;
+								console.log(logoSrc);
+								document.querySelector("#allJobAdList").innerHTML = "";
+								document.querySelector("#allJobAdList").innerHTML += 
+									"<div class='col-md-6 col-xl-4 mb-3'>"
+								+ "<a class='d-block d-flex align-items-center border text-decoration-none rounded p-4 pointer recruit_box' href='/company/recruitDetail?jno=" + obj.jno + "''>"
+								+ "<div class='logo w-25 me-3'><img src='" + logoSrc + "' alt='회사로고'></div>"
+								+ "<div class='w-75'>"
+								+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
+								+ "<div class='recruitTitle fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
+								+ "<div class='fs-6 text-secondary'> 공고 마감일 " + obj.receiptCloseDt + "</div>"
+								+ "<div class='recruitInfo text-ellipsis fs-6 text-secondary'> 모집 인원 " + obj.collectPsncnt + ", " + obj.position1 + ", " + obj.position2 + ", " + obj.region1 + ", " + obj.region2  + "</div>"
+								+ "</div></a></div>";
+							});
+						}else{
+							document.querySelector("#allJobAdList").innerHTML = "";
+							document.querySelector("#allJobAdList").innerHTML = "<div class='col-12'><div class='border w-100 p-4 text-center text-secondary rounded'>검색 결과가 없습니다.</br> 검색어를 다시 확인해주세요.</div></div>"
+						}
+
+					}
+					xhttp4.open("GET", "http://localhost:9001/api/v1/main/recruit/allList/" + keyword);
+					xhttp4.setRequestHeader("Authorization", "Bearer " + token);
+					xhttp4.setRequestHeader("Access-Control-Expose-Headers", "Authorization");
+					xhttp4.send();
+				}
+			});
 			
 		</script>
 		<jsp:include page="layout/footer.jsp"></jsp:include>
