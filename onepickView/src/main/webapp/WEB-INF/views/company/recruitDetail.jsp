@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>1PICK!</title>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="/css/style.css" rel="stylesheet">
@@ -93,7 +94,7 @@
 				<img style="width:25px; height:25px;" src="/icon/heart.png">
 			</div>
 		</div>
-		<button class="btn btn-onepick apply-btn">지원하기</button>
+		<button class="btn btn-onepick apply-btn" onclick="apply()">지원하기</button>
 		</div>
 		</div>
 	</div>
@@ -512,6 +513,41 @@ function likeTheCom() {
 	xhttp.send();
 } 
  */
+ 
+ 
+ 
+function apply(){
+	 if (confirm("해당 채용공고에 지원하시겠습니까?")) {
+		 $.ajax({
+			    url: 'http://localhost:9001/api/v1/apply?rno=' + 1 + '&jno=' + jno,
+			    type: 'POST',
+			    headers: {
+			    	'username': username
+			    }, 
+			    success: function(data) {
+			    	alert(data);
+			    },
+			    error: function(xhr, status, error) {
+			        console.error('AJAX 요청 실패:', status, error);
+			    }
+			});
+	 }
+ } 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
 </script>
 </body>

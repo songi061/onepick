@@ -29,9 +29,12 @@ public class ApplyList extends BaseEntity {
 	@JoinColumn(name = "jno", referencedColumnName = "jno", nullable = false)
 	private JobAd jobAd;
 	
-	@ManyToOne
-    @JoinColumn(name = "cid", referencedColumnName = "username", nullable = false)
-    private Company company;
+	/*
+	 * @ManyToOne
+	 * 
+	 * @JoinColumn(name = "cid", referencedColumnName = "username", nullable =
+	 * false) private Company company;
+	 */
 
 	@ManyToOne
 	@JoinColumn(name = "uid", referencedColumnName = "username", nullable = false)
@@ -39,10 +42,12 @@ public class ApplyList extends BaseEntity {
 
 	@Column(nullable = false)
 	private String status;
+	
+	@Column(nullable = true)
 	private boolean ratingStatus;
 
-	@Column(nullable = false, columnDefinition="TEXT")
-	private String save;
+	//@Column(nullable = true, columnDefinition="TEXT")
+	//private String save;
 	
 	
 }
