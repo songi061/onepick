@@ -120,10 +120,10 @@
 .quickMenu a {
     display: inline-block;
     margin: 10px 20px;
-    padding: 20px 30px; /* Padding을 추가하여 버튼처럼 보이게 함 */
+    padding: 15px 20px; /* Padding을 추가하여 버튼처럼 보이게 함 */
     color: black;
     text-decoration: none;
-    font-size: 1.3em;
+    font-size: 1.1em;
     background-color: #f8f9fa; /* 배경색 추가 */
     border: 1px solid #ced4da; /* 테두리 추가 */
     border-radius: 5px; /* 둥근 모서리 추가 */
@@ -148,7 +148,7 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 
 <div class="container" id="myHomeContainer">
-    <h2>My Home</h2>
+    <h2>🏠My Home</h2>
     <hr>
     
     <div class="homeinfo">
@@ -169,6 +169,7 @@
     <div class="quickMenu">
     	<a href="/user/resumeForm">이력서 작성하기</a>
     	<a href="/user/scrapList">스크랩한 공고</a>
+    	<a href="/user/interestList">관심 기업</a>
     	<a href="/user/applyList">지원 내역</a>
     	<a href="/user/myQnaList">QNA 관리</a>
     </div>
@@ -177,22 +178,20 @@
 
 <script>
 $(document).ready(function() {
-    // AJAX 요청 보내기
 	$.ajax({
-        url: 'http://localhost:9001/api/v1/resume',
+        url: 'http://localhost:9001/api/v1/userInfo',
         type: 'GET',
         dataType: 'json',
         headers: {
             'username': username  // HTTP 요청 헤더에 username 추가
+            
         }, 
         success: function(data) {
         	console.log(data);
         	
         	var userInfo = $('#userInfo');
         	    	
-            var firstResume = data[0];
-      
-            var user = firstResume.user;
+        	var user = data;
 
             var userDiv = $('<div class="user-info"></div>');
 
@@ -218,8 +217,28 @@ $(document).ready(function() {
 
             userInfo.append(userDiv);
              
+
+           
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX 요청 실패:', status, error);
+        }
+    });
+	
+	
+	
+    // AJAX 요청 보내기
+	$.ajax({
+        url: 'http://localhost:9001/api/v1/resume',
+        type: 'GET',
+        dataType: 'json',
+        headers: {
+            'username': username  // HTTP 요청 헤더에 username 추가
+        }, 
+        success: function(data) {
+        	console.log(data);
         	
-        	
+
             var resumeList = $('#resumeList');
             resumeList.empty(); // 기존 내용을 비웁니다.
             

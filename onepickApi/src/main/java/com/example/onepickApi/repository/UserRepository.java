@@ -14,6 +14,7 @@ public interface UserRepository extends JpaRepository<User, String>{
 
 	public Member findByUsername(String username);
 	
+	
 	@Modifying
 	@Transactional
 	@Query("UPDATE User u SET u.fileName = :fileName, u.filePath = :filePath, u.fileSize = :fileSize WHERE u.username = :username")

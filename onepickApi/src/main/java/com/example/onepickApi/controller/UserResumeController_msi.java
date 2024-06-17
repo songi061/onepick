@@ -133,25 +133,38 @@ public class UserResumeController_msi {
 		}
 
 	}
-
+	
+	@GetMapping("/userInfo")
+	public User getUserInfo(HttpServletRequest request) {
+		String username = request.getHeader("username"); 
+		Optional<User> result = userRepo.findById(username);
+		User user = result.get();
+		System.out.println("유저정보 출력하기" + user);
+		
+		return user;
+	}
+	
+	
 	
 	// 이력서 가져오기
 	@GetMapping("/resume")
 	public List<Resume> getResumeList(HttpServletRequest request) {
 		
 		//유저정보 불러와서 해당 유저의 이력서 리스트 불러오기
-		/*
-		 * String username = request.getHeader("username"); Member user =
-		 * userRepo.findByUsername(username);
-		 * 
-		 * System.out.println("이력서 리스트 출력 - 유저네임 출력 : " + username);
-		 * System.out.println("유저정보 : " + user);
-		 */
-		//List<Resume> resumeList = repo.findByUser_Username(user);
+		
+		String username = request.getHeader("username"); 
+		Optional<User> result = userRepo.findById(username);
+		User user = result.get();
+		 
+		System.out.println("이력서 리스트 출력 - 유저네임 출력 : " + username);
+		System.out.println("유저정보 : " + user);
+		System.out.println(user.getUsername());
+		
+		List<Resume> resumeList = repo.findByUser(user);
+		System.out.println(resumeList);
 		
 		
-		
-		List<Resume> resumeList = repo.findAll();
+		//List<Resume> resumeList = repo.findAll();
 		//System.out.println("이력서 전체 불러오기 : " + resumeList);
 		
 		//System.out.println("Logged in username: " + username);
