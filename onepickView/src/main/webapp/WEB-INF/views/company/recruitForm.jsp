@@ -73,7 +73,7 @@
 				<div class="section_title">근무지역 *</div>
 				<select name="region1"><option value="">지역 상위 카테고리 선택</option></select>	<select name="region2"><option value="">직무 하위 카테고리 선택</option></select>
 				<div class="section_title">근무시간 *</div>
-				<input type="text" name="WkdWkhCnt">
+				<input type="text" name="wkdWkhCnt">
 				<div class="section_title">퇴직금</div>
 				<input type="text" name="retirepay">
 				<div class="section_title">기타복리후생</div>
@@ -115,7 +115,7 @@ const wantedTitleEl = document.querySelector("input[name=wantedTitle]")
 const jobContEl = document.querySelector("select[name=jobCont]")
 const receiptCloseDtEl = document.querySelector("input[name=receiptCloseDt]")
 const collectPsncntEl = document.querySelector("input[name=collectPsncnt]")
-const WkdWkhCntEl = document.querySelector("input[name=WkdWkhCnt]")
+const wkdWkhCntEl = document.querySelector("input[name=wkdWkhCnt]")
 const empNameEl = document.querySelector("input[name=empName]")
 const empEmailEl = document.querySelector("input[name=empEmail]")
 const empTelEl = document.querySelector("input[name=empTel]")
@@ -200,7 +200,7 @@ function regJobAd(event){
 		|| !region1El.value || !region2El.value || !position1El.value 
 		|| !position2El.value || !workTypeEl.value  || !salaryEl.value 
 		|| !skillNameEl.value || !receiptCloseDtEl.value 
-		|| !collectPsncntEl.value || !WkdWkhCntEl.value
+		|| !collectPsncntEl.value || !wkdWkhCntEl.value
 		|| !empNameEl.value || !empEmailEl.value || !empTelEl.value ){
 		alert("필수 입력값이 모두 입력되지 않았습니다. 다시 시도해주세요")
 		return false;
