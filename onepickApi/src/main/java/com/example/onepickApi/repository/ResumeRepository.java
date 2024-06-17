@@ -10,5 +10,5 @@ import com.example.onepickApi.entity.User;
 
 public interface ResumeRepository extends JpaRepository<Resume, Long>{
 	
-	//List<Resume> findByUser_Username(User username);
+	List<Resume> findByUser(User user);
 }

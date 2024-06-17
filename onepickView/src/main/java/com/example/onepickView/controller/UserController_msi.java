@@ -42,5 +42,16 @@ public class UserController_msi {
 		return "user/myHome";
 	}
 	
+	@RequestMapping("/interestList")
+	public void interestList() {
+		
+	}
+	
+	
+	@RequestMapping("/scrapList")
+	public void scrapList() {
+		
+	}
+	
 	
 }
