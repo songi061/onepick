@@ -7,6 +7,7 @@ import lombok.Data;
 @Component
 @Data
 public class UserBoardDetailDto {
+	private Long ubno;
 	private String category;
 	private String title;
 	private String content;

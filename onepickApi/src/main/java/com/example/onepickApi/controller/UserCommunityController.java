@@ -5,6 +5,8 @@ import java.util.Enumeration;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.onepickApi.dto.UserBoardDto;
+import com.example.onepickApi.dto.BoardDto;
 import com.example.onepickApi.dto.UserReplyDto;
 import com.example.onepickApi.entity.User;
 import com.example.onepickApi.entity.UserBoard;
@@ -41,24 +43,22 @@ public class UserCommunityController {
 
 	// 게시물 등록
 	@PostMapping("/community-board")
-	public UserBoard communityForm(HttpServletRequest request, @RequestBody UserBoardDto boardDto){
+	public ResponseEntity<?> communityForm(HttpServletRequest request, @RequestBody BoardDto boardDto){
 		
 		System.out.println("xxxxxxxxxxxxxxxxxxxxxx");
 		System.out.println("봐라 : " + boardDto);
 		
-		// 사용자 확인 코드
-		Enumeration<String> headers = request.getHeaderNames();
-		while(headers.hasMoreElements()) {
-			System.out.println(headers.nextElement());
-			if(headers.nextElement().equals("username")) {
-				System.out.println(request.getHeader("username"));
-			}
-		}
+		// 요청헤더에 실린 jwt 토큰 및 사용자 정보 받기
+		String username = request.getHeader("username");
 		
-		//String username = request.getHeader("username");
+		if(username == null | username.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username header is missing");
+		}
 		
 		User user = new User();
 		user.setUsername(boardDto.getUsername());
+		
+		System.out.println(user.getUsername());
 		
 		UserBoard ub_ = new UserBoard();
 		ub_.setTitle(boardDto.getTitle());
@@ -67,9 +67,9 @@ public class UserCommunityController {
 		ub_.setUser(user);
 		UserBoard ub = ubRepo.save(ub_);
 		
-		System.out.println("userBoard : " + ub);
+		System.out.println("saved userBoard : " + ub);
 		
-		return ub;
+		return ResponseEntity.ok(ub);
 	}
 	
 	// 커뮤니티 전체 게시물 리스트
@@ -117,7 +117,7 @@ public class UserCommunityController {
 		UserBoard ub = ubRepo.findById(ubno_).get();
 		ur.setUserBoard(ub);
 		ur.setContent(content_);
-		ur.setRegdate(new Date());	// 이렇게 쓰는거 맞나?
+		ur.setRegdate(new Date());	
 		ur.setReport(report_);
 		System.out.println(ur);
 		UserReply ur2 = urRepo.save(ur);
@@ -127,33 +127,21 @@ public class UserCommunityController {
 	
 	// 게시글 수정
 	@PutMapping("/community-board")
-	public UserBoard community(HttpServletRequest request, @RequestBody UserBoardDto boardDto){
-		
-		// 사용자 확인 코드
-		Enumeration<String> headers = request.getHeaderNames();
-		while(headers.hasMoreElements()) {
-			System.out.println(headers.nextElement());
-			if(headers.nextElement().equals("username")) {
-				System.out.println(request.getHeader("username"));
-			}
-		}
-				
-		//String username = request.getHeader("username");
-				
-		User user = new User();
-		user.setUsername(boardDto.getUsername());
-			
-		UserBoard ub_ = new UserBoard();
+	public ResponseEntity<String> community(HttpServletRequest request, @RequestBody BoardDto boardDto){
+		System.out.println("dddddddd");
+		UserBoard ub_ = ubRepo.findById(boardDto.getUbno()).get();
 		ub_.setTitle(boardDto.getTitle());
 		ub_.setContent(boardDto.getContent());
 		ub_.setCategory(boardDto.getCategory());
-		ub_.setUser(user);
 		UserBoard ub = ubRepo.save(ub_);
-			
-		System.out.println("수정된 userBoard : " + ub);
-		ubRepo.save(ub);
 		
-		return ub;
+		System.out.println("수정된 userBoard : " + ub);
+		UserBoard result = ubRepo.save(ub);
+		if(result != null) {
+			return new ResponseEntity<>("수정완료", HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
 	}
 	
 	// 게시글 삭제
@@ -165,7 +153,7 @@ public class UserCommunityController {
 	
 	// 구직자 마이페이지 - 내가 쓴 게시글 목록 조회
 	@GetMapping("/community-myboard")
-	public List<UserBoard> communityMyBoardList(@RequestBody UserBoardDto boardDto){
+	public List<UserBoard> communityMyBoardList(@RequestBody BoardDto boardDto){
 		User user = new User();
 		user.setUsername(boardDto.getUsername());
 		
