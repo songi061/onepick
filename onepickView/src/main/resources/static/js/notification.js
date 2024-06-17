@@ -23,64 +23,54 @@
     // Initialize Firebase Cloud Messaging and get a reference to the service
     const messaging = getMessaging(app);
     
-    // 서비스 워커 등록 및 FCM 토큰 가져오기
-	let currentToken = null;
-
-// 서비스 워커 등록
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/firebase-messaging-sw.js')
-   .then(async (registration) => {
-      console.log('Service Worker registered with scope:', registration.scope);
-      try {
-        currentToken = await getToken(messaging, { vapidKey: 'BLcSeRWoHAyawxByQ1N__CdtF49_9xrIDS4sW0Zu5VuS3zXZvM9xyym054TN276SxN_za2eeV7mBak77Zetgf2Q', serviceWorkerRegistration: registration });
-        if (currentToken) {
-          console.log('FCM Token:', currentToken);
-        } else {
-          console.log('No registration token available. Request permission to generate one.');
-        }
-      } catch (err) {
-        console.error('An error occurred while retrieving token. ', err);
-      }
-    })
-    .catch((err) => {
-      console.error('Service Worker registration failed:', err);
-    });
-}
-
-// setNotification 함수를 정의하고 window 객체에 등록
+    
+    
+  // Define the setNotification function
 window.setNotification = async function() {
-
-
   try {
+    // Request notification permission from the user
     const permission = await Notification.requestPermission();
     const modalBody = document.querySelector("#exampleModal1 .modal-body");
     const notificationBtn = document.querySelector("#exampleModal1 .modal-footer");
 
     if (permission === 'granted') {
-     if (!currentToken) {
-        console.log('No FCM Token found, requesting a new one...');
-        currentToken = await getToken(messaging, { vapidKey: 'BLcSeRWoHAyawxByQ1N__CdtF49_9xrIDS4sW0Zu5VuS3zXZvM9xyym054TN276SxN_za2eeV7mBak77Zetgf2Q' });
-        console.log('New FCM Token:', currentToken);
+      console.log('Notification permission granted.');
+
+      // Register the Service Worker and get the FCM token
+      if ('serviceWorker' in navigator) {
+        const registration = await navigator.serviceWorker.register('/js/firebase-messaging-sw.js');
+        console.log('Service Worker registered with scope:', registration.scope);
+
+        const currentToken = await getToken(messaging, {
+          vapidKey: 'BLcSeRWoHAyawxByQ1N__CdtF49_9xrIDS4sW0Zu5VuS3zXZvM9xyym054TN276SxN_za2eeV7mBak77Zetgf2Q',
+          serviceWorkerRegistration: registration
+        });
+ console.log('FCM Token:', currentToken);
+        if (currentToken) {
+          console.log('FCM Token:', currentToken);
+
+          // Send the token to the server
+          await fetch('http://localhost:9001/api/v1/notification/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              "jwtToken": localStorage.getItem("jwtToken"),
+              "username": localStorage.getItem("username"),
+              "role": localStorage.getItem("role")
+            },
+            body: JSON.stringify({ token: currentToken })
+          });
+
+          // Update modal message
+          modalBody.innerHTML = "푸쉬 알림 설정이 '허용'되었습니다. <br> 알림을 중단하려면, 브라우저 설정에서 푸쉬 알림 설정을 '차단'으로 변경하세요.";
+          notificationBtn.style.display = 'none';
+        } else {
+          console.log('No registration token available. Request permission to generate one.');
+        }
       }
-
-      // 서버에 토큰 전송
-      await fetch('http://localhost:9001/api/v1/notification/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          "jwtToken": localStorage.getItem("jwtToken"),
-          "username": localStorage.getItem("username"),
-          "role": localStorage.getItem("role")
-        },
-        body: JSON.stringify({ token: currentToken })
-      });
-
-      // 모달 안내메시지 변경
-      modalBody.innerHTML = "이미 푸쉬 알림에 대한 설정을 '허용'으로 설정하였습니다. <br> 알림을 그만 받길 원한다면, 브라우저 설정에서 푸쉬 알림 설정을 '차단'으로 변경해 주세요.";
-      notificationBtn.style.display = 'none';
     } else if (permission === 'denied') {
-      // 모달 안내메시지 변경
-      modalBody.innerHTML = "이미 푸쉬 알림에 대한 설정을 '차단'으로 설정하였습니다. <br> 알림을 받고 싶다면, 브라우저 설정에서 푸쉬 알림 설정을 '허용'으로 변경해 주세요.";
+      // Update modal message if permission is denied
+      modalBody.innerHTML = "푸쉬 알림 설정이 '차단'되었습니다. <br> 알림을 받으려면, 브라우저 설정에서 푸쉬 알림 설정을 '허용'으로 변경하세요.";
       notificationBtn.style.display = 'none';
     }
   } catch (err) {
