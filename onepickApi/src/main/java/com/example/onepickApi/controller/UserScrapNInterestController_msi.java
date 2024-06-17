@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.onepickApi.entity.Company;
 import com.example.onepickApi.entity.InterestedCop;
+import com.example.onepickApi.entity.JobAd;
 import com.example.onepickApi.entity.JobadScrap;
 import com.example.onepickApi.entity.User;
+import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.InterestedCopRepository;
 import com.example.onepickApi.repository.JobAdRepository;
 import com.example.onepickApi.repository.JobadScrapRepository;
@@ -33,21 +36,41 @@ public class UserScrapNInterestController_msi {
 	private UserRepository userRepo;
 	
 	@Autowired
-	private JobadScrapRepository scrapRepo;
+	private JobadScrapRepository scrapRepo; //스크랩 레포지토리
 	
 	@Autowired
-	private InterestedCopRepository interestRepo;
+	private InterestedCopRepository interestRepo; //관심기업 레포지토리
 	
 	@Autowired
-	private JobAdRepository jobadRepo;
+	private JobAdRepository jobadRepo; //채용공고 레포지토리
+	
+	@Autowired
+	private CompanyRepository companyRepo; //기업 레포지토리
+	
 	
 	
 	
 	@PostMapping("/job-scrap/{jno}")
-	public void registScrap(HttpServletRequest request) {
-		//스크랩 추가
+	public Long registScrap(HttpServletRequest request, @PathVariable("jno") Long jno) {
+		//스크랩 등록
 		
+		String username = request.getHeader("username"); 
+		Optional<User> result = userRepo.findById(username);
+		User user = result.get();
+
+		JobAd jobad = jobadRepo.findById(jno).get();
 		
+		JobadScrap scrap = new JobadScrap();
+		
+		scrap.setUser(user);
+		scrap.setJobAd(jobad);
+		
+		JobadScrap resultscrap = scrapRepo.save(scrap);
+		Long scno = resultscrap.getScno();
+		
+		System.out.println("스크랩 데이터" + resultscrap);
+		
+		return scno;
 	}
 	
 	
@@ -79,8 +102,23 @@ public class UserScrapNInterestController_msi {
 
 	
 	@PostMapping("/interested-company/{cid}")
-	public void registInterCom() {
+	public ResponseEntity<String> registInterCom(HttpServletRequest request, @PathVariable("cid") String cid) {
 		//관심기업 추가
+		
+		String username = request.getHeader("username"); 
+		Optional<User> result = userRepo.findById(username);
+		User user = result.get();
+		
+		Company company = companyRepo.findById(cid).get();
+
+		InterestedCop interestedCop = new InterestedCop();
+		interestedCop.setUser(user);
+		interestedCop.setCompany(company);
+	
+		interestRepo.save(interestedCop);
+		
+		return new ResponseEntity<>("관심기업 추가 성공!", HttpStatus.OK);
+		
 	}
 	
 	
