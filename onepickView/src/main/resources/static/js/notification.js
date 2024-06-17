@@ -22,25 +22,27 @@
 
     // Initialize Firebase Cloud Messaging and get a reference to the service
     const messaging = getMessaging(app);
+
     
     
     
   // Define the setNotification function
 window.setNotification = async function() {
+
   try {
     // Request notification permission from the user
     const permission = await Notification.requestPermission();
     const modalBody = document.querySelector("#exampleModal1 .modal-body");
     const notificationBtn = document.querySelector("#exampleModal1 .modal-footer");
 
-    if (permission === 'granted') {
       console.log('Notification permission granted.');
+    if (permission === 'granted') {
+
 
       // Register the Service Worker and get the FCM token
       if ('serviceWorker' in navigator) {
         const registration = await navigator.serviceWorker.register('/js/firebase-messaging-sw.js');
         console.log('Service Worker registered with scope:', registration.scope);
-
         const currentToken = await getToken(messaging, {
           vapidKey: 'BLcSeRWoHAyawxByQ1N__CdtF49_9xrIDS4sW0Zu5VuS3zXZvM9xyym054TN276SxN_za2eeV7mBak77Zetgf2Q',
           serviceWorkerRegistration: registration

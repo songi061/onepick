@@ -32,9 +32,7 @@
         <div id="response"></div>
     </li>
   </ul>
-  <a href="/qnaList">
-    <button>목록</button>
-  </a>
+    <button id="qnaListButton">목록</button>
 </div>
 <jsp:include page="layout/footer.jsp"></jsp:include>
 </body>
@@ -81,6 +79,21 @@
                 $("#deleteBtn").on("click", function(event){
                     confirmDelete(event, bno);
                 });
+                
+                // 버튼 클릭 이벤트 핸들러 추가
+                $('#qnaListButton').on('click', function(event) {
+                    event.preventDefault(); // 기본 동작 방지
+
+                    const storedUsername = localStorage.getItem("username"); // 로컬 스토리지에서 username 가져오기
+
+                    if (qna.user && qna.user.username === storedUsername) {
+                        window.location.href = "/user/myQnaList";
+                    } else if (qna.company && qna.company.username === storedUsername) {
+                        window.location.href = "/company/myQnaList";
+                    } else {
+                        alert("해당 사용자 또는 기업의 QnA 리스트가 없습니다.");
+                    }
+                });
             },
             error: function(error){
                 console.log("에러 :", error);
@@ -111,6 +124,7 @@
                 console.log("에러 상세 정보: ", error.responseText);
             }
         });
+        
     }
 </script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">

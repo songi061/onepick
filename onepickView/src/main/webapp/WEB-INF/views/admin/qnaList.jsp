@@ -32,7 +32,6 @@
             <!-- AJAX로 데이터가 삽입될 부분 -->
         </tbody>
     </table>
-    <a href="/qnaForm"><button>글쓰기</button></a>
 </div>
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
@@ -93,7 +92,16 @@ $(document).ready(function(){
 
                 row.append($("<td>").text(formattedDate));
 
+                var answerTd = $("<td>");
+                var answerLink = $("<a>").attr("href", "/qnaEdit?bno=" + qna.bno);
+                var answerButton = $("<button>").text("답변쓰기");
 
+                answerLink.append(answerButton);
+                answerTd.append(answerLink);
+                row.append(answerTd);
+
+                tbody.append(row);
+                
                 tbody.append(row); // 설정한 모든 row 요소들을 tbody에 삽입
             });
 
