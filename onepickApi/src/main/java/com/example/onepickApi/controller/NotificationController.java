@@ -55,11 +55,9 @@ public class NotificationController {
     @PostMapping("/register")
     public ResponseEntity<String> registerToken(@RequestBody Map<String, String> notiToken, HttpServletRequest request) {
     	System.out.println("실행");
-    	System.out.println(notiToken);
+   
     	System.out.println(notiToken.get("token"));
-    	System.out.println(request.getHeader("username"));
-    	System.out.println(request.getHeader("jwtToken"));
-    	System.out.println(request.getHeader("role"));
+    	
     	
 		
 		String username = request.getHeader("username");
