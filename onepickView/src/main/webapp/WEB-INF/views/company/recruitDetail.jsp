@@ -87,10 +87,10 @@
 			<div id="copyBtn" onclick="copyToClipboard()">
 				<img style="width:25px; height:25px;" src="/icon/copy.png" alt="copyBtn">
 			</div>
-			<div id="scrapBtn" onclick="handleScrapButton()">
+			<div id="scrapBtn" onclick="scrapJobad()">
 				<img style="width:25px; height:25px;" src="/icon/save.png">
 			</div>
-			<div id="likeBtn" onclick="handleInterestButton()">
+			<div id="likeBtn" onclick="likeTheCom()">
 				<img style="width:25px; height:25px;" src="/icon/heart.png">
 			</div>
 		</div>
@@ -101,17 +101,34 @@
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 
 <script>
-
 const jno = "${jno}";
+let cid = null;
+let liked = null;
+let scrapped = null;
 
 
-const xhttp = new XMLHttpRequest();
-xhttp.onload = function() {
-	console.log(JSON.parse(this.responseText));
-	let data = JSON.parse(this.responseText);
-	let jobad = data.jobad;
-	let company = jobad.company;
-	let skills = data.skill;
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    // 채용 공고 데이터 가져오기
+    const jobResponse = await fetch("http://localhost:9001/api/v1/recruit/"+jno , {
+      method: 'GET',
+      headers: {
+        'jwtToken': localStorage.getItem('jwtToken'),
+        'username': localStorage.getItem('username'),
+        'role': localStorage.getItem('role'),
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!jobResponse.ok) {
+      throw new Error('채용 공고 데이터를 가져오는 데 실패했습니다.');
+    }
+    const data = await jobResponse.json();
+    const jobad = data.jobad;
+    const company = data.jobad.company;
+    cid = company.username;
+    const skills = data.skill;
+    
 	let displayMlService = jobad.mltsvcExcHope == 'y' ? '🅾️' : '✖️';
 	let displayEtcWelfare = jobad.etcWelfare ? jobad.etcWelfare : '해당사항 없음';
 	let displayRetirepay = jobad.retirepay ? jobad.retirepay : '해당사항 없음';
@@ -161,39 +178,191 @@ xhttp.onload = function() {
 	//디데이 계산
 	 const dday = calcDday(jobad.receiptCloseDt);
 	 dDay.innerHTML = "D- " + dday + " 일";
-	 
-	  
+
 	//스킬 정보 넣어주기
-	const skillContainer = document.querySelector(".skillContainer");
-	 skills.forEach(skill=>{
-		let skillItems = document.createElement("span");
-		skillItems.classList = "skill_items"
-		skillItems.style.margin="5px";
-		skillItems.innerHTML= "📌 " + skill.skillName + "   ";
-		skillContainer.appendChild(skillItems);
-	  })
-		  
+		const skillContainer = document.querySelector(".skillContainer");
+		 skills.forEach(skill=>{
+			let skillItems = document.createElement("span");
+			skillItems.classList = "skill_items"
+			skillItems.style.margin="5px";
+			skillItems.innerHTML= "📌 " + skill.skillName + "   ";
+			skillContainer.appendChild(skillItems);
+		  })
+			  
 	//평균평점불러오기
-	  const xhttp = new XMLHttpRequest();
-	  xhttp.onload = function() {
-	  	console.log(this.responseText);
-	  	console.log(Number(this.responseText));
-	  	console.log(Number(this.responseText).toFixed(1));
-	  if(this.responseText != null || this.responseText !=""){
-	  	document.querySelector("#companyScore").innerHTML = Number(this.responseText).toFixed(1);
-	  }else{
-	  	document.querySelector("#companyScore").innerHTML="0.0"
-	  }
-	    }
-	  xhttp.open("GET", "http://localhost:9001/api/v1/company/avg-rating", true);
-	  xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
-	  xhttp.setRequestHeader("username", localStorage.getItem("username"));
-	  xhttp.setRequestHeader("role", localStorage.getItem("role"));
-	  xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role")
-	  xhttp.send();
- }
-xhttp.open("GET", "http://localhost:9001/api/v1/recruit/"+jno, true);
-xhttp.send();
+	  const ratingResponse = await fetch("http://localhost:9001/api/v1/company/avg-rating", {
+      method: 'GET',
+      headers: {
+        'jwtToken': localStorage.getItem('jwtToken'),
+        'username': localStorage.getItem('username'),
+        'role': localStorage.getItem('role'),
+        'Content-Type': 'application/json'
+      }
+    });
+
+    // 요청이 성공했는지 확인
+    if (!ratingResponse.ok) {
+      throw new Error('평균 평점을 가져오는 데 실패했습니다.');
+    }
+
+    const avgRating = await ratingResponse.text();
+    const displayRating = avgRating ? Number(avgRating).toFixed(1) : "0.0";
+    document.querySelector("#companyScore").innerHTML = displayRating;
+		  
+		  
+    //구독상태체크
+    await checkLikeStatus();
+    //공고찜상태체크
+    await checkScrapStatus();
+
+  } catch (error) {
+    console.error('작업 중 오류가 발생했습니다:', error);
+  }
+});
+
+//구독상태체크
+async function checkLikeStatus() {
+  try {
+    const response = await fetch('http://localhost:9001/api/v1/interested-company?cid=' + cid, {
+      method: 'GET',
+      headers: {
+        'jwtToken': localStorage.getItem('jwtToken'),
+        'username': localStorage.getItem('username'),
+        'role': localStorage.getItem('role'),
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      const result = await response.text();
+
+      if (result === "existed") {
+        document.querySelector("#likeBtn img").src = "/icon/heart_full.png";
+        liked = true;
+      } else if (result === "not existed") {
+        document.querySelector("#likeBtn img").src = "/icon/heart.png";
+        liked = false;
+      } else {
+        console.error('예상치 못한 응답:', result);
+      }
+    } else {
+      console.error('네트워크 응답이 정상적이지 않습니다:', response.statusText);
+    }
+  } catch (error) {
+    console.error('구독 상태 확인 중 오류가 발생했습니다:', error);
+  }
+}
+
+//구독하기 버튼 클릭이벤트
+function likeTheCom() {
+	console.log("ccccc")
+	if(localStorage.getItem("role") == "ROLE_USER"){
+		if(liked == true){
+			if (confirm("정말 해당 기업을 구독 리스트에서 삭제하시겠습니까?")) {
+				//구독취소하기
+				const xhttp = new XMLHttpRequest();
+				xhttp.onload = function () {
+					if (this.responseText == "done") {
+						//비어있는 버튼으로 바꿔주기
+						document.querySelector("#likeBtn img").src = "/icon/heart.png";
+					} 
+				}
+				xhttp.open("delete", 'http://localhost:9001/api/v1/interested-company?cid='+cid, true);
+				xhttp.setRequestHeader("username", localStorage.getItem("username"));
+				xhttp.send();
+			}
+		}else if(liked == false){
+			//구독하기
+			const xhttp = new XMLHttpRequest();
+			xhttp.onload = function () {
+				if (this.responseText == "done") {
+					alert("성공적으로 해당기업을 구독 했습니다!")
+					//버튼 색칠한거로 바꿔주기
+					document.querySelector("#likeBtn img").src = "/icon/heart_full.png";
+				} 
+			}
+			xhttp.open("POST", 'http://localhost:9001/api/v1/interested-company?cid='+cid, true);
+			xhttp.setRequestHeader("username", localStorage.getItem("username"));
+			xhttp.send();
+		}
+		
+	}else{
+		alert("공고 스크랩은 일반 사용자만 사용 가능한 기능입니다.")
+	}
+	
+} 
+
+//공고찜상태체크
+async function checkScrapStatus() {
+  try {
+    const response = await fetch('http://localhost:9001/api/v1/scrapped-recruit?jno=' + jno, {
+      method: 'GET',
+      headers: {
+        'jwtToken': localStorage.getItem('jwtToken'),
+        'username': localStorage.getItem('username'),
+        'role': localStorage.getItem('role'),
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      const result = await response.text();
+      if (result === "existed") {
+        document.querySelector("#scrapBtn img").src = "/icon/save_full.png";
+        scrapped = true;
+      } else if (result === "not existed") {
+        document.querySelector("#scrapBtn img").src = "/icon/save.png";
+        scrapped = false;
+      } else {
+        console.error('예상치 못한 응답:', result);
+      }
+    } else {
+      console.error('네트워크 응답이 정상적이지 않습니다:', response.statusText);
+    }
+  } catch (error) {
+    console.error('구독 상태 확인 중 오류가 발생했습니다:', error);
+  }
+}
+
+//공고찜하기 버튼 클릭이벤트
+function scrapJobad() {
+	console.log("ccccc")
+	if(localStorage.getItem("role") == "ROLE_USER"){
+		if(scrapped == true){
+			if (confirm("정말 해당 공고를 스크랩 리스트에서 삭제하시겠습니까?")) {
+				//구독취소하기
+				const xhttp = new XMLHttpRequest();
+				xhttp.onload = function () {
+					if (this.responseText == "done") {
+						//비어있는 버튼으로 바꿔주기
+						document.querySelector("#scrapBtn img").src = "/icon/save.png";
+					} 
+				}
+				xhttp.open("delete", 'http://localhost:9001/api/v1/scrapped-recruit?jno='+jno, true);
+				xhttp.setRequestHeader("username", localStorage.getItem("username"));
+				xhttp.send();
+			}
+		}else if(scrapped == false){
+			//구독하기
+			const xhttp = new XMLHttpRequest();
+			xhttp.onload = function () {
+				if (this.responseText == "done") {
+					alert("성공적으로 해당공고를 스크랩 했습니다!")
+					//버튼 색칠한거로 바꿔주기
+					document.querySelector("#scrapBtn img").src = "/icon/save_full.png";
+				} 
+			}
+			xhttp.open("POST", 'http://localhost:9001/api/v1/scrapped-recruit?jno='+jno, true);
+			xhttp.setRequestHeader("username", localStorage.getItem("username"));
+			xhttp.send();
+		}
+	}else{
+		alert("공고 스크랩은 일반 사용자만 사용 가능한 기능입니다.")
+	}
+	
+} 
+
+
 
 
 //소셜미디어 공유버튼
@@ -251,269 +420,6 @@ function calcDday(targetDate) {
 	return diffDays;
 }
 
-
-
-
-//스크랩 이미 되어있으면 스크랩 색깔 채워진거로 하는 코드
-/* document.addEventListener("DOMContentLoaded", function() {
-    checkScrapStatus();
-});
-
-function checkScrapStatus() {
-    const xhttp = new XMLHttpRequest();
-    const scrapBtn = document.querySelector("#scrapBtn img");
-    xhttp.onload = function () {
-        if (this.status === 200 && this.responseText !== "") {
-            // 스크랩이 되어있는 경우
-            scno = this.responseText;
-            scrapBtn.src = "/icon/save_full.png";
-        } else {
-            // 스크랩이 안 되어있는 경우
-            scrapBtn.src = "/icon/save.png";
-        }
-    };
-    xhttp.onerror = function () {
-        console.error("AJAX 요청 실패:", this.status, this.statusText);
-    };
-    xhttp.open("GET", "http://localhost:9001/api/v1/job-scrap-status/" + jno, true);
-    xhttp.setRequestHeader("username", localStorage.getItem("username"));
-    xhttp.send();
-} */
-
-
-
-
-
-
-let scno = null; 
-
-//스크랩 연속실행 핸들러
-function handleScrapButton() {
-    const scrapBtn = document.querySelector("#scrapBtn img");
-
-    if (scrapBtn.src.includes("save.png")) {
-        // 스크랩 등록
-        scrapJobad();
-    } else if (scrapBtn.src.includes("save_full.png")) {
-        // 스크랩 취소 확인
-        if (confirm("정말 해당 공고를 스크랩 리스트에서 삭제하시겠습니까?")) {
-            scrapJobadCancel();
-        }
-    }
-}
-
-// 공고 스크랩하기
-function scrapJobad() {
-    const xhttp = new XMLHttpRequest();
-    const scrapBtn = document.querySelector("#scrapBtn img");
-    xhttp.onload = function () {
-        if (this.status === 200) {
-            alert("스크랩 등록 성공!");
-            // 버튼을 스크랩 완료 이미지로 변경
-            scrapBtn.src = "/icon/save_full.png";
-            // 응답으로 받은 scno 저장
-            scno = this.responseText;  
-            console.log("scno 출력: " + scno);
-        } else {
-            console.error("스크랩 등록 실패:", this.status, this.statusText);
-        }
-    };
-    xhttp.onerror = function () {
-        console.error("AJAX 요청 실패:", this.status, this.statusText);
-    };
-    xhttp.open("POST", "http://localhost:9001/api/v1/job-scrap/" + jno, true);
-    xhttp.setRequestHeader("username", localStorage.getItem("username"));
-    xhttp.send();
-}
-
-// 공고 스크랩 취소
-function scrapJobadCancel() {
-    const xhttp = new XMLHttpRequest();
-    const scrapBtn = document.querySelector("#scrapBtn img");
-    xhttp.onload = function () {
-        if (this.status === 200) {
-            alert("스크랩을 취소하였습니다.");
-            // 버튼을 비어있는 스크랩 이미지로 변경
-            scrapBtn.src = "/icon/save.png";
-        } else {
-            console.error("스크랩 취소 실패:", this.status, this.statusText);
-        }
-    };
-    xhttp.onerror = function () {
-        console.error("AJAX 요청 실패:", this.status, this.statusText);
-    };
-    xhttp.open("DELETE", "http://localhost:9001/api/v1/job-scrap/" + scno, true);
-    xhttp.setRequestHeader("username", localStorage.getItem("username"));
-    xhttp.send();
-}
-
-
-
-
-/* function scrapJobad() {
-    const xhttp = new XMLHttpRequest();
-    const scrapBtn = document.querySelector("#scrapBtn img");
-
-    xhttp.onload = function () {
-        if (this.status === 200) {
-            alert("스크랩 등록 성공!");
-            scrapBtn.src = "/icon/save_full.png";
-            // 응답으로 받은 scno 저장
-            scno = this.responseText;
-
-            // 스크랩 상태를 로컬 스토리지에 저장
-            localStorage.setItem('scrapStatus_' + jno, 'scrap');
-        } else {
-            console.error("스크랩 등록 실패:", this.status, this.statusText);
-        }
-    };
-
-    xhttp.onerror = function () {
-        console.error("AJAX 요청 실패:", this.status, this.statusText);
-    };
-
-    xhttp.open("POST", "http://localhost:9001/api/v1/job-scrap/" + jno, true);
-    xhttp.setRequestHeader("username", localStorage.getItem("username"));
-    xhttp.send();
-}
-
-function scrapJobadCancel() {
-    const xhttp = new XMLHttpRequest();
-    const scrapBtn = document.querySelector("#scrapBtn img");
-
-    xhttp.onload = function () {
-        if (this.status === 200) {
-            alert("스크랩을 취소하였습니다.");
-            scrapBtn.src = "/icon/save.png";
-
-            // 스크랩 상태를 로컬 스토리지에서 제거
-            localStorage.removeItem('scrapStatus_' + jno);
-        } else {
-            console.error("스크랩 취소 실패:", this.status, this.statusText);
-        }
-    };
-
-    xhttp.onerror = function () {
-        console.error("AJAX 요청 실패:", this.status, this.statusText);
-    };
-
-    // 삭제할 scno 값이 없다면 오류 방지를 위해 조건 처리
-    if (scno) {
-        xhttp.open("DELETE", "http://localhost:9001/api/v1/job-scrap/" + scno, true);
-        xhttp.setRequestHeader("username", localStorage.getItem("username"));
-        xhttp.send();
-    } else {
-        console.error("삭제할 스크랩 번호가 없습니다.");
-    }
-}
-
-// 페이지 로드 시 스크랩 상태 복원
-document.addEventListener("DOMContentLoaded", function () {
-    const scrapStatus = localStorage.getItem('scrapStatus_' + jno);
-    const scrapBtn = document.querySelector("#scrapBtn img");
-
-    if (scrapStatus === 'scrap') {
-        scrapBtn.src = "/icon/save_full.png";
-    } else {
-        scrapBtn.src = "/icon/save.png";
-    }
-});
- */
-
-
-
-
-
-
-let interno = null; 
-
-//관심기업 연속실행 핸들러
-function handleInterestButton() {
-    const likeBtn = document.querySelector("#likeBtn img");
-
-    if (likeBtn.src.includes("heart.png")) {
-        
-    	interest();
-    } else if (likeBtn.src.includes("heart_full.png")) {
-        
-        if (confirm("정말 관심기업 리스트에서 삭제하시겠습니까?")) {
-        	interestCancel();
-        }
-    }
-}
-
-const cid = "${jobad.company.cid}";
-// 관심기업 등록
-function interest() {
-    const xhttp = new XMLHttpRequest();
-    const likeBtn = document.querySelector("#likeBtn img");
-    xhttp.onload = function () {
-        if (this.status === 200) {
-            alert("관심기업 등록 성공!");
-
-            likeBtn.src = "/icon/heart_full.png";
-       
-            interno = this.responseText;  
- 
-        } else {
-            console.error("관심기업 등록 실패:", this.status, this.statusText);
-        }
-    };
-    xhttp.onerror = function () {
-        console.error("AJAX 요청 실패:", this.status, this.statusText);
-    };
-    xhttp.open("POST", "http://localhost:9001/api/v1/interested-company/" + "com1", true);
-    xhttp.setRequestHeader("username", localStorage.getItem("username"));
-    xhttp.send();
-}
-
-
-// 관심기업 등록 취소
-function interestCancel() {
-    const xhttp = new XMLHttpRequest();
-    const likeBtn = document.querySelector("#likeBtn img");
-    xhttp.onload = function () {
-        if (this.status === 200) {
-            alert("해당 기업을 관심기업 리스트에서 삭제하였습니다.");
-
-            likeBtn.src = "/icon/heart.png";
-        } else {
-            console.error("관심기업 등록 취소 실패:", this.status, this.statusText);
-        }
-    };
-    xhttp.onerror = function () {
-        console.error("AJAX 요청 실패:", this.status, this.statusText);
-    };
-    xhttp.open("DELETE", "http://localhost:9001/api/v1/interested-company/" + interno, true);
-    xhttp.setRequestHeader("username", localStorage.getItem("username"));
-    xhttp.send();
-}
-
-
-
-
-
-/*  //기업 구독하기
-function likeTheCom() {
-	const xhttp = new XMLHttpRequest();
-	xhttp.onload = function () {
-		if (this.responseText == "관심기업 추가 성공!") {
-			alert("성공적으로 해당기업을 구독 했습니다!")
-			//버튼 색칠한거로 바꿔주기
-			document.querySelector("#likeBtn img").src = "/icon/heart_full.png";
-		} else {
-			if (confirm("정말 해당 기업을 구독 리스트에서 삭제하시겠습니까?")) {
-				//비어있는 버튼으로 바꿔주기
-				document.querySelector("#likeBtn img").src = "/icon/heart.png";
-			}
-		}
-	}
-	xhttp.open("POST", "/api/v1/interested-company/" + [[${ jobad.company.cid }]], true);
-	xhttp.setRequestHeader("username", localStorage.getItem("username"));
-	xhttp.send();
-} 
- */
- 
  
  
 function apply(){

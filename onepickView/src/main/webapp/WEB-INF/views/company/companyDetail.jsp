@@ -9,6 +9,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="/css/style.css" rel="stylesheet">
 <link href="/css/recruitDetail.css" rel="stylesheet">
+<link href="/css/main.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
@@ -40,6 +41,7 @@
         </div>
        	<div class="section">
        	  <div class='section-title'>해당 기업 현재 채용진행 중인 공고</div>
+       	  <div class='company-recruit'></div>
        	  
        	</div>
 		
@@ -96,56 +98,100 @@ let liked = null;
 		  const xhttp1 = new XMLHttpRequest();
 			xhttp1.onload = function () {
 				let objs = JSON.parse(this.responseText);
-				console.log("dddd")
-				console.log(objs)
-// 				objs.forEach(obj => {
-// 					console.log(obj);
-// 					let logoSrc = obj.company.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.company.fileName;
-// 					console.log(logoSrc);
-// 					document.querySelector("#receipt_close_dt_list").innerHTML += 
-// 						"<div class='col-md-6 col-xl-4 mb-3'>"
-// 					+ "<a class='d-block d-flex align-items-center border text-decoration-none rounded p-4 pointer recruit_box' href='/company/recruitDetail?jno=" + obj.jno + "''>"
-// 					+ "<div class='logo w-25 me-3'><img src='" + logoSrc + "' alt='회사로고'></div>"
-// 					+ "<div class='w-75'>"
-// 					+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
-// 					+ "<div class='recruitTitle fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
-// 					+ "<div class='fs-6 text-secondary'> 공고 마감일 " + obj.receiptCloseDt + "</div>"
-// 					+ "<div class='recruitInfo text-ellipsis fs-6 text-secondary'> 모집 인원 " + obj.collectPsncnt + ", " + obj.position1 + ", " + obj.position2 + ", " + obj.region1 + ", " + obj.region2  + "</div>"
-// 					+ "</div></a></div>";
-// 				});
+				objs.forEach(obj => {
+					let logoSrc = obj.company.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.company.fileName;
+					document.querySelector(".company-recruit").innerHTML += 
+						"<div class='col-md-6 col-xl-4 mb-3'>"
+					+ "<a class='d-block d-flex align-items-center border text-decoration-none rounded p-4 pointer recruit_box' href='/company/recruitDetail?jno=" + obj.jno + "''>"
+					+ "<div class='logo w-25 me-3'><img src='" + logoSrc + "' alt='회사로고'></div>"
+					+ "<div class='w-75'>"
+					+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
+					+ "<div class='recruitTitle fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
+					+ "<div class='fs-6 text-secondary'> 공고 마감일 " + obj.receiptCloseDt + "</div>"
+					+ "<div class='recruitInfo text-ellipsis fs-6 text-secondary'> 모집 인원 " + obj.collectPsncnt + ", " + obj.position1 + ", " + obj.position2 + ", " + obj.region1 + ", " + obj.region2  + "</div>"
+					+ "</div></a></div>";
+				});
 				
 			}
-			xhttp1.open("GET", "http://localhost:9001/api/v1/main/recruit/company-recruit/"+cid);
+			xhttp1.open("GET", "http://localhost:9001/api/v1/recruit/company-recruit/"+cid);
 			xhttp1.send();
-		  
+			//구독상태체크하기
+			checkLikeStatus();
 	  }
 	xhttp.open("GET", "http://localhost:9001/api/v1/company/detail/"+cid, true);
 	xhttp.send();
 	
-// 	//구독상태체크
-// 	function checkLikeStatus(){
-// 		const response = fetch('http://localhost:9001/api/v1/interested-company?cid='+cid, {
-// 		      method: 'GET',
-// 		      headers: {
-// 		        'jwtToken': localStorage.getItem('jwtToken'),
-// 		        'username': localStorage.getItem('username'),
-// 		        'role': localStorage.getItem('role'),
-// 		        'Content-Type': 'application/json'
-// 		      }
-// 		    });
-// 		const result = response.text();
-// 		if(result == "existed"){
-// 			//구독중인경우
-// 			document.querySelector("#likeBtn img").src = "/icon/heart_full.png";
-// 			liked = true;
-// 		} else if(result = "not existed"){
-// 			//구독중이지 않은 경우
-// 			document.querySelector("#likeBtn img").src = "/icon/heart.png";
-// 			liked = false;
-// 		}
-// 	}
+	//구독상태체크
+	function checkLikeStatus(){
+		fetch('http://localhost:9001/api/v1/interested-company?cid='+cid, {
+		      method: 'GET',
+		      headers: {
+		        'jwtToken': localStorage.getItem('jwtToken'),
+		        'username': localStorage.getItem('username'),
+		        'role': localStorage.getItem('role'),
+		        'Content-Type': 'application/json'
+		      }
+		    }).then(response => {
+		        if (!response.ok) {
+		          throw new Error('Network response was not ok: ' + response.statusText);
+		        }
+		        return response.text(); 
+		      })
+		      .then(result => {
+		        if (result === "existed") {
+		          document.querySelector("#likeBtn img").src = "/icon/heart_full.png";
+		          liked = true;
+		        } else if (result === "not existed") {
+		          document.querySelector("#likeBtn img").src = "/icon/heart.png";
+		          liked = false;
+		        } else {
+		          console.error('Unexpected response:', result);
+		        }
+		      })
+		      .catch(error => {
+		        console.error('There was a problem with the fetch operation:', error);
+		      });
 		
-
+		
+	}
+		
+	function likeTheCom() {
+		console.log("ccccc")
+		if(localStorage.getItem("role") == "ROLE_USER"){
+			if(liked == true){
+				if (confirm("정말 해당 기업을 구독 리스트에서 삭제하시겠습니까?")) {
+					//구독취소하기
+					const xhttp = new XMLHttpRequest();
+					xhttp.onload = function () {
+						if (this.responseText == "done") {
+							//비어있는 버튼으로 바꿔주기
+							document.querySelector("#likeBtn img").src = "/icon/heart.png";
+						} 
+					}
+					xhttp.open("delete", 'http://localhost:9001/api/v1/interested-company?cid='+cid, true);
+					xhttp.setRequestHeader("username", localStorage.getItem("username"));
+					xhttp.send();
+				}
+			}else if(liked == false){
+				//구독하기
+				const xhttp = new XMLHttpRequest();
+				xhttp.onload = function () {
+					if (this.responseText == "done") {
+						alert("성공적으로 해당기업을 구독 했습니다!")
+						//버튼 색칠한거로 바꿔주기
+						document.querySelector("#likeBtn img").src = "/icon/heart_full.png";
+					} 
+				}
+				xhttp.open("POST", 'http://localhost:9001/api/v1/interested-company?cid='+cid, true);
+				xhttp.setRequestHeader("username", localStorage.getItem("username"));
+				xhttp.send();
+			}
+			
+		}else{
+			alert("공고 스크랩은 일반 사용자만 사용 가능한 기능입니다.")
+		}
+		
+	} 
   
 
 </script>
