@@ -35,6 +35,7 @@ public class Company extends BaseEntity implements Member{
 	    private String addr;
 	    @Column(nullable = false)
 	    private String sector;
+	    private String url;
 	    @Column(nullable = false)
 	    private int employeesNum;
 	    private String fileName;

@@ -78,9 +78,9 @@
 				<input type="text" name="retirepay">
 				<div class="section_title">기타복리후생</div>
 				<input type="text" name="etcWelfare">
-				<div class="section_title">회사소개첨부파일</div>
+				<div class="section_title">공고이미지 첨부파일</div>
 				<input type="file" name="attachFileUrl">
-				<div class="section_title">병역특례채용희망</div>
+				<div class="section_title">병역특례채용희망 *</div>
 				<input type="radio" name="mltsvcExcHope" value="y"> 특례채용희망
 				<input type="radio" name="mltsvcExcHope" value="n"> 해당없음
 				<div class="section_title">담당자이름 *</div>
@@ -114,9 +114,7 @@ const addSkillBtn = document.querySelector(".add-skill-btn");
 const wantedTitleEl = document.querySelector("input[name=wantedTitle]")
 const jobContEl = document.querySelector("select[name=jobCont]")
 const receiptCloseDtEl = document.querySelector("input[name=receiptCloseDt]")
-const empTpNmEl = document.querySelector("input[name=empTpNm]")
 const collectPsncntEl = document.querySelector("input[name=collectPsncnt]")
-const salTpNmEl = document.querySelector("input[name=salTpNm]")
 const WkdWkhCntEl = document.querySelector("input[name=WkdWkhCnt]")
 const empNameEl = document.querySelector("input[name=empName]")
 const empEmailEl = document.querySelector("input[name=empEmail]")
@@ -198,11 +196,11 @@ function saveSkills(e){
 function regJobAd(event){
 	event.preventDefault();
 	
-	if(!wantedTitleEl.value || !sector1.value || !sector2.value 
-		|| !region1.value || !region2.value || !position1.value 
-		|| !position2.value || !workTypeEl.value  || !salaryEl.value 
-		|| !skillNameEl.value || !receiptCloseDtEl.value || !empTpNmEl.value
-		|| !collectPsncntEl.value || !salTpNmEl.value || !WkdWkhCntEl.value
+	if(!wantedTitleEl.value || !sector1El.value || !sector2El.value 
+		|| !region1El.value || !region2El.value || !position1El.value 
+		|| !position2El.value || !workTypeEl.value  || !salaryEl.value 
+		|| !skillNameEl.value || !receiptCloseDtEl.value 
+		|| !collectPsncntEl.value || !WkdWkhCntEl.value
 		|| !empNameEl.value || !empEmailEl.value || !empTelEl.value ){
 		alert("필수 입력값이 모두 입력되지 않았습니다. 다시 시도해주세요")
 		return false;

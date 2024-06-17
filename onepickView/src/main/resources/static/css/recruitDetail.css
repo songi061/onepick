@@ -2,28 +2,57 @@
 
 
 
-.recruit_detail {
-    border: 1px solid #e0e0e0;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.recruit_detail div {
-    margin: 10px 0;
-}
-
-.recruit_detail .title {
+.title {
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin: 20px;
+}
+
+
+
+.company-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.com_file img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px solid #e0e0e0;
+}
+
+.company-info {
+    margin-left: 20px;
+}
+
+.company-info h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.company-rating {
+    font-size: 18px;
+    color: #4caf50; /* 평점 색상 변경 */
+    margin-top: 5px;
+}
+
+.company-details {
+    font-size: 14px;
+    color: #777;
 }
 
 .recruit_detail .section {
     margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #e0e0e0; /* 섹션을 구분하는 보더 */
+}
+
+.recruit_detail .section:first-child {
+    border-top: none; /* 첫 번째 섹션에는 보더를 추가하지 않음 */
 }
 
 .recruit_detail .section-title {
@@ -33,3 +62,132 @@
     margin-bottom: 10px;
 }
 
+.title_s, #companyScore  {
+    font-weight: bold;
+}
+
+.skill_items {
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+.file img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.container_job {
+    display: flex;
+    justify-content: space-between; /* 요소들 사이에 공간을 분배 */
+    padding: 20px; /* 컨테이너의 패딩 */
+}
+
+/* btnContainer 스타일 조정 */
+.btnContainer {
+    flex: 0 0 auto; /* 고정된 너비가 아닌 내용에 맞게 조정 */
+    display: flex;
+    flex-direction: column; /* 요소들을 수직으로 정렬 */
+    gap: 30px; /* 요소들 사이의 간격 */
+    background-color: #f5f5f5; /* 배경색 추가 */
+    padding: 20px; /* 내부 패딩 */
+    border-radius: 10px; /* 모서리를 둥글게 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+    margin-left: 20px; /* recruit_detail와의 간격 */
+    width: 250px; /* 고정된 너비 */
+    height:250px;
+}
+
+/* 아이콘 및 버튼을 수직으로 정렬 */
+#icon_wrap {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* 아이콘 사이의 간격 */
+}
+
+#btn_wrap {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* 버튼 사이의 간격 */
+    margin-top: 10px; /* 상단 여백 */
+}
+/* recruit_detail에 패딩과 배경 색상 추가 */
+.recruit_detail {
+    flex: 1; /* 나머지 공간을 차지 */
+    padding: 20px;
+    background-color: #ffffff; /* 배경색 추가 */
+    border-radius: 10px; /* 모서리를 둥글게 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+}
+
+.link-icon {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+}
+/* 지원하기 버튼을 수직으로 정렬하고 너비를 100%로 설정 */
+.apply-btn {
+    display: block;
+    width: 100%; /* 버튼 너비를 100%로 설정 */
+    margin-top: 10px; /* 상단 여백 */
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+.apply-btn:hover {
+    background-color: #218838;
+}
+
+
+/* 각 버튼 및 아이콘에 추가 스타일 적용 */
+#icon_wrap img, #btn_wrap img {
+    width: 25px;
+    height: 25px;
+}
+
+#btnTwitter, #btnFacebook, #btnKakao, #copyBtn, #scrapBtn, #likeBtn, .apply-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+}
+
+/* 공고 마감일까지 D-4 일 문구를 강조하는 스타일 추가 */
+#dDay {
+    font-size: 18px; /* 폰트 크기를 크게 */
+    font-weight: bold; /* 굵은 글씨체 */
+    color: #e74c3c; /* 강조 색상 (빨간색) */
+    background-color: #f9e7e7; /* 배경색 추가 */
+    padding: 5px 10px; /* 패딩 추가 */
+    border-radius: 5px; /* 모서리를 둥글게 */
+    display: inline-block; /* 인라인 블록으로 표시 */
+    margin-top: 10px; /* 상단 여백 */
+}
+
+
+.dDay-container {
+    margin-top: 10px; 
+    font-weight:bold;
+}
+
+/* Add responsive behavior */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stack the elements vertically on small screens */
+    }
+
+    .btnContainer {
+        margin-left: 0;
+        margin-top: 20px;
+        width: 100%;
+        align-items: stretch;
+    }
+}

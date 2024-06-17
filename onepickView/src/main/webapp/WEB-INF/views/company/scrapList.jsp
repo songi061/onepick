@@ -31,14 +31,22 @@ const listContainer = document.querySelector('.scrap_list');
 	
 		if (datas && datas.length > 0) {
            datas.forEach(data => {
-       
+       console.log(data)
         	   let age = 2024 - Number(data.user.birthDate.slice(0,4));
         	   console.log(age)
                const listItem = document.createElement('div');
                listItem.className = 'scrap_list_item';
-               listItem.innerHTML = "<img src=''><div class='scrap_info'><div class='scrap_title'><a href=''>"+ data.resume.title+"</a></div><div class='scrap_name'>"+ data.user.name+"</div><div>"+data.user.gender+"</div><div>" + age +
-               "</div> <div class='scrap_job'>" + data.resume.job + "</div><div class='scrap_region'>" +data.resume.region1+"</div></div>";
+               listItem.innerHTML = "<div class='profileImg_box img' ><img class='img' src=''></div><div class='scrap_info'><div class='scrap_title'><a href=''>"+ data.resume.title+"</a></div><div class='scrap_name'>"+ data.user.name+"</div><div>"+data.user.gender+"</div><div>" + age +
+               " 세</div> <div class='scrap_job'>" + data.resume.job + "</div><div class='scrap_region'>" +data.resume.region1+"</div></div>";
                listContainer.appendChild(listItem);
+               
+               
+               if(data.user.fileName == null){
+            	   listItem.querySelector(".profileImg_box img").src="/img/no_img.jpg";
+	       		}else{
+	       			listItem.querySelector(".profileImg_box img").src="/images/" + myInfo.fileName;
+	       		}
+               
            });
 		}else{
 			 // 스크랩한 구직자가 없을경우
@@ -46,9 +54,10 @@ const listContainer = document.querySelector('.scrap_list');
 		}
 	  }
 	xhttp.open("GET", "http://localhost:9001/api/v1/resume-scrap", true);
-	xhttp.setRequestHeader("username", "aaa");
-	xhttp.setRequestHeader("role", "ROLE_COMPANY");
-	xhttp.setRequestHeader("Access-Control-Expose-Headers", "username, role")
+	xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
+	xhttp.setRequestHeader("username", localStorage.getItem("username"));
+	xhttp.setRequestHeader("role", localStorage.getItem("role"));
+	xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role")
 	xhttp.send();
 </script>
 </body>

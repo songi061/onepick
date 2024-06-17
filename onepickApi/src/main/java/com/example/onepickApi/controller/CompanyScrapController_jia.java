@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @CrossOrigin("*")
 @RequestMapping("api/v1")
 @RestController
-public class CompanyScrapController {
+public class CompanyScrapController_jia {
 
 	
 	@Autowired
