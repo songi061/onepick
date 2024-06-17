@@ -14,23 +14,22 @@
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
 	<div class="container">
-	<div class='title'>My Home</div>
-	<div style="display:flex;  justify-content: space-between;">
-		<button class="btn btn-onepick" onclick="location.href='/company/companyEdit'">내정보수정</button>
-		<img  data-bs-toggle="modal" data-bs-target="#exampleModal1" style="padding:5px; background-color:#42d056 ; border: 2px solid #42d056; width:40px; border-radius:10px;" src="/icon/notification-setting.png">
+	<div class='page_title'>My Home</div>
+	<div class="d-flex">
+		<img class="ms-auto"  data-bs-toggle="modal" data-bs-target="#exampleModal1" style="padding:5px; background-color:#42d056 ; border: 2px solid #42d056; width:40px; border-radius:10px;" src="/icon/notification-setting.png">
 	</div>	
-		<div class="company_myInfo">
+		<div class="company_myInfo bg-light">
 			<div class="profileImg_box position-relative">
 				<img src="" alt="회사로고">
 				<button class="btn btn-sm btn-onepick position-absolute" data-bs-toggle="modal" data-bs-target="#exampleModal" style="bottom:0; right:0"><i class="bi bi-pencil-fill"></i></button>
 			</div>
 			<div>
-				<div class="fw-blod fs-4" id="companyName">회사이름</div>
+				<div class="fw-blod fs-4"><span id="companyName">회사이름</span> <a class="fs-6 link-primary d-inline link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/company/companyEdit">내정보수정<i class="bi bi-arrow-right"></i></a></div>
 				<div>⭐ <span id="companyScore"></span> <span class="text-secondary mx-2"> | </span> <span id="companySector">섹터</span> <span class="text-secondary mx-2"> | </span> <span id="companyCeo">ceo</span> <span class="text-secondary mx-2"> | </span> <span id="companyEmployeesNum">employeesNum</span> <span class="text-secondary mx-2"> | </span> <span id="companySize">size</span> <span class="text-secondary mx-2"> | </span> <span id="companyYrSales">yrSales</span> <span class="text-secondary mx-2"> | </span> <span id="companyUrl">url</span></div>
 			</div>
 		</div>
 		<div class='title'>내 공고 리스트</div>
-		<button class="btn btn-onepick showMoreBtn" onclick="showMore()" style="display:none;">더보기</button>
+		<a class="showMoreBtn fs-6 link-primary d-inline link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover cursor" onclick="showMore()" style="display:none;">더보기</a>
 		<div class="myrecruit_list">
 		</div>
 		<div class="links">

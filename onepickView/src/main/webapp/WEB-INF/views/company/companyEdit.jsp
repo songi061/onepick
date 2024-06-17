@@ -13,7 +13,7 @@
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
 	<div class="container">
-		<div class='title'>내정보 수정</div>
+		<div class='page_title'>내정보 수정</div>
 		<div class="border rounded p-4 mb-3">
 			<div class="row">
 				<div class="col-md-6">
@@ -122,19 +122,18 @@ xhttp1.send();
 
 const xhttp2 = new XMLHttpRequest();
 xhttp2.onload = function() {
- 
 	  let company = JSON.parse(this.responseText);
 	  console.log(company);
-	  username_.value = company.username;
-	  name_.value = company.name;
-	  ceo_.value = company.ceo;
-	  num_.value = company.num;
-	  addr_.value = company.addr;
-	  sector_.value = company.sector;
-	  employeesNum_.value = company.employeesNum;
-	  url_.value = company.url;
-	  size_.value = company.size;
-	  yrSales_.value = company.yrSales;
+	  username_.value = company.myInfo.username;
+	  name_.value = company.myInfo.name;
+	  ceo_.value = company.myInfo.ceo;
+	  num_.value = company.myInfo.num;
+	  addr_.value = company.myInfo.addr;
+	  sector_.value = company.myInfo.sector;
+	  employeesNum_.value = company.myInfo.employeesNum;
+	  url_.value = company.myInfo.url;
+	  size_.value = company.myInfo.size;
+	  yrSales_.value = company.myInfo.yrSales;
   }
 xhttp2.open("GET", "http://localhost:9001/api/v1/company/mydetail");
 xhttp2.setRequestHeader("Authorization", "Bearer " + token);
