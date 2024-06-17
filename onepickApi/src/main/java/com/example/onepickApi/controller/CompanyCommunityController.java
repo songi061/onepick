@@ -1,21 +1,27 @@
 package com.example.onepickApi.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.onepickApi.dto.BoardDto;
+import com.example.onepickApi.dto.CompanyReplyDto;
 import com.example.onepickApi.entity.Company;
 import com.example.onepickApi.entity.CompanyBoard;
+import com.example.onepickApi.entity.CompanyReply;
 import com.example.onepickApi.repository.CompanyBoardRepository;
 import com.example.onepickApi.repository.CompanyReplyRepository;
 import com.example.onepickApi.repository.CompanyRepository;
@@ -78,6 +84,85 @@ public class CompanyCommunityController {
 		return result;
 	}
 	
+	// 게시물 상세보기
+		@GetMapping("/community-board/{cbno}")
+		public CompanyBoard communityDetail(@PathVariable("cbno") Long cbno){
+			CompanyBoard cb = cbRepo.findById(cbno).get();
+			
+			return cb;
+		}
+		
+		// 게시물의 댓글보기
+		@GetMapping("/community-comment")
+		public List<CompanyReply> communityReply(@RequestParam("cbno") Long cbno){
+			// Map<String, Optional> map = new HashMap<>();
+			CompanyBoard cb = cbRepo.findById(cbno).get();
+			List<CompanyReply> cr = crRepo.findByCompanyBoard(cb);
+			return cr;
+		}
+		
+		// 댓글 등록
+		@PostMapping("/community-comment")
+		public CompanyReply registReply(@RequestBody CompanyReplyDto crDto) {
+			
+			Long cbno_ = crDto.getCbno();
+			System.out.println("************cbno************"+cbno_);
+			String content_ = crDto.getContent();
+			Integer report_=crDto.getReport();
+			Company company = new Company();
+			company.setUsername(crDto.getUsername());
+			
+			CompanyReply cr = new CompanyReply();
+			cr.setCompany(company);
+			CompanyBoard cb = cbRepo.findById(cbno_).get();
+			cr.setCompanyBoard(cb);
+			cr.setContent(content_);
+			cr.setRegdate(new Date());	
+			cr.setReport(report_);
+			System.out.println(cr);
+			CompanyReply cr2 = crRepo.save(cr);
+			
+			return cr2;
+		}
+		
+		// 게시글 수정
+		@PutMapping("/community-board")
+		public ResponseEntity<String> community(HttpServletRequest request, @RequestBody BoardDto boardDto){
+			System.out.println("dddddddd");
+			CompanyBoard cb_ = cbRepo.findById(boardDto.getCbno()).get();
+			cb_.setTitle(boardDto.getTitle());
+			cb_.setContent(boardDto.getContent());
+			cb_.setCategory(boardDto.getCategory());
+			CompanyBoard ub = cbRepo.save(cb_);
+			
+			System.out.println("수정된 CompanyBoard : " + ub);
+			CompanyBoard result = cbRepo.save(ub);
+			if(result != null) {
+				return new ResponseEntity<>("수정완료", HttpStatus.OK);
+			}else {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+		}
+		
+		// 게시글 삭제
+		@DeleteMapping("/community-board")
+		public String communityDeletion(){
+			return "";
+		}
+		
+		
+		// 구직자 마이페이지 - 내가 쓴 게시글 목록 조회
+		@GetMapping("/community-myboard")
+		public List<CompanyBoard> communityMyBoardList(@RequestBody BoardDto boardDto){
+			Company company = new Company();
+			company.setUsername(boardDto.getUsername());
+			
+			List<CompanyBoard> cbList = cbRepo.findByCompany(company);
+			
+			return cbList;
+		}
+		
+		
 	
 	
 }

@@ -32,5 +32,5 @@ public class CompanyReply extends BaseEntity {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-    private String report;	
+    private Integer report;	
 }

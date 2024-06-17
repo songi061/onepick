@@ -15,12 +15,12 @@
 	<div class="page_title"><h3>기업 커뮤니티</h3></div>
 	<div class="col-4">
 	    <div id="list-example" class="list-group list-group-horizontal">
-    		<a class="list-group-item list-group-item-action" id="freeBoard" aria-current="true" href="#list-item-1" default>자유글</a>
+    		<a class="list-group-item list-group-item-action" id="freeBoard" aria-current="true" href="#list-item-1">자유글</a>
 	      	<a class="list-group-item list-group-item-action" id="information" href="#list-item-2">정보공유</a>
 	      	<a class="list-group-item list-group-item-action" id="dispatch" href="#list-item-3">파견</a>
 	      	<a class="list-group-item list-group-item-action" id="seminar" href="#list-item-3">세미나</a>
 	    </div>
-	</div>0
+	</div>
 <div class="col-8">
 	<div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
 		<div id="data_freeBoard">
@@ -29,17 +29,23 @@
 					<th>게시글 번호</th><th>제목</th><th>내용</th><th>작성자</th>
 				</tr>
 			</table>
-			</div>
-		<div id="data_job_hunting">
-			<table id="job_hunting">
+		</div>
+		<div id="data_information">
+			<table id="information">
 				<tr>
 					<th>게시글 번호</th><th>제목</th><th>내용</th><th>작성자</th>
 				</tr>
-				
 			</table>
 		</div>
-		<div id="data_turnover">
-			<table id="turnover">
+		<div id="data_dispatch">
+			<table id="dispatch">
+				<tr>
+					<th>게시글 번호</th><th>제목</th><th>내용</th><th>작성자</th>
+				</tr>	
+			</table>
+		</div>
+		<div id="data_seminar">
+			<table id="seminar">
 				<tr>
 					<th>게시글 번호</th><th>제목</th><th>내용</th><th>작성자</th>
 				</tr>	
@@ -53,21 +59,22 @@
 		$('#freeBoard').ready(function(){
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:9001/api/v1/user/community-board',
+				url: 'http://localhost:9001/api/v1/company/community-board',
 				data: { category: "freeBoard"},
 				dataType: 'json',
 				success: function(data){
 					console.log(data);
-					$('#data_job_hunting').empty();
-					$('#data_turnover').empty();
+					$('#data_information').empty();
+					$('#data_dispatch').empty();
+					$('#data_seminar').empty();
 					
 					if (data !== null) {
 						let str = '';
 						for(var i=0; i<data.length; i++){
-							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +
+							str += '<tr id="'+data[i].cbno+'" class="clickable"><td>'+data[i].cbno +
 								'</td> '+ '<td>'+data[i].title + '</td>'+
 								'<td>'+data[i].content +'</td>'+
-								'<td>'+data[i].user.username+'</td>'+
+								'<td>'+data[i].company.username+'</td>'+
 								'<td>'+data[i].views+'</td></tr>';
 						}
 						$('#data_freeBoard').html(str);
@@ -80,29 +87,30 @@
 		});
 	});
 	
-	// 게시물 조회 - 취업준비
+	// 게시물 조회 - 정보공유
 	$(document).ready(function(){
-		$('#job_hunting').click(function(){
+		$('#information').click(function(){
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:9001/api/v1/user/community-board',
-				data: {category: "job_hunting"},
+				url: 'http://localhost:9001/api/v1/company/community-board',
+				data: {category: "information"},
 				dataType: 'json',
 				success: function(data){
 					console.log(data);
 					$('#data_freeBoard').empty();
-					$('#data_turnover').empty();
+					$('#data_dispatch').empty();
+					$('#data_seminar').empty();
 					
 					if (data !== null) {
 						let str = '';
 						for(var i=0; i<data.length; i++){
-							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +
+							str += '<tr id="'+data[i].cbno+'" class="clickable"><td>'+data[i].cbno +
 								'</td> '+ '<td>'+data[i].title + '</td>'+
 								'<td>'+data[i].content +'</td>'+
-								'<td>'+data[i].user.username+'</td>'+
+								'<td>'+data[i].company.username+'</td>'+
 								'<td>'+data[i].views+'</td></tr>';
 						}
-						$('#data_job_hunting').html(str);
+						$('#data_information').html(str);
 					}
 				},
 				error:function(error){
@@ -112,29 +120,30 @@
 		});
 	});
 	
-	// 게시물 조회 - 이직
+	// 게시물 조회 - 파견
 	$(document).ready(function(){
-		$('#turnover').click(function(){
+		$('#dispatch').click(function(){
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:9001/api/v1/user/community-board',
-				data: { category: "turnover"},
+				url: 'http://localhost:9001/api/v1/company/community-board',
+				data: { category: "dispatch"},
 				dataType: 'json',
 				success: function(data){
 					console.log(data);
 					$('#data_freeBoard').empty();
-					$('#data_job_hunting').empty();
+					$('#data_information').empty();
+					$('#data_seminar').empty();
 					
 					if (data !== null) {
 						let str = '';
 						for(var i=0; i<data.length; i++){
-							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +
+							str += '<tr id="'+data[i].cbno+'" class="clickable"><td>'+data[i].cbno +
 								'</td> '+ '<td>'+data[i].title + '</td>'+
 								'<td>'+data[i].content +'</td>'+
-								'<td>'+data[i].user.username+'</td>'+
+								'<td>'+data[i].company.username+'</td>'+
 								'<td>'+data[i].views+'</td></tr>';
 						}
-						$('#data_turnover').html(str);
+						$('#data_dispatch').html(str);
 					}
 				},
 				error:function(error){
@@ -143,6 +152,40 @@
 			});
 		});
 	});
+	
+	// 게시물 조회 - 세미나
+	$(document).ready(function(){
+		$('#seminar').ready(function(){
+			$.ajax({
+				type: 'GET',
+				url: 'http://localhost:9001/api/v1/company/community-board',
+				data: { category: "seminar"},
+				dataType: 'json',
+				success: function(data){
+					console.log(data);
+					$('#data_freeBoard').empty();
+					$('#data_information').empty();
+					$('#data_dispatch').empty();
+					
+					if (data !== null) {
+						let str = '';
+						for(var i=0; i<data.length; i++){
+							str += '<tr id="'+data[i].cbno+'" class="clickable"><td>'+data[i].cbno +
+								'</td> '+ '<td>'+data[i].title + '</td>'+
+								'<td>'+data[i].content +'</td>'+
+								'<td>'+data[i].company.username+'</td>'+
+								'<td>'+data[i].views+'</td></tr>';
+						}
+						$('#data_seminar').html(str);
+					}
+				},
+				error:function(error){
+					alert(error);
+				}
+			});
+		});
+	});
+	
 	
 	// 정보가 표시되는 div를 button으로 해서 누르면 상세페이지로 이동하게 하기
 	// -->행 클릭 시 상세 페이지로 이동
@@ -151,7 +194,7 @@
 	$(document).on('click', '.clickable', function(){
 		// let idList = document.querySelectorAll('.clickable').id;
 		console.log(this.id);
-		window.location.href = '/user/communityList/'+this.id;
+		window.location.href = '/company/communityList/'+this.id;
 	});	
 	
 	
