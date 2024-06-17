@@ -14,7 +14,7 @@
 <body>
 <jsp:include page="../layout/header.jsp"></jsp:include>
 <div class="container" id="box">
-<h3>이력서 작성</h3>
+<h3 class="page_title">이력서 작성</h3>
 <hr>
 <form name="frm">
 	  	

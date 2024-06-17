@@ -69,13 +69,13 @@
     border: 1px solid lightgrey;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 20px;
+    padding: 15px !important;
+    margin-bottom: 20px !important;
     list-style-type: none;
 }
 
 .res li {
-    margin-bottom: 8px;
+    margin-bottom: 8px !important;
     font-size: 1em;
 }
 
@@ -148,7 +148,7 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 
 <div class="container" id="myHomeContainer">
-    <h2>🏠My Home</h2>
+    <h2 class="page_title">🏠 My Home</h2>
     <hr>
     
     <div class="homeinfo">
