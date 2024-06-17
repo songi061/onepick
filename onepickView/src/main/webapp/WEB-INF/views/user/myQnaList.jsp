@@ -6,7 +6,8 @@
 <meta charset="UTF-8">
 <title>1PICK!</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<link href="css/style.css" rel="stylesheet">
+<link href="/css/style.css" rel="stylesheet">
+<link href="/css/myQnaList.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.js"
 	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
 	crossorigin="anonymous"></script>
@@ -14,22 +15,24 @@
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
 <div class="container">
-  <h1>QNA List</h1>
+  <div class="page_title">Q&A</div>
     <table class="table">
         <thead>
             <tr>
-                <th>번호</th>
-                <th>카테고리</th>
-                <th>제목</th>
-                <th>상태</th>
-                <th>작성일자</th>
+                <th id="num">번호</th>
+                <th id="cate">카테고리</th>
+                <th id="title">제목</th>
+                <th id="status">상태</th>
+                <th id="date">작성일자</th>
             </tr>
         </thead>
         <tbody id="qnaTableBody">
             <!-- AJAX로 데이터가 삽입될 부분 -->
         </tbody>
     </table>
-    <a href="/qnaForm"><button>글쓰기</button></a>
+    <a href="/qnaForm"id="writeBtn_a">
+        <button id="writeBtn" class="btn btn-onepick">글쓰기</button>
+    </a>
 </div>
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
@@ -47,7 +50,7 @@ $(document).ready(function(){
                 var row = $("<tr>").attr("data-bno", qna.bno); // 각 행에 data-bno 속성을 추가
                 row.append($("<td>").text(qna.bno));
 
-                row.append($("<td>").text(qna.category));
+                row.append($("<td class='category'>").text(qna.category));
                 row.append($("<td>").text(qna.title));
                    
                 // 답변여부 값에 따른 처리
