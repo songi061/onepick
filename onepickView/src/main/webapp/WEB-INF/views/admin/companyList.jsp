@@ -92,7 +92,7 @@ function displayUsers(companies) {
     var tbody = $("#companyTableBody");
     tbody.empty();
 
-    if (users.length === 0) {
+    if (companies.length === 0) {
         // 검색 결과가 없는 경우 메시지 출력
         $("#allCompanyList").html("<div class='col-12'><div class='border w-100 p-4 text-center text-secondary rounded'>검색 결과가 없습니다.<br>검색어를 다시 확인해주세요.</div></div>");
     } else {
