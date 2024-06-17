@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 @Component
-public class UserReplyDto {
+public class CompanyReplyDto {
 
 	private String username;
-	private Long ubno;
+	private Long cbno;
 	private String content;
 	private Integer report;
 }

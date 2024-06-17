@@ -15,7 +15,7 @@
 	<div class="page_title"><h3>구직자 커뮤니티</h3></div>
 	<div class="col-4">
 	    <div id="list-example" class="list-group list-group-horizontal">
-    		<a class="list-group-item list-group-item-action" id="freeBoard" aria-current="true" href="#list-item-1" default>자유글</a>
+    		<a class="list-group-item list-group-item-action" id="freeBoard" aria-current="true" href="#list-item-1">자유글</a>
 	      	<a class="list-group-item list-group-item-action" id="job_hunting" href="#list-item-2">취업준비</a>
 	      	<a class="list-group-item list-group-item-action" id="turnover" href="#list-item-3">이직</a>
 	    </div>
