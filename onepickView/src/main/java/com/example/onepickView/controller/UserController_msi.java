@@ -54,4 +54,10 @@ public class UserController_msi {
 	}
 	
 	
+	@RequestMapping("/applyList")
+	public void applyList() {
+		
+	}
+	
+	
 }

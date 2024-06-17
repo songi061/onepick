@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.onepickApi.entity.ApplyList;
+import com.example.onepickApi.entity.User;
 
 public interface ApplyListRepository extends JpaRepository<ApplyList, Long> {
 
@@ -18,4 +19,8 @@ public interface ApplyListRepository extends JpaRepository<ApplyList, Long> {
 	
 	@Query(value="select * from apply_list where cid=:cid and uid=:uid and jno=:jno", nativeQuery=true)
 	public ApplyList findInterviewee(@Param("cid") String cid, @Param("uid") String uid, @Param("jno") Long jno);
+
+
+	List<ApplyList> findByUser(User user);
+
 }

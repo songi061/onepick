@@ -44,7 +44,7 @@
        color : #848484;
    }
    
-#editBtn {
+#editBtn, #scrapBtn {
     width: 100%;
     height: 40px;
     background-color: #007bff;
@@ -88,7 +88,14 @@
 <hr>
 <p class="subtitle">보유능력</p>
 <div class="info" id="oaList"></div>
+
+
+<input type="button" id="editBtn" value="수정" style="display: none;" onclick="edit(<%= request.getAttribute("rno") %>)">
+<input type="button" id="scrapBtn" value="관심구직자 스크랩" style="display: none;" onclick="scrap(<%= request.getAttribute("rno") %>)">
+
+
 </div>
+
 
 </div>
 
@@ -215,10 +222,24 @@ $(document).ready(function() {
             oaDiv.append(oaUl);
 			
             
-            var resumeForm = $('#resumeForm');
-            resumeForm.append('<input type="button" id="editBtn" value="수정" onclick="edit(' + resume.rno + ')">');
+            
+            
+         	// Role에 따라 버튼 보이기 처리
+            var role = localStorage.getItem('role');
+            var editBtn = $('#editBtn');
+            var scrapBtn = $('#scrapBtn');
+            
+            if (role === 'ROLE_USER') {
+                editBtn.show();  // 수정 버튼 보이기
+            } else if (role === 'ROLE_COMPANY') {
+                editBtn.hide();  // 수정 버튼 숨기기
+                scrapBtn.show(); //기업이 구직자 스크랩하기
+            }
+            
+            //var resumeForm = $('#resumeForm');
+            //resumeForm.append('<input type="button" id="editBtn" value="수정" onclick="edit(' + resume.rno + ')">');
 	    
-	    
+	    	
 	    },
 	    error: function(xhr, status, error) {
 	        console.error('AJAX 요청 실패:', status, error);
@@ -229,6 +250,27 @@ $(document).ready(function() {
 function edit(rno) {
 	window.location.href = '/user/resumeEdit?rno=' + rno;
 }
+
+function scrap(rno) {
+	$.ajax({
+	    url: 'http://localhost:9001/api/v1/resume-scrap/' + rno,
+	    type: 'POST',
+	    dataType: 'json',
+	    /* headers: {
+	        'Authorization': 'Bearer ' + token,
+	        'writer': token_writer,
+	        'role': token_role
+	    }, */
+	    success: function(data) {
+	    	//스크랩 기능 구현
+	    
+	    },
+	    error: function(xhr, status, error) {
+	        console.error('AJAX 요청 실패:', status, error);
+	    }
+	});
+}	    
+	
 
 </script>
 
