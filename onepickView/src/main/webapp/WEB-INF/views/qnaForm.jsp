@@ -29,14 +29,12 @@
             <span id="username_display"></name>
         </div>
         <div>
-            <p>내용</p><input type="text" name="content">
+            <p>내용</p><textarea name="content"></textarea>
         </div>
         <input type="submit" onclick="submitForm(event)" value="등록">
         <input type="hidden" name="username" id="username_input">
     </form>
-  <a href="/admin/qnaList">
-    <button>목록으로</button>
-  </a>
+    <button id="qnaListButton">목록으로</button>
 </div>
 <jsp:include page="layout/footer.jsp"></jsp:include>
 </body>
@@ -79,9 +77,28 @@
             type: 'POST',
             url: 'http://localhost:9001/api/v1/qna',
             data: formData,
-            success: function(response){
-                console.log(response);
-                window.location.href = "/admin/qnaList";
+            success: function(qna){
+                console.log(qna);
+                if(qna.user && qna.user.username === storedUsername){
+                    window.location.href = "/user/myQnaList";
+                }else if(qna.company && qna.company.username){
+                    window.location.href = "/company/myQnaList";
+                }
+                
+                // 버튼 클릭 이벤트 핸들러 추가
+                $('#qnaListButton').on('click', function(event) {
+                    event.preventDefault(); // 기본 동작 방지
+
+                    const storedUsername = localStorage.getItem("username"); // 로컬 스토리지에서 username 가져오기
+
+                    if (qna.user && qna.user.username === storedUsername) {
+                        window.location.href = "/user/myQnaList";
+                    } else if (qna.company && qna.company.username === storedUsername) {
+                        window.location.href = "/company/myQnaList";
+                    } else {
+                        alert("해당 사용자 또는 기업의 QnA 리스트가 없습니다.");
+                    }
+                });
             },
             error: function(){
                 console.log("에러 발생");
@@ -89,5 +106,5 @@
         })
     }
 </script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>

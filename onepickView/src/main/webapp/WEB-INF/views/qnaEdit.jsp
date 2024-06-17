@@ -26,16 +26,19 @@
         </div>
         <div>
             <p>작성자</p>
-            <span id="username">${username}</span>
+            <span id="username"></span>
         </div>
         <div>
-            <p>내용</p><input type="text" name="content" id="content">
+            <p>내용</p><textarea name="content" id="content"></textarea>
+        </div>
+        <div>
+            <p>답변</p><textarea name="response"></textarea>
         </div>
         <input type="submit" onclick="submitForm(event)" value="수정">
-        <input type="hidden" name="username" value="${username}">
+        <input type="hidden" name="username" id="username_input">
         <input type="hidden" name="bno" id="bno" value="${bno}">
     </form>
-  <a href="/qnaList">
+  <a href="/admin/qnaList">
     <button>목록</button>
   </a>
 </div>
@@ -53,7 +56,9 @@
                 $("#title").val(qna.title);
                 $("#category").val(qna.category);
                 $("#content").val(qna.content);
-                $("#username").text(qna.user ? qna.user.username : (qna.company ? qna.company.username : ''));
+                var username_input = $("#username").text(qna.user ? qna.user.username : (qna.company ? qna.company.username : ''));
+                console.log(username_input);
+                $("#username_input").val(username_input);
                 $("#bno").val(qna.bno);
             },
             error: function(error){
@@ -78,7 +83,7 @@
             data: formData,
             success: function(response){
                 console.log(response);
-                window.location.href = "/qnaList";
+                window.location.href = "/admin/qnaList";
             },
             error: function(error){
                 console.log("에러 :", error);
@@ -87,5 +92,5 @@
         })
     }
 </script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>

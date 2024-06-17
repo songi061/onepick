@@ -36,8 +36,9 @@
 <script>
 $(document).ready(function(){
     $.ajax({
-        url: "http://localhost:9001/api/v1/myqna",
+        url: "http://localhost:9001/api/v1/companymyqna",
         method: "GET",
+        data: { username: localStorage.getItem("username") },
         success: function(data){ // 요청이 성공적으로 완료됐을 경우 호출될 콜백함수 -- 서버로부터 받은 응답 데이터를 인자로 받는다
             var tbody = $("#qnaTableBody");
             tbody.empty(); // tbody의 기존 내용을 모두 지움 -- 테이블을 업데이트할 때 이전의 데이터를 제거하고 새 데이터를 추가할 수 있음

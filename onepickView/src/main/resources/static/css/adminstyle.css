@@ -44,3 +44,8 @@ img {
 p{
     margin-bottom: 0 !important;
 }
+
+.page_title{
+    font: 900 30px/60px 'Pretendard-Regular';
+    margin: 20px;
+}
