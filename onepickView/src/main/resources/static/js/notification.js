@@ -84,5 +84,11 @@ window.setNotification = async function() {
 onMessage(messaging, (payload) => {
   console.log('Message received. ', payload);
   // Customize notification here
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: '/img/logo.png'
+  };
+new Notification(notificationTitle, notificationOptions);
 });
 

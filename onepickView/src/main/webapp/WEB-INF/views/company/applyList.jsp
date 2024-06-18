@@ -25,11 +25,11 @@
         <button  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <input type="radio" value="지원완료" name="status">지원완료</input>
-        <input type="radio" value="면접대기" name="status">면접대기</input>
-        <input type="radio" value="면접완료" name="status">면접완료</input>
-        <input type="radio" value="합격" name="status">합격</input>
-        <input type="radio" value="불합격" name="status">불합격</input>
+      	<span id="status-applied"><input  type="radio" value="지원완료" name="status">지원완료</input></span>
+        <span id="status-wait"><input type="radio" value="면접대기" name="status">면접대기</input></span>
+        <span id="status-interviewed"><input type="radio" value="면접완료" name="status">면접완료</input></span>
+        <span id="status-accepted"><input  type="radio" value="합격" name="status">합격</input></span>
+        <span id="status-rejected" ><input type="radio" value="불합격" name="status">불합격</input></span>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="changeBtn">변경</button>
@@ -42,8 +42,12 @@
 
 <script>
 const listContainer = document.querySelector('.apply_list');
-
-
+const radioTypes = document.querySelectorAll("input[type='radio']")
+const status_wait = document.querySelector("#status-wait")
+const status_interviewed = document.querySelector("#status-interviewed")
+const status_accepted = document.querySelector("#status-accepted")
+const status_rejected = document.querySelector("#status-rejected")
+const status_applied = document.querySelector("#status-applied")
 
     const xhttp = new XMLHttpRequest();
 	xhttp.onload = function() {
@@ -61,12 +65,17 @@ const listContainer = document.querySelector('.apply_list');
            statusBtns.forEach(btn=>{
         	   if(btn.innerText == "불합격"){
         		   btn.style.backgroundColor="red";
+        		   btn.removeAttribute("data-bs-toggle");
+        		   btn.removeAttribute("data-bs-target");
         	   }else if(btn.innerText == "면접대기"){
         		   btn.style.backgroundColor="grey";
         	   }else if(btn.innerText == "지원완료"){
         		   btn.style.backgroundColor="blue";
         	   }else if(btn.innerText == "면접완료"){
         		   btn.style.backgroundColor="darkgreen";
+        	   }else if(btn.innerText == "합격"){
+        		   btn.removeAttribute("data-bs-toggle");
+        		   btn.removeAttribute("data-bs-target");
         	   }
            })
 
@@ -84,7 +93,24 @@ const listContainer = document.querySelector('.apply_list');
 	
 	
 	function changeStatus(e){
-		console.log(e.target.parentElement.parentElement)
+		const originalStatus = e.target.innerText;
+	
+		if(originalStatus == "지원완료"){
+			status_accepted.style.display = "none";
+			status_interviewed.style.display = "none";
+		}else if(originalStatus == "면접대기"){
+			status_applied.style.display = "none";
+			status_accepted.style.display = "none";
+		}else if(originalStatus == "면접완료"){
+			status_applied.style.display = "none";
+			status_wait.style.display = "none";
+		}
+		//변경 전 기존 값 미리 선택해주기
+		radioTypes.forEach(radio=>{
+			if(radio.value == originalStatus){
+				radio.checked = true;
+			}
+		})
 		const rno = e.target.parentElement.parentElement.querySelector("a").href.split("=")[1]
 		const jno = e.target.parentElement.parentElement.querySelector(".jno").innerText
 		console.log(document.querySelector("#changeBtn"))
