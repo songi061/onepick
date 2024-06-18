@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.example.onepickApi.entity.Company;
 import com.example.onepickApi.entity.JobAd;
 
 public interface JobAdRepository extends JpaRepository<JobAd, Long> {
@@ -33,4 +34,6 @@ public interface JobAdRepository extends JpaRepository<JobAd, Long> {
 	public List<JobAd> findByCompany_UsernameContainingOrCompany_NameContainingOrWantedTitleContaining(String companyUsername,
 			String companyName, String wantedTitle);
 	
+	@Query("SELECT j.cid FROM Jobad j WHERE j.jno = :jno")
+	Company findCidByJno(@Param("jno") Long jno);
 }

@@ -60,4 +60,16 @@ public class UserController_msi {
 	}
 	
 	
+	@RequestMapping("/reviewForm")
+	public void reviewForm() {
+		
+	}
+	
+	
+	@RequestMapping("/reviewList")
+	public void reviewList() {
+		
+	}
+	
+	
 }
