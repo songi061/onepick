@@ -6,11 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>1PICK!</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 <link href="/css/style.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<link href="/css/company_myHome.css" rel="stylesheet">
 <style>
-
+/*
 #myHomeContainer {
     max-width: 1000px;
     margin: 40px auto;
@@ -44,7 +47,7 @@
     margin: 0;
     flex: 1; /* Flexbox를 사용하여 남은 공간 차지 */
 }
-
+/*
 .user-details li {
     margin-bottom: 5px;
     font-size: 1.1em;
@@ -121,60 +124,123 @@
     display: inline-block;
     margin: 10px 20px;
     padding: 15px 20px; /* Padding을 추가하여 버튼처럼 보이게 함 */
+    /*
     color: black;
     text-decoration: none;
     font-size: 1.1em;
     background-color: #f8f9fa; /* 배경색 추가 */
+     /*
     border: 1px solid #ced4da; /* 테두리 추가 */
+     /*
     border-radius: 5px; /* 둥근 모서리 추가 */
+     /*
     transition: background-color 0.3s, color 0.3s; /* 전환 효과 추가 */
+ /*    
 }
-
+ /*
 .quickMenu a:hover {
     text-decoration: none;
     background-color: #007bff; /* 호버 시 배경색 변경 */
+     /*
     color: white; /* 호버 시 글자색 변경 */
+     /*
     border-color: #007bff; /* 호버 시 테두리 색 변경 */
+ /*
 }
-
+ /*
 .homeinfo{
 	margin-top : 30px;
 	margin-bottom : 80px;
 }
-
+*/
 </style>
 </head>
 <body>
 <jsp:include page="../layout/header.jsp"></jsp:include>
-
-<div class="container" id="myHomeContainer">
-    <h2 class="page_title">🏠 My Home</h2>
-    <hr>
-    
-    <div class="homeinfo">
-    	<h5>회원 정보</h5>
-    	<hr>
-    	<div id="userInfo"></div>
-    </div>
-    
-    <div class="homeinfo">
-        <div class="resume-header">
-            <h5>이력서 리스트 (최대 3개)</h5>
-            <a href="/user/resumeList" class="myHomelink">더보기</a>
-        </div>
-    	<hr>
-    	<div id="resumeList"></div>
-    </div>
-    
-    <div class="quickMenu">
-    	<a href="/user/resumeForm">이력서 작성하기</a>
-    	<a href="/user/scrapList">스크랩한 공고</a>
-    	<a href="/user/interestList">관심 기업</a>
-    	<a href="/user/applyList">지원 내역</a>
-    	<a href="/user/myQnaList">QNA 관리</a>
-    </div>
-    
+<div class="sub_header border-bottom">
+	<div class="container">
+		<div class="d-flex py-2">
+			<button class="btn text-onepick" type="button" onclick="location.href='/user/myHome'">
+			   MyHome
+			</button>
+			<div class="dropdown">
+			  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			    이력서 관리
+			  </button>
+			  <ul class="dropdown-menu">
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/user/resumeList'">이력서 리스트</button></li>
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/user/resumeForm'">이력서 작성</button></li>
+			  </ul>
+			</div>
+			<button class="btn" type="button" onclick="location.href='/user/scrapList'">
+			   스크랩관리
+			</button>
+			<button class="btn" type="button" onclick="location.href='/user/interestList'">
+			   구독관리
+			</button>
+			<button class="btn" type="button" onclick="location.href='/company/applyList'">
+			   지원내역관리
+			</button>
+			<div class="dropdown">
+			  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			    평점관리
+			  </button>
+			  <ul class="dropdown-menu">
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/user/reviewList'">평점 조회</button></li>
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/user/reviewForm'">평점 등록</button></li>
+			  </ul>
+			</div>
+			<button class="btn" type="button" onclick="location.href='/user/myQnaList'">
+			   QnA관리
+			</button>
+			<div class="dropdown">
+			  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			    커뮤니티관리
+			  </button>
+			  <ul class="dropdown-menu">
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/user/myBoardList'">내가 쓴 글 리스트</button></li>
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/user/myCommentList'">내가 쓴 댓글 목록</button></li>
+			  </ul>
+			</div>
+		</div>
+	</div>
 </div>
+
+<div class="container">
+	<div class='page_title'>🏠 My Home</div>
+	<div class="d-flex">
+		<img class="ms-auto"  data-bs-toggle="modal" data-bs-target="#exampleModal1" style="padding:5px; background-color:#42d056 ; border: 2px solid #42d056; width:40px; border-radius:10px;" src="/icon/notification-setting.png">
+	</div>	
+	<div class="company_myInfo bg-light">
+		<div class="profileImg_box position-relative">
+			<img src="" alt="사진">
+			<button class="btn btn-sm btn-onepick position-absolute" data-bs-toggle="modal" data-bs-target="#exampleModal" style="bottom:0; right:0"><i class="bi bi-pencil-fill"></i></button>
+		</div>
+		<div>
+		<div class="fw-blod fs-4"><span id="userName">이름</span> <a class="fs-6 link-primary d-inline link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/user/userEdit">내정보수정<i class="bi bi-arrow-right"></i></a></div>
+			<div>
+			<span id="userGender">성별</span>
+			<span class="text-secondary mx-2"> | </span>
+			<span id="userAddr">주소</span></div>
+			</div>
+		</div>
+	
+		<div class='title mb-3 clearfix'>
+			<span>내 이력서 리스트</span>
+			<a class="float-end fs-6 link-primary d-inline link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover cursor" href="/user/resumeList">더보기</a>
+		</div>
+		<div>
+			<div id="resumeList"></div>
+		</div>
+		
+		<div class="row mb-5">
+			<div class="col-3"><a class="btn btn-lg w-100 btn-outline-onepick-sub" href='/user/scrapList'>스크랩한 공고</a></div>
+			<div class="col-3"><a class="btn btn-lg w-100 btn-outline-onepick-sub" href='/user/interestList'>관심 기업</a></div>
+			<div class="col-3"><a class="btn btn-lg w-100 btn-outline-onepick-sub" href='/user/applyList'>지원 내역</a></div>
+			<div class="col-3"><a class="btn btn-lg w-100 btn-outline-onepick-sub" href='/user/myQnaList'>QnA관리</a></div>
+		</div>
+		
+	</div>
 
 <script>
 $(document).ready(function() {
@@ -192,7 +258,7 @@ $(document).ready(function() {
         	var userInfo = $('#userInfo');
         	    	
         	var user = data;
-
+        	/*
             var userDiv = $('<div class="user-info"></div>');
 
             var imgDiv = $('<div class="user-img"></div>');
@@ -204,9 +270,17 @@ $(document).ready(function() {
             infoDiv.append('<li>이름 :  ' + user.name + ' 님 </li>');
             infoDiv.append('<li>성별 :  ' + user.gender + '</li>');
             infoDiv.append('<li>지역 :  ' + user.addr + '</li>');
+            */
 
             //var editLink = $('<a href="/user/userEdit" class="myHomelink">내정보 수정</a>');
-          
+            document.querySelector("#userName").innerHTML = user.name;
+            document.querySelector("#userGender").innerHTML = user.gender;
+            document.querySelector("#userAddr").innerHTML = user.addr;
+            if(user.fileName == null){
+    			document.querySelector(".profileImg_box img").src="/img/no_img.jpg";
+    		}else{
+    			document.querySelector(".profileImg_box img").src="/images/" + user.fileName;
+    		}
             
             var userDetailsContainer = $('<div class="user-details-container"></div>');
             userDetailsContainer.append(infoDiv);
@@ -253,7 +327,7 @@ $(document).ready(function() {
 	                }
 	                count++;
 	
-	                var ul = $('<ul class="res"></ul>'); // ul 태그 생성
+	                var ul = $('<ul class="res p-4 bg-light ms-0 me-0 mt-0 mb-3 position-relative"></ul>'); // ul 태그 생성
 	                var div = $('<div class="def_div"></div>');
 	
 	                if (resume.def == "Y") {
@@ -261,7 +335,7 @@ $(document).ready(function() {
 	                }
 	
 	                ul.append(div);
-	                ul.append('<li><a href="/user/resumeDetail?rno=' + resume.rno + '">' + resume.title + '</a></li>');
+	                ul.append('<li><a class="fs-4 fw-bold" href="/user/resumeDetail?rno=' + resume.rno + '">' + resume.title + '</a></li>');
 	
 	                if (resume.moddate == null) {
 	                    var regdate = new Date(resume.regdate).toISOString().split('T')[0];

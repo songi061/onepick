@@ -85,7 +85,7 @@
 			<div class="col-3"><a class="btn btn-lg w-100 btn-outline-onepick" href='/company/recruitForm'>채용공고작성</a></div>
 			<div class="col-3"><a class="btn btn-lg w-100 btn-outline-onepick" href='/company/scrapList'>스크랩한지원자</a></div>
 			<div class="col-3"><a class="btn btn-lg w-100 btn-outline-onepick" href='/company/applyList'>지원내역관리</a></div>
-			<div class="col-3"><a class="btn btn-lg w-100 btn-outline-onepick" href=''>QnA관리</a></div>
+			<div class="col-3"><a class="btn btn-lg w-100 btn-outline-onepick" href='/company/myQnaList'>QnA관리</a></div>
 		</div>
 		
 	</div>
