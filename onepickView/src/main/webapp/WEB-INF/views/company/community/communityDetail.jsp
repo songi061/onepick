@@ -23,6 +23,9 @@
 	<div id="board_detail">
 		<table id="data_board_detail"></table>
 	</div>
+	<div class="report">
+		<button id="btn_report">신고</button>
+	</div>
 	<hr>
 	<div id="reply_regist">
 		<form class="replyForm" id="replyForm">
@@ -39,18 +42,59 @@
 	<button id="editBtn" style="display: none;">수정하기</button>
 	<hr>
 <script>
+// 게시글 신고 기능
+let board_report = 0;
+$('#btn_report').click(function(event){
+	event.preventDefault();
+	
+	board_report = board_report+1;
+	console.log("---------------------------------")
+	console.log(board_report)
+	
+	$.ajax({
+		type: 'post',
+		url: 'http://localhost:9001/api/v1/company/community-report',
+		headers:{
+			"jwtToken" : localStorage.getItem("jwtToken"),
+            "username" : localStorage.getItem("username"),
+            "role" : localStorage.getItem("role")
+		},
+		data: JSON.stringify({
+			"cbno": cbno,
+			"report": board_report
+		}),
+		contentType: 'application/json; charset=utf-8',
+		dataType:'json',
+		success: function(data){
+			if(data !== null){
+				console.log(data);
+				window.location.href = '/company/community-board/='+cbno;
+			}
+		},
+		error: function(xhr, status, error) {
+			// 요청이 실패한 경우 처리할 코드
+			console.error("Request failed with status code: " + xhr.status);
+		}
+			
+	});
+});
+
+
 // 로컬 스토리지에서 username을 가져옴
 const storagedUsername = localStorage.getItem('username');
+console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+storagedUsername)
+
 // 모든 게시물 요소를 가져옴
 const post = document.getElementById('board_detail');
 const editBtn = document.getElementById("editBtn");
-const ubno = ${ubno};
+const cbno = ${cbno};
+console.log("-----------------cbno="+cbno)
 
 // 게시글 디테일 불러오기
 $(document).ready(function(){
 	$.ajax({
 		type: 'GET',
-		url: 'http://localhost:9001/api/v1/company/community-board/'+ubno,
+		url: 'http://localhost:9001/api/v1/company/community-board/'+cbno,
 		//data: { ubno: "job_hunting"},
 		dataType: 'json',
 		success: function(data){
@@ -66,11 +110,11 @@ $(document).ready(function(){
 					'<tr><td>'+data.regdate + '</td></tr>';
 				$('#data_board_detail').html(str);
 
-		        if (storedUsername == data.company.username) {
-		            console.log("xxxx")
+		        if (storagedUsername === writer) {
+		            console.log(storagedUsername === writer)
 		            editBtn.style.display="block";
 		   	 	};
-			}
+			};
 			// 초기 댓글 로드
 			loadComments();
 		},
@@ -82,7 +126,7 @@ $(document).ready(function(){
 	//수정버튼 클릭이벤트 핸들러 추가
 	editBtn.addEventListener("click", function(){
 		console.log("수정버튼 클릭했다")
-		window.location.href = '/company/communityEdit?ubno='+ubno;
+		window.location.href = '/company/communityEdit?cbno='+cbno;
 	})
 
 	// 해당게시글에서 댓글작성 매서드
@@ -103,7 +147,7 @@ $(document).ready(function(){
 			data: JSON.stringify({
 				"content": content,
 				"username": username,
-				"ubno": ubno
+				"cbno": cbno
 			}),
 			contentType: 'application/json; charset=utf-8',
 			dataType:'json',
@@ -125,12 +169,12 @@ $(document).ready(function(){
 	// 해당 게시글의 댓글 불러오기
 	// $(document).ready(function(){
 		function loadComments(){
-			const ubno = ${ubno};
-			console.log(ubno)
+			const cbno = ${cbno};
+			console.log(cbno)
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:9001/api/v1/company/community-comment?ubno='+ubno,
-				//data: {ubno: ubno},
+				url: 'http://localhost:9001/api/v1/company/community-comment?cbno='+cbno,
+				//data: {cbno: cbno},
 				dataType: 'json',
 				success: function(da){
 					if(da !== null){

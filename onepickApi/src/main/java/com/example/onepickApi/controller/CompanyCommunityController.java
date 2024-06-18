@@ -133,10 +133,10 @@ public class CompanyCommunityController {
 			cb_.setTitle(boardDto.getTitle());
 			cb_.setContent(boardDto.getContent());
 			cb_.setCategory(boardDto.getCategory());
-			CompanyBoard ub = cbRepo.save(cb_);
+			CompanyBoard cb = cbRepo.save(cb_);
 			
-			System.out.println("수정된 CompanyBoard : " + ub);
-			CompanyBoard result = cbRepo.save(ub);
+			System.out.println("수정된 CompanyBoard : " + cb);
+			CompanyBoard result = cbRepo.save(cb);
 			if(result != null) {
 				return new ResponseEntity<>("수정완료", HttpStatus.OK);
 			}else {
@@ -151,7 +151,7 @@ public class CompanyCommunityController {
 		}
 		
 		
-		// 구직자 마이페이지 - 내가 쓴 게시글 목록 조회
+		// 기업 마이페이지 - 내가 쓴 게시글 목록 조회
 		@GetMapping("/community-myboard")
 		public List<CompanyBoard> communityMyBoardList(@RequestBody BoardDto boardDto){
 			Company company = new Company();
@@ -162,7 +162,16 @@ public class CompanyCommunityController {
 			return cbList;
 		}
 		
-		
+		// 게시글 신고
+		@PostMapping("/community-report")
+		public ResponseEntity<Integer> communityReport(Integer report) {
+			
+			if(report == 0) {
+				return new ResponseEntity<>(0, HttpStatus.OK);
+			}else {
+				return new ResponseEntity<>(report, HttpStatus.OK);
+			}
+		}
 	
 	
 }
