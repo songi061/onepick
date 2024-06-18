@@ -22,8 +22,7 @@
                     <th>번호</th>
                     <th>신고일</th>
                     <th>제목</th>
-                    <th>작성자</th>
-                    <th>관리</th>
+                    <th>신고자</th>
                 </tr>
             </thead>
             <tbody id="reportTableBody">
@@ -43,11 +42,13 @@ $(document).ready(function () {
             var tbody = $("#reportTableBody");
             tbody.empty();
             $.each(data, function (index, board) {
+            	console.log(board);
+            	
                 var row = $("<tr>").attr("data-reno", board.reno);
                 row.append($("<td>").text(index + 1));
                 row.append($("<td>").text(board.report_date));
-                row.append($("<td>").text(board.ub.title));
-                row.append($("<td>").text(board.user.username));
+                row.append($("<td>").text(board.cb.title));
+                row.append($("<td>").text(board.company.username));
                 tbody.append(row);
 
                 // tr 클릭 이벤트 핸들러 추가
