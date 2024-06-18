@@ -23,6 +23,7 @@ import com.example.onepickApi.entity.BoardReport;
 import com.example.onepickApi.entity.Company;
 import com.example.onepickApi.entity.CompanyBoard;
 import com.example.onepickApi.entity.CompanyReply;
+import com.example.onepickApi.entity.ReplyReport;
 import com.example.onepickApi.repository.BoardReportRepository;
 import com.example.onepickApi.repository.CompanyBoardRepository;
 import com.example.onepickApi.repository.CompanyReplyRepository;
@@ -43,6 +44,9 @@ public class CompanyCommunityController {
 	CompanyReplyRepository crRepo;
 	@Autowired
 	BoardReportRepository brRepo;
+//	@Autowired
+//	ReplyReportRepository rrRepo;
+	
 	
 	// 게시글 등록
 	@PostMapping("/community-board")
@@ -172,19 +176,46 @@ public class CompanyCommunityController {
 			// 사용자 정보 - username 받기
 			String username = request.getHeader("username");
 			
+			// 신고자 정보
 			Company company = new Company();
 			company.setUsername(username);
 			
+			// 신고당한 게시물 번호
 			CompanyBoard cb = new CompanyBoard();
 			cb.setCbno(cbno);
 			
 			BoardReport boardReport = new BoardReport();
 			boardReport.setCompany(company);
 			boardReport.setCb(cb);
+			boardReport.setReport_date(new Date());
+			brRepo.save(boardReport);
 			
-			return new ResponseEntity<>("수정완료", HttpStatus.OK);
-			
+			return new ResponseEntity<>("게시글신고완료", HttpStatus.OK);
 		}
-	
+		
+		// 댓글 신고
+		@PostMapping("/reply-report")
+		public ResponseEntity<String> replyReport(HttpServletRequest request, @RequestParam("cbno") Long cbno) {
+			// 사용자 정보 - username 받기
+			String username = request.getHeader("username");
+			// 신고자 정보
+			Company company = new Company();
+			company.setUsername(username);
+			
+			// 신고당한 댓글 번호 - cbno로 알 수 있잖아!
+			CompanyBoard companyBoard = new CompanyBoard();
+			companyBoard.setCbno(cbno);
+			
+			CompanyReply cr = new CompanyReply();
+			cr.setReplyno(companyBoard.getCbno());
+			System.out.println("!!!!!!company replyno : " + companyBoard.getCbno());
+			
+			// 댓글 신고 엔티티에 이제 다넣어 (replyno, username)
+			ReplyReport replyReport = new ReplyReport();
+			replyReport.setCompany(company);
+			replyReport.setCReply(cr);
+			
+			return new ResponseEntity<>("댓글신고완료", HttpStatus.OK);
+		}
 	
 }

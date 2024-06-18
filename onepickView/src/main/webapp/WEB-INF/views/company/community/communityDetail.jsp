@@ -25,7 +25,7 @@
 		<table id="data_board_detail"></table>
 	</div>
 	<div class="report">
-		<button id="btn_report">신고</button>
+		<button id="btn_commu_report">신고</button>
 	</div>
 	<hr>
 	<div id="reply_regist">
@@ -55,35 +55,7 @@ const cbno = ${cbno};
 console.log("-----------------cbno="+cbno)
 
 
-// 게시글 신고 기능
-let board_report = 0;
-$('#btn_report').click(function(event){
-	event.preventDefault();
-	
-	console.log("----------------"+cbno+"-----------------")
-	$.ajax({
-		type: 'post',
-		url: 'http://localhost:9001/api/v1/company/community-report?cbno='+cbno,
-		headers:{
-			"jwtToken" : localStorage.getItem("jwtToken"),
-            "username" : localStorage.getItem("username"),
-            "role" : localStorage.getItem("role")
-		},
-	
-		contentType: 'application/json; charset=utf-8',
-		success: function(data){
-			if(data !== null){
-				console.log(data);
-				alert("게시글 신고 완료");
-			}
-		},
-		error: function(xhr, status, error) {
-			// 요청이 실패한 경우 처리할 코드
-			console.error("Request failed with status code: " + xhr.status);
-		}
-			
-	});
-});
+
 
 // 게시글 디테일 불러오기
 $(document).ready(function(){
@@ -102,7 +74,8 @@ $(document).ready(function(){
 					'<tr><td>'+data.content + '</td></tr>'+
 					'<tr><td>'+data.views +'</td></tr>'+
 					'<tr><td id="writer">'+data.company.username+'</td></tr>'+
-					'<tr><td>'+data.regdate + '</td></tr>';
+					'<tr><td>'+data.regdate + '</td></tr>'+
+					'<tr><button id="btn_reply_report" value="신고"></button></tr>';
 				$('#data_board_detail').html(str);
 
 		        if (storagedUsername === writer) {
@@ -135,10 +108,6 @@ $(document).ready(function(){
 		$.ajax({
 			type: 'post',
 			url: 'http://localhost:9001/api/v1/company/community-comment',
-			//headers:{
-			//	'Authorization' : 'Bearer ' + 'token',
-			//	'writer': 'token_writer'
-			//},
 			data: JSON.stringify({
 				"content": content,
 				"username": username,
@@ -181,7 +150,7 @@ $(document).ready(function(){
 								'<tr><td>'+data.regdate+'</td></tr>';
 						});
 						$('#data_reply_detail').html(str);
-					}
+					};
 				console.log(da);
 						
 				},
@@ -190,6 +159,65 @@ $(document).ready(function(){
 				}
 			});
 		}
+		
+		// 게시글 신고 기능
+		$('#btn_commu_report').click(function(event){
+			event.preventDefault();
+			
+			console.log("----------------"+cbno+"-----------------")
+			$.ajax({
+				type: 'post',
+				url: 'http://localhost:9001/api/v1/company/community-report?cbno='+cbno,
+				headers:{
+					"jwtToken" : localStorage.getItem("jwtToken"),
+		            "username" : localStorage.getItem("username"),
+		            "role" : localStorage.getItem("role")
+				},
+			
+				contentType: 'application/json; charset=utf-8',
+				success: function(data){
+					if(data === "게시글신고완료"){
+						console.log(data);
+						alert("게시글 신고 완료");
+					}
+				},
+				error: function(xhr, status, error) {
+					// 요청이 실패한 경우 처리할 코드
+					console.error("Request failed with status code: " + xhr.status);
+				}
+					
+			});
+		});
+
+		//댓글 신고 기능
+		$('#btn_reply_report').click(function(event){
+			event.preventDefault();
+			
+			console.log("----------------"+cbno+"-----------------")
+			$.ajax({
+				type: 'post',
+				url: 'http://localhost:9001/api/v1/company/reply-report?cbno='+cbno,
+				headers:{
+					"jwtToken" : localStorage.getItem("jwtToken"),
+		            "username" : localStorage.getItem("username"),
+		            "role" : localStorage.getItem("role")
+				},
+			
+				contentType: 'application/json; charset=utf-8',
+				success: function(data){
+					if(data === "댓글신고완료"){
+						console.log(data);
+						alert("댓글 신고 완료");
+					};
+				},
+				error: function(xhr, status, error) {
+					// 요청이 실패한 경우 처리할 코드
+					console.error("Request failed with status code: " + xhr.status);
+				}
+					
+			});
+		});
+
 });
 </script>
 	</div>
