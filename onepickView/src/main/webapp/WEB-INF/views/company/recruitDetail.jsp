@@ -450,8 +450,13 @@ function apply(){
 			    	alert(data);
 			    },
 			    error: function(xhr, status, error) {
-			        console.error('AJAX 요청 실패:', status, error);
-			    }
+	                if (xhr.status === 409) {
+	                    alert(xhr.responseText);
+	                } else {
+	                    alert('지원 중 오류가 발생했습니다.');
+	                }
+	                console.error('AJAX 요청 실패:', status, error);
+	            }
 			});
 	 }
  } 
