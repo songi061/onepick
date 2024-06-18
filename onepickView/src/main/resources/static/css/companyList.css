@@ -21,7 +21,7 @@
     background-color: #f9f9f9;
 }
 
-.company a, a:visited {
+.company_detail, .company_detail:visited {
     text-decoration: none;
     font-weight: bold;
     color: #42d056;
