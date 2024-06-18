@@ -17,10 +17,10 @@ public class CompanyCommunityController {
 	}
 	
 	// 디테일
-	@RequestMapping("/communityList/{ubno}")
-	public String communityDetail(@PathVariable("ubno") Long ubno, Model model) {
+	@RequestMapping("/communityList/{cbno}")
+	public String communityDetail(@PathVariable("cbno") Long cbno, Model model) {
 		
-		model.addAttribute("ubno", ubno);
+		model.addAttribute("cbno", cbno);
 		return  "company/community/communityDetail";
 	}
 	
@@ -32,9 +32,9 @@ public class CompanyCommunityController {
 	
 	// 수정폼
 	@RequestMapping("/communityEdit")
-	public String communityRevision(@RequestParam("ubno") Long ubno, Model model) {
+	public String communityRevision(@RequestParam("cbno") Long cbno, Model model) {
 		
-		model.addAttribute("ubno", ubno);
+		model.addAttribute("cbno", cbno);
 		return "company/community/communityEdit";
 	}
 	

@@ -160,7 +160,7 @@
 								+ "<div class='logo w-25'><img src='" + logoSrc + "' alt='회사로고'></div>"
 								+ "<div class='w-75 ps-3'>"
 								+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
-								+ "<div class='recruitTitle fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
+								+ "<div class='recruitTitle text-ellipsis fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
 								+ "<div class='fs-6 text-secondary'> 공고 마감일 " + obj.receiptCloseDt + "</div>"
 								+ "<div class='recruitInfo text-ellipsis fs-6 text-secondary'> 모집 인원 " + obj.collectPsncnt + ", " + obj.position1 + ", " + obj.position2 + ", " + obj.region1 + ", " + obj.region2  + "</div>"
 								+ "</div></a></div>";
@@ -183,6 +183,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 			integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 			crossorigin="anonymous"></script>
+		<script src="/js/CloseBrowserClearlocalStorage.js"></script>
 	</body>
 
 	</html>

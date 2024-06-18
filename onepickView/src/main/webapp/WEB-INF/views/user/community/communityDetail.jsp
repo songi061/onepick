@@ -23,6 +23,10 @@
 		<div id="board_detail">
 			<table id="data_board_detail"></table>
 		</div>
+		<div class="report">
+			<button id="btn_report">신고</button>
+		</div>
+		
 		<hr>
 		<div id="reply_regist">
 			<form class="replyForm" id="replyForm">
