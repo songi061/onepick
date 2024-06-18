@@ -16,7 +16,7 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 	
 	<div class="container">
-		<div class="title">평점 등록</div>
+		<div class="page_title">평점 등록</div>
 		<hr>
 		
 		<div id="applyList"></div>
@@ -51,7 +51,7 @@
 <script>
     const listContainer = document.querySelector('.interviewees_list');
 
-    let companyName = "";
+    var companyName = "";
 
     // 지원내역 리스트 불러오기
     $.ajax({
@@ -70,7 +70,7 @@
                 // 받은 데이터 반복 처리
                 $.each(data, function(index, apply) {
                 	console.log("apply.ratingStatus 출력 : " + apply.ratingStatus);
-                    if (apply.status === "면접완료") {
+                    if (apply.status === "면접완료" || apply.status === "합격" || apply.status === "불합격" && apply.ratingStatus === false) {
                         var div = $('<div class="apply"></div>');
                         var ul = $('<ul class="res"></ul>'); // ul 태그 생성
 
@@ -83,7 +83,9 @@
                         ul.append('<li>상태 : ' + apply.status + '</li>');
 						
                         if (apply.ratingStatus == false) {
-                            div.append('<a href="#" class="review" data-jno="' + apply.jobAd.jno + '">평점 등록</a>');
+                            div.append('<a href="#" class="review" data-jno="' + apply.jobAd.jno + '">평점 등록하기</a>');
+                        }else{
+                        	div.append('평점 등록 완료');
                         }
                         
                         companyName = apply.jobAd.company.name;
@@ -148,12 +150,12 @@
                 $.ajax({
                     url: "http://localhost:9001/api/v1/review?jno=" + jno + "&score=" + finalScore,
                     type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(data),
+                    //contentType: "application/json",
+                    //data: JSON.stringify(data),
                     headers: {
-                        'jwtToken': localStorage.getItem('jwtToken'),
+                        //'jwtToken': localStorage.getItem('jwtToken'),
                         'username': localStorage.getItem('username'),
-                        'role': localStorage.getItem('role')
+                        //'role': localStorage.getItem('role')
                     },
                     success: function(response) {
                         console.log("평점 등록 성공:", response);

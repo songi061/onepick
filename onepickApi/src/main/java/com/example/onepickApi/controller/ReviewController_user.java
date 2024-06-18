@@ -1,5 +1,9 @@
 package com.example.onepickApi.controller;
 
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +20,13 @@ import com.example.onepickApi.entity.Company;
 import com.example.onepickApi.entity.CompanyReview;
 import com.example.onepickApi.entity.JobAd;
 import com.example.onepickApi.entity.User;
+import com.example.onepickApi.entity.UserReview;
 import com.example.onepickApi.repository.ApplyListRepository;
 import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.CompanyReviewRepository;
 import com.example.onepickApi.repository.JobAdRepository;
 import com.example.onepickApi.repository.UserRepository;
+import com.example.onepickApi.repository.UserReviewRepository;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,6 +41,9 @@ public class ReviewController_user {
 	
 	@Autowired
 	private CompanyReviewRepository companyReviewRepo;
+	
+	@Autowired
+	private UserReviewRepository userReviewRepo;
 	
 	@Autowired
 	private ApplyListRepository applyListRepo;
@@ -75,9 +84,58 @@ public class ReviewController_user {
 	}
 	
 	
+	
+	
 	@GetMapping("/review/{rno}")
 	public void getReviewList() {
 		
 	}
+	
+	
+	
+	
+	
+	//내가 쓴 리뷰리스트와 내가 받은 리뷰리스트 모두가져오기
+	@GetMapping("/review-list")
+	public ResponseEntity<Map<String, Object>> getBothList(HttpServletRequest request) {
+
+//		Enumeration<String> headers = request.getHeaderNames();
+//		while(headers.hasMoreElements()) {
+//			if(headers.nextElement().equals("username")) {
+//				System.out.println(request.getHeader("username"));
+//			}
+//		}
+		String username = request.getHeader("username"); 
+		Optional<User> result = userRepo.findById(username);
+		User user = result.get();
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		//내가 쓴 리뷰리스트 불러오기
+		List<CompanyReview> registeredList = companyReviewRepo.findByUser(user);
+		map.put("registeredList", registeredList);
+		System.out.println("registeredList"+registeredList);
+		
+		
+		//내가 받은 리뷰리스트 불러오기
+		List<UserReview> receivedList =userReviewRepo.findByUser(user);
+		map.put("receivedList", receivedList);
+		System.out.println("receivedList"+receivedList);
+		
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

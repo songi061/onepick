@@ -12,7 +12,7 @@
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
-	<div class="container">
+	<div class="container" id="reviewCon">
 		<div class="title">내가 받은 평점 리스트</div>
 		<div class="received_list">	</div>
 		<div class="title">내가 쓴 평점 리스트</div>
@@ -38,7 +38,7 @@ const registeredListContainer = document.querySelector('.registered_list');
 	    	   rating = Number(data.rating);
 	           const receivedListItem = document.createElement('div');
 	    	   receivedListItem.className = 'received_list_item';
-	    	   receivedListItem.innerHTML =  "<div><div class='user_name'>"+data.user.name+"</div><div class='reviewContainer'></div>";
+	    	   receivedListItem.innerHTML =  "<div><div class='user_name'>"+data.company.name+"</div><div class='reviewContainer'></div>";
 	           receivedListContainer.appendChild(receivedListItem);
 	           
         	   const reviewContainer = receivedListItem.querySelector(".reviewContainer")
@@ -62,7 +62,7 @@ const registeredListContainer = document.querySelector('.registered_list');
         	   rating = Number(data.rating);
         	   const registeredListItem = document.createElement('div');
         	   registeredListItem.className = 'registered_list_item';
-        	   registeredListItem.innerHTML = "<div><div class='user_name'>"+data.user.name+"</div><div class='reviewContainer'></div>"
+        	   registeredListItem.innerHTML = "<div><div class='user_name'>"+data.company.name+"</div><div class='reviewContainer'></div>"
         	   registeredListContainer.appendChild(registeredListItem);
         	   
         	   const reviewContainer = registeredListItem.querySelector(".reviewContainer")
@@ -82,7 +82,7 @@ const registeredListContainer = document.querySelector('.registered_list');
 	    }
             
 	  }
-	xhttp.open("GET", "http://localhost:9001/api/v1/company/review-list", true);
+	xhttp.open("GET", "http://localhost:9001/api/v1/review-list", true);
 	xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
 	xhttp.setRequestHeader("username", localStorage.getItem("username"));
 	xhttp.setRequestHeader("role", localStorage.getItem("role"));

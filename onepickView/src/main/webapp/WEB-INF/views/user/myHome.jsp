@@ -179,7 +179,7 @@
 			<button class="btn" type="button" onclick="location.href='/user/interestList'">
 			   구독관리
 			</button>
-			<button class="btn" type="button" onclick="location.href='/company/applyList'">
+			<button class="btn" type="button" onclick="location.href='/user/applyList'">
 			   지원내역관리
 			</button>
 			<div class="dropdown">

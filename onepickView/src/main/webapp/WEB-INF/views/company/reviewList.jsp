@@ -15,7 +15,7 @@
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
-	<div class="container">
+	<div class="container" id="reviewCon">
 		<div class="title">내가 받은 평점 리스트</div>
 		<div class="received_list">	</div>
 		<div class="title">내가 쓴 평점 리스트</div>
