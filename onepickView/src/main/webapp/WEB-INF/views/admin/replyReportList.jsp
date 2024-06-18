@@ -21,6 +21,7 @@
                 <tr id="tbl_header">
                     <th>번호</th>
                     <th>신고일</th>
+                    <th>내용</th>
                     <th>제목</th>
                     <th>작성자</th>
                     <th>관리</th>
@@ -37,7 +38,7 @@
 
 $(document).ready(function () {
     $.ajax({
-        url: "http://localhost:9001/api/v1/admin/reported-board",
+        url: "http://localhost:9001/api/v1/reported-board",
         method: "GET",
         success: function (data) {
             var tbody = $("#reportTableBody");
@@ -48,14 +49,33 @@ $(document).ready(function () {
                 row.append($("<td>").text(board.report_date));
                 row.append($("<td>").text(board.ub.title));
                 row.append($("<td>").text(board.user.username));
+                
+                var userTd = $("<td>");
+                var userButton = $("<button class='delete-btn' data-username='" + user.username + "'>").text("회원삭제");
+
+                userTd.append(userButton);
+                row.append(userTd);
+
                 tbody.append(row);
+            });
 
-                // tr 클릭 이벤트 핸들러 추가
-                $("#reportTableBody").on("click", "tr", function () {
-                        var nno = $(this).data("reno"); // 클릭한 tr의 data-nno 값을 가져옴
-                        window.location.href = "/user/commnunityList/" + reno;
+            // delete 버튼 클릭 이벤트 핸들러 추가
+            tbody.on("click", ".delete-btn", function () {
+                var username = $(this).data("username");
+                if (confirm(username + " 회원을 정말 삭제하시겠습니까?")) {
+                    $.ajax({
+                        url: "http://localhost:9001/api/v1/user/" + username,
+                        method: "DELETE",
+                        success: function (response) {
+                            alert(username + " 회원이 삭제되었습니다.");
+                            location.reload(); // 페이지 새로고침
+                        },
+                        error: function (error) {
+                            console.log("삭제 실패:", error);
+                            alert("삭제 중 오류가 발생했습니다.");
+                        }
                     });
-
+                }
             });
         },
         error: function (error) {

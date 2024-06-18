@@ -21,15 +21,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.onepickApi.entity.BoardReport;
 import com.example.onepickApi.entity.Company;
 import com.example.onepickApi.entity.InterestedCop;
 import com.example.onepickApi.entity.JobAd;
 import com.example.onepickApi.entity.JobadScrap;
 import com.example.onepickApi.entity.User;
+import com.example.onepickApi.repository.BoardReportRepository;
 import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.InterestedCopRepository;
 import com.example.onepickApi.repository.JobAdRepository;
 import com.example.onepickApi.repository.JobadScrapRepository;
+import com.example.onepickApi.repository.ReplyReportRepository;
 import com.example.onepickApi.repository.UserRepository;
 
 @CrossOrigin("*")
@@ -45,6 +48,12 @@ public class AdminController {
 	
 	@Autowired
 	private JobAdRepository jobAdRepository;
+	
+	@Autowired
+	private BoardReportRepository boardReportRepository;
+	
+	@Autowired
+	private ReplyReportRepository replyReportRepository;
 	
 	@Autowired
 	private InterestedCopRepository interestedCopRepository;
@@ -111,8 +120,16 @@ public class AdminController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
-	// 대시보드
+	// 신고 관리
+	@GetMapping("/reported-board")
+	public ResponseEntity<List<BoardReport>> boardReportList(){
+		List<BoardReport> list = boardReportRepository.findAll();
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 	
+	
+	
+	// 대시보드
 	// 차트 컨트롤러 
 	@GetMapping("/dashboard-1")
 	public ResponseEntity<Map<String, Object>> getDashboardData() {
@@ -161,6 +178,7 @@ public class AdminController {
         return ResponseEntity.ok(response);
     }
 	
+	// 인기 리스트 컨트롤러
     @GetMapping("/dashboard-2")
     public ResponseEntity<Map<String, List<Object[]>>> getPopularList() {
         List<Object[]> iList = interestedCopRepository.findCompaniesOrderByInterestCountDesc();
