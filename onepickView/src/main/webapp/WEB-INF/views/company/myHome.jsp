@@ -146,7 +146,7 @@ const showMoreBtn = document.querySelector(".showMoreBtn");
 		document.querySelector("#companySize").innerHTML = myInfo.size;
 		document.querySelector("#companyYrSales").innerHTML = myInfo.yrSales;
 		document.querySelector("#companyUrl").innerHTML = displayUrl;
-		if(data.fileName == null){
+		if(myInfo.fileName == null){
 			document.querySelector(".profileImg_box img").src="/img/no_img.jpg";
 		}else{
 			document.querySelector(".profileImg_box img").src="/images/" + myInfo.fileName;

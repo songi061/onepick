@@ -171,6 +171,8 @@ function editCompany(event){
 			xhttp.open("PUT", "http://localhost:9001/api/v1/company/", true);
 			xhttp.setRequestHeader("Content-type", "application/json");
 			xhttp.setRequestHeader("Authorization", "Bearer " + token);
+			xhttp.setRequestHeader("username", token_username);
+			xhttp.setRequestHeader("Access-Control-Expose-Headers", "Authorization, username");
 			xhttp.send(sendData);
 	}
 	
