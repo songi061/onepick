@@ -4,7 +4,7 @@ function deleteToken() {
    window.localStorage.clear();
 }
 */
-
+/*
 var closing_window = false;
 
 // 창이 포커스를 얻을 때
@@ -15,9 +15,11 @@ $(window).on('focus', function () {
 // 창이 포커스를 잃을 때
 $(window).on('blur', function () {
   closing_window = !document.hidden;
-  $(window).on('resize', function () {
-    closing_window = false;
-  }).off('resize'); // 다중 리스닝 방지
+});
+
+// 창 크기 조정 시
+$(window).on('resize', function () {
+  closing_window = false;
 });
 
 // 사용자가 HTML 영역을 벗어날 때
@@ -62,6 +64,11 @@ window.addEventListener("beforeunload", function (e) {
   if (closing_window) {
     toDoWhenClosing();
   }
+});
+
+// 페이지 로드 시 closing_window 초기화
+window.addEventListener("load", function () {
+  closing_window = false;
 });
 
 /*
