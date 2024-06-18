@@ -32,8 +32,8 @@
 			</div>
 	
 	      <ul id="userMenu" class="nav nav-pills">
-	        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">채용정보</a></li>
-	        <li class="nav-item"><a href="#" class="nav-link">기업정보</a></li>
+	        <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">채용정보</a></li>
+	        <li class="nav-item"><a href="/company/companyList" class="nav-link">기업정보</a></li>
 	        <li class="nav-item"><a href="#" class="nav-link">개인회원 커뮤니티</a></li>
 	        <li class="nav-item">
 		        <div class="dropdown">

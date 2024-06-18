@@ -10,6 +10,8 @@
 <link href="/css/style.css" rel="stylesheet">
 <link href="/css/recruitDetail.css" rel="stylesheet">
 <link href="/css/main.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="/js/CloseBrowserClearlocalStorage.js"></script>
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>

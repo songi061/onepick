@@ -222,16 +222,25 @@
 		} else if (document.querySelector("#militaryService2").checked) {
 			user.militaryService = "없음";
 		}
-
-		const sendData = JSON.stringify(user);
-		const xhttp = new XMLHttpRequest();
-		xhttp.onload = function() {
-		  console.log(this.responseText);
-		  location.href="/";
-		  }
-		xhttp.open("POST", "http://localhost:9001/api/v1/register/user", true);
-		xhttp.setRequestHeader("Content-type", "application/json");
-		xhttp.send(sendData);
+		
+		console.log(document.getElementById("userIdcheck_msg").children[0].innerText);
+		if(username.value.length == 0 || name.value.length == 0 || password.value.length == 0 || birthDate.value.length == 0 || email.value.length == 0 || tel.value.length == 0 || addr.value.length == 0){
+			alert("입력되지 않는 항목이 있습니다. 다시 확인해주세요!");
+		}else{
+			if(document.getElementById("userIdcheck_msg").children[0].innerText !== "사용가능한 아이디입니다."){
+				alert("아이디 중복확인을 확인해주세요!");
+			}else{
+				const sendData = JSON.stringify(user);
+				const xhttp = new XMLHttpRequest();
+				xhttp.onload = function() {
+				  console.log(this.responseText);
+				  location.href="/";
+				  }
+				xhttp.open("POST", "http://localhost:9001/api/v1/register/user", true);
+				xhttp.setRequestHeader("Content-type", "application/json");
+				xhttp.send(sendData);
+			}
+		}
 	}
 	
 	function registCompany(){
@@ -261,15 +270,25 @@
 				size : size.value,
 				yrSales : yrSales.value
 			}
-			const sendData = JSON.stringify(company);
-			const xhttp = new XMLHttpRequest();
-			xhttp.onload = function() {
-			  console.log(this.responseText);
-			  location.href="/";
-			  }
-			xhttp.open("POST", "http://localhost:9001/api/v1/register/company", true);
-			xhttp.setRequestHeader("Content-type", "application/json");
-			xhttp.send(sendData);
+		
+		if(username.value.length == 0 || name.value.length == 0 || password.value.length == 0 || ceo.value.length == 0 || num.value.length == 0 || addr.value.length == 0 || employeesNum.value.length == 0 || yrSales.value.length == 0){
+			alert("입력되지 않는 항목이 있습니다. 다시 확인해주세요!");
+		}else{
+			if(document.getElementById("companyIdcheck_msg").children[0].innerText !== "사용가능한 아이디입니다."){
+				alert("아이디 중복확인을 확인해주세요!");
+			}else{
+				const sendData = JSON.stringify(company);
+				const xhttp = new XMLHttpRequest();
+				xhttp.onload = function() {
+				  console.log(this.responseText);
+				  location.href="/";
+				  }
+				xhttp.open("POST", "http://localhost:9001/api/v1/register/company", true);
+				xhttp.setRequestHeader("Content-type", "application/json");
+				xhttp.send(sendData);
+			}
+		}
+			
 	}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

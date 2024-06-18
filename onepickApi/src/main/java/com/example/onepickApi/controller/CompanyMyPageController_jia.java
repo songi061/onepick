@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.onepickApi.entity.Company;
+import com.example.onepickApi.entity.User;
 import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.JobAdRepository;
 
@@ -92,13 +93,28 @@ public class CompanyMyPageController_jia {
 	
 	
 	@PutMapping("/")
-	public ResponseEntity<String> postCompany(@RequestBody Company company){
+	public ResponseEntity<String> postCompany(HttpServletRequest request, @RequestBody Company company){
 		System.out.println("company 정보 수정 중.." + company);
+		Enumeration<String> headers = request.getHeaderNames();
+		Company comfile;
+		while(headers.hasMoreElements()) {
+			//System.out.println(headers.nextElement());
+			if(headers.nextElement().equals("usernmae")) {
+				//System.out.println("username 출력 " + request.getHeader("username"));
+			}
+		}
+		Optional<Company> result0 = companyRepo.findById(request.getHeader("username"));  
+		comfile = result0.get();
+		
 		String newPw = bCryptPasswordEncoder.encode(company.getPassword());
 		String role = "ROLE_COMPANY";
 		
 		company.setPassword(newPw);
 		company.setRole(role);
+		company.setFileName(comfile.getFileName());
+		company.setFilePath(comfile.getFilePath());
+		company.setFileSize(comfile.getFileSize());
+		
 		Company result = companyRepo.save(company);
 		
 		if(result != null) {

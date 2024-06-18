@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
 			integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 		<link href="/css/style.css" rel="stylesheet">
 		<link href="/css/company_myHome.css" rel="stylesheet">
 	</head>
@@ -130,17 +131,21 @@
 				addr_.value = user.addr;
 				//gender_.value = user.gender;
 				if(user.gender == "남성"){
-					document.querySelector("#gender1").checked = "true";
+					document.querySelector("#gender1").checked = true;
+					document.querySelector("#gender2").checked = false;
 				}else{
-					document.querySelector("#gender2").checked = "true";
+					document.querySelector("#gender2").checked = true;
+					document.querySelector("#gender1").checked = false;
 				}
 				email_.value = user.email;
 				tel_.value = user.tel;
 				//militaryService_.value = user.militaryService;
 				if(user.militaryService == "있음"){
-					document.querySelector("#militaryService1").checked = "true";
+					document.querySelector("#militaryService1").checked = true;
+					document.querySelector("#militaryService2").checked = false;
 				}else{
-					document.querySelector("#militaryService2").checked = "true";
+					document.querySelector("#militaryService2").checked = true;
+					document.querySelector("#militaryService1").checked = false;
 				}
 			}
 			xhttp2.open("GET", "http://localhost:9001/api/v1/user/mydetail");
@@ -192,6 +197,8 @@
 					xhttp.open("PUT", "http://localhost:9001/api/v1/user/", true);
 					xhttp.setRequestHeader("Content-type", "application/json");
 					xhttp.setRequestHeader("Authorization", "Bearer " + token);
+					xhttp.setRequestHeader("username", token_username);
+					xhttp.setRequestHeader("Access-Control-Expose-Headers", "Authorization, username");
 					xhttp.send(sendData);
 				}
 
@@ -201,5 +208,7 @@
 	</body>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<script src="/js/CloseBrowserClearlocalStorage.js"></script>
+	<script src="/js/userInterceptor.js"></script>
 
 	</html>

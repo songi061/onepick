@@ -11,6 +11,7 @@
 
 <link href="/css/style.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="/js/notification.js" type="module"></script>
 <link href="/css/company_myHome.css" rel="stylesheet">
 <style>
 /*
@@ -261,6 +262,26 @@
   </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">🔔 푸쉬 알림 받기</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        웹 푸쉬 알림을 통해 필요한 소식을 모두 받아보실 수 있습니다.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">다음에</button>
+        <button type="button" class="btn btn-primary" onclick="setNotification()">알림 받기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script>
 $(document).ready(function() {
 	$.ajax({
@@ -302,15 +323,30 @@ $(document).ready(function() {
     		}
             
             var userDetailsContainer = $('<div class="user-details-container"></div>');
-            userDetailsContainer.append(infoDiv);
+
+//             userDetailsContainer.append(infoDiv);
            // userDetailsContainer.append(editLink);
 
-            userDiv.append(imgDiv);
-            userDiv.append(userDetailsContainer);
+//             userDiv.append(imgDiv);
+//             userDiv.append(userDetailsContainer);
 
-            userInfo.append(userDiv);
-             
+//             userInfo.append(userDiv);
 
+           // userDetailsContainer.append(infoDiv);
+           // userDetailsContainer.append(editLink);
+
+            //userDiv.append(imgDiv);
+           // userDiv.append(userDetailsContainer);
+
+            //userInfo.append(userDiv);
+
+           // userDetailsContainer.append(infoDiv);
+           // userDetailsContainer.append(editLink);
+
+            //userDiv.append(imgDiv);
+           // userDiv.append(userDetailsContainer);
+
+            //userInfo.append(userDiv)
            
         },
         error: function(xhr, status, error) {
