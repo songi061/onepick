@@ -4,6 +4,10 @@
 .min-h-100{
 	min-height : 100vh
 }
+
+.text-onepick{
+	color:#42d056 !important;
+}
 .btn-outline-onepick {
     --bs-btn-color: #42d056 !important;
     --bs-btn-border-color: #42d056 !important;
@@ -36,6 +40,41 @@
     --bs-btn-disabled-bg: #42d056;
     --bs-btn-disabled-border-color: #42d056;
 }
+
+
+.btn-outline-onepick-sub {
+    --bs-btn-color: #007bff !important;
+    --bs-btn-border-color: #007bff !important;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #007bff;
+    --bs-btn-hover-border-color: #007bff !important;
+    --bs-btn-focus-shadow-rgb: 66, 208, 86;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #007bff;
+    --bs-btn-active-border-color: #007bff;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #007bff;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #007bff;
+    --bs-gradient: none;
+}
+.btn-onepick-sub {
+    --bs-btn-color: #fff !important;
+    --bs-btn-bg: #007bff !important;
+    --bs-btn-border-color: #007bff !important;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #006de6;
+    --bs-btn-hover-border-color: #006de6!important;
+    --bs-btn-focus-shadow-rgb: 66, 208, 86;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #006de6;
+    --bs-btn-active-border-color: #006de6;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #007bff;
+    --bs-btn-disabled-border-color: #007bff;
+}
+
 
 .nav-link {
     display: block;
