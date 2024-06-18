@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.onepickApi.entity.ApplyList;
@@ -49,17 +51,39 @@ public class ApplyController_jia {
 			Long jno = ja.getJno();
 			jnoList.add(jno);
 		}
-		System.out.println(jnoList);
 		
 		//해당기업이 올린 공고의 jno를 이용해서 해당 공고에 지원한 지원내역을 모두 뽑음
 		for(Long jno : jnoList) {
-			ApplyList al = applyListRepo.findByJno(jno);
-			if(al != null) {
-				applyList.add(al);
+			List<ApplyList> al = applyListRepo.findByJno(jno);
+			if(al !=null) {
+				for(ApplyList a : al) {
+					applyList.add(a);
+				}
 			}
 		}
 		System.out.println(applyList);
 			return new ResponseEntity<>(applyList, HttpStatus.OK);
+	}
+	
+	@PutMapping("/status")
+	public ResponseEntity<String> changeStatus(HttpServletRequest request, @RequestParam("status") String status, @RequestParam("rno") Long rno,@RequestParam("jno") Long jno){
+		Enumeration<String> headers = request.getHeaderNames();
+		while(headers.hasMoreElements()) {
+			if(headers.nextElement().equals("username")) {
+				System.out.println(request.getHeader("username"));
+			}
+		}
+		
+		System.out.println(rno);
+		System.out.println(status);
+		System.out.println(jno);
+		ApplyList al = applyListRepo.findApplyByJnoAndRno(jno, rno);
+		System.out.println("ddddd");
+		System.out.println(al);
+		al.setStatus(status);
+		applyListRepo.save(al);
+		
+		return new ResponseEntity<>("done", HttpStatus.OK);
 	}
 	
 	
