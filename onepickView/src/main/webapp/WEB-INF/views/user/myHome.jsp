@@ -179,7 +179,7 @@
 			<button class="btn" type="button" onclick="location.href='/user/interestList'">
 			   구독관리
 			</button>
-			<button class="btn" type="button" onclick="location.href='/company/applyList'">
+			<button class="btn" type="button" onclick="location.href='/user/applyList'">
 			   지원내역관리
 			</button>
 			<div class="dropdown">
@@ -452,4 +452,6 @@ function updateFile(event){
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="/js/userInterceptor.js"></script>
+<script src="/js/CloseBrowserClearlocalStorage.js"></script>
 </html>

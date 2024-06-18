@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.onepickApi.entity.Company;
+import com.example.onepickApi.entity.JobAd;
 import com.example.onepickApi.entity.Member;
 
 import jakarta.transaction.Transactional;
@@ -23,7 +24,8 @@ public interface CompanyRepository extends JpaRepository<Company, String> {
 
 	public List<Company> findByUsernameContainingOrNameContaining(String username, String name);
 	
-	
+
 	List<Company> findByNameContainingOrSectorContainingOrSizeContaining(String name, String sector, String size);
 	 
+
 }

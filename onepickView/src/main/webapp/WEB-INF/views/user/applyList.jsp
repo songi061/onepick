@@ -44,14 +44,14 @@ $(document).ready(function() {
 
                 var ul = $('<ul class="res"></ul>'); // ul 태그 생성
                 
-                ul.append('<li><a href="/company/recruitDetail?jno=' + apply.jobAd.jno + '">' + apply.jobAd.wantedTitle + '</a></li>');
+                ul.append('<li><a href="/company/recruitDetail?jno=' + apply.jobAd.jno + '">채용공고 : ' + apply.jobAd.wantedTitle + '</a></li>');
                 ul.append('<li><a href="/user/resumeDetail?rno=' + apply.resume.rno + '">지원 이력서 보기</a></li>');
-                ul.append('<li>' + apply.resume.user.name + '</li>');
+                ul.append('<li>지원자명 : ' + apply.resume.user.name + '</li>');
 
                 var regdate = new Date(apply.regdate).toISOString().split('T')[0];
                 ul.append('<li>지원날짜 : ' + regdate + '</li>');
                 
-                ul.append('<li>' + apply.status + '</li>');
+                ul.append('<li>상태 : ' + apply.status + '</li>');
 
                 div.append(ul);
                 applyList.append(div);

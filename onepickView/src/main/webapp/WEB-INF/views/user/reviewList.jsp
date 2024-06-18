@@ -9,9 +9,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="/css/style.css" rel="stylesheet">
 <link href="/css/reviewList.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script src="/js/CloseBrowserClearlocalStorage.js"></script>
-<script src="/js/companyInterceptor.js"></script>
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
@@ -41,7 +38,7 @@ const registeredListContainer = document.querySelector('.registered_list');
 	    	   rating = Number(data.rating);
 	           const receivedListItem = document.createElement('div');
 	    	   receivedListItem.className = 'received_list_item';
-	    	   receivedListItem.innerHTML =  "<div><div class='user_name'>"+data.user.name+"</div><div class='reviewContainer'></div>";
+	    	   receivedListItem.innerHTML =  "<div><div class='user_name'>"+data.company.name+"</div><div class='reviewContainer'></div>";
 	           receivedListContainer.appendChild(receivedListItem);
 	           
         	   const reviewContainer = receivedListItem.querySelector(".reviewContainer")
@@ -65,7 +62,7 @@ const registeredListContainer = document.querySelector('.registered_list');
         	   rating = Number(data.rating);
         	   const registeredListItem = document.createElement('div');
         	   registeredListItem.className = 'registered_list_item';
-        	   registeredListItem.innerHTML = "<div><div class='user_name'>"+data.user.name+"</div><div class='reviewContainer'></div>"
+        	   registeredListItem.innerHTML = "<div><div class='user_name'>"+data.company.name+"</div><div class='reviewContainer'></div>"
         	   registeredListContainer.appendChild(registeredListItem);
         	   
         	   const reviewContainer = registeredListItem.querySelector(".reviewContainer")
@@ -85,7 +82,7 @@ const registeredListContainer = document.querySelector('.registered_list');
 	    }
             
 	  }
-	xhttp.open("GET", "http://localhost:9001/api/v1/company/review-list", true);
+	xhttp.open("GET", "http://localhost:9001/api/v1/review-list", true);
 	xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
 	xhttp.setRequestHeader("username", localStorage.getItem("username"));
 	xhttp.setRequestHeader("role", localStorage.getItem("role"));
@@ -95,4 +92,6 @@ const registeredListContainer = document.querySelector('.registered_list');
 </script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="/js/userInterceptor.js"></script>
+<script src="/js/CloseBrowserClearlocalStorage.js"></script>
 </html>
