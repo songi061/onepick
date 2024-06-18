@@ -15,4 +15,11 @@ public interface JobadScrapRepository extends JpaRepository<JobadScrap, Long> {
 	
 	@Query(value="select * from jobad_scrap where jno=:jno and uid=:uid", nativeQuery=true)
 	public JobadScrap findByJnoAndUid(@Param("jno") Long jno, @Param("uid") String uid);
+
+    @Query("SELECT j.jobAd, COUNT(j) " +
+            "FROM JobadScrap j " +
+            "GROUP BY j.jobAd.jno " +
+            "ORDER BY COUNT(j) DESC")
+     List<Object[]> findJobAdsOrderByScrapCountDesc();
+
 }

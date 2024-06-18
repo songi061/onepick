@@ -19,5 +19,11 @@ public interface InterestedCopRepository extends JpaRepository<InterestedCop, Lo
 	public List<InterestedCop> findAllByCid (@Param("cid") String cid);
 	
 	List<InterestedCop> findByUser(User user);
+	
+    @Query("SELECT ic.company, COUNT(ic) " +
+            "FROM InterestedCop ic " +
+            "GROUP BY ic.company " +
+            "ORDER BY COUNT(ic) DESC")
+     List<Object[]> findCompaniesOrderByInterestCountDesc();
 
 }
