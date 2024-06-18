@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -26,11 +27,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.onepickApi.entity.InterestedCop;
 import com.example.onepickApi.entity.JobAd;
 import com.example.onepickApi.entity.Skill;
 import com.example.onepickApi.repository.CompanyRepository;
+import com.example.onepickApi.repository.InterestedCopRepository;
 import com.example.onepickApi.repository.JobAdRepository;
 import com.example.onepickApi.repository.SkillRepository;
+import com.example.onepickApi.service.NotificationService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -45,7 +49,11 @@ public class RecruitController_jia {
 	@Autowired
 	private CompanyRepository companyRepo;
 	@Autowired
+	private InterestedCopRepository interestedCopRepo;
+	@Autowired
 	private SkillRepository skillRepo;
+	@Autowired
+	private NotificationService notificationService;
 	private final Path rootLocation = Paths.get("/upload");
 	
 	
@@ -80,7 +88,14 @@ public class RecruitController_jia {
 	
 	@DeleteMapping("/{jno}")
 	public ResponseEntity<String> deleteJobad(@PathVariable("jno") Long jno) {
-			jobAdRepo.deleteById(jno);
+			//해당공고에 등록된 skill 모두 지워주기
+		
+		 List<Skill> skillList = skillRepo.findAllByJno(jno);
+		 for(Skill s : skillList) {
+			 skillRepo.delete(s);
+		 }
+		 //공고 삭제
+		    jobAdRepo.deleteById(jno);
 			return new ResponseEntity<>("done", HttpStatus.OK);
 	}
 	
@@ -166,7 +181,17 @@ public class RecruitController_jia {
 	                // jobad 엔티티 저장
 	    			JobAd jobad = jobAdRepo.save(jobAd);
 	    			jno = Long.toString(jobad.getJno());
-
+	    			
+	    			
+	    			//해당 기업을 구독한 유저들에게 새공고가 올라갔다고 알림보내주기><
+	    			List<InterestedCop> lists = interestedCopRepo.findAllByCid(request.getHeader("username"));
+	    			for(InterestedCop ic : lists) {
+	    				//해당 기업을 구독한 유저 중 알림 토큰이 있는 유저만 
+	    				if(ic.getUser().getToken() != null) {
+	    					String token = ic.getUser().getToken();
+	    					notificationService.sendNotification(token, " ✨ NEW 채용공고알림 ✨",ic.getUser().getName() +" 님이 구독하신 기업 "+ ic.getCompany().getName()+" 의 새로운 채용공고가 등록되었습니다. 확인해보세요😉");
+	    				}
+	    			}
 		        } catch (IOException e) {
 		            throw new RuntimeException("Could not create upload directory or save file!", e);
 		        }
