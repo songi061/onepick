@@ -74,8 +74,7 @@ $(document).ready(function(){
 					'<tr><td>'+data.content + '</td></tr>'+
 					'<tr><td>'+data.views +'</td></tr>'+
 					'<tr><td id="writer">'+data.company.username+'</td></tr>'+
-					'<tr><td>'+data.regdate + '</td></tr>'+
-					'<tr><button id="btn_reply_report" value="신고"></button></tr>';
+					'<tr><td>'+data.regdate + '</td></tr>';
 				$('#data_board_detail').html(str);
 
 		        if (storagedUsername === writer) {
@@ -147,7 +146,8 @@ $(document).ready(function(){
 							str += '<tr><td>'+data.content+'</td></tr>'+
 								'<tr><td>'+data.company.username+'</td></tr>'+
 								'<tr><td>'+data.report+'</td></tr>'+
-								'<tr><td>'+data.regdate+'</td></tr>';
+								'<tr><td>'+data.regdate+'</td></tr>'+
+								'<tr><button id="btn_reply_report" value="신고"></button></tr>';
 						});
 						$('#data_reply_detail').html(str);
 					};
