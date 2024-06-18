@@ -29,5 +29,8 @@ public interface JobAdRepository extends JpaRepository<JobAd, Long> {
 	
 	@Query(value="SELECT * FROM job_ad WHERE receipt_close_dt >= NOW() AND wanted_title LIKE %:keyword%", nativeQuery=true)
     List<JobAd> findByReceiptCloseDtAfterAndWantedTitleContaining(@Param("keyword") String keyword);
+
+	public List<JobAd> findByCompany_UsernameContainingOrCompany_NameContainingOrWantedTitleContaining(String companyUsername,
+			String companyName, String wantedTitle);
 	
 }
