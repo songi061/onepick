@@ -76,7 +76,7 @@
 	
 		<div class='title mb-3 clearfix'>
 			<span>내 공고 리스트</span>
-			<a class="showMoreBtn float-end fs-6 link-primary d-inline link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover cursor" onclick="showMore()" style="display:none;">더보기</a>
+			<a class="showMoreBtn float-end fs-6 link-primary d-inline link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover cursor" href="/company/recruitList">더보기</a>
 		</div>
 			
 		<div class="myrecruit_list">
@@ -162,23 +162,7 @@ const showMoreBtn = document.querySelector(".showMoreBtn");
 		          listItem.innerHTML = "<div><div><a class='fs-4 fw-bold' href='/company/recruitDetail?jno="+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 최종수정날짜 : "  + displayDate + "</div> <span style='display:none;' class='jno'>"+ data.jno+"</span> <div class='position-absolute' style='top:10px; right:10px'><button class='btn btn-sm btn-onepick' onclick='location.href='/company/recruitEdit?jno="+ data.jno +"'>수정</button> <button class='btn btn-sm btn-secondary' onclick='deleteJobad(event)'>삭제</button></div></div>";
 		          recruitListContainer.appendChild(listItem);
 		    });
-			 
-		    // 항목이 3개 초과인 경우 "더보기" 버튼을 표시합니다.
-		    if (myJobad.length > 3) {
-		        showMoreBtn.style.display = "block";
-
-		        // "더보기" 버튼 클릭 시 나머지 항목을 추가하는 이벤트 리스너를 설정합니다.
-		        showMoreBtn.addEventListener('click', () => {
-		            myJobad.slice(3).forEach(data => {
-	                let displayDate = data.moddate ? data.moddate.slice(0, 10) : data.regdate.slice(0, 10);
-	                const listItem = document.createElement('div');
-	                listItem.innerHTML = "<div><div><a href='/company/recruitDetail?jno="+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 최종수정날짜 : "  + displayDate + "</div> <span style='display:none;' class='jno'>"+ data.jno+"</span> <button class='btn btn-onepick' onclick='location.href='/company/recruitEdit?jno="+ data.jno +"'>수정</button> <button class='btn btn-onepick' onclick='deleteJobad(event)'>삭제</button></div>";
-		            recruitListContainer.appendChild(listItem);
-		    })
-		 // 나머지 항목을 모두 추가한 후 "더보기" 버튼을 숨깁니다.
-            showMoreBtn.style.display = "none";
-	        })
-	    }
+			
 		}else{
 			 // 공고가 없을경우
 	        recruitListContainer.innerHTML = '등록된 공고가 아직 존재하지 않습니다.';
