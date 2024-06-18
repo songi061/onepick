@@ -28,7 +28,6 @@ const listContainer = document.querySelector('.apply_list');
     const xhttp = new XMLHttpRequest();
 	xhttp.onload = function() {
 		let datas = JSON.parse(this.responseText);
-		console.log(datas)
 		if (datas && datas.length > 0) {
            datas.forEach(data => {
                const listItem = document.createElement('div');

@@ -44,7 +44,7 @@
        color : #848484;
    }
    
-#editBtn, #scrapBtn {
+#editBtn{
     width: 100%;
     height: 40px;
     background-color: #007bff;
@@ -61,6 +61,7 @@
     background-color: #0056b3;
     color: white;
 }    
+
     
 </style>
 
@@ -69,9 +70,11 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 
 <div class="container">
-
+	
 <div id="resumeForm">
-
+	<div   id="scrapBtn" onclick="scrapResume()">
+		<img class="ms-auto" style="width:25px; height:25px;" src="/icon/save.png">
+	</div>
 <div id="resume"></div>
 <hr>
 <p class="subtitle">사회활동</p>
@@ -91,7 +94,6 @@
 
 
 <input type="button" id="editBtn" value="수정" style="display: none;" onclick="edit(<%= request.getAttribute("rno") %>)">
-<input type="button" id="scrapBtn" value="관심구직자 스크랩" style="display: none;" onclick="scrap(<%= request.getAttribute("rno") %>)">
 
 
 </div>
@@ -100,9 +102,13 @@
 </div>
 
 <script>
+let rno = null;
+let scrapped = null;
+
 $(document).ready(function() {
 	
-	var rno = <%= request.getAttribute("rno") %>;
+	rno = <%= request.getAttribute("rno") %>;
+	
     // AJAX 요청 보내기
 	$.ajax({
 	    url: 'http://localhost:9001/api/v1/resume/' + rno,
@@ -239,6 +245,8 @@ $(document).ready(function() {
             //var resumeForm = $('#resumeForm');
             //resumeForm.append('<input type="button" id="editBtn" value="수정" onclick="edit(' + resume.rno + ')">');
 	    
+            //스크랩 여부 띄워주기
+            checkScrapStatus();
 	    	
 	    },
 	    error: function(xhr, status, error) {
@@ -251,25 +259,79 @@ function edit(rno) {
 	window.location.href = '/user/resumeEdit?rno=' + rno;
 }
 
-function scrap(rno) {
-	$.ajax({
-	    url: 'http://localhost:9001/api/v1/resume-scrap/' + rno,
-	    type: 'POST',
-	    dataType: 'json',
-	    /* headers: {
-	        'Authorization': 'Bearer ' + token,
-	        'writer': token_writer,
-	        'role': token_role
-	    }, */
-	    success: function(data) {
-	    	//스크랩 기능 구현
-	    
-	    },
-	    error: function(xhr, status, error) {
-	        console.error('AJAX 요청 실패:', status, error);
-	    }
-	});
-}	    
+
+
+//이력서 스크랩상태체크
+async function checkScrapStatus() {
+  try {
+    const response = await fetch('http://localhost:9001/api/v1/scrapped-resume?rno=' + rno, {
+      method: 'GET',
+      headers: {
+        'jwtToken': localStorage.getItem('jwtToken'),
+        'username': localStorage.getItem('username'),
+        'role': localStorage.getItem('role'),
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      const result = await response.text();
+      if (result === "existed") {
+        document.querySelector("#scrapBtn img").src = "/icon/save_full.png";
+        scrapped = true;
+      } else if (result === "not existed") {
+        document.querySelector("#scrapBtn img").src = "/icon/save.png";
+        scrapped = false;
+      } else {
+        console.error('예상치 못한 응답:', result);
+      }
+    } else {
+      console.error('네트워크 응답이 정상적이지 않습니다:', response.statusText);
+    }
+  } catch (error) {
+    console.error('구독 상태 확인 중 오류가 발생했습니다:', error);
+  }
+}
+
+//공고찜하기 버튼 클릭이벤트
+function scrapResume() {
+	if(localStorage.getItem("role") == "ROLE_COMPANY"){
+		if(scrapped == true){
+			if (confirm("정말 해당 이력서를 스크랩 리스트에서 삭제하시겠습니까?")) {
+				//구독취소하기
+				const xhttp = new XMLHttpRequest();
+				xhttp.onload = function () {
+					if (this.responseText == "done") {
+						//비어있는 버튼으로 바꿔주기
+						document.querySelector("#scrapBtn img").src = "/icon/save.png";
+						 scrapped = false;
+					} 
+				}
+				xhttp.open("delete", 'http://localhost:9001/api/v1/scrapped-resume?rno=' + rno, true);
+				xhttp.setRequestHeader("username", localStorage.getItem("username"));
+				xhttp.send();
+			}
+		}else if(scrapped == false){
+			//구독하기
+			const xhttp = new XMLHttpRequest();
+			xhttp.onload = function () {
+				if (this.responseText == "done") {
+					alert("성공적으로 해당 이력서를 스크랩 했습니다!")
+					//버튼 색칠한거로 바꿔주기
+					document.querySelector("#scrapBtn img").src = "/icon/save_full.png";
+					 scrapped = true;
+				} 
+			}
+			xhttp.open("POST", 'http://localhost:9001/api/v1/scrapped-resume?rno=' + rno, true);
+			xhttp.setRequestHeader("username", localStorage.getItem("username"));
+			xhttp.send();
+		}
+	}else{
+		alert("이력서 스크랩은 기업 사용자만 사용 가능한 기능입니다.")
+	}
+	
+} 
+
 	
 
 </script>

@@ -36,6 +36,7 @@ window.setNotification = async function() {
     const notificationBtn = document.querySelector("#exampleModal1 .modal-footer");
 
       console.log('Notification permission granted.');
+      console.log('실행됨ㅁㅁㅁㅁ');
     if (permission === 'granted') {
 
 
@@ -47,7 +48,7 @@ window.setNotification = async function() {
           vapidKey: 'BLcSeRWoHAyawxByQ1N__CdtF49_9xrIDS4sW0Zu5VuS3zXZvM9xyym054TN276SxN_za2eeV7mBak77Zetgf2Q',
           serviceWorkerRegistration: registration
         });
- console.log('FCM Token:', currentToken);
+ 			console.log('FCM Token:', currentToken);
         if (currentToken) {
           console.log('FCM Token:', currentToken);
 
