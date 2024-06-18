@@ -1,7 +1,6 @@
 package com.example.onepickApi.controller;
 
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.onepickApi.dto.BoardDto;
 //import com.example.onepickApi.dto.BoardDto;
 import com.example.onepickApi.dto.UserReplyDto;
 import com.example.onepickApi.entity.User;
