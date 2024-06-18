@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.onepickApi.dto.BoardDto;
 import com.example.onepickApi.dto.UserReplyDto;
+import com.example.onepickApi.entity.BoardReport;
+import com.example.onepickApi.entity.Company;
+import com.example.onepickApi.entity.CompanyBoard;
 import com.example.onepickApi.entity.User;
 import com.example.onepickApi.entity.UserBoard;
 import com.example.onepickApi.entity.UserReply;
@@ -149,6 +152,26 @@ public class UserCommunityController {
 		return "";
 	}
 	
+	
+	// 게시글 신고
+	@PostMapping("/community-report")
+	public ResponseEntity<String> communityReport(HttpServletRequest request, @RequestParam("ubno") Long ubno) {
+		// 사용자 정보 - username 받기
+		String username = request.getHeader("username");
+		
+		User user = new User();
+		user.setUsername(username);
+		
+		UserBoard ub = new UserBoard();
+		ub.setUbno(ubno);
+		
+		BoardReport boardReport = new BoardReport();
+		boardReport.setUser(user);
+		boardReport.setUb(ub);
+		
+		return new ResponseEntity<>("수정완료", HttpStatus.OK);
+		
+	}
 	
 	// 구직자 마이페이지 - 내가 쓴 게시글 목록 조회
 	@GetMapping("/community-myboard")

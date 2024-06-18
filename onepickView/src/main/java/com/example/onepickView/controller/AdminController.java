@@ -19,10 +19,10 @@ public class AdminController {
 	@RequestMapping("/dashboard")
 	public void dashboard() {}
 	
-	@RequestMapping("/boardeReportList")
+	@RequestMapping("/boardReportList")
 	public void boardReportList() {}
 	
-	@RequestMapping("/commentReportList")
-	public void commentReportList() {}
+	@RequestMapping("/replyReportList")
+	public void replyReportList() {}
 	
 }

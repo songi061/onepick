@@ -32,7 +32,7 @@ public class ReplyReport {
 	
 	@ManyToOne
     @JoinColumn(name = "companyReply", referencedColumnName = "replyno")
-    private CompanyReply cr;
+    private CompanyReply cReply;
 	
 	private Date report_date;
 	
