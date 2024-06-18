@@ -30,7 +30,7 @@ const listContainer = document.querySelector('.company_list');
            data.forEach(company => {
                const listItem = document.createElement('div');
                listItem.className = 'company';
-               listItem.innerHTML = "<div><a href='/company/companyDetail?username="+ company.username +"'>"+ company.name+"</a></div><div>" +company.sector+
+               listItem.innerHTML = "<div><a class='company_detail' href='/company/companyDetail?username="+ company.username +"'>"+ company.name+"</a></div><div>" +company.sector+
                "</div> <div>" + company.size + "</div><div>사원수 : "+ company.employeesNum+
                " 명 </div><div>연매출액 : " + company.yrSales + " 원 </div><div>주소 : " + company.addr +
                "</div>";

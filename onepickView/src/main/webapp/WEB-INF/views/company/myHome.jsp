@@ -162,7 +162,7 @@ const showMoreBtn = document.querySelector(".showMoreBtn");
 		        let displayDate = data.moddate ? data.moddate.slice(0, 10) : data.regdate.slice(0, 10);
 		        const listItem = document.createElement('div');
 		        	listItem.className = 'bg-light ms-0 me-0 mt-0 mb-3 position-relative';
-		          listItem.innerHTML = "<div><div><a class='fs-4 fw-bold' href='/company/recruitDetail?jno="+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 최종수정날짜 : "  + displayDate + "</div> <span style='display:none;' class='jno'>"+ data.jno+"</span> <div class='position-absolute' style='top:10px; right:10px'><button class='btn btn-sm btn-onepick' onclick='location.href='/company/recruitEdit?jno="+ data.jno +"'>수정</button> <button class='btn btn-sm btn-secondary' onclick='deleteJobad(event)'>삭제</button></div></div>";
+		          listItem.innerHTML = "<div><div><a class='fs-4 fw-bold' href='/company/recruitDetail?jno="+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 최종수정날짜 : "  + displayDate + "</div> <span style='display:none;' class='jno'>"+ data.jno+"</span> <div class='position-absolute' style='top:10px; right:10px'><button class='btn btn-sm btn-onepick' onclick='location.href='/company/recruitEdit?jno="+ data.jno +"''>수정</button> <button class='btn btn-sm btn-secondary' onclick='deleteJobad(event)'>삭제</button></div></div>";
 		          recruitListContainer.appendChild(listItem);
 		    });
 			
