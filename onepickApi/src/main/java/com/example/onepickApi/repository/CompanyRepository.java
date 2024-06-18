@@ -24,6 +24,6 @@ public interface CompanyRepository extends JpaRepository<Company, String> {
 	public List<Company> findByUsernameContainingOrNameContaining(String username, String name);
 	
 	
-	List<Company> findByNameContainingAndSectorContainingAndSizeContaining(String name, String sector, String size);
+	List<Company> findByNameContainingOrSectorContainingOrSizeContaining(String name, String sector, String size);
 	 
 }

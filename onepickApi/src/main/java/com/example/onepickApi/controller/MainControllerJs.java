@@ -155,7 +155,8 @@ public class MainControllerJs {
 	
 	@GetMapping("/company/search-result/{keyword}")
 	public ResponseEntity<List<Company>> getCompanyListKeyword(@PathVariable("keyword") String keyword){
-		List<Company> list = companyRepository.findByNameContainingAndSectorContainingAndSizeContaining(keyword, keyword, keyword);
+		List<Company> list = companyRepository.findByNameContainingOrSectorContainingOrSizeContaining(keyword, keyword, keyword);
+		System.out.println("company 검색" + list);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	

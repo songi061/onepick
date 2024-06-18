@@ -27,6 +27,11 @@
 			<div id="userCommunityList" class="row mb-5">
 			</div>
 			
+			<h3 class="mt-4 mb-3">기업정보 리스트</h3>
+			<div id="companyList" class="row mb-5">
+			</div>
+			
+			
 		</div>
 
 		<script>
@@ -45,7 +50,7 @@
 						console.log(obj);
 						let logoSrc = obj.company.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.company.fileName;
 						console.log(logoSrc);
-						document.querySelector("#jobAdList").innerHTML = "";
+						//document.querySelector("#jobAdList").innerHTML = "";
 						document.querySelector("#jobAdList").innerHTML += 
 							"<div class='col-md-6 col-xl-4 mb-3'>"
 						+ "<a class='d-block d-flex align-items-center border text-decoration-none rounded p-4 pointer recruit_box' href='/company/recruitDetail?jno=" + obj.jno + "''>"
@@ -58,7 +63,7 @@
 						+ "</div></a></div>";
 					});
 				}else{
-					document.querySelector("#jobAdList").innerHTML = "";
+					//document.querySelector("#jobAdList").innerHTML = "";
 					document.querySelector("#jobAdList").innerHTML = "<div class='col-12'><div class='border w-100 p-4 text-center text-secondary rounded'>검색 결과가 없습니다.</div>"
 				}
 
@@ -76,16 +81,16 @@
 				if(objs.length != 0){
 					objs.forEach(obj => {
 						console.log(obj);
-						document.querySelector("#userCommunityList").innerHTML = "";
+						//document.querySelector("#userCommunityList").innerHTML = "";
 						document.querySelector("#userCommunityList").innerHTML += 
 							"<div class='col-md-12 mb-3'>"
-						+ "<a class='d-block border text-decoration-none rounded p-4 pointer' href='/user/community-board/" + obj.ubno + "''>"
+						+ "<a class='d-block border text-decoration-none rounded p-4 pointer' href='/user/communityDetail?ubno=" + obj.ubno + "''>"
 						+ "<div class='fs-5 fw-bold'>" + obj.title + "</div>"
 						+ "<div>" + obj.content + "</div>"
 						+ "</a></div>";
 					});
 				}else{
-					document.querySelector("#userCommunityList").innerHTML = "";
+					//document.querySelector("#userCommunityList").innerHTML = "";
 					document.querySelector("#userCommunityList").innerHTML = "<div class='col-12'><div class='border w-100 p-4 text-center text-secondary rounded'>검색 결과가 없습니다.</div></div>"
 				}
 
@@ -96,7 +101,31 @@
 			xhttp1.send();
 			
 			
-			
+			const xhttp2 = new XMLHttpRequest();
+			xhttp2.onload = function () {
+				let objs = JSON.parse(this.responseText);
+				console.log(objs);
+				if(objs.length != 0){
+					objs.forEach(obj => {
+						console.log(obj);
+						//document.querySelector("#companyList").innerHTML = "";
+						document.querySelector("#companyList").innerHTML += 
+							"<div class='col-md-12 mb-3'>"
+						+ "<a class='d-block border text-decoration-none rounded p-4 pointer' href='/company/companyDetail?username=" + obj.username + "''>"
+						+ "<div class='fs-5 fw-bold'>" + obj.name + "</div>"
+						+ "<div>" + obj.sector + "</div>"
+						+ "</a></div>";
+					});
+				}else{
+					//document.querySelector("#companyList").innerHTML = "";
+					document.querySelector("#companyList").innerHTML = "<div class='col-12'><div class='border w-100 p-4 text-center text-secondary rounded'>검색 결과가 없습니다.</div></div>"
+				}
+
+			}
+			xhttp2.open("GET", "http://localhost:9001/api/v1/main/company/search-result/" + keyword);
+			xhttp2.setRequestHeader("Authorization", "Bearer " + token);
+			xhttp2.setRequestHeader("Access-Control-Expose-Headers", "Authorization");
+			xhttp2.send();
 			
 		</script>
 		<jsp:include page="layout/footer.jsp"></jsp:include>
