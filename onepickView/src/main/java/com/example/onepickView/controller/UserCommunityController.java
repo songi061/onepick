@@ -17,8 +17,8 @@ public class UserCommunityController {
 	}
 	
 	// 디테일
-	@RequestMapping("/communityList/{ubno}")
-	public String communityDetail(@PathVariable("ubno") Long ubno, Model model) {
+	@RequestMapping("/communityDetail")
+	public String communityDetail(@RequestParam("ubno") Long ubno, Model model) {
 		
 		model.addAttribute("ubno", ubno);
 		return  "user/community/communityDetail";

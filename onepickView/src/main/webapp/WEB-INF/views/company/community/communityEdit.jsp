@@ -105,7 +105,7 @@ $(document).ready(function(){
 					alert("수정완료");
 					
 					
-					location.href="/company/communityList/"+cbno;
+					location.href="/company/communityList?cbno="+cbno;
 				}
 				
 			},

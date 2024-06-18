@@ -105,7 +105,7 @@ $(document).ready(function(){
 					alert("수정완료");
 					
 					
-					location.href="/user/communityList/"+ubno;
+					location.href="/user/communityDetail?ubno="+ubno;
 				}
 				
 			},
