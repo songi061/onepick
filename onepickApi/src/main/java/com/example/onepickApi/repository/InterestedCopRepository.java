@@ -17,4 +17,5 @@ public interface InterestedCopRepository extends JpaRepository<InterestedCop, Lo
 	
 	
 	List<InterestedCop> findByUser(User user);
+
 }

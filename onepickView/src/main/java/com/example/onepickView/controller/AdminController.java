@@ -15,4 +15,14 @@ public class AdminController {
 	
 	@RequestMapping("/recruitList")
 	public void recruitList() {}
+	
+	@RequestMapping("/dashboard")
+	public void dashboard() {}
+	
+	@RequestMapping("/boardeReportList")
+	public void boardReportList() {}
+	
+	@RequestMapping("/commentReportList")
+	public void commentReportList() {}
+	
 }

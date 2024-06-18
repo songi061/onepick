@@ -15,5 +15,4 @@ public interface JobadScrapRepository extends JpaRepository<JobadScrap, Long> {
 	
 	@Query(value="select * from jobad_scrap where jno=:jno and uid=:uid", nativeQuery=true)
 	public JobadScrap findByJnoAndUid(@Param("jno") Long jno, @Param("uid") String uid);
-	
 }
