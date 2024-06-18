@@ -85,10 +85,6 @@ public class ReviewController_jia {
 		
 			return new ResponseEntity<>(applyList, HttpStatus.OK);
 
-<<<<<<< HEAD
-
-=======
->>>>>>> f709bb2 (구직자 평점 등록 기능 구현)
 	}
 	
 	
