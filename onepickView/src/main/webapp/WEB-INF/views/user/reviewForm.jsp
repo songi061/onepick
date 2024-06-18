@@ -8,16 +8,26 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="/css/style.css" rel="stylesheet">
+<link href="/css/resumeList.css" rel="stylesheet">
 <link href="/css/reviewForm.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
+	
 	<div class="container">
 		<div class="title">평점 등록</div>
+		<hr>
+		
+		<div id="applyList"></div>
+		
+		
+		
 		<div class="interviewees_list">
 			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
+			    
 			      <div class="modal-header">
 			        <h1 class="modal-title fs-5" id="exampleModalLabel">지원자 아무개님</h1>
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -32,93 +42,128 @@
 			  </div>
 			</div>
 		</div>
-
+		
+		
 	</div>
+	
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 
 <script>
-const listContainer = document.querySelector('.interviewees_list');
+    const listContainer = document.querySelector('.interviewees_list');
 
-    const xhttp = new XMLHttpRequest();
-	xhttp.onload = function() {
-		let datas = JSON.parse(this.responseText);
-		  if (datas && datas.length > 0) {
-           datas.forEach(data => {
-               const listItem = document.createElement('div');
-               listItem.className = 'interviewees_list_item';
-               let userName = data.user.name;
-               listItem.innerHTML = "<div><div>"+ data.jobAd.wantedTitle+"</div><span style='display:none;' class='jno'>"+ data.jobAd.jno+"</span><div>"+ data.resume.title+"</div><span style='display:none;' class='userId'>"+ data.user.username+"</span><div class='user_name'>"+data.user.name+"</div><button data-bs-toggle='modal' data-bs-target='#exampleModal' class='btn btn-onepick' onclick='openRegModal(event)'>평점등록</button> </div>";
-               listContainer.appendChild(listItem);
-           });
-		  }else{
-			  // 공고가 없을경우
-		        listContainer.innerHTML = '아직 평점등록을 할 수 있는 지원자가 존재하지 않습니다.';
-		  }
-	  }
-	xhttp.open("GET", "http://localhost:9001/api/v1/company/review", true);
-	xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
-	xhttp.setRequestHeader("username", localStorage.getItem("username"));
-	xhttp.setRequestHeader("role", localStorage.getItem("role"));
-	xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role")
-	xhttp.send();
-	
-	
-	function openRegModal(e){
-		let username = e.target.parentElement.querySelector(".user_name").innerText;
-		let userId = e.target.parentElement.querySelector(".userId").innerText;
-		let jno = e.target.parentElement.querySelector(".jno").innerText;
-		//모달보여주고 
-		const myModal = document.getElementById('exampleModal')
-		let finalScore = 1;
-		
-		myModal.addEventListener('shown.bs.modal', () => {
-			//맨위에 해당 지원자의 이름으로 바꿔주기
-			document.querySelector("#exampleModalLabel").innerText = "지원자 " + username + " 님";
-			
-			//별모양 클릭 이벤트 핸들해주기
-		  document.querySelectorAll(".stars").forEach(star=>{
-			  star.addEventListener("click", function(e){
-				  //새로 클릭시에 빈 별로 초기화해주기
-				  let j = 1;
-				  while(j<=5){
-					  document.querySelector("#star" + j).src = "/icon/star.png"
-					  j++;
-				  }
-				  
-				  //별 클릭시 별모양 노란색으로 바꿔주기
-				  let starId = Number(e.target.getAttribute("id").slice(4));
-				  let i = 1;
-				  while(i<=starId){
-					  document.querySelector("#star" + i).src = "/icon/star_full.png"
-					  i++;
-				  }
-				  finalScore = starId;
-				  
-			  })
-		  })
-		  
-		  //평점등록 버튼 클릭시에 이벤트 핸들해주기 (btn btn-primary)
-			document.querySelector("#regBtn").addEventListener("click", function(){
-				//ajax콜 통해서 db에 정보저장스 :)
-				console.log("등록해주세욥")
-				const data = {"rating" : finalScore}
-				const xhttp = new XMLHttpRequest();
-				xhttp.onload = function() {
-					//화면 업데이트해주기(해당리스트 없애주기)
-					e.target.parentElement.parentElement.remove();
-					
-				  }
-				xhttp.open("POST", "http://localhost:9001/api/v1/company/review?uid="+userId+"&jno="+jno, true);
-				xhttp.setRequestHeader("Content-Type", "application/json"); 
-				xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
-				xhttp.setRequestHeader("username", localStorage.getItem("username"));
-				xhttp.setRequestHeader("role", localStorage.getItem("role"));
-				xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role")
-				xhttp.send(JSON.stringify(data));
-				
-			})
-		})
-	}
+    const companyName = "";
+
+    // 지원내역 리스트 불러오기
+    $.ajax({
+        url: 'http://localhost:9001/api/v1/myapply',
+        type: 'GET',
+        dataType: 'json',
+        headers: {
+            'username': username  // HTTP 요청 헤더에 username 추가
+        },
+        success: function(data) {
+            var applyList = $('#applyList');
+            applyList.empty(); // 기존 내용을 비웁니다.
+
+            if (data.length > 0) {
+                // 받은 데이터 반복 처리
+                $.each(data, function(index, apply) {
+                	console.log("apply 출력 : " + apply.ratingStatus);
+                    if (apply.status === "면접완료") {
+                        var div = $('<div class="apply"></div>');
+                        var ul = $('<ul class="res"></ul>'); // ul 태그 생성
+
+                        ul.append('<li><a href="/company/recruitDetail?jno=' + apply.jobAd.jno + '">채용공고 : ' + apply.jobAd.wantedTitle + '</a></li>');
+                        ul.append('<li><a href="/user/resumeDetail?rno=' + apply.resume.rno + '">지원 이력서 보기</a></li>');
+                        ul.append('<li>지원자명 : ' + apply.resume.user.name + '</li>'); // 여기서 apply.resume.user.name에 접근
+
+                        var regdate = new Date(apply.regdate).toISOString().split('T')[0];
+                        ul.append('<li>지원날짜 : ' + regdate + '</li>');
+                        ul.append('<li>상태 : ' + apply.status + '</li>');
+						
+                        if (apply.ratingStatus == false) {
+                            div.append('<a href="#" class="review" data-jno="' + apply.jobAd.jno + '">평점 등록</a>');
+                        }
+
+                        div.append(ul);
+                        applyList.append(div);
+                    }
+                });
+
+                // 평점 등록 링크 클릭 이벤트 핸들러 설정
+                $('#applyList').on('click', '.review', function(e) {
+                    e.preventDefault();
+                    var jno = $(this).data('jno');
+                    openRegModal(jno);
+                });
+            } else {
+                // 지원 내역이 없는 경우 메시지 표시
+                applyList.html('지원 내역이 없습니다.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX 요청 실패:', status, error);
+        }
+    });
+
+    // 평점 등록 기능
+    function openRegModal(jno) {
+        // 모달을 보여줍니다.
+        $('#exampleModal').modal('show');
+
+        let finalScore = 1;
+
+        // 모달이 표시된 후에 실행될 작업 설정
+        $('#exampleModal').on('shown.bs.modal', function() {
+            // 모달 제목 설정
+            document.querySelector("#exampleModalLabel").innerText = "기업명 : " + companyName;
+
+            // 별모양 클릭 이벤트 핸들러 설정
+            document.querySelectorAll(".stars").forEach(star => {
+                star.addEventListener("click", function(e) {
+                    // 새로 클릭시에 빈 별로 초기화해주기
+                    document.querySelectorAll(".stars").forEach(star => {
+                        star.src = "/icon/star.png";
+                    });
+
+                    // 별 클릭시 별모양 노란색으로 바꿔주기
+                    let starId = Number(e.target.getAttribute("id").slice(4));
+                    for (let i = 1; i <= starId; i++) {
+                        document.querySelector("#star" + i).src = "/icon/star_full.png";
+                    }
+                    finalScore = starId;
+                });
+            });
+
+            // 평점 등록 버튼 클릭 이벤트 핸들러 설정
+            document.querySelector("#regBtn").addEventListener("click", function() {
+                // ajax 요청으로 평점 등록
+                console.log("평점 등록: jno=" + jno + ", score=" + finalScore);
+                const data = {"rating": finalScore};
+                $.ajax({
+                    url: "http://localhost:9001/api/v1/review?jno=" + jno + "&score=" + finalScore,
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    headers: {
+                        'jwtToken': localStorage.getItem('jwtToken'),
+                        'username': localStorage.getItem('username'),
+                        'role': localStorage.getItem('role')
+                    },
+                    success: function(response) {
+                        console.log("평점 등록 성공:", response);
+                        // 성공적으로 등록되었으면 모달 닫기
+                        $('#exampleModal').modal('hide');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("평점 등록 실패:", status, error);
+                        // 실패 시에도 모달 닫기
+                        $('#exampleModal').modal('hide');
+                    }
+                });
+            });
+        });
+    }
 </script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

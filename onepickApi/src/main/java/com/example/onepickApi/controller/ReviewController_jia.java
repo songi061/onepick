@@ -66,6 +66,7 @@ public class ReviewController_jia {
 		List<Long> jnoList = new ArrayList<>();
 		List<ApplyList> applyList = new ArrayList<>();
 		
+
 		//해당기업이 올린 공고들의 jno만 뽑아서 list만들어주기
 		for(JobAd ja : myJobAdList) {
 			Long jno = ja.getJno();
@@ -83,6 +84,8 @@ public class ReviewController_jia {
 		
 		
 			return new ResponseEntity<>(applyList, HttpStatus.OK);
+
+
 	}
 	
 	

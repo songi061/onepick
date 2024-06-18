@@ -34,6 +34,6 @@ public interface JobAdRepository extends JpaRepository<JobAd, Long> {
 	public List<JobAd> findByCompany_UsernameContainingOrCompany_NameContainingOrWantedTitleContaining(String companyUsername,
 			String companyName, String wantedTitle);
 	
-	@Query("SELECT j.cid FROM Jobad j WHERE j.jno = :jno")
-	Company findCidByJno(@Param("jno") Long jno);
+	//@Query("SELECT j.cid FROM Jobad j WHERE j.jno = :jno")
+	//Long findCidByJno(@Param("jno") Long jno);
 }
