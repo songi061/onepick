@@ -43,6 +43,8 @@
 <script>
 const listContainer = document.querySelector('.apply_list');
 
+
+
     const xhttp = new XMLHttpRequest();
 	xhttp.onload = function() {
 		let datas = JSON.parse(this.responseText);
@@ -51,9 +53,23 @@ const listContainer = document.querySelector('.apply_list');
                const listItem = document.createElement('div');
                listItem.className = 'apply_list_item';
                listItem.innerHTML = "<span style='display:none;' class='jno'>"+data.jobAd.jno+"</span><div>"+data.jobAd.wantedTitle+"</div><div><a href='/user/resumeDetail?rno="+data.resume.rno+"'>"+ data.resume.title+"</a></div><div>"+data.user.name+"</div><div> 지원날짜 " +data.regdate.slice(0, 10)+
-               "</div> <div><button onclick='changeStatus(event)' data-bs-toggle='modal' data-bs-target='#exampleModal'>" + data.status + "</button></div>";
+               "</div> <div><button class='btn btn-onepick' onclick='changeStatus(event)' data-bs-toggle='modal' data-bs-target='#exampleModal'>" + data.status + "</button></div>";
                listContainer.appendChild(listItem);
            });
+           const statusBtns = document.querySelectorAll(".apply_list_item button");
+           console.log(statusBtns)
+           statusBtns.forEach(btn=>{
+        	   if(btn.innerText == "불합격"){
+        		   btn.style.backgroundColor="red";
+        	   }else if(btn.innerText == "면접대기"){
+        		   btn.style.backgroundColor="grey";
+        	   }else if(btn.innerText == "지원완료"){
+        		   btn.style.backgroundColor="blue";
+        	   }else if(btn.innerText == "면접완료"){
+        		   btn.style.backgroundColor="darkgreen";
+        	   }
+           })
+
 		}else{
 			 // 지원한 지원자가 아직 없을경우
 	        listContainer.innerHTML = '지원한 지원자가 아직 존재하지 않습니다.';
