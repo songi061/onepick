@@ -159,7 +159,7 @@ const showMoreBtn = document.querySelector(".showMoreBtn");
 		        let displayDate = data.moddate ? data.moddate.slice(0, 10) : data.regdate.slice(0, 10);
 		        const listItem = document.createElement('div');
 		        	listItem.className = 'bg-light ms-0 me-0 mt-0 mb-3 position-relative';
-		          listItem.innerHTML = "<div><div><a class='fs-4 fw-bold' href='/company/recruitDetail?jno="+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 최종수정날짜 : "  + displayDate + "</div> <span style='display:none;' class='jno'>"+ data.jno+"</span> <div class='position-absolute' style='top:10px; right:10px'><button class='btn btn-sm btn-onepick' onclick='editJobad(event)'>수정</button> <button class='btn btn-sm btn-secondary' onclick='deleteJobad(event)'>삭제</button></div></div>";
+		          listItem.innerHTML = "<div><div><a class='fs-4 fw-bold' href='/company/recruitDetail?jno="+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 최종수정날짜 : "  + displayDate + "</div> <span style='display:none;' class='jno'>"+ data.jno+"</span> <div class='position-absolute' style='top:10px; right:10px'><button class='btn btn-sm btn-onepick' onclick='location.href='/company/recruitEdit?jno="+ data.jno +"'>수정</button> <button class='btn btn-sm btn-secondary' onclick='deleteJobad(event)'>삭제</button></div></div>";
 		          recruitListContainer.appendChild(listItem);
 		    });
 			 
@@ -172,7 +172,7 @@ const showMoreBtn = document.querySelector(".showMoreBtn");
 		            myJobad.slice(3).forEach(data => {
 	                let displayDate = data.moddate ? data.moddate.slice(0, 10) : data.regdate.slice(0, 10);
 	                const listItem = document.createElement('div');
-	                listItem.innerHTML = "<div><div><a href='/company/recruitDetail?jno="+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 최종수정날짜 : "  + displayDate + "</div> <span style='display:none;' class='jno'>"+ data.jno+"</span> <button class='btn btn-onepick' onclick='editJobad(event)'>수정</button> <button class='btn btn-onepick' onclick='deleteJobad(event)'>삭제</button></div>";
+	                listItem.innerHTML = "<div><div><a href='/company/recruitDetail?jno="+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 최종수정날짜 : "  + displayDate + "</div> <span style='display:none;' class='jno'>"+ data.jno+"</span> <button class='btn btn-onepick' onclick='location.href='/company/recruitEdit?jno="+ data.jno +"'>수정</button> <button class='btn btn-onepick' onclick='deleteJobad(event)'>삭제</button></div>";
 		            recruitListContainer.appendChild(listItem);
 		    })
 		 // 나머지 항목을 모두 추가한 후 "더보기" 버튼을 숨깁니다.
@@ -239,6 +239,26 @@ const showMoreBtn = document.querySelector(".showMoreBtn");
 			xhttp.send(formData);
 		} else {
 			console.error("No file selected");
+		}
+	}
+	
+	
+	
+	function deleteJobad(e){
+		const jno = e.target.parentElement.parentElement.querySelector(".jno").innerText;
+		if(confirm("정말 해당 공고를 삭제하시겠습니까?")){
+			//공고삭제
+			const xhttp = new XMLHttpRequest();
+			xhttp.onload = function() {
+				console.log(this.responseText);
+				e.target.parentElement.parentElement.parentElement.remove()
+			  }
+			xhttp.open("DELETE", "http://localhost:9001/api/v1/recruit/"+jno, true);
+			xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
+			xhttp.setRequestHeader("username", localStorage.getItem("username"));
+			xhttp.setRequestHeader("role", localStorage.getItem("role"));
+			xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role")
+			xhttp.send();
 		}
 	}
 	

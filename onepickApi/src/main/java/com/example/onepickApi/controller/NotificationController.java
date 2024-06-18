@@ -33,24 +33,7 @@ public class NotificationController {
 	@Autowired
 	private CompanyRepository companyRepo;
 	
-	@GetMapping("/")
-	public ResponseEntity<String> gettoken(HttpServletRequest request) {
-		Enumeration<String> headers = request.getHeaderNames();
-		while(headers.hasMoreElements()) {
-			System.out.println(headers.nextElement());
-			if(headers.nextElement().equals("username")) {
-				System.out.println(request.getHeader("username"));
-			}
-		}
-//		if(!companyRepo.findById(request.getHeader("username")).isEmpty()) {
-//			return new ResponseEntity<>(companyRepo.findById(request.getHeader("username")).get(), HttpStatus.OK);
-//		}else {
-//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		}
-		
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
-	
+
 	
     @PostMapping("/register")
     public ResponseEntity<String> registerToken(@RequestBody Map<String, String> notiToken, HttpServletRequest request) {
