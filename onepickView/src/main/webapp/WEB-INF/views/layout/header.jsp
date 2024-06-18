@@ -26,8 +26,8 @@
 					</div>
 				</a>
 				<div class="input-group search_box">
-					<input type="text" class="form-control border-onepick" placeholder="통합검색" aria-label="통합검색" aria-describedby="searchResultBtn">
-					<button class="btn btn-outline-onepick" type="button" id="searchResultBtn">검색</button>
+					<input type="text" name="searchResultInput" class="form-control border-onepick" placeholder="통합검색" aria-label="통합검색" aria-describedby="searchResultBtn">
+					<button class="btn btn-outline-onepick" type="button" id="searchResultBtn" onclick="getSearchResult()">검색</button>
 				</div>
 			</div>
 	
@@ -111,5 +111,12 @@
 		console.log("스토리지 값 삭제");
 		window.localStorage.clear();
 		location.href="/";
+	}
+	
+	
+	function getSearchResult(){
+		const searchResultInput = document.querySelector("input[name='searchResultInput']");
+		console.log(searchResultInput.value);
+		location.href="/searchResult?keyword=" + searchResultInput.value;
 	}
 </script>

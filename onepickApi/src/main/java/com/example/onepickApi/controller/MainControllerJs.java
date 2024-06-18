@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.onepickApi.entity.Company;
 import com.example.onepickApi.entity.JobAd;
 import com.example.onepickApi.entity.Oa;
 import com.example.onepickApi.entity.Resume;
@@ -151,5 +152,11 @@ public class MainControllerJs {
 		System.out.println("검색으로" + allList);
 		return new ResponseEntity<>(allList, HttpStatus.OK);
 	} 
+	
+	@GetMapping("/company/search-result/{keyword}")
+	public ResponseEntity<List<Company>> getCompanyListKeyword(@PathVariable("keyword") String keyword){
+		List<Company> list = companyRepository.findByNameContainingAndSectorContainingAndSizeContaining(keyword, keyword, keyword);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 	
 }

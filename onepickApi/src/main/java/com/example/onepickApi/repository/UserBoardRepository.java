@@ -3,6 +3,7 @@ package com.example.onepickApi.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.onepickApi.entity.User;
@@ -25,5 +26,7 @@ public interface UserBoardRepository extends JpaRepository<UserBoard, Long>{
     List<UserBoard> findByCategory(@Param("category") String category);
     
     List<UserBoard> findByUser(@Param("username") User username);
+    
+    List<UserBoard> findByTitleContainingOrContentContaining(String titleKeyword, String contentKeyword);
 	
 }

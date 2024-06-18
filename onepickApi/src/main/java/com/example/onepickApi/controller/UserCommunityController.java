@@ -161,5 +161,12 @@ public class UserCommunityController {
 		return ubList;
 	}
 	
+	// 유저 커뮤니티 검색 리스트
+	@GetMapping("/community-board/search-result/{keyword}")
+	public ResponseEntity<List<UserBoard>> getKeywordList(@PathVariable("keyword") String keyword){
+		System.out.println("유저 커뮤니티 검색~");
+		List<UserBoard> list = ubRepo.findByTitleContainingOrContentContaining(keyword, keyword);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 	
 }
