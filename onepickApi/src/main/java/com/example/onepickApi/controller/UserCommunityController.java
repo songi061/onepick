@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.onepickApi.dto.BoardDto;
-//import com.example.onepickApi.dto.BoardDto;
 import com.example.onepickApi.dto.UserReplyDto;
 import com.example.onepickApi.entity.User;
 import com.example.onepickApi.entity.UserBoard;

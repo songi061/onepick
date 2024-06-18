@@ -1,31 +1,33 @@
 package com.example.onepickApi.controller;
 
-import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+//import java.util.List;
+//import java.util.Optional;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.web.bind.annotation.CrossOrigin;
+//import org.springframework.web.bind.annotation.DeleteMapping;
+//import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.PathVariable;
+//import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RestController;
+//
+//import com.example.onepickApi.entity.Company;
+//import com.example.onepickApi.entity.InterestedCop;
+//import com.example.onepickApi.entity.JobAd;
+//import com.example.onepickApi.entity.JobadScrap;
+//import com.example.onepickApi.entity.User;
+//import com.example.onepickApi.repository.CompanyRepository;
+//import com.example.onepickApi.repository.InterestedCopRepository;
+//import com.example.onepickApi.repository.JobAdRepository;
+//import com.example.onepickApi.repository.JobadScrapRepository;
+//import com.example.onepickApi.repository.UserRepository;
+//
+//import jakarta.servlet.http.HttpServletRequest;
 
-import com.example.onepickApi.entity.Company;
-import com.example.onepickApi.entity.InterestedCop;
-import com.example.onepickApi.entity.JobAd;
-import com.example.onepickApi.entity.JobadScrap;
-import com.example.onepickApi.entity.User;
-import com.example.onepickApi.repository.CompanyRepository;
-import com.example.onepickApi.repository.InterestedCopRepository;
-import com.example.onepickApi.repository.JobAdRepository;
-import com.example.onepickApi.repository.JobadScrapRepository;
-import com.example.onepickApi.repository.UserRepository;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 //@RestController
 //@CrossOrigin("*")

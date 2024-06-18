@@ -265,6 +265,7 @@ function likeTheCom() {
 					if (this.responseText == "done") {
 						//비어있는 버튼으로 바꿔주기
 						document.querySelector("#likeBtn img").src = "/icon/heart.png";
+						 liked = false;
 					} 
 				}
 				xhttp.open("delete", 'http://localhost:9001/api/v1/interested-company?cid='+cid, true);
@@ -279,6 +280,7 @@ function likeTheCom() {
 					alert("성공적으로 해당기업을 구독 했습니다!")
 					//버튼 색칠한거로 바꿔주기
 					document.querySelector("#likeBtn img").src = "/icon/heart_full.png";
+					 liked = true;
 				} 
 			}
 			xhttp.open("POST", 'http://localhost:9001/api/v1/interested-company?cid='+cid, true);
@@ -336,6 +338,7 @@ function scrapJobad() {
 					if (this.responseText == "done") {
 						//비어있는 버튼으로 바꿔주기
 						document.querySelector("#scrapBtn img").src = "/icon/save.png";
+						 scrapped = false;
 					} 
 				}
 				xhttp.open("delete", 'http://localhost:9001/api/v1/scrapped-recruit?jno='+jno, true);
@@ -350,6 +353,7 @@ function scrapJobad() {
 					alert("성공적으로 해당공고를 스크랩 했습니다!")
 					//버튼 색칠한거로 바꿔주기
 					document.querySelector("#scrapBtn img").src = "/icon/save_full.png";
+					 scrapped = true;
 				} 
 			}
 			xhttp.open("POST", 'http://localhost:9001/api/v1/scrapped-recruit?jno='+jno, true);
