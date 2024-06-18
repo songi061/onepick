@@ -148,7 +148,6 @@ function goToEditForm(e){
 		let myJobad = data.myJobad;
 		let displayUrl = myInfo.url ? myInfo.url : "<a href='/company/companyDetail?username="+localStorage.getItem("username")+"'>기업 상세페이지로 가기</a>"
 		document.querySelector("#companyName").innerHTML = myInfo.name;
-
 		document.querySelector("#companySector").innerHTML = myInfo.sector;
 		document.querySelector("#companyCeo").innerHTML = myInfo.ceo;
 		document.querySelector("#companyEmployeesNum").innerHTML = myInfo.employeesNum;
@@ -161,19 +160,33 @@ function goToEditForm(e){
 			document.querySelector(".profileImg_box img").src="/images/" + myInfo.fileName;
 		}
 		
-		
 		if (myJobad && myJobad.length > 0) {
 			 // 처음 세 개의 항목을 추가합니다.
 		    myJobad.slice(0, 3).forEach(data => {
-		        let displayDate = data.moddate ? data.moddate.slice(0, 10) : data.regdate.slice(0, 10);
-		        const listItem = document.createElement('div');
-		        	listItem.className = 'bg-light ms-0 me-0 mt-0 mb-3 position-relative';
-		          listItem.innerHTML = "<div><div><a class='fs-4 fw-bold' href='/company/recruitDetail?jno="+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 최종수정날짜 : "  
-		        		  + displayDate + "</div> <span style='display:none;' class='jno'>"+ data.jno
-		        		  +"</span> <div class='position-absolute' style='top:10px; right:10px'><button class='btn btn-sm btn-onepick' onclick='goToEditForm(event)'>수정</button> <button class='btn btn-sm btn-secondary' onclick='deleteJobad(event)'>삭제</button></div></div>";
+		    	const receiptCloseDate = new Date(data.receiptCloseDt);
+			    const currentDate = new Date();
+			    
+			    // 날짜가 유효한지 확인 (빈 값인 경우를 대비)
+			    let displayDate = receiptCloseDate ? receiptCloseDate.toISOString().slice(0, 10) : '';
+
+			    const listItem = document.createElement('div');
+			    listItem.className = 'bg-light ms-0 me-0 mt-0 mb-3 position-relative';
+			    
+			    // 공고마감일이 현재 날짜보다 빠른 경우
+			    if (receiptCloseDate < currentDate) {
+			    	  listItem.innerHTML = "<div><div><a class='fs-4 fw-bold' href='/company/recruitDetail?jno="
+			    			  + data.jno + "'>" + data.wantedTitle +"</a></div><div> 공고마감일 : "  
+			    			  + displayDate + "</div> <span style='display:none;' class='jno'>"
+			    			  + data.jno+"</span> <div class='position-absolute' style='top:10px; right:10px'><button class='btn btn-onepick' disabled style='background-color:red;'>마감</button></div></div>";
+			    }else{
+			    	listItem.innerHTML = "<div><div><a class='fs-4 fw-bold' href='/company/recruitDetail?jno="
+			    			+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 공고마감일 : "  
+			    			+ displayDate + "</div> <span style='display:none;' class='jno'>"
+			    			+ data.jno+"</span> <div class='position-absolute' style='top:10px; right:10px'><button class='btn btn-sm btn-onepick' onclick='editJobad(event)'>수정</button> <button class='btn btn-sm btn-secondary' onclick='deleteJobad(event)'>삭제</button></div></div>";
+			    	console.log("공고 아직 마감 아님")
+			    }
 		          recruitListContainer.appendChild(listItem);
 		    });
-			
 		}else{
 			 // 공고가 없을경우
 	        recruitListContainer.innerHTML = '등록된 공고가 아직 존재하지 않습니다.';
@@ -237,22 +250,50 @@ function goToEditForm(e){
 		}
 	}
 	
-	
+	function editJobad(e){
+		let jno = e.target.parentElement.parentElement.querySelector('.jno').innerText;
+		
+		const xhttp = new XMLHttpRequest();
+		xhttp.onload = function() {
+			if(this.responseText == "cannot edit"){
+				if(confirm("이미 해당공고에 지원한 지원자가 존재하여 수정이 불가합니다. '예'를 누르시면 공고가 마감됩니다. 공고 마감을 선택하시면 다시 번복이 불가합니다.")){
+					const xhttp = new XMLHttpRequest();
+					xhttp.onload = function() {
+						alert("해당 공고가 성공적으로 마감되었습니다.")
+						location.href="/company/myHome"
+					}
+					xhttp.open("PUT", "http://localhost:9001/api/v1/recruit/close-date?jno="+jno, true);
+					xhttp.send();
+				}
+			}else{
+				location.href="/company/recruitEdit?jno="+jno;
+			}
+		}
+		xhttp.open("PUT", "http://localhost:9001/api/v1/recruit/?jno="+jno, true);
+		xhttp.send();
+	};
 	
 	function deleteJobad(e){
 		const jno = e.target.parentElement.parentElement.querySelector(".jno").innerText;
 		if(confirm("정말 해당 공고를 삭제하시겠습니까?")){
-			//공고삭제
-			const xhttp = new XMLHttpRequest();
 			xhttp.onload = function() {
-				console.log(this.responseText);
-				e.target.parentElement.parentElement.parentElement.remove()
+				if(this.responseText == "done"){
+					alert("해당 공고가 성공적으로 삭제되었습니다.")
+					//html에서 지워주기
+					e.target.parentElement.remove();
+				}else if(this.responseText == "cannot delete"){
+					if(confirm("선택하신 공고에 이미 지원한 지원자가 존재합니다. 공고를 삭제하면 다시 되돌릴 수 없으며, 모든 지원자에게는 공고가 삭제되었다는 알람이 가게 됩니다. 정말로 공고 삭제를 하시겠습니까?")){
+						xhttp.onload = function() {
+							alert("해당 공고가 성공적으로 삭제되었습니다.")
+							//html에서 지워주기
+							e.target.parentElement.parentElement.parentElement.remove();
+						  }
+						xhttp.open("DELETE", "http://localhost:9001/api/v1/recruit/?jno="+jno, true);
+						xhttp.send();
+					}
+				}
 			  }
 			xhttp.open("DELETE", "http://localhost:9001/api/v1/recruit/"+jno, true);
-			xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
-			xhttp.setRequestHeader("username", localStorage.getItem("username"));
-			xhttp.setRequestHeader("role", localStorage.getItem("role"));
-			xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role")
 			xhttp.send();
 		}
 	}

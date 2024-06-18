@@ -97,7 +97,7 @@
 				<img style="width:25px; height:25px;" src="/icon/heart.png">
 			</div>
 		</div>
-		<button class="btn btn-onepick apply-btn" onclick="apply()">지원하기</button>
+		<button id="applyBtn" class="btn btn-onepick apply-btn" onclick="apply()">지원하기</button>
 		</div>
 		</div>
 	</div>
@@ -105,6 +105,7 @@
 
 <script>
 const jno = "${jno}";
+const applyBtn = document.querySelector("#applyBtn");
 let cid = null;
 let liked = null;
 let scrapped = null;
@@ -180,7 +181,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 	    }
 	//디데이 계산
 	 const dday = calcDday(jobad.receiptCloseDt);
-	 dDay.innerHTML = "D- " + dday + " 일";
+	if(dday <=0 ){
+		dDay.innerHTML = "공고마감";
+		applyBtn.innerText="공고마감";
+		applyBtn.style.backgroundColor="red";
+		
+	}else{
+		dDay.innerHTML = "D- " + dday + " 일";
+	}
+	
 
 	//스킬 정보 넣어주기
 		const skillContainer = document.querySelector(".skillContainer");
