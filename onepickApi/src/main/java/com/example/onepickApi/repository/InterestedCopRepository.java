@@ -19,4 +19,5 @@ public interface InterestedCopRepository extends JpaRepository<InterestedCop, Lo
 	public List<InterestedCop> findAllByCid (@Param("cid") String cid);
 	
 	List<InterestedCop> findByUser(User user);
+
 }

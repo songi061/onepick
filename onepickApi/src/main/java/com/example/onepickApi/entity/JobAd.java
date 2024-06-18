@@ -88,6 +88,4 @@ public class JobAd extends BaseEntity {
 	@Column(name = "empTel", nullable = false, length = 20)
 	private String empTel;
 	private String experience;
-	
-	
 }

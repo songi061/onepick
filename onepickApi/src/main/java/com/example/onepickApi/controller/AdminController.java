@@ -1,6 +1,14 @@
 package com.example.onepickApi.controller;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.onepickApi.entity.Company;
+import com.example.onepickApi.entity.InterestedCop;
 import com.example.onepickApi.entity.JobAd;
+import com.example.onepickApi.entity.JobadScrap;
 import com.example.onepickApi.entity.User;
 import com.example.onepickApi.repository.CompanyRepository;
+import com.example.onepickApi.repository.InterestedCopRepository;
 import com.example.onepickApi.repository.JobAdRepository;
+import com.example.onepickApi.repository.JobadScrapRepository;
 import com.example.onepickApi.repository.UserRepository;
 
 @CrossOrigin("*")
@@ -33,6 +45,14 @@ public class AdminController {
 	
 	@Autowired
 	private JobAdRepository jobAdRepository;
+	
+	@Autowired
+	private InterestedCopRepository interestedCopRepository;
+	
+	@Autowired
+	private JobadScrapRepository jobadScrapRepository;
+	
+
 	
 	// 개인회원
 	@GetMapping("/user")
@@ -91,5 +111,60 @@ public class AdminController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
+	// 대시보드
+	
+	// 차트 컨트롤러 
+	@GetMapping("/dashboard-1")
+	public ResponseEntity<Map<String, Object>> getDashboardData() {
+        List<User> uList = userRepository.findAll();
+        List<Company> cList = companyRepository.findAll();
+
+        Map<String, Integer> userCountMap = new TreeMap<>();
+        Map<String, Integer> companyCountMap = new TreeMap<>();
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // 최근 일주일 날짜 생성
+        for (int i = 6; i >= 0; i--) {
+            LocalDate date = today.minusDays(i);
+            String formattedDate = date.format(formatter);
+            userCountMap.put(formattedDate, 0);
+            companyCountMap.put(formattedDate, 0);
+        }
+
+        // 각 사용자의 가입 날짜를 확인하여 카운트
+        for (User user : uList) {
+            Date regDate = user.getRegdate();
+            LocalDate localRegDate = regDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String formattedDate = localRegDate.format(formatter);
+            if (userCountMap.containsKey(formattedDate)) {
+                userCountMap.merge(formattedDate, 1, Integer::sum);
+            }
+        }
+
+        // 각 회사의 가입 날짜를 확인하여 카운트
+        for (Company company : cList) {
+            Date regDate = company.getRegdate();
+            LocalDate localRegDate = regDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String formattedDate = localRegDate.format(formatter);
+            if (companyCountMap.containsKey(formattedDate)) {
+                companyCountMap.merge(formattedDate, 1, Integer::sum);
+            }
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("userCount", uList.size());
+        response.put("companyCount", cList.size());
+        response.put("weeklyUserRegistration", userCountMap);
+        response.put("weeklyCompanyRegistration", companyCountMap);
+
+        return ResponseEntity.ok(response);
+    }
+	
+	@GetMapping("/dashboard-2")
+	public void getPopularList() {
+	}
+
+
 
 }

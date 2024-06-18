@@ -36,7 +36,7 @@
                 <!-- AJAX로 데이터가 삽입될 부분 -->
             </tbody>
         </table>
-
+	</div>
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
 <script>
