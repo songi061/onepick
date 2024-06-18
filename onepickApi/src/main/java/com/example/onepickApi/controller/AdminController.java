@@ -161,9 +161,17 @@ public class AdminController {
         return ResponseEntity.ok(response);
     }
 	
-	@GetMapping("/dashboard-2")
-	public void getPopularList() {
-	}
+    @GetMapping("/dashboard-2")
+    public ResponseEntity<Map<String, List<Object[]>>> getPopularList() {
+        List<Object[]> iList = interestedCopRepository.findCompaniesOrderByInterestCountDesc();
+        List<Object[]> jList = jobadScrapRepository.findJobAdsOrderByScrapCountDesc();
+
+        Map<String, List<Object[]>> result = new HashMap<>();
+        result.put("interestedCompanies", iList);
+        result.put("popularJobAds", jList);
+
+        return ResponseEntity.ok(result);
+    }
 
 
 

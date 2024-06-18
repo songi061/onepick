@@ -46,7 +46,7 @@
         <ul id="dash_ul2">
             <li class="dash_li li2">
                 <p>인기 기업 목록</p>
-                <table>
+                <table class="table">
                     <thead>
                         <tr>
                             <th>순위</th>
@@ -62,7 +62,7 @@
             </li>
             <li class="dash_li li2">
                 <p>인기 공고 목록</p>
-                <table>
+                <table class="table">
                     <thead>
                         <tr>
                             <th>순위</th>
@@ -165,37 +165,40 @@
         });
 
         $.ajax({
-                url: "http://localhost:9001/api/v1/admin/dashboard-2",
-                method: "GET",
-                success: function (data) {
-                    var tbody = $("#interestedCopTableBody");
-                    tbody.empty();
-                    
-                    
-                    $.each(data.popularCompanies, function (index, company) {
-                    	var row = $("<tr>").attr("data-interno", company.interno);
-                        row.append($("<td>").text(index + 1));
-                        row.append($("<td>").text(company.sector));
-                        row.append($("<td>").text(company.name));
-                        row.append($("<td>").text(company.count));
-                        tbody.append(row); // 설정한 모든 row 요소들을 tbody에 삽입
-                    });
+            url: "http://localhost:9001/api/v1/admin/dashboard-2",
+            method: "GET",
+            success: function (data) {
+                var tbody1 = $("#interestedCopTableBody");
+                tbody1.empty();
 
-                    // tr 클릭 이벤트 핸들러 추가
-                    $("#noticeTableBody").on("click", "tr", function () {
-                        var nno = $(this).data("nno"); // 클릭한 tr의 data-nno 값을 가져옴
-                        window.location.href = "/admin/noticeDetail?nno=" + nno; // noticeDetail 페이지로 리다이렉트
-                    });
+                $.each(data.interestedCompanies, function (index, item) {
+                    var row = $("<tr>");
+                    row.append($("<td>").text(index + 1));
+                    row.append($("<td>").text(item[0].sector)); // 기업 분야
+                    row.append($("<td>").text(item[0].name)); // 기업명
+                    row.append($("<td>").text(item[1])); // 구독 수
+                    tbody1.append(row);
+                });
 
-                },
-                error: function (error) {
-                    console.log("에러 :", error);
-                    console.log("에러 상세 정보: ", error.responseText);
-                }
-            });
+                var tbody2 = $("#jobadScrapTableBody");
+                tbody2.empty();
+
+                $.each(data.popularJobAds, function (index, item) {
+                	console.log(data.popularJobAds);
+                    var row = $("<tr>");
+                    row.append($("<td>").text(index + 1));
+                    row.append($("<td>").text(item[0].company.name));
+                    row.append($("<td>").text(item[0].wantedTitle));     
+                    row.append($("<td>").text(item[1])); // 스크랩 수
+                    tbody2.append(row);
+                });
+            },
+            error: function (error) {
+                console.log("에러 :", error);
+                console.log("에러 상세 정보: ", error.responseText);
+            }
+        });
     });
-
-
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
