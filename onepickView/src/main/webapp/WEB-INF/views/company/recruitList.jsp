@@ -33,11 +33,32 @@ xhttp.onload = function() {
 	let data = JSON.parse(this.responseText);
 	if (data && data.length > 0) {
 	data.forEach(data=>{
-		let displayDate = data.moddate ? data.moddate.slice(0, 10) : data.regdate.slice(0, 10);
-		  const listItem = document.createElement('div');
-          listItem.innerHTML = "<div><div><a href='/company/recruitDetail?jno="+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 최종수정날짜 : "  + displayDate + "</div> <span style='display:none;' class='jno'>"+ data.jno+"</span> <button class='btn btn-onepick' onclick='editJobad(event)'>수정</button> <button class='btn btn-onepick' onclick='deleteJobad(event)'>삭제</button></div>";
-          recruitListContainer.appendChild(listItem);
+		const receiptCloseDate = new Date(data.receiptCloseDt);
+	    const currentDate = new Date();
+	    
+	    // 날짜가 유효한지 확인 (빈 값인 경우를 대비)
+	    let displayDate = receiptCloseDate ? receiptCloseDate.toISOString().slice(0, 10) : '';
+
+	    const listItem = document.createElement('div');
+	    
+	    // 공고마감일이 현재 날짜보다 빠른 경우
+	    if (receiptCloseDate < currentDate) {
+	    	  listItem.innerHTML = "<div><div><a href='/company/recruitDetail?jno="
+	    			  + data.jno + "'>" + data.wantedTitle +"</a></div><div> 공고마감일 : "  
+	    			  + displayDate + "</div> <span style='display:none;' class='jno'>"
+	    			  + data.jno+"</span> <button class='btn btn-onepick' disabled style='background-color:red;'>마감</button></div>";
+	    			 
+	        
+	    }else{
+	    	listItem.innerHTML = "<div><div><a href='/company/recruitDetail?jno="
+	    			+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 공고마감일 : "  
+	    			+ displayDate + "</div> <span style='display:none;' class='jno'>"
+	    			+ data.jno+"</span> <button class='btn btn-onepick editBtn' onclick='editJobad(event)'>수정</button> <button class='btn btn-onepick deleteBtn' onclick='deleteJobad(event)'>삭제</button></div>";
+	    	console.log("공고 아직 마감 아님")
+	    }
+	    recruitListContainer.appendChild(listItem);
 	})
+	
 	}else{
 		 // 공고가 없을경우
         recruitListContainer.innerHTML = '등록된 공고가 아직 존재하지 않습니다.';
@@ -53,22 +74,50 @@ xhttp.send();
 
 function editJobad(e){
 	let jno = e.target.parentElement.querySelector('.jno').innerText;
-	location.href="/company/recruitEdit?jno="+jno;
-	console.log(e.target.parentElement.querySelector('.jno').innerText)
-}
+	const xhttp = new XMLHttpRequest();
+	xhttp.onload = function() {
+		if(this.responseText == "cannot edit"){
+			if(confirm("이미 해당공고에 지원한 지원자가 존재하여 수정이 불가합니다. '예'를 누르시면 공고가 마감됩니다. 공고 마감을 선택하시면 다시 번복이 불가합니다.")){
+				const xhttp = new XMLHttpRequest();
+				xhttp.onload = function() {
+					alert("해당 공고가 성공적으로 마감되었습니다.")
+					location.href="/company/recruitList"
+				}
+				xhttp.open("PUT", "http://localhost:9001/api/v1/recruit/close-date?jno="+jno, true);
+				xhttp.send();
+			}
+		}else{
+			location.href="/company/recruitEdit?jno="+jno;
+		}
+	}
+	
+	xhttp.open("PUT", "http://localhost:9001/api/v1/recruit/?jno="+jno, true);
+	xhttp.send();
+};
+
 function deleteJobad(e){
 	let jno = e.target.parentElement.querySelector('.jno').innerText;
-	console.log(e.target.parentElement.querySelector('.jno').innerText)
-	
-	xhttp.onload = function() {
-		if(this.responseText == "done"){
-			alert("해당 공고가 성공적으로 삭제되었습니다.")
-			//html에서 지워주기
-			e.target.parentElement.remove();
-		}
-	  }
-	xhttp.open("DELETE", "http://localhost:9001/api/v1/recruit/"+jno, true);
-	xhttp.send();
+	if(confirm("정말 해당 공고를 삭제하시겠습니까?")){
+		xhttp.onload = function() {
+			if(this.responseText == "done"){
+				alert("해당 공고가 성공적으로 삭제되었습니다.")
+				//html에서 지워주기
+				e.target.parentElement.remove();
+			}else if(this.responseText == "cannot delete"){
+				if(confirm("선택하신 공고에 이미 지원한 지원자가 존재합니다. 공고를 삭제하면 다시 되돌릴 수 없으며, 모든 지원자에게는 공고가 삭제되었다는 알람이 가게 됩니다. 정말로 공고 삭제를 하시겠습니까?")){
+					xhttp.onload = function() {
+						alert("해당 공고가 성공적으로 삭제되었습니다.")
+						//html에서 지워주기
+						e.target.parentElement.parentElement.remove();
+					  }
+					xhttp.open("DELETE", "http://localhost:9001/api/v1/recruit/?jno="+jno, true);
+					xhttp.send();
+				}
+			}
+		  }
+		xhttp.open("DELETE", "http://localhost:9001/api/v1/recruit/"+jno, true);
+		xhttp.send();
+	}
 
 }
 </script>
