@@ -261,6 +261,7 @@
     </div>
   </div>
 </div>
+  
 <!-- Modal -->
 <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -279,6 +280,7 @@
     </div>
   </div>
 </div>
+
 <script>
 $(document).ready(function() {
 	$.ajax({
@@ -320,13 +322,15 @@ $(document).ready(function() {
     		}
             
             var userDetailsContainer = $('<div class="user-details-container"></div>');
-//             userDetailsContainer.append(infoDiv);
+
+           // userDetailsContainer.append(infoDiv);
            // userDetailsContainer.append(editLink);
 
-//             userDiv.append(imgDiv);
-//             userDiv.append(userDetailsContainer);
+            //userDiv.append(imgDiv);
+           // userDiv.append(userDetailsContainer);
 
-//             userInfo.append(userDiv);
+            //userInfo.append(userDiv);
+
              
 
            
