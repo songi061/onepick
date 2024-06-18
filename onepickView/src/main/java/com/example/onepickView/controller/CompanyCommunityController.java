@@ -2,7 +2,6 @@ package com.example.onepickView.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,8 +16,8 @@ public class CompanyCommunityController {
 	}
 	
 	// 디테일
-	@RequestMapping("/communityList/{cbno}")
-	public String communityDetail(@PathVariable("cbno") Long cbno, Model model) {
+	@RequestMapping("/communityDetail")
+	public String communityDetail(@RequestParam("cbno") Long cbno, Model model) {
 		
 		model.addAttribute("cbno", cbno);
 		return  "company/community/communityDetail";

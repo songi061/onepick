@@ -194,7 +194,7 @@
 	$(document).on('click', '.clickable', function(){
 		// let idList = document.querySelectorAll('.clickable').id;
 		console.log(this.id);
-		window.location.href = '/company/communityList/'+this.id;
+		window.location.href = '/company/communityDetail?cbno='+this.id;
 	});	
 	
 	

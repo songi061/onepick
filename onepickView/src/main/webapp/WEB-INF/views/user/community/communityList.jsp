@@ -150,7 +150,7 @@
 	$(document).on('click', '.clickable', function(){
 		// let idList = document.querySelectorAll('.clickable').id;
 		console.log(this.id);
-		window.location.href = '/user/communityList/'+this.id;
+		window.location.href = '/user/communityDetail?ubno='+this.id;
 	});	
 	
 	

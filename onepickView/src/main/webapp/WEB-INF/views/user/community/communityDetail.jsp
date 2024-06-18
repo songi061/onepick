@@ -24,7 +24,7 @@
 			<table id="data_board_detail"></table>
 		</div>
 		<div class="report">
-			<button id="btn_report">신고</button>
+			<button id="btn__commu_report">신고</button>
 		</div>
 		<hr>
 		<div id="reply_regist">
@@ -42,33 +42,6 @@
 		<button id="editBtn" style="display: none;">수정하기</button>
 		<hr>
 <script>
-//게시글 신고 기능
-let board_report = 0;
-$('#btn_report').click(function(event){
-	event.preventDefault();
-	
-	console.log("---------------------------------")
-	$.ajax({
-		type: 'post',
-		url: 'http://localhost:9001/api/v1/user/community-report?ubno='+ubno,
-		headers:{
-			"jwtToken" : localStorage.getItem("jwtToken"),
-            "username" : localStorage.getItem("username"),
-		},
-		contentType: 'application/json; charset=utf-8',
-		success: function(data){
-			if(data !== null){
-				console.log(data);
-				alert("게시글 신고 완료");
-			}
-		},
-		error: function(xhr, status, error) {
-			// 요청이 실패한 경우 처리할 코드
-			console.error("Request failed with status code: " + xhr.status);
-		}
-			
-	});
-});
 
 // 로컬 스토리지에서 username을 가져옴
 const storedUsername = localStorage.getItem('username');
