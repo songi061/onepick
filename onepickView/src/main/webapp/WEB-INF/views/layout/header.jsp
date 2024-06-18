@@ -34,7 +34,7 @@
 	      <ul id="userMenu" class="nav nav-pills">
 	        <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">채용정보</a></li>
 	        <li class="nav-item"><a href="/company/companyList" class="nav-link">기업정보</a></li>
-	        <li class="nav-item"><a href="#" class="nav-link">개인회원 커뮤니티</a></li>
+	        <li class="nav-item"><a href="/user/communityList" class="nav-link">개인회원 커뮤니티</a></li>
 	        <li class="nav-item">
 		        <div class="dropdown">
 				  <button class="nav-link dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">고객센터</button>
@@ -50,8 +50,8 @@
 	      
 	      <ul id="companyMenu" class="nav nav-pills" style="display:none">
 	        <li class="nav-item"><a href="/company/userSearchList" class="nav-link active" aria-current="page">인재채용</a></li>
-	        <li class="nav-item"><a href="#" class="nav-link">기업정보</a></li>
-	        <li class="nav-item"><a href="#" class="nav-link">기업회원 커뮤니티</a></li>
+	        <li class="nav-item"><a href="/company/companyList" class="nav-link">기업정보</a></li>
+	        <li class="nav-item"><a href="/company/communityList" class="nav-link">기업회원 커뮤니티</a></li>
 	        <li class="nav-item">
 		        <div class="dropdown">
 				  <button class="nav-link dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">고객센터</button>
