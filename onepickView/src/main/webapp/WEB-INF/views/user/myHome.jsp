@@ -323,8 +323,7 @@ $(document).ready(function() {
     		}
             
             var userDetailsContainer = $('<div class="user-details-container"></div>');
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 //             userDetailsContainer.append(infoDiv);
            // userDetailsContainer.append(editLink);
 
@@ -332,16 +331,6 @@ $(document).ready(function() {
 //             userDiv.append(userDetailsContainer);
 
 //             userInfo.append(userDiv);
-=======
-           // userDetailsContainer.append(infoDiv);
-           // userDetailsContainer.append(editLink);
-
-            //userDiv.append(imgDiv);
-           // userDiv.append(userDetailsContainer);
-
-            //userInfo.append(userDiv);
->>>>>>> 19e465e356b23bae72324c7faa55b9ac66a11108
-=======
 
            // userDetailsContainer.append(infoDiv);
            // userDetailsContainer.append(editLink);
@@ -351,9 +340,13 @@ $(document).ready(function() {
 
             //userInfo.append(userDiv);
 
->>>>>>> 46c647eca8ee9a67150fb0c7f49dfc026ecb7952
-             
+           // userDetailsContainer.append(infoDiv);
+           // userDetailsContainer.append(editLink);
 
+            //userDiv.append(imgDiv);
+           // userDiv.append(userDetailsContainer);
+
+            //userInfo.append(userDiv)
            
         },
         error: function(xhr, status, error) {
