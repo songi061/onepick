@@ -5,6 +5,7 @@
 <head>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/js/companyInterceptor.js"></script>	<!-- 기업+관리자만 허용 -->
 <meta charset="UTF-8">
 <title>1PICK!</title>
 <link
@@ -42,44 +43,7 @@
 	<button id="editBtn" style="display: none;">수정하기</button>
 	<hr>
 <script>
-// 게시글 신고 기능
-let board_report = 0;
-$('#btn_report').click(function(event){
-	event.preventDefault();
-	
-	board_report = board_report+1;
-	console.log("---------------------------------")
-	console.log(board_report)
-	
-	$.ajax({
-		type: 'post',
-		url: 'http://localhost:9001/api/v1/company/community-report',
-		headers:{
-			"jwtToken" : localStorage.getItem("jwtToken"),
-            "username" : localStorage.getItem("username"),
-            "role" : localStorage.getItem("role")
-		},
-		data: JSON.stringify({
-			"cbno": cbno,
-			"report": board_report
-		}),
-		contentType: 'application/json; charset=utf-8',
-		dataType:'json',
-		success: function(data){
-			if(data !== null){
-				console.log(data);
-				window.location.href = '/company/community-board/='+cbno;
-			}
-		},
-		error: function(xhr, status, error) {
-			// 요청이 실패한 경우 처리할 코드
-			console.error("Request failed with status code: " + xhr.status);
-		}
-			
-	});
-});
-
-
+// 전역변수 --------------
 // 로컬 스토리지에서 username을 가져옴
 const storagedUsername = localStorage.getItem('username');
 console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+storagedUsername)
@@ -89,6 +53,37 @@ const post = document.getElementById('board_detail');
 const editBtn = document.getElementById("editBtn");
 const cbno = ${cbno};
 console.log("-----------------cbno="+cbno)
+
+
+// 게시글 신고 기능
+let board_report = 0;
+$('#btn_report').click(function(event){
+	event.preventDefault();
+	
+	console.log("----------------"+cbno+"-----------------")
+	$.ajax({
+		type: 'post',
+		url: 'http://localhost:9001/api/v1/company/community-report?cbno='+cbno,
+		headers:{
+			"jwtToken" : localStorage.getItem("jwtToken"),
+            "username" : localStorage.getItem("username"),
+            "role" : localStorage.getItem("role")
+		},
+	
+		contentType: 'application/json; charset=utf-8',
+		success: function(data){
+			if(data !== null){
+				console.log(data);
+				alert("게시글 신고 완료");
+			}
+		},
+		error: function(xhr, status, error) {
+			// 요청이 실패한 경우 처리할 코드
+			console.error("Request failed with status code: " + xhr.status);
+		}
+			
+	});
+});
 
 // 게시글 디테일 불러오기
 $(document).ready(function(){

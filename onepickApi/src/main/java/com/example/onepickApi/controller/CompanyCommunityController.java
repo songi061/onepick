@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.onepickApi.dto.BoardDto;
 import com.example.onepickApi.dto.CompanyReplyDto;
+import com.example.onepickApi.entity.BoardReport;
 import com.example.onepickApi.entity.Company;
 import com.example.onepickApi.entity.CompanyBoard;
 import com.example.onepickApi.entity.CompanyReply;
+import com.example.onepickApi.repository.BoardReportRepository;
 import com.example.onepickApi.repository.CompanyBoardRepository;
 import com.example.onepickApi.repository.CompanyReplyRepository;
 import com.example.onepickApi.repository.CompanyRepository;
@@ -39,7 +41,9 @@ public class CompanyCommunityController {
 	CompanyBoardRepository cbRepo;
 	@Autowired
 	CompanyReplyRepository crRepo;
-
+	@Autowired
+	BoardReportRepository brRepo;
+	
 	// 게시글 등록
 	@PostMapping("/community-board")
 	public CompanyBoard communityForm(HttpServletRequest request, @RequestBody BoardDto boardDto){
@@ -164,13 +168,22 @@ public class CompanyCommunityController {
 		
 		// 게시글 신고
 		@PostMapping("/community-report")
-		public ResponseEntity<Integer> communityReport(Integer report) {
+		public ResponseEntity<String> communityReport(HttpServletRequest request, @RequestParam("cbno") Long cbno) {
+			// 사용자 정보 - username 받기
+			String username = request.getHeader("username");
 			
-			if(report == 0) {
-				return new ResponseEntity<>(0, HttpStatus.OK);
-			}else {
-				return new ResponseEntity<>(report, HttpStatus.OK);
-			}
+			Company company = new Company();
+			company.setUsername(username);
+			
+			CompanyBoard cb = new CompanyBoard();
+			cb.setCbno(cbno);
+			
+			BoardReport boardReport = new BoardReport();
+			boardReport.setCompany(company);
+			boardReport.setCb(cb);
+			
+			return new ResponseEntity<>("수정완료", HttpStatus.OK);
+			
 		}
 	
 	
