@@ -12,4 +12,7 @@ public class AdminController {
 	
 	@RequestMapping("/companyList")
 	public void companyList() {}
+	
+	@RequestMapping("/recruitList")
+	public void recruitList() {}
 }

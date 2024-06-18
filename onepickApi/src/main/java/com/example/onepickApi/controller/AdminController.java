@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.onepickApi.entity.Company;
+import com.example.onepickApi.entity.JobAd;
 import com.example.onepickApi.entity.User;
 import com.example.onepickApi.repository.CompanyRepository;
+import com.example.onepickApi.repository.JobAdRepository;
 import com.example.onepickApi.repository.UserRepository;
 
 @CrossOrigin("*")
@@ -28,6 +30,9 @@ public class AdminController {
 	
 	@Autowired
 	private CompanyRepository companyRepository;
+	
+	@Autowired
+	private JobAdRepository jobAdRepository;
 	
 	// 개인회원
 	@GetMapping("/user")
@@ -66,5 +71,25 @@ public class AdminController {
 		List<Company> allList = companyRepository.findByUsernameContainingOrNameContaining(keyword, keyword);
 		return new ResponseEntity<>(allList,HttpStatus.OK);
 	}
+	
+	// 공고 관리
+	@GetMapping("/recruit")
+	public ResponseEntity<List<JobAd>> jobAdList(){
+		List<JobAd> list = jobAdRepository.findAll();
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/recruit/{jno}")
+	public ResponseEntity<String> jobAdDelete(@PathVariable("jno") Long jno){
+		jobAdRepository.deleteById(jno);
+		return ResponseEntity.ok("삭제 : " + jno);
+	}
+	
+	@GetMapping("/recruit-search/{keyword}")
+	public ResponseEntity<List<JobAd>> getAllJobAdListKeyword(@PathVariable("keyword") String keyword){
+		List<JobAd> list = jobAdRepository.findByCompany_UsernameContainingOrCompany_NameContainingOrWantedTitleContaining(keyword, keyword, keyword);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
 
 }
