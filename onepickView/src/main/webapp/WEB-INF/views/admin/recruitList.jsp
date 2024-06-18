@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="/css/adminstyle.css" rel="stylesheet">
+    <link href="/css/adminList.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
@@ -17,7 +18,7 @@
     <div class="container">
         <div class="page_title">채용공고 관리</div>
         <div class="float-end input-group main_seaerch_box mt-md-5">
-            <input type="text" class="form-control" placeholder="회원 검색" name="searchInput" aria-label="제목 검색" aria-describedby="jobAdSearchBtn">
+            <input type="text" class="form-control" placeholder="공고 검색" name="searchInput" aria-label="제목 검색" aria-describedby="jobAdSearchBtn">
             <button class="btn btn-outline-secondary" type="button" id="SearchBtn">검색</button>
         </div>
         <div id="allJobAdList" class="row mb-5">
@@ -125,7 +126,7 @@ function displayUsers(jobAds) {
             
 
             var jobAdTd = $("<td>");
-            var jobAdButton = $("<button class='delete-btn' data-username='" + jobAd.jno + "'>").text("회원삭제");
+            var jobAdButton = $("<button class='delete-btn' data-username='" + jobAd.jno + "'>").text("공고삭제");
 
             jobAdTd.append(jobAdButton);
             row.append(jobAdTd);

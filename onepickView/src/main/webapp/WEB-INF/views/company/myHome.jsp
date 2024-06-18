@@ -13,8 +13,53 @@
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
+<div class="sub_header border-bottom">
 	<div class="container">
-	<div class='page_title'>My Home</div>
+		<div class="d-flex py-2">
+			<button class="btn text-onepick" type="button" onclick="location.href='/company/myHome'">
+			   MyHome
+			</button>
+			<button class="btn" type="button" onclick="location.href='/company/scrapList'">
+			   스크랩관리
+			</button>
+			<div class="dropdown">
+			  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			    채용공고관리
+			  </button>
+			  <ul class="dropdown-menu">
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/company/recruitList'">채용공고 조회</button></li>
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/company/recruitForm'">채용공고 등록</button></li>
+			  </ul>
+			</div>
+			<button class="btn" type="button" onclick="location.href='/company/applyList'">
+			   지원내역관리
+			</button>
+			<div class="dropdown">
+			  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			    평점관리
+			  </button>
+			  <ul class="dropdown-menu">
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/company/reviewList'">평점 조회</button></li>
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/company/reviewForm'">평점 등록</button></li>
+			  </ul>
+			</div>
+			<button class="btn" type="button" onclick="location.href='/company/myQnaList'">
+			   QnA관리
+			</button>
+			<div class="dropdown">
+			  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			    커뮤니티관리
+			  </button>
+			  <ul class="dropdown-menu">
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/company/myBoardList'">내가 쓴 글 리스트</button></li>
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/company/myCommentList'">내가 쓴 댓글 목록</button></li>
+			  </ul>
+			</div>
+		</div>
+	</div>
+</div>
+	<div class="container">
+	<div class='page_title'>🏠 My Home</div>
 	<div class="d-flex">
 		<img class="ms-auto"  data-bs-toggle="modal" data-bs-target="#exampleModal1" style="padding:5px; background-color:#42d056 ; border: 2px solid #42d056; width:40px; border-radius:10px;" src="/icon/notification-setting.png">
 	</div>	
@@ -28,17 +73,19 @@
 				<div>⭐ <span id="companyScore"></span> <span class="text-secondary mx-2"> | </span> <span id="companySector">섹터</span> <span class="text-secondary mx-2"> | </span> <span id="companyCeo">ceo</span> <span class="text-secondary mx-2"> | </span> <span id="companyEmployeesNum">employeesNum</span> <span class="text-secondary mx-2"> | </span> <span id="companySize">size</span> <span class="text-secondary mx-2"> | </span> <span id="companyYrSales">yrSales</span> <span class="text-secondary mx-2"> | </span> <span id="companyUrl">url</span></div>
 			</div>
 		</div>
-		<div class='title'>내 공고 리스트</div>
-		<div class="clearfix">
+	
+		<div class='title mb-3 clearfix'>
+			<span>내 공고 리스트</span>
 			<a class="showMoreBtn float-end fs-6 link-primary d-inline link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover cursor" onclick="showMore()" style="display:none;">더보기</a>
 		</div>
+			
 		<div class="myrecruit_list">
 		</div>
-		<div class="links">
-			<div><a href='/company/recruitForm'>채용공고작성</a></div>
-			<div><a href='/company/scrapList'>스크랩한지원자</a></div>
-			<div><a href='/company/applyList'>지원내역관리</a></div>
-			<div><a href=''>QnA관리</a></div>
+		<div class="row mb-5">
+			<div class="col-3"><a class="btn btn-lg w-100 btn-outline-onepick" href='/company/recruitForm'>채용공고작성</a></div>
+			<div class="col-3"><a class="btn btn-lg w-100 btn-outline-onepick" href='/company/scrapList'>스크랩한지원자</a></div>
+			<div class="col-3"><a class="btn btn-lg w-100 btn-outline-onepick" href='/company/applyList'>지원내역관리</a></div>
+			<div class="col-3"><a class="btn btn-lg w-100 btn-outline-onepick" href='/company/myQnaList'>QnA관리</a></div>
 		</div>
 		
 	</div>
@@ -111,7 +158,8 @@ const showMoreBtn = document.querySelector(".showMoreBtn");
 		    myJobad.slice(0, 3).forEach(data => {
 		        let displayDate = data.moddate ? data.moddate.slice(0, 10) : data.regdate.slice(0, 10);
 		        const listItem = document.createElement('div');
-		          listItem.innerHTML = "<div><div><a href='/company/recruitDetail?jno="+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 최종수정날짜 : "  + displayDate + "</div> <span style='display:none;' class='jno'>"+ data.jno+"</span> <button class='btn btn-onepick' onclick='editJobad(event)'>수정</button> <button class='btn btn-onepick' onclick='deleteJobad(event)'>삭제</button></div>";
+		        	listItem.className = 'bg-light ms-0 me-0 mt-0 mb-3 position-relative';
+		          listItem.innerHTML = "<div><div><a class='fs-4 fw-bold' href='/company/recruitDetail?jno="+ data.jno + "'>" + data.wantedTitle +"</a></div><div> 최종수정날짜 : "  + displayDate + "</div> <span style='display:none;' class='jno'>"+ data.jno+"</span> <div class='position-absolute' style='top:10px; right:10px'><button class='btn btn-sm btn-onepick' onclick='editJobad(event)'>수정</button> <button class='btn btn-sm btn-secondary' onclick='deleteJobad(event)'>삭제</button></div></div>";
 		          recruitListContainer.appendChild(listItem);
 		    });
 			 

@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="/css/adminstyle.css" rel="stylesheet">
+    <link href="/css/adminList.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
@@ -20,7 +21,7 @@
             <input type="text" class="form-control" placeholder="회원 검색" name="searchInput" aria-label="제목 검색" aria-describedby="jobAdSearchBtn">
             <button class="btn btn-outline-secondary" type="button" id="SearchBtn">검색</button>
         </div>
-        <div id="allCompanyList" class="row mb-5">
+        <div id="allCompanyList" class="row mb-5"></div>
         <table class="table">
             <thead>
                 <tr id="tbl_header">
@@ -35,7 +36,7 @@
                 <!-- AJAX로 데이터가 삽입될 부분 -->
             </tbody>
         </table>
-    </div>
+
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
 <script>
