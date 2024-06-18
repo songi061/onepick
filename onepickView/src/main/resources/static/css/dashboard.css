@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+p{
+    font: 600 15px/25px 'Pretendard-Regular';
+    margin: 10px;
+    color: dimgray;
+}
+
+body{
+    background-color: #f3f5f7;
+
+}
+
+.dash_title{
+    font: 800 18px/28px 'Pretendard-Regular';
+    margin: 20px;
+}
+
+.dash_li{
+    background-color: #fff;
+    border-radius: 5%;
+}
+
+#dash_ul1, #dash_ul2{
+    width: 100%;
+}
+
+.li1{
+    width: 31%;
+    float: left;
+    margin: 0 15px;
+}
+
+.graph_wrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+    padding: 10px;
+}
+
+.li2{
+    width: 47%;
+    float: left;
+    margin: 0 18px;
+}
+
+
