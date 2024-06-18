@@ -51,7 +51,7 @@
 <script>
     const listContainer = document.querySelector('.interviewees_list');
 
-    const companyName = "";
+    let companyName = "";
 
     // 지원내역 리스트 불러오기
     $.ajax({
@@ -64,18 +64,19 @@
         success: function(data) {
             var applyList = $('#applyList');
             applyList.empty(); // 기존 내용을 비웁니다.
-
+			
+            //데이터가 있으면 리스트 출력
             if (data.length > 0) {
                 // 받은 데이터 반복 처리
                 $.each(data, function(index, apply) {
-                	console.log("apply 출력 : " + apply.ratingStatus);
+                	console.log("apply.ratingStatus 출력 : " + apply.ratingStatus);
                     if (apply.status === "면접완료") {
                         var div = $('<div class="apply"></div>');
                         var ul = $('<ul class="res"></ul>'); // ul 태그 생성
 
                         ul.append('<li><a href="/company/recruitDetail?jno=' + apply.jobAd.jno + '">채용공고 : ' + apply.jobAd.wantedTitle + '</a></li>');
                         ul.append('<li><a href="/user/resumeDetail?rno=' + apply.resume.rno + '">지원 이력서 보기</a></li>');
-                        ul.append('<li>지원자명 : ' + apply.resume.user.name + '</li>'); // 여기서 apply.resume.user.name에 접근
+                        ul.append('<li>지원자명 : ' + apply.resume.user.name + '</li>'); 
 
                         var regdate = new Date(apply.regdate).toISOString().split('T')[0];
                         ul.append('<li>지원날짜 : ' + regdate + '</li>');
@@ -84,22 +85,26 @@
                         if (apply.ratingStatus == false) {
                             div.append('<a href="#" class="review" data-jno="' + apply.jobAd.jno + '">평점 등록</a>');
                         }
+                        
+                        companyName = apply.jobAd.company.name;
 
                         div.append(ul);
                         applyList.append(div);
                     }
                 });
 
-                // 평점 등록 링크 클릭 이벤트 핸들러 설정
-                $('#applyList').on('click', '.review', function(e) {
-                    e.preventDefault();
-                    var jno = $(this).data('jno');
-                    openRegModal(jno);
-                });
             } else {
                 // 지원 내역이 없는 경우 메시지 표시
                 applyList.html('지원 내역이 없습니다.');
             }
+            
+            // 평점 등록 링크 클릭 이벤트 핸들러 설정
+            $('#applyList').on('click', '.review', function(e) {
+                e.preventDefault();
+                var jno = $(this).data('jno');
+                openRegModal(jno);
+            });
+            
         },
         error: function(xhr, status, error) {
             console.error('AJAX 요청 실패:', status, error);
@@ -152,13 +157,16 @@
                     },
                     success: function(response) {
                         console.log("평점 등록 성공:", response);
+                        alert("평점을 등록하였습니다!");
                         // 성공적으로 등록되었으면 모달 닫기
                         $('#exampleModal').modal('hide');
+                        window.location.reload();
                     },
                     error: function(xhr, status, error) {
                         console.error("평점 등록 실패:", status, error);
                         // 실패 시에도 모달 닫기
                         $('#exampleModal').modal('hide');
+                        window.location.reload();
                     }
                 });
             });
@@ -167,4 +175,6 @@
 </script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="/js/userInterceptor.js"></script>
+<script src="/js/CloseBrowserClearlocalStorage.js"></script>
 </html>
