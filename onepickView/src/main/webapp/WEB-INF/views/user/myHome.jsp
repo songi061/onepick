@@ -241,6 +241,25 @@
 		</div>
 		
 	</div>
+	
+	
+	<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">사진 변경</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="file" name="file">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="updateFile(event)">변경</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 $(document).ready(function() {
@@ -358,6 +377,39 @@ $(document).ready(function() {
 });
 
      
+     
+function updateFile(event){
+	event.preventDefault();
+	const fileInput = document.querySelector("input[name='file']");
+	const file = fileInput.files[0];
+	
+	if (file) {
+		const formData = new FormData();
+		formData.append('file', file);
+
+		const xhttp = new XMLHttpRequest();
+		xhttp.onload = function() {
+			console.log(this.responseText);
+			if (this.status === 200) {
+				// 성공적으로 업로드 후 필요한 작업 수행
+				console.log("File upload successful");
+				location.reload(); // 페이지를 새로고침하여 변경된 내용을 반영
+			} else {
+				console.error("File upload failed");
+			}
+		};
+		xhttp.open("PUT", "http://localhost:9001/api/v1/user/file", true);
+		xhttp.setRequestHeader("jwtToken", localStorage.getItem("jwtToken"));
+		xhttp.setRequestHeader("username", localStorage.getItem("username"));
+		xhttp.setRequestHeader("role", localStorage.getItem("role"));
+		xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role");
+		xhttp.send(formData);
+	} else {
+		console.error("No file selected");
+	}
+}
+
+
 </script>
 
 
