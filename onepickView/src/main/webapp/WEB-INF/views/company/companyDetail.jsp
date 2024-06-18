@@ -166,6 +166,7 @@ let liked = null;
 						if (this.responseText == "done") {
 							//비어있는 버튼으로 바꿔주기
 							document.querySelector("#likeBtn img").src = "/icon/heart.png";
+							liked = false;
 						} 
 					}
 					xhttp.open("delete", 'http://localhost:9001/api/v1/interested-company?cid='+cid, true);
@@ -180,6 +181,7 @@ let liked = null;
 						alert("성공적으로 해당기업을 구독 했습니다!")
 						//버튼 색칠한거로 바꿔주기
 						document.querySelector("#likeBtn img").src = "/icon/heart_full.png";
+						liked = true;
 					} 
 				}
 				xhttp.open("POST", 'http://localhost:9001/api/v1/interested-company?cid='+cid, true);
