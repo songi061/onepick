@@ -130,17 +130,21 @@
 				addr_.value = user.addr;
 				//gender_.value = user.gender;
 				if(user.gender == "남성"){
-					document.querySelector("#gender1").checked = "true";
+					document.querySelector("#gender1").checked = true;
+					document.querySelector("#gender2").checked = false;
 				}else{
-					document.querySelector("#gender2").checked = "true";
+					document.querySelector("#gender2").checked = true;
+					document.querySelector("#gender1").checked = false;
 				}
 				email_.value = user.email;
 				tel_.value = user.tel;
 				//militaryService_.value = user.militaryService;
 				if(user.militaryService == "있음"){
-					document.querySelector("#militaryService1").checked = "true";
+					document.querySelector("#militaryService1").checked = true;
+					document.querySelector("#militaryService2").checked = false;
 				}else{
-					document.querySelector("#militaryService2").checked = "true";
+					document.querySelector("#militaryService2").checked = true;
+					document.querySelector("#militaryService1").checked = false;
 				}
 			}
 			xhttp2.open("GET", "http://localhost:9001/api/v1/user/mydetail");
@@ -192,6 +196,8 @@
 					xhttp.open("PUT", "http://localhost:9001/api/v1/user/", true);
 					xhttp.setRequestHeader("Content-type", "application/json");
 					xhttp.setRequestHeader("Authorization", "Bearer " + token);
+					xhttp.setRequestHeader("username", token_username);
+					xhttp.setRequestHeader("Access-Control-Expose-Headers", "Authorization, username");
 					xhttp.send(sendData);
 				}
 

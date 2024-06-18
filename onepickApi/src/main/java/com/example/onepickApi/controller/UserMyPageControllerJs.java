@@ -55,13 +55,28 @@ public class UserMyPageControllerJs {
 	}
 	
 	@PutMapping("/")
-	public ResponseEntity<String> postUser(@RequestBody User user){
+	public ResponseEntity<String> postUser(HttpServletRequest request, @RequestBody User user){
 		System.out.println("User 정보 수정 중.." + user);
+		Enumeration<String> headers = request.getHeaderNames();
+		User userfile;
+		while(headers.hasMoreElements()) {
+			//System.out.println(headers.nextElement());
+			if(headers.nextElement().equals("usernmae")) {
+				//System.out.println("username 출력 " + request.getHeader("username"));
+			}
+		}
+		Optional<User> result0 = userRepository.findById(request.getHeader("username"));  
+		userfile = result0.get();
+		
 		String newPw = bCryptPasswordEncoder.encode(user.getPassword());
 		String role = "ROLE_USER";
 		
 		user.setPassword(newPw);
 		user.setRole(role);
+		user.setFileName(userfile.getFileName());
+		user.setFilePath(userfile.getFilePath());
+		user.setFileSize(userfile.getFileSize());
+		
 		User result = userRepository.save(user);
 		
 		if(result != null) {
