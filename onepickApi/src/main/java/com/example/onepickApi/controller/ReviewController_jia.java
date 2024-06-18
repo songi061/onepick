@@ -1,5 +1,6 @@
 package com.example.onepickApi.controller;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.onepickApi.entity.ApplyList;
 import com.example.onepickApi.entity.CompanyReview;
+import com.example.onepickApi.entity.JobAd;
 import com.example.onepickApi.entity.UserReview;
 import com.example.onepickApi.repository.ApplyListRepository;
 import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.CompanyReviewRepository;
+import com.example.onepickApi.repository.JobAdRepository;
 import com.example.onepickApi.repository.UserRepository;
 import com.example.onepickApi.repository.UserReviewRepository;
 
@@ -42,7 +45,8 @@ public class ReviewController_jia {
 	private CompanyRepository companyRepo;
 	@Autowired
 	private UserRepository userRepo;
-	
+	@Autowired
+	private JobAdRepository jobadRepo;
 	
 	
 	//면접완료된 면접자의 리스트 보여주기 (기업이 평점남길 수 있는 면접자리스트)
@@ -56,10 +60,32 @@ public class ReviewController_jia {
 			}
 		}
 		
-		List<ApplyList> intervieweesList = applyListRepo.findIntervieweesByCid(request.getHeader("username"));
+		//해당 기업이 올린 공고 모두 부르기
+		List<JobAd> myJobAdList = jobadRepo.findByUsername(request.getHeader("username"));
+		System.out.println(myJobAdList);
+		List<Long> jnoList = new ArrayList<>();
+		List<ApplyList> applyList = new ArrayList<>();
 		
-			return new ResponseEntity<>(intervieweesList, HttpStatus.OK);
+		//해당기업이 올린 공고들의 jno만 뽑아서 list만들어주기
+		for(JobAd ja : myJobAdList) {
+			Long jno = ja.getJno();
+			jnoList.add(jno);
+		}
+		System.out.println(jnoList);
+		
+		//해당기업이 올린 공고의 jno를 이용해서 해당 공고에 지원한 지원내역을 모두 뽑음
+		for(Long jno : jnoList) {
+			ApplyList al = applyListRepo.findIntervieweesByJno(jno);
+			if(al != null) {
+				applyList.add(al);
+			}
+		}
+		
+		
+			return new ResponseEntity<>(applyList, HttpStatus.OK);
 	}
+	
+	
 	//기업이 면접자에게 평점남기기
 		@PostMapping("/review")
 		public ResponseEntity<String> regReview(HttpServletRequest request, @RequestBody UserReview userReview) {
@@ -80,7 +106,7 @@ public class ReviewController_jia {
 			
 			
 			//해당 지원자를 applyList테이블에서 상태 변경해주기 ->더이상 면접완료x
-			ApplyList ap = applyListRepo.findInterviewee(request.getHeader("username"),username, jno);
+			ApplyList ap = applyListRepo.findInterviewee(username, jno);
 			ap.setRatingStatus(true);
 			applyListRepo.save(ap);
 			

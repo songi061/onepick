@@ -78,11 +78,11 @@ public class NotificationController {
     }
     
 	@PostMapping("/test")
-	private  String test() {
+	private  String test(HttpServletRequest request) {
+	
 		
-		String token = "eTIKMWTX2BKnNjgSSAOQGJ:APA91bEhKCwoPOqrq0uFr5N46nwM1JrGM5PYU9N4A8a3PwGV8mJfNlWyqmLGoN0dIT0MyS97soly_sSvgUkwQJ9M1SaVDbmvh5oBCxheisclJMtZ2DVbB6yZbA171sT2wwh6lzet_Bra"; // 실제로는 DB에서 가져옴
-				
-		//notificationService.sendNotification(token, "번겁슙니다", "알림성공추카드려욥!");
+		String token = companyRepo.findById(request.getHeader("username")).get().getToken();
+		notificationService.sendNotification(token, "번겁슙니다", "알림성공추카드려욥!");
 		
 		
 		return "알림이갔을깝쑝??????";

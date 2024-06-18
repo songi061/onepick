@@ -38,15 +38,20 @@ public class ApplyController_jia {
 				System.out.println(request.getHeader("username"));
 			}
 		}
+		//해당 기업이 올린 공고 모두 부르기
 		List<JobAd> myJobAdList = jobadRepo.findByUsername(request.getHeader("username"));
 		System.out.println(myJobAdList);
 		List<Long> jnoList = new ArrayList<>();
 		List<ApplyList> applyList = new ArrayList<>();
+		
+		//해당기업이 올린 공고들의 jno만 뽑아서 list만들어주기
 		for(JobAd ja : myJobAdList) {
 			Long jno = ja.getJno();
 			jnoList.add(jno);
 		}
 		System.out.println(jnoList);
+		
+		//해당기업이 올린 공고의 jno를 이용해서 해당 공고에 지원한 지원내역을 모두 뽑음
 		for(Long jno : jnoList) {
 			ApplyList al = applyListRepo.findByJno(jno);
 			if(al != null) {
