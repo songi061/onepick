@@ -24,7 +24,7 @@
 $(document).ready(function() {
     // AJAX 요청 보내기
 	$.ajax({
-        url: 'http://localhost:9001/api/v1/interested-company',
+        url: 'http://localhost:9001/api/v1/interested-companyList',
         type: 'GET',
         dataType: 'json',
         headers: {
