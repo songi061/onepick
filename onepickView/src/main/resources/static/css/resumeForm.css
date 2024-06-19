@@ -153,3 +153,19 @@
 	margin-bottom : 15px;
 
 }
+
+/* 기본 UL 스타일 */
+.oa-item, .school-item, .career-item, .license-item, .experience-item, .oa-item {
+    list-style: none;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* 개별 LI 스타일 */
+.oa-item li , school-item li, .career-item li, .license-item li, .experience-item li, .oa-item li  {
+    margin: 5px 0;
+    font-size: 16px;
+}
