@@ -86,6 +86,7 @@ public class UserCommunityController {
 		// category에 따른 리스트
 		System.out.println(category);
 		List<UserBoard> result= ubRepo.findByCategory(category);
+		
 		System.out.println(result);
 			
 		return result;
@@ -134,7 +135,7 @@ public class UserCommunityController {
 	
 	// 게시글 수정
 	@PutMapping("/community-board")
-	public ResponseEntity<String> community(HttpServletRequest request, @RequestBody BoardDto boardDto){
+	public ResponseEntity<String> communityEdit(HttpServletRequest request, @RequestBody BoardDto boardDto){
 		System.out.println("dddddddd");
 		UserBoard ub_ = ubRepo.findById(boardDto.getUbno()).get();
 		ub_.setTitle(boardDto.getTitle());
@@ -150,6 +151,34 @@ public class UserCommunityController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 	}
+	
+	// 댓글 수정
+	@PutMapping("/community-reply")
+	public ResponseEntity<String> replyEdit(HttpServletRequest request, @RequestBody UserReplyDto replyDto){
+		System.out.println("ooooooooooooooooooo");
+		
+		String username = request.getHeader("username");
+		User user = new User();
+		user.setUsername(username);
+		
+		UserBoard ub = new UserBoard();
+		ub.setUbno(replyDto.getUbno());
+		UserReply ur_ = urRepo.findById(replyDto.getReplyno()).get();
+		ur_.setContent(replyDto.getContent());
+		ur_.setReplyno(replyDto.getReplyno());
+		ur_.setUser(user);
+		ur_.setUserBoard(ub);
+		UserReply ur = urRepo.save(ur_);
+		
+		System.out.println("수정된 userReply : " + ur);
+		UserReply result = urRepo.save(ur);
+		if(result != null) {
+			return new ResponseEntity<>("댓글수정완료", HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+	}
+	
 	
 	// 게시글 삭제
 	@DeleteMapping("/community-board")
@@ -203,9 +232,6 @@ public class UserCommunityController {
 
 		return new ResponseEntity<>("댓글신고완료", HttpStatus.OK);
 	}
-	
-	
-	
 	
 	// 구직자 마이페이지 - 내가 쓴 게시글 목록 조회
 	@GetMapping("/community-myboard")

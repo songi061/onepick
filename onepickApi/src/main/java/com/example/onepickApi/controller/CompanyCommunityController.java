@@ -19,11 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.onepickApi.dto.BoardDto;
 import com.example.onepickApi.dto.CompanyReplyDto;
+import com.example.onepickApi.dto.UserReplyDto;
 import com.example.onepickApi.entity.BoardReport;
 import com.example.onepickApi.entity.Company;
 import com.example.onepickApi.entity.CompanyBoard;
 import com.example.onepickApi.entity.CompanyReply;
 import com.example.onepickApi.entity.ReplyReport;
+import com.example.onepickApi.entity.User;
+import com.example.onepickApi.entity.UserBoard;
+import com.example.onepickApi.entity.UserReply;
 import com.example.onepickApi.repository.BoardReportRepository;
 import com.example.onepickApi.repository.CompanyBoardRepository;
 import com.example.onepickApi.repository.CompanyReplyRepository;
@@ -152,6 +156,36 @@ public class CompanyCommunityController {
 		}
 	}
 
+	
+	// 댓글 수정
+	@PutMapping("/community-reply")
+	public ResponseEntity<String> replyEdit(HttpServletRequest request, @RequestBody CompanyReplyDto replyDto){
+		System.out.println("ooooooooooooooooooo");
+		
+		String username = request.getHeader("username");
+		Company company = new Company();
+		company.setUsername(username);
+		
+		CompanyBoard cb = new CompanyBoard();
+		cb.setCbno(replyDto.getCbno());
+		CompanyReply cr_ = crRepo.findById(replyDto.getReplyno()).get();
+		cr_.setContent(replyDto.getContent());
+		cr_.setReplyno(replyDto.getReplyno());
+		cr_.setCompany(company);
+		cr_.setCompanyBoard(cb);
+		CompanyReply cr = crRepo.save(cr_);
+		
+		System.out.println("수정된 companyReply : " + cr);
+		CompanyReply result = crRepo.save(cr);
+		if(result != null) {
+			return new ResponseEntity<>("댓글수정완료", HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+	}
+	
+	
+	
 	// 게시글 삭제
 	@DeleteMapping("/community-board")
 	public String communityDeletion() {

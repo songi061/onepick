@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Component
 public class CompanyReplyDto {
-
+	private Long replyno;
 	private String username;
 	private Long cbno;
 	private String content;
