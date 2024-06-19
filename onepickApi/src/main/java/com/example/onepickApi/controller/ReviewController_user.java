@@ -30,6 +30,7 @@ import com.example.onepickApi.repository.UserReviewRepository;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 
 @RestController
 @CrossOrigin("*")
@@ -55,6 +56,7 @@ public class ReviewController_user {
 	private CompanyRepository companyRepo;
 	
 	@PostMapping("/review")
+	@Transactional
 	public ResponseEntity<String>  registReview(HttpServletRequest request, @RequestBody CompanyReview companyReview) {
 		String username = request.getHeader("username"); 
 		Optional<User> result = userRepo.findById(username);
@@ -63,6 +65,8 @@ public class ReviewController_user {
 		int score = Integer.parseInt(request.getParameter("score"));
 		
 		Long jno = Long.parseLong(request.getParameter("jno"));
+		
+		System.out.println("평점 점수 출력 : " + score +  "jno출력" + jno);
 		
 		companyReview.setUser(user);
 		
