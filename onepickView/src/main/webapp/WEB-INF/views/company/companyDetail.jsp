@@ -109,7 +109,7 @@ let liked = null;
 					+ "<div class='logo w-25'><div class='mx-auto'><img src='" + logoSrc + "' alt='회사로고'></div></div>"
 					+ "<div class='ps-3 w-75'>"
 					+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
-					+ "<div class='recruitTitle fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
+					+ "<div class='recruitTitle text-ellipsis fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
 					+ "<div class='fs-6 text-secondary'> 공고 마감일 " + obj.receiptCloseDt + "</div>"
 					+ "<div class='recruitInfo text-ellipsis fs-6 text-secondary'> 모집 인원 " + obj.collectPsncnt + ", " + obj.position1 + ", " + obj.position2 + ", " + obj.region1 + ", " + obj.region2  + "</div>"
 					+ "</div></a></div>";
@@ -197,7 +197,14 @@ let liked = null;
 		}
 		
 	} 
-  
+
+	function pageActive(){
+		// 기존의 'active' 클래스를 제거합니다.
+		document.querySelector("header .nav-item a").classList.remove('active');
+		// 'active' 클래스를 추가합니다.
+		document.querySelector("header .companyPage").classList.add('active');
+	}
+	pageActive();
 
 </script>
 </body>

@@ -32,8 +32,8 @@
 			</div>
 	
 	      <ul id="userMenu" class="nav nav-pills">
-	        <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">채용정보</a></li>
-	        <li class="nav-item"><a href="/company/companyList" class="nav-link">기업정보</a></li>
+	        <li class="nav-item"><a id="mainPage" href="/" class="nav-link" aria-current="page">채용정보</a></li>
+	        <li class="nav-item"><a href="/company/companyList" class="nav-link companyPage">기업정보</a></li>
 	        <li class="nav-item"><a href="/user/communityList" class="nav-link">개인회원 커뮤니티</a></li>
 	        <li class="nav-item">
 		        <div class="dropdown">
@@ -49,7 +49,7 @@
 	      </ul>
 	      
 	      <ul id="companyMenu" class="nav nav-pills" style="display:none">
-	        <li class="nav-item"><a href="/company/userSearchList" class="nav-link active" aria-current="page">인재채용</a></li>
+	        <li class="nav-item"><a id="userSearchPage" href="/company/userSearchList" class="nav-link" aria-current="page">인재채용</a></li>
 	        <li class="nav-item"><a href="/company/companyList" class="nav-link">기업정보</a></li>
 	        <li class="nav-item"><a href="/company/communityList" class="nav-link">기업회원 커뮤니티</a></li>
 	        <li class="nav-item">
@@ -76,18 +76,34 @@
 			menuBtn.innerText = "개인회원 서비스";
 			userMenu.display="none";
 			companyMenu.display="";
+			localStorage.setItem("serviceMenuCheck","companyMenu")
+			
 		}else{
 			menuBtn.innerText = "기업회원 서비스";
 			companyMenu.display="none";
 			userMenu.display="";
+			localStorage.setItem("serviceMenuCheck","userMenu")
 		}
 	}
+	
+	let serviceMenuCheck = localStorage.getItem("serviceMenuCheck");
+	console.log("serviceMenuCheck " + serviceMenuCheck);
+	if(serviceMenuCheck == "companyMenu"){
+		userMenu.display="none";
+		companyMenu.display="";
+	}else if(serviceMenuCheck == "userMenu"){
+		companyMenu.display="none";
+		userMenu.display="";
+	}
+	
 	
 	// localStorage에서 값 가져오기
 	let role = localStorage.getItem("role");
 	console.log(role);
 	let username = localStorage.getItem("username");
 	console.log(username);
+	
+	//let serviceMenuCheck = localStorage.setItem("companyMenu");
 	const logout_menu = document.querySelector("#logout_menu");
 	const login_menu = document.querySelector("#login_menu");
 	

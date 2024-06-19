@@ -178,6 +178,15 @@
 				}
 			});
 			
+			
+			function pageActive(){
+				// 기존의 'active' 클래스를 제거합니다.
+				document.querySelector("header .nav-item a").classList.remove('active');
+				// 'active' 클래스를 추가합니다.
+				document.querySelector("header #mainPage").classList.add('active');
+			}
+			pageActive();
+			
 		</script>
 		<jsp:include page="layout/footer.jsp"></jsp:include>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
