@@ -52,64 +52,72 @@
     const listContainer = document.querySelectorAll('.interviewees_list');
     var applyList = $('#applyList');
     // 지원내역 리스트 불러오기
-    $.ajax({
-        url: 'http://localhost:9001/api/v1/myapply',
-        type: 'GET',
-        dataType: 'json',
-        headers: {
-            'username': username  // HTTP 요청 헤더에 username 추가
-        },
-        success: function(data) {
-            //var applyList = $('#applyList');
-            applyList.empty(); // 기존 내용을 비웁니다.
-            console.log('길이 : ' + data.length);
-            //console.log('listContainer:', listContainer); 
-            //데이터가 있으면 리스트 출력
-            if (data.length > 0) {
-                // 받은 데이터 반복 처리
-                $.each(data, function(index, apply) {
-                    console.log("apply.ratingStatus 출력 : " + apply.ratingStatus);
-                    if ((apply.status === "면접완료" || apply.status === "합격" || apply.status === "불합격") && apply.ratingStatus === false)  {
-                        var div = $('<div class="apply"></div>');
-                        var ul = $('<ul class="res"></ul>'); // ul 태그 생성
+$.ajax({
+    url: 'http://localhost:9001/api/v1/myapply',
+    type: 'GET',
+    dataType: 'json',
+    headers: {
+        'username': username  // HTTP 요청 헤더에 username 추가
+    },
+    success: function(data) {
+        applyList.empty(); // 기존 내용을 비웁니다.
+        console.log('길이 : ' + data.length);
 
-                        ul.append('<li><a href="/company/recruitDetail?jno=' + apply.jobAd.jno + '">채용공고 : ' + apply.jobAd.wantedTitle + '</a></li>');
-                        ul.append('<li><a href="/user/resumeDetail?rno=' + apply.resume.rno + '">지원 이력서 보기</a></li>');
-                        ul.append('<li>지원자명 : ' + apply.resume.user.name + '</li>'); 
+        // 평점을 남길 수 있는 지원내역이 있는지 여부를 추적하는 변수
+        let hasEligibleApply = false;
 
-                        var regdate = new Date(apply.regdate).toISOString().split('T')[0];
-                        ul.append('<li>지원날짜 : ' + regdate + '</li>');
-                        ul.append('<li>상태 : ' + apply.status + '</li>');
-                        
-                        if (apply.ratingStatus == false) {
-                            div.append('<a href="#" class="review" data-jno="' + apply.jobAd.jno + '" data-company="' + apply.jobAd.company.name + '">평점 등록하기</a>');
-                        }else{
-                            div.append('평점 등록 완료');
-                        }
-                        
-                        div.append(ul);
-                        applyList.append(div);
+        if (data.length > 0) {
+            // 받은 데이터 반복 처리
+            $.each(data, function(index, apply) {
+                console.log("apply.ratingStatus 출력 : " + apply.ratingStatus);
+                if ((apply.status === "면접완료" || apply.status === "합격" || apply.status === "불합격") && apply.ratingStatus === false) {
+                    hasEligibleApply = true;
+
+                    var div = $('<div class="apply"></div>');
+                    var ul = $('<ul class="res"></ul>'); // ul 태그 생성
+
+                    ul.append('<li><a href="/company/recruitDetail?jno=' + apply.jobAd.jno + '">채용공고 : ' + apply.jobAd.wantedTitle + '</a></li>');
+                    ul.append('<li><a href="/user/resumeDetail?rno=' + apply.resume.rno + '">지원 이력서 보기</a></li>');
+                    ul.append('<li>지원자명 : ' + apply.resume.user.name + '</li>'); 
+
+                    var regdate = new Date(apply.regdate).toISOString().split('T')[0];
+                    ul.append('<li>지원날짜 : ' + regdate + '</li>');
+                    ul.append('<li>상태 : ' + apply.status + '</li>');
+                    
+                    if (apply.ratingStatus == false) {
+                        div.append('<a href="#" class="review" data-jno="' + apply.jobAd.jno + '" data-company="' + apply.jobAd.company.name + '">평점 등록하기</a>');
+                    } else {
+                        div.append('평점 등록 완료');
                     }
-                });
-
-            } else {
-                // 지원 내역이 없는 경우 메시지 표시
-                 applyList.append = '<p>평점을 남길 수 있는 지원내역이 없습니다.</p>';
-            }
-            
-            // 평점 등록 링크 클릭 이벤트 핸들러 설정
-            $('#applyList').on('click', '.review', function(e) {
-                e.preventDefault();
-                var jno = $(this).data('jno');
-                var companyName = $(this).data('company');
-                openRegModal(jno, companyName);
+                    
+                    div.append(ul);
+                    applyList.append(div);
+                }
             });
-            
-        },
-        error: function(xhr, status, error) {
-            console.error('AJAX 요청 실패:', status, error);
+
+            // 조건에 맞는 데이터가 없는 경우 메시지 출력
+            if (!hasEligibleApply) {
+                applyList.append('평점을 남길 수 있는 지원내역이 없습니다.');
+            }
+
+        } else {
+            // 지원내역이 아예 없는 경우 메시지 출력
+            applyList.append('지원내역이 없습니다.');
         }
-    });
+
+        // 평점 등록 링크 클릭 이벤트 핸들러 설정
+        $('#applyList').on('click', '.review', function(e) {
+            e.preventDefault();
+            var jno = $(this).data('jno');
+            var companyName = $(this).data('company');
+            openRegModal(jno, companyName);
+        });
+        
+    },
+    error: function(xhr, status, error) {
+        console.error('AJAX 요청 실패:', status, error);
+    }
+});
 
     // 평점 등록 기능
     function openRegModal(jno, companyName) {
