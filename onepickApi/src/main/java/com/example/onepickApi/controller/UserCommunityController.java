@@ -202,6 +202,8 @@ public class UserCommunityController {
 		BoardReport boardReport = new BoardReport();
 		boardReport.setUser(user);
 		boardReport.setUb(ub);
+		brRepo.save(boardReport);
+		
 		
 		return new ResponseEntity<>("게시글신고완료", HttpStatus.OK);
 	}
@@ -221,7 +223,7 @@ public class UserCommunityController {
 
 		UserReply ur = new UserReply();
 		ur.setReplyno(userBoard.getUbno());
-		System.out.println("!!!!!!company replyno : " + userBoard.getUbno());
+		System.out.println("!!!!!!user replyno : " + userBoard.getUbno());
 
 		// 댓글 신고 엔티티에 이제 다넣어 (replyno, username)
 		ReplyReport replyReport = new ReplyReport();

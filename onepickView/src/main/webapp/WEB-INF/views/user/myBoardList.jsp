@@ -18,6 +18,8 @@
 	        <li><a href="#">내가 쓴 댓글 목록</a></li>
 	    </ul>
 	</div>
+	
+	<!-- 내가 쓴 글 목록 -->
 	<div class="myBoard" data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
 		<table id="input_result">
 			<thead>
@@ -28,6 +30,20 @@
 				</tr>	
 			</thead> 
 			<tbody id="MyBoardTableBody">
+			</tbody>
+		</table>
+	</div>
+	
+	<!-- 내가 쓴 댓글 목록 -->
+	<div class="myBoard" data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+		<table id="input_result">
+			<thead>
+				<tr>
+					<th>댓글 번호</th>
+					<th>내용</th>
+				</tr>	
+			</thead> 
+			<tbody id="MyReplyTableBody">
 			</tbody>
 		</table>
 	</div>
@@ -69,6 +85,43 @@ $(document).ready(function(){
 	});
 });
 
+
+//내가 쓴 댓글 조회
+$(document).ready(function(){
+	$.ajax({
+		type: 'GET',
+		url: 'http://localhost:9001/api/v1/user/community-comment',
+		headers:{
+			"jwtToken" : localStorage.getItem("jwtToken"),
+	        "username" : localStorage.getItem("username")
+		},
+		data: {ubno: ubno}
+		dataType: 'json',
+		success: function(data){
+			console.log(data);
+			
+			if (data !== null) {
+				let str='';
+				for(var i=0; i<data.length; i++){
+					str += '<tr class="clickable" data-id="'+data[i].replyno+'"><td>'+data[i].category +'</td>' 
+					+'<td>'+data[i].content +'</td></tr>';
+				}
+				
+				$('#MyBoardTableBody').html(str);
+				
+				// 행 클릭 시 상세 페이지로 이동
+				$('.clickable').click(function(){
+					let ubno = $(this).data('id');
+				    console.log(ubno);
+				    window.location.href = '/user/communityDetail?ubno=' + ubno;
+				});
+			}
+		},
+		error:function(error){
+			alert(error);
+		}
+	});
+});
 </script>
 </div>
 <jsp:include page="../layout/footer.jsp"></jsp:include>
