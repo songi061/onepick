@@ -74,7 +74,7 @@
 					}
 				},
 				error:function(error){
-					alert(error);
+// 					alert(error);
 				}
 			});
 		});
@@ -106,7 +106,7 @@
 					}
 				},
 				error:function(error){
-					alert(error);
+// 					alert(error);
 				}
 			});
 		});
@@ -138,7 +138,7 @@
 					}
 				},
 				error:function(error){
-					alert(error);
+// 					alert(error);
 				}
 			});
 		});
