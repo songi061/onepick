@@ -107,7 +107,16 @@ public class CompanyMyPageController_jia {
 		
 		String newPw = bCryptPasswordEncoder.encode(company.getPassword());
 		String role = "ROLE_COMPANY";
-		
+		comfile.setActive(true);
+		comfile.setAddr(company.getAddr());
+		comfile.setCeo(company.getCeo());
+		comfile.setEmployeesNum(company.getEmployeesNum());
+		comfile.setName(company.getName());
+		comfile.setNum(company.getNum());
+		comfile.setSector(company.getSector());
+		comfile.setSize(company.getSize());
+		comfile.setUrl(company.getUrl());
+		comfile.setYrSales(company.getYrSales());
 		comfile.setPassword(newPw);
 		comfile.setRole(role);
 		comfile.setFileName(comfile.getFileName());

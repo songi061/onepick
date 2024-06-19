@@ -70,7 +70,14 @@ public class UserMyPageControllerJs {
 		
 		String newPw = bCryptPasswordEncoder.encode(user.getPassword());
 		String role = "ROLE_USER";
-		
+		userfile.setAddr(user.getAddr());
+		userfile.setBirthDate(user.getBirthDate());
+		userfile.setEmail(user.getEmail());
+		userfile.setGender(user.getGender());
+		userfile.setMilitaryService(user.getMilitaryService());
+		userfile.setName(user.getName());
+		userfile.setTel(user.getTel());
+		userfile.setActive(true);
 		userfile.setPassword(newPw);
 		userfile.setRole(role);
 		userfile.setFileName(userfile.getFileName());

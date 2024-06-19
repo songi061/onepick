@@ -156,7 +156,7 @@
 */
 </style>
 </head>
-<body>
+<body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
 <div class="sub_header border-bottom">
 	<div class="container">

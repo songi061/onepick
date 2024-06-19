@@ -151,8 +151,6 @@
 				// 헤더 값 읽기
 				let role = xhttp.getResponseHeader("Role");
 				let username = xhttp.getResponseHeader("username");
-				localStorage.setItem("role", role);
-				localStorage.setItem("username", username);
 				
 				if(role=="ROLE_USER"){
 					alert("로그인에 실패했습니다.");
