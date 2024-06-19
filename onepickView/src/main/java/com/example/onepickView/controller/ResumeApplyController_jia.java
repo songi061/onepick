@@ -14,4 +14,8 @@ public class ResumeApplyController_jia {
 		model.addAttribute("rno", rno);
 		model.addAttribute("jno", jno);
 	}
+
+	@RequestMapping("/resumeForm2")
+	public void resumeFormTest() {
+	}
 }
