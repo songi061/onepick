@@ -9,6 +9,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="/css/adminstyle.css" rel="stylesheet">
     <link href="/css/dashboard.css" rel="stylesheet">
+    <script src="/js/adminInterceptor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -120,7 +121,7 @@
                             label: '이번 주 개인회원 가입자 수',
                             data: userData,
                             fill: false,
-                            borderColor: 'rgb(255, 99, 132)',
+                            borderColor: 'rgb(255, 159, 64)',
                             tension: 0.1
                         }]
                     },
