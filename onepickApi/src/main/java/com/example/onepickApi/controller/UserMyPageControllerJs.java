@@ -71,13 +71,13 @@ public class UserMyPageControllerJs {
 		String newPw = bCryptPasswordEncoder.encode(user.getPassword());
 		String role = "ROLE_USER";
 		
-		user.setPassword(newPw);
-		user.setRole(role);
-		user.setFileName(userfile.getFileName());
-		user.setFilePath(userfile.getFilePath());
-		user.setFileSize(userfile.getFileSize());
+		userfile.setPassword(newPw);
+		userfile.setRole(role);
+		userfile.setFileName(userfile.getFileName());
+		userfile.setFilePath(userfile.getFilePath());
+		userfile.setFileSize(userfile.getFileSize());
 		
-		User result = userRepository.save(user);
+		User result = userRepository.save(userfile);
 		
 		if(result != null) {
 			return new ResponseEntity<>("수정 성공", HttpStatus.OK);
