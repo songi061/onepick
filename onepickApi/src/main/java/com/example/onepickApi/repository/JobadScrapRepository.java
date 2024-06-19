@@ -26,4 +26,7 @@ public interface JobadScrapRepository extends JpaRepository<JobadScrap, Long> {
      @Query(value="select * from jobad_scrap where jno=:jno", nativeQuery=true)
  	public List<JobadScrap> findByJno(@Param("jno") Long jno);
 
+     @Query(value = "DELETE FROM jobad_scrap WHERE jno = :jno", nativeQuery = true)
+     void deleteByJno(@Param("jno") Long jno);
+
 }

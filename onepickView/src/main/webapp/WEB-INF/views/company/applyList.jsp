@@ -17,9 +17,6 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 <div class="sub_header border-bottom">
 	<div class="container">
-
-		<div class="title">지원 내역 리스트</div>
-		<div class="accordion"></div>
 	
 		<div class="d-flex py-2">
 			<button class="btn" type="button" onclick="location.href='/company/myHome'">
@@ -66,9 +63,8 @@
 </div>
 	<div class="container">
 		<div class="page_title">지원 내역 리스트</div>
-		<div class="apply_list"></div>
+		<div class="accordion"></div>
 		
->>>>>>> e90fcf0d12468e941880b338792e9d8df8878edb
 		<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">

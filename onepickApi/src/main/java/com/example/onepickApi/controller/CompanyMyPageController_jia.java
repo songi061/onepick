@@ -109,13 +109,13 @@ public class CompanyMyPageController_jia {
 		String newPw = bCryptPasswordEncoder.encode(company.getPassword());
 		String role = "ROLE_COMPANY";
 		
-		company.setPassword(newPw);
-		company.setRole(role);
-		company.setFileName(comfile.getFileName());
-		company.setFilePath(comfile.getFilePath());
-		company.setFileSize(comfile.getFileSize());
+		comfile.setPassword(newPw);
+		comfile.setRole(role);
+		comfile.setFileName(comfile.getFileName());
+		comfile.setFilePath(comfile.getFilePath());
+		comfile.setFileSize(comfile.getFileSize());
 		
-		Company result = companyRepo.save(company);
+		Company result = companyRepo.save(comfile);
 		
 		if(result != null) {
 			

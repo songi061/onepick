@@ -4,10 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -91,20 +87,23 @@ public class QnaController {
 	
 	@PutMapping("/qna")
 	public ResponseEntity<Qna> qnaEdit(@RequestBody QnaDto qnaDto, @RequestParam("bno") Long bno, @RequestParam("username") String username) {
-		Qna qna = new Qna();
-		qna.setBno(bno);
+		//Qna qna = new Qna();
+		//qna.setBno(bno);
 		
 		System.out.println("들어온 username : "+username);
 		
 		Optional<User> result1 = userRepository.findById(username);
 		Optional<Company> result2 = companyRepository.findById(username);
 		
-		if(result1.isPresent()) {		
-			qna.setUser(result1.get());
-		}else if(result2.isPresent()) {
-			qna.setCompany(result2.get());
-		}
+		//if(result1.isPresent()) {		
+		//	result1.get().setUser(username);
+		//}else if(result2.isPresent()) {
+		//	qna.setCompany(result2.get());
+		//}
 		
+		Qna qna = qnaRepository.findById(bno).get();
+		
+		System.out.println("qna" + qna);
 		qna.setTitle(qnaDto.getTitle());
 		qna.setContent(qnaDto.getContent());
 		qna.setCategory(qnaDto.getCategory());
