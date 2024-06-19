@@ -12,27 +12,28 @@
 <body>
 <jsp:include page="../layout/header.jsp"></jsp:include>
 <div class="container">
-	<!-- 내가 쓴 글 목록 -->
-	<div id="myposts" class="myBoard" data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
-		<table id="postTable">
+	<!-- 내가 쓴 댓글 목록 -->
+	<div id="myReplies" class="myBoard" data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+		<table id="replyTable">
 			<thead>
 				<tr>
-					<th>카테고리</th>
-					<th>게시글 번호</th>
-					<th>제목</th>
+					<th>댓글 번호</th>
+					<th>내용</th>
 				</tr>	
 			</thead> 
-			<tbody id="MyBoardTableBody">
+			<tbody id="MyReplyTableBody">
 			</tbody>
 		</table>
 	</div>
-
+</div>
 <script>
-// 내가 쓴 게시물 목록 조회 함수
+//내가 쓴 댓글 목록 조회 함수
 $(document).ready(function(){
+	//let ubno = new URLSearchParams(window.location.search).get('ubno');
+	
 	$.ajax({
 		type: 'GET',
-		url: 'http://localhost:9001/api/v1/user/community-myboard',
+		url: 'http://localhost:9001/api/v1/user/community-comment',
 		headers:{
 			"jwtToken" : localStorage.getItem("jwtToken"),
 	        "username" : localStorage.getItem("username")
@@ -44,27 +45,31 @@ $(document).ready(function(){
 			if (data !== null) {
 				let str='';
 				for(var i=0; i<data.length; i++){
-					str += '<tr class="clickable" data-id="'+data[i].ubno+'"><td>'+data[i].category +'</td>' 
-					+ '<td>'+data[i].ubno + '</td>'+'<td>'+data[i].title +'</td></tr>';
+					str += '<tr class="clickable" data-id="'+data[i].userBoard.ubno+'"><a href="/user/communityDetail?ubno='+data[i].userBoard.ubno+'">클릭</a><td>'+data[i].userBoard.ubno+'"></td>' 
+					+'<td>'+data[i].content +'</td></tr>';
+					
+					// 행 클릭 시 상세 페이지로 이동
+// 					$('.clickable').click(function(){
+// 						ubno = $(this).data('id');
+// 					    console.log(ubno);
+// 					    window.location.href = '/user/communityDetail?ubno=' + ;
+// 					});
+					
+					
 				}
 				
-				$('#MyBoardTableBody').html(str);
+				$('#MyReplyTableBody').html(str);
 				
-				// 행 클릭 시 상세 페이지로 이동
-				$('.clickable').click(function(){
-					let ubno = $(this).data('id');
-				    console.log(ubno);
-				    window.location.href = '/user/communityDetail?ubno=' + ubno;
-				});
 			}
 		},
 		error:function(error){
-			alert(error);
+			console.error(error);
 		}
 	});
+	
 });
+
 </script>
-</div>
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
