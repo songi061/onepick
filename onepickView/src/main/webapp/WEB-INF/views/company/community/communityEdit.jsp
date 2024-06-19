@@ -104,7 +104,6 @@ $(document).ready(function(){
 					console.log("fffffffffffffffffffffffffffff");
 					alert("수정완료");
 					
-					
 					location.href="/company/communityList?cbno="+cbno;
 				}
 				

@@ -13,7 +13,7 @@
 <jsp:include page="..//../layout/header.jsp"></jsp:include>
 <div class="container">
 	<div class="page_title"><h3>기업 커뮤니티</h3></div>
-	<div class="go_regist"><a href action="/company/communityForm">게시글 등록</a></div>
+	<div class="go_regist"><button id="go_regist">게시글 등록</button></div>
 	<div class="col-4">
 	    <div id="list-example" class="list-group list-group-horizontal">
     		<a class="list-group-item list-group-item-action" id="freeBoard" aria-current="true" href="#list-item-1">자유글</a>
@@ -191,14 +191,16 @@
 	// 정보가 표시되는 div를 button으로 해서 누르면 상세페이지로 이동하게 하기
 	// -->행 클릭 시 상세 페이지로 이동
 
-	
 	$(document).on('click', '.clickable', function(){
 		// let idList = document.querySelectorAll('.clickable').id;
 		console.log(this.id);
 		window.location.href = '/company/communityDetail?cbno='+this.id;
 	});	
 	
-	
+	// 게시글 등록 페이지로 가는 버튼
+	$(document).on('click', '#go_regist', function(){
+		window.location.href = '/company/communityForm';
+	});	
 </script>
 </div>
 <jsp:include page="..//../layout/footer.jsp"></jsp:include>
