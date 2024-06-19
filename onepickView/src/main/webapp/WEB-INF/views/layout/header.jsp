@@ -39,9 +39,9 @@
 		        <div class="dropdown">
 				  <button class="nav-link dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">고객센터</button>
 				  <ul class="dropdown-menu">
-				    <li><a class="dropdown-item" href="#">QnA</a></li>
-				    <li><a class="dropdown-item" href="#">FAQ</a></li>
-				    <li><a class="dropdown-item" href="#">공지사항</a></li>
+				    <li><a class="dropdown-item" href="/user/myQnaList">QnA</a></li>
+				    <li><a class="dropdown-item" href="/faqList">FAQ</a></li>
+				    <li><a class="dropdown-item" href="/noticeList">공지사항</a></li>
 				  </ul>
 				
 				</div>
@@ -56,9 +56,9 @@
 		        <div class="dropdown">
 				  <button class="nav-link dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">고객센터</button>
 				  <ul class="dropdown-menu">
-				    <li><a class="dropdown-item" href="#">QnA</a></li>
-				    <li><a class="dropdown-item" href="#">FAQ</a></li>
-				    <li><a class="dropdown-item" href="#">공지사항</a></li>
+				    <li><a class="dropdown-item" href="/company/myQnaList">QnA</a></li>
+				    <li><a class="dropdown-item" href="/faqList">FAQ</a></li>
+				    <li><a class="dropdown-item" href="/noticeList">공지사항</a></li>
 				  </ul>
 				</div>
 			</li>
