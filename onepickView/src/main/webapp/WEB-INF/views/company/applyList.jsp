@@ -68,7 +68,6 @@
 		<div class="page_title">지원 내역 리스트</div>
 		<div class="apply_list"></div>
 		
->>>>>>> e90fcf0d12468e941880b338792e9d8df8878edb
 		<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
