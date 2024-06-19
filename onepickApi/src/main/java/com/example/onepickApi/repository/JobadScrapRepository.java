@@ -22,4 +22,7 @@ public interface JobadScrapRepository extends JpaRepository<JobadScrap, Long> {
             "ORDER BY COUNT(j) DESC")
      List<Object[]> findJobAdsOrderByScrapCountDesc();
 
+     @Query(value = "DELETE FROM jobad_scrap WHERE jno = :jno", nativeQuery = true)
+     void deleteByJno(@Param("jno") Long jno);
+
 }

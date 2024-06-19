@@ -58,8 +58,8 @@ public class NoticeController {
 	
 	@PutMapping("/notice")
 	public ResponseEntity<Notice> noticeEdit(@RequestBody NoticeDto noticeDto, @RequestParam("nno") Long nno) {
-		Notice notice = new Notice();
-		notice.setNno(nno);
+		Notice notice = noticeRepository.findById(nno).get();
+
 		notice.setTitle(noticeDto.getTitle());
 		notice.setContent(noticeDto.getContent());
 		

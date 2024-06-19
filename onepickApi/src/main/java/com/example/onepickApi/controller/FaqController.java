@@ -57,8 +57,8 @@ public class FaqController {
 	
 	@PutMapping("/faq")
 	public ResponseEntity<Faq> faqEdit(@RequestBody FaqDto faqDto, @RequestParam("fqno") Long fqno) {
-		Faq faq = new Faq();
-		faq.setFqno(fqno);
+		Faq faq = faqRepository.findById(fqno).get();
+
 		faq.setTitle(faqDto.getTitle());
 		faq.setResponse(faqDto.getResponse());
 		

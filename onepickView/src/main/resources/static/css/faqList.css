@@ -7,7 +7,7 @@
     font-weight: 900;
 }
 
-.btn-sm{
+.btn-warning, .btn-danger{
     border: 1px solid gainsboro;
     background-color: gainsboro;
     color: #666;

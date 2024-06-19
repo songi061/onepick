@@ -31,6 +31,7 @@ import com.example.onepickApi.repository.InterestedCopRepository;
 import com.example.onepickApi.repository.JobAdRepository;
 import com.example.onepickApi.repository.JobadScrapRepository;
 import com.example.onepickApi.repository.ReplyReportRepository;
+import com.example.onepickApi.repository.SkillRepository;
 import com.example.onepickApi.repository.UserBoardRepository;
 import com.example.onepickApi.repository.UserRepository;
 
@@ -65,6 +66,9 @@ public class AdminController {
 	
 	@Autowired
 	private JobadScrapRepository jobadScrapRepository;
+	
+	@Autowired
+	private SkillRepository skillRepository;
 	
 
 	
@@ -115,6 +119,11 @@ public class AdminController {
 	
 	@DeleteMapping("/recruit/{jno}")
 	public ResponseEntity<String> jobAdDelete(@PathVariable("jno") Long jno){
+		System.out.println(jno);
+		System.out.println("aaa");
+
+	    jobadScrapRepository.deleteByJno(jno);
+	    skillRepository.deleteByJno(jno);
 		jobAdRepository.deleteById(jno);
 		return ResponseEntity.ok("삭제 : " + jno);
 	}
