@@ -2,7 +2,6 @@ package com.example.onepickView.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -45,13 +44,12 @@ public class UserCommunityController {
 		return "user/myBoardList";
 	}
 	
-//	// 구직자 마이페이지 - 내가 쓴 게시글 디테일
-//	@RequestMapping("/myBoardDetail")
-//	public String myBoard(@RequestParam("ubno") Long ubno, Model model) {
-//		model.addAttribute("ubno", ubno);
-//		
-//		return "user/myBoardList";
-//	}
+	// 구직자 마이페이지 - 내가 쓴 댓글 목록 조회
+	@RequestMapping("/myCommentList")
+	public String mycomment() {
+		
+		return "user/myCommentList";
+	}
 	
 	
 }
