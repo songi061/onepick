@@ -15,8 +15,53 @@
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
+<div class="sub_header border-bottom">
 	<div class="container">
-		<div class="title">평점 등록</div>
+		<div class="d-flex py-2">
+			<button class="btn" type="button" onclick="location.href='/company/myHome'">
+			   MyHome
+			</button>
+			<button class="btn" type="button" onclick="location.href='/company/scrapList'">
+			   스크랩관리
+			</button>
+			<div class="dropdown">
+			  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			    채용공고관리
+			  </button>
+			  <ul class="dropdown-menu">
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/company/recruitList'">채용공고 조회</button></li>
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/company/recruitForm'">채용공고 등록</button></li>
+			  </ul>
+			</div>
+			<button class="btn" type="button" onclick="location.href='/company/applyList'">
+			   지원내역관리
+			</button>
+			<div class="dropdown">
+			  <button class="btn dropdown-toggle text-onepick" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			    평점관리
+			  </button>
+			  <ul class="dropdown-menu">
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/company/reviewList'">평점 조회</button></li>
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/company/reviewForm'">평점 등록</button></li>
+			  </ul>
+			</div>
+			<button class="btn" type="button" onclick="location.href='/company/myQnaList'">
+			   QnA관리
+			</button>
+			<div class="dropdown">
+			  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			    커뮤니티관리
+			  </button>
+			  <ul class="dropdown-menu">
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/company/myBoardList'">내가 쓴 글 리스트</button></li>
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/company/myCommentList'">내가 쓴 댓글 목록</button></li>
+			  </ul>
+			</div>
+		</div>
+	</div>
+</div>
+	<div class="container">
+		<div class="page_title">평점 등록</div>
 		<div class="interviewees_list">
 			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
