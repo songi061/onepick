@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.onepickApi.entity.Company;
-import com.example.onepickApi.entity.User;
 import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.JobAdRepository;
 

@@ -21,67 +21,67 @@
 	      	<a class="list-group-item list-group-item-action" id="turnover" href="#list-item-3">이직</a>
 	    </div>
 	</div>
-<div class="col-8">
-	<div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
-		<div id="data_freeBoard">
-			<table id="freeBoard">
-				<tr>
-					<th>게시글 번호</th><th>제목</th><th>내용</th><th>작성자</th>
-				</tr>
-			</table>
+	<div class="col-8">
+		<div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+			<div id="data_freeBoard">
+				<table id="freeBoard">
+				</table>
 			</div>
-		<div id="data_job_hunting">
-			<table id="job_hunting">
-				<tr>
-					<th>게시글 번호</th><th>제목</th><th>내용</th><th>작성자</th>
-				</tr>
-				
-			</table>
-		</div>
-		<div id="data_turnover">
-			<table id="turnover">
-				<tr>
-					<th>게시글 번호</th><th>제목</th><th>내용</th><th>작성자</th>
-				</tr>	
-			</table>
+			<div id="data_job_hunting">
+				<table id="job_hunting">
+				</table>
+			</div>
+			<div id="data_turnover">
+				<table id="turnover">
+				</table>
+			</div>
 		</div>
 	</div>
-</div>
 <script>
-	// 게시물 조회 - 자유글
+	// 기본 페이지 - 자유글
 	$(document).ready(function(){
-		$('#freeBoard').ready(function(){
-			$.ajax({
-				type: 'GET',
-				url: 'http://localhost:9001/api/v1/user/community-board',
-				data: { category: "freeBoard"},
-				dataType: 'json',
-				success: function(data){
-					console.log(data);
-					$('#data_job_hunting').empty();
-					$('#data_turnover').empty();
+		loadBoard();
+	});
+	
+	function loadBoard(){
+		$.ajax({
+			type: 'GET',
+			url: 'http://localhost:9001/api/v1/user/community-board',
+			data: { category: "freeBoard"},
+			dataType: 'json',
+			success: function(data){
+				console.log(data);
+				$('#data_job_hunting').empty();
+				$('#data_turnover').empty();
 					
-					if (data !== null) {
-						let str = '';
-						for(var i=0; i<data.length; i++){
-							str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +
+				if (data !== null) {
+					let str = '';
+					for(var i=0; i<data.length; i++){
+						str += '<tr id="'+data[i].ubno+'" class="clickable"><td>'+data[i].ubno +
 								'</td> '+ '<td>'+data[i].title + '</td>'+
 								'<td>'+data[i].content +'</td>'+
 								'<td>'+data[i].user.username+'</td>'+
 								'<td>'+data[i].views+'</td></tr>';
-						}
-						$('#data_freeBoard').html(str);
 					}
-				},
-				error:function(error){
-// 					alert(error);
+					$('#data_freeBoard').html(str);
 				}
-			});
+			},
+			error:function(error){
+	 			alert(error);
+			}
 		});
-	});
+	}
+
+
+		// 게시물 조회 - 자유글
+		
+		$('#freeBoard').click(function(){
+			loadBoard();
+			
+		})
+
 	
 	// 게시물 조회 - 취업준비
-	$(document).ready(function(){
 		$('#job_hunting').click(function(){
 			$.ajax({
 				type: 'GET',
@@ -110,10 +110,9 @@
 				}
 			});
 		});
-	});
+	
 	
 	// 게시물 조회 - 이직
-	$(document).ready(function(){
 		$('#turnover').click(function(){
 			$.ajax({
 				type: 'GET',
@@ -142,7 +141,6 @@
 				}
 			});
 		});
-	});
 	
 	// 정보가 표시되는 div를 button으로 해서 누르면 상세페이지로 이동하게 하기
 	// -->행 클릭 시 상세 페이지로 이동
