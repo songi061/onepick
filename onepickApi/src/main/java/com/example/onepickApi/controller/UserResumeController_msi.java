@@ -154,7 +154,7 @@ public class UserResumeController_msi {
 			user.setUsername(username);
 
 			System.out.println("map출력 : " + data);
-			System.out.println(data.get("resume"));
+			
 			String result = resumeService.saveToDatabase(data, user);
 
 
