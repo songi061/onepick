@@ -122,7 +122,8 @@
 		시작일<input type="date" name="startDay" class="datebox">
 		종료일<input type="date" name="endDay" class="datebox"><br>
 		참여기관<input type="text" name="ex_org" placeholder="내용을 입력하세요" class="textbox"><br>
-		활동내역<input type="text" name="ex_content" placeholder="내용을 입력해주세요" class="textbox"><br><br>
+		활동내역<input type="text" name="ex_content" placeholder="내용을 입력해주세요" class="textbox">
+		<button onclick="getExperienceData(event)">추가</button>
 	</div>
 	
 	<div>
@@ -130,7 +131,7 @@
 		<hr>
 		자격증명<input type="text" name="lname" placeholder="내용을 입력하세요" class="textbox"><br>
 		발급기관<input type="text" name="org" placeholder="내용을 입력하세요" class="textbox"><br>
-		취득일<input type="date" name="getDate" class="datebox"><br><br>
+		취득일<input type="date" name="getDate" class="datebox">
 		<button onclick="getLicenseData(event)">추가</button>
 	</div>
 	
@@ -149,7 +150,9 @@
 			<option value="중퇴">중퇴</option>
 			<option value="휴학">휴학</option>
 			<option value="기타">기타</option>
-		</select><br><br>
+		</select>
+		
+		<button onclick="getSchoolData(event)">추가</button>
 	</div>
 	
 	<div>
@@ -180,7 +183,9 @@
 			<option value="기타">기타</option>
 		</select><br>
 		
-		업무 내용<input type="text" name="work" placeholder="내용을 입력하세요" class="textbox"><br><br>
+		업무 내용<input type="text" name="work" placeholder="내용을 입력하세요" class="textbox">
+		
+		<button onclick="getCareerData(event)">추가</button>
 
 	</div>
 	
@@ -213,9 +218,11 @@
 		</select><br>
 		
 		내용<input type="text" name="oa_content" placeholder="내용을 입력하세요" class="textbox">
+		
+		<button onclick="getOaData(event)">추가</button>
 	</div>
 	
-	<input type="button" value="등록하기" onclick="getResumeData(event)" class="btn2">
+	<input type="button" value="등록하기" onclick="postData(event)" class="btn2">
 </form>
 </div>
 
@@ -232,9 +239,43 @@
 	});
 	
 	
+	let schoolArr=[];
+	let careerArr=[];
 	let licenseArr=[];
-	//let licenseDiv = document.querySelector("#license");
+	let experienceArr=[];
+	let oaArr=[];
+	let resumeArr=[];
 	
+	
+		//학력사항 폼 추가
+		function getSchoolData(e){
+			e.preventDefault();
+			const parentElement = e.target.parentElement
+			console.log(e.target.parentElement)
+			const accDate = parentElement.querySelector("input[name=accDate]");
+			const gradDate = parentElement.querySelector("input[name=gradDate]");
+			const eduName = parentElement.querySelector("input[name=eduName]");
+			const major = parentElement.querySelector("input[name=major]");
+			const s_status = parentElement.querySelector("select[name=s_status]");
+			const score = parentElement.querySelector("input[name=score]");
+			
+			
+			let schoolObj = {
+					"accDate" : accDate.value,
+					"gradDate" : gradDate.value,
+					"eduName" : eduName.value,
+					"major" : major.value,
+					"s_status":s_status.value,
+					"score" : score.value,
+			}
+	
+			console.log(schoolObj)
+			schoolArr.push(schoolObj)
+		}
+	
+		
+		
+		//자격증 폼 추가
 	   function getLicenseData(e) {
 		    e.preventDefault();
 		
@@ -262,62 +303,200 @@
 		    // 콘솔에 배열 출력
 		    console.log("licenseArr 출력 : ", licenseArr);
 		
-		    // 입력 폼 초기화
-		    lname.value = "";
-		    org.value = "";
-		    getDate.value = "";
+		   
 		}
 	
 	   
-	   
-	   
-	   let resumeArr = [];
+	   //이력서 폼 추가
+	   function getResumeData(e) {
+		    e.preventDefault();
+
 		
-		   function getResumeData(e) {
-			    e.preventDefault();
-
+		    // 입력 요소 선택
+		    const disclo = document.querySelector("input[name=disclo]");
+		    const title = document.querySelector("input[name=title]");
+		    const selfInfoTitle = document.querySelector("input[name=selfInfoTitle]");
+		    const selfInfoContent = document.querySelector("textarea[name=selfInfoContent]");
+		    const region1 = document.querySelector("select[name=region1]");
+		    const region1_1 = document.querySelector("select[name=region1_1]");
+		    const region2 = document.querySelector("select[name=region2]");
+		    const region2_1 = document.querySelector("select[name=region2_1]");
+		    const sector = document.querySelector("select[name=sector]");
+		    const job = document.querySelector("select[name=job]");
+		    const portfolioUrl = document.querySelector("input[name=portfolioUrl]")
+		
+		    // 입력 값을 객체로 변환
+		    let resumeObj = {
+		        "disclo": disclo.value,
+		        "title": title.value,
+		        "selfInfoTitle": selfInfoTitle.value,
+		        "selfInfoContent": selfInfoContent.value,
+		        "region1": region1.value,
+		        "region1_1": region1_1.value,
+		        "region2": region2.value,
+		        "region2_1": region2_1.value,
+		        "sector": sector.value,
+		        "job": job.value,
+		        "portfolioUrl": portfolioUrl.value,
+		    };
+		
+		    // 콘솔에 객체 출력
+		    console.log("resumeObj 출력 : ", resumeObj);
+		
+		    // 배열에 객체 추가
+		    resumeArr.push(resumeObj);
+		
+		    // 콘솔에 배열 출력
+		    console.log("resumeArr 출력 : ", resumeArr);
+		
+		    
+		}
+	   
+	   
+	   
+	   //경력사항 폼 추가
+	   function getCareerData(e){
+			e.preventDefault();
+			const parentElement = e.target.parentElement
+			console.log(e.target.parentElement)
+			const c_type = parentElement.querySelector("select[name=c_type]");
+			const careerStatus = parentElement.querySelector("select[name=career_status]");
+			const companyName = parentElement.querySelector("input[name=companyName]");
+			const endDate = parentElement.querySelector("input[name=endDate]");
+			const position = parentElement.querySelector("select[name=position]");
+			const rank = parentElement.querySelector("input[name=rank]");
+			const startDate = parentElement.querySelector("input[name=startDate]");
+			const work = parentElement.querySelector("input[name=work]");
 			
-			    // 입력 요소 선택
-			    const disclo = document.querySelector("input[name=disclo]");
-			    const title = document.querySelector("input[name=title]");
-			    const selfInfoTitle = document.querySelector("input[name=selfInfoTitle]");
-			    const selfInfoContent = document.querySelector("input[name=selfInfoContent]");
-			    const region1 = document.querySelector("select[name=region1]");
-			    const region1_1 = document.querySelector("select[name=region1_1]");
-			    const region2 = document.querySelector("select[name=region2]");
-			    const region2_1 = document.querySelector("select[name=region2_1]");
-			    const sector = document.querySelector("select[name=sector]");
-			    const job = document.querySelector("select[name=job]");
-			    const portfolioUrl = document.querySelector("input[name=portfolioUrl]")
-			
-			    // 입력 값을 객체로 변환
-			    let resumeObj = {
-			        "disclo": disclo.value,
-			        "title": title.value,
-			        "selfInfoTitle": selfInfoTitle.value,
-			        "selfInfoContent": selfInfoContent.value,
-			        "region1": region1.value,
-			        "region1_1": region1_1.value,
-			        "region2": region2.value,
-			        "region2_1": region2_1.value,
-			        "sector": sector.value,
-			        "job": job.value,
-			        "portfolioUrl": portfolioUrl.value,
-			    };
-			
-			    // 콘솔에 객체 출력
-			    console.log("resumeObj 출력 : ", resumeObj);
-			
-			    // 배열에 객체 추가
-			    resumeArr.push(resumeObj);
-			
-			    // 콘솔에 배열 출력
-			    console.log("resumeArr 출력 : ", resumeArr);
-			
-			    
+			let careerObj = {
+					"c_type" : c_type.value,
+					"careerStatus" : careerStatus.value,
+					"companyName" : companyName.value,
+					"endDate" : endDate.value,
+					"position" : position.value,
+					"rank" : rank.value,
+					"startDate" : startDate.value,
+					"work" : work.value,
 			}
+			console.log(careerObj)
+			careerArr.push(careerObj)
+		}
+	   
+	   
+	   //사회경력 폼 추가
+	   function getExperienceData(e){
+			e.preventDefault();
+			const parentElement = e.target.parentElement
+			console.log(e.target.parentElement)
+			const endDay = parentElement.querySelector("input[name=endDay]");
+			const exContent = parentElement.querySelector("input[name=ex_content]");
+			const exOrg = parentElement.querySelector("input[name=ex_org]");
+			const startDay = parentElement.querySelector("input[name=startDay]");
+		
+			let experienceObj = {
+					"endDay" : endDay.value,
+					"startDay" : startDay.value,
+					"exContent" : exContent.value,
+					"exOrg" : exOrg.value,
+			}
+			console.log(experienceObj)
+			experienceArr.push(experienceObj)
+			
+		}
+		
+	   //스킬 폼 추가
+		function getOaData(e){
+			e.preventDefault();
+			const parentElement = e.target.parentElement
+			console.log(e.target.parentElement)
+			const oaContent = parentElement.querySelector("input[name=oa_content]");
+			const skillName = parentElement.querySelector("select[name=skillName]");
+		
+			let oaObj = {
+					"oaContent" : oaContent.value,
+					"skillName" : skillName.value,
+			}
+			console.log(oaObj)
+			oaArr.push(oaObj)
+			
+		}
+	   
+	   
+		/* function postData(e){
 	
+			e.preventDefault();
+			
+			//resume 데이터 가져오기
+			getResumeData(e);
+			
+			//var form = document.forms['frm'];
+			//var formData = new FormData(form);
+			//console.log(formData);
+			
+			$.ajax({
+				type: "POST",
+				url : "http://localhost:9001/api/v1/resume",
+				data : formData,
+				dataType : "text",
+				headers: {
+		            'username': username  // HTTP 요청 헤더에 username 추가
+		        }, 
+				contentType: false,  // 반드시 false로 설정
+			    processData: false,  // 반드시 false로 설정
+				success : function(data){
+					alert(data);
+					window.location.href = "/user/resumeList";
+				},
+				error : function(){
+					console.log("에러 발생");
+				}
+			
+			});
+		} */
+	   
+		
+		
+		function postData(e) {
+	        e.preventDefault();
 
+	        // 각 폼 데이터 수집
+	        getResumeData(e);
+	        getSchoolData(e);
+	        getLicenseData(e);
+	        getCareerData(e);
+	        getExperienceData(e);
+	        getOaData(e);
+
+	        // 데이터 맵 생성
+	        let dataMap = {
+	            resume: resumeArr,
+	            school: schoolArr,
+	            licence: licenseArr,
+	            career: careerArr,
+	            experience: experienceArr,
+	            oa: oaArr
+	        };
+	        
+	        console.log(dataMap);
+
+	        // AJAX 요청
+	        $.ajax({
+	            type: "POST",
+	            url: "http://localhost:9001/api/v1/resume",
+	            data: JSON.stringify(dataMap),
+	            contentType: "application/json",
+	            headers: {
+	                'username': username  // HTTP 요청 헤더에 username 추가
+	            },
+	            success: function(data) {
+	                alert(data);
+	                window.location.href = "/user/resumeList";
+	            },
+	            error: function() {
+	                console.log("에러 발생");
+	            }
+	        });
+	    }
 
 </script>
 <jsp:include page="../layout/footer.jsp"></jsp:include>

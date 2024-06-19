@@ -392,23 +392,25 @@ public class ResumeService {
 		
 		@Transactional
 	    public String saveToDatabase(Map<String, List<Object>> dataMap, User user) {
-	        Resume savedResume = null;
+			Resume savedResume = null;
+			
+			
+		    // resume 리스트 저장
+		    List<Object> resumeList = dataMap.get("resume");
+		    if (resumeList != null) {
+		        for (Object obj : resumeList) {
+		            if (obj instanceof Resume) {
+		                savedResume = resumeRepo.save((Resume) obj);
+		                System.out.println("저장된 이력서 : " + savedResume);
+		            } else {
+		                throw new IllegalArgumentException("이력서가 올바르지 않습니다");
+		            }
+		        }
+		    }
 
-	        // resume 리스트 저장
-	        List<Object> resumeList = dataMap.get("resume");
-	        if (resumeList != null) {
-	            for (Object obj : resumeList) {
-	                if (obj instanceof Resume) {
-	                    savedResume = resumeRepo.save((Resume) obj);
-	                } else {
-	                    throw new IllegalArgumentException("이력서가 올바르지 않습니다");
-	                }
-	            }
-	        }
-
-	        if (savedResume == null) {
-	            throw new IllegalStateException("Resume must be saved before other entities");
-	        }
+		    if (savedResume == null) {
+		        throw new IllegalStateException("이력서 저장이 안되었어요");
+		    }
 
 	        // licence 리스트 저장
 	        List<Object> licenceList = dataMap.get("licence");
@@ -424,6 +426,8 @@ public class ResumeService {
 	                }
 	            }
 	        }
+	        
+	        
 
 	        // career 리스트 저장
 	        List<Object> careerList = dataMap.get("career");
