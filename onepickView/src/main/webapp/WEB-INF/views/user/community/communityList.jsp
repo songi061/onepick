@@ -12,19 +12,20 @@
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="..//../layout/header.jsp"></jsp:include>
 <div class="container">
-	<div class="page_title"><h3>구직자 커뮤니티</h3></div>
-	<div class="go_regist"><button id="go_regist">게시글 등록</button></div>
-	<div class="col-4">
-	    <div id="list-example" class="list-group list-group-horizontal">
+	<div class="page_title">구직자 커뮤니티</div>
+	<div class="go_regist"><button class="btn btn-onepick" id="go_regist">게시글 등록</button></div>
+	
+	    <div id="list-example" class="list-group list-group-horizontal text-center" style="max-width:400px">
     		<a class="list-group-item list-group-item-action" id="freeBoard" aria-current="true" href="#list-item-1">자유글</a>
 	      	<a class="list-group-item list-group-item-action" id="job_hunting" href="#list-item-2">취업준비</a>
 	      	<a class="list-group-item list-group-item-action" id="turnover" href="#list-item-3">이직</a>
 	    </div>
-	</div>
-	<div class="col-8">
+	
 		<div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
 			<div id="data_freeBoard">
-				<table id="freeBoard">
+				<div id="freeBoard">
+				</div>
+				<table class="table">
 				</table>
 			</div>
 			<div id="data_job_hunting">
@@ -36,7 +37,7 @@
 				</table>
 			</div>
 		</div>
-	</div>
+</div>
 <script>
 	// 기본 페이지 - 자유글
 	$(document).ready(function(){
@@ -63,7 +64,7 @@
 								'<td>'+data[i].user.username+'</td>'+
 								'<td>'+data[i].views+'</td></tr>';
 					}
-					$('#data_freeBoard').html(str);
+					$('#data_freeBoard table').html(str);
 				}
 			},
 			error:function(error){
@@ -159,5 +160,5 @@
 </div>
 <jsp:include page="..//../layout/footer.jsp"></jsp:include>
 </body>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>
