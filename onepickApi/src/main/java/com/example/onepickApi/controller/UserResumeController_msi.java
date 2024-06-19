@@ -60,7 +60,7 @@ public class UserResumeController_msi {
 	@Autowired
 	private ApplyListRepository applyRepo;
 
-	// 이력서 등록하기
+	/*// 이력서 등록하기
 	@PostMapping("/resume")
 	public ResponseEntity<String> registResume(ResumeDto resumeDto, CareerDto careerDto, ExperienceDto experienceDto,
 			LicenseDto licenseDto, OaDto oaDto, SchoolDto schoolDto, HttpServletRequest request) {
@@ -137,7 +137,36 @@ public class UserResumeController_msi {
 			return ResponseEntity.notFound().build(); // 404 Not Found
 		}
 
-	}
+	}*/
+	
+	
+	
+	
+	
+	// 이력서 등록하기
+		@PostMapping("/resume")
+		public ResponseEntity<String> registResume(Map<String, List<Object>> data, HttpServletRequest request) {
+			
+			String username = request.getHeader("username");
+			User user = new User();
+			user.setUsername(username);
+
+			
+			String result = resumeService.saveToDatabase(data, user);
+
+
+			if (result != null) {
+				return ResponseEntity.ok(result); // 200 OK
+			} else {
+				return ResponseEntity.notFound().build(); // 404 Not Found
+			}
+
+		}
+	
+	
+	
+	
+	
 	
 	@GetMapping("/userInfo")
 	public User getUserInfo(HttpServletRequest request) {

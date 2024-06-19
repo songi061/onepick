@@ -215,7 +215,7 @@
 		내용<input type="text" name="oa_content" placeholder="내용을 입력하세요" class="textbox">
 	</div>
 	
-	<input type="button" value="등록하기" onclick="postData(event)" class="btn2">
+	<input type="button" value="등록하기" onclick="getResumeData(event)" class="btn2">
 </form>
 </div>
 
