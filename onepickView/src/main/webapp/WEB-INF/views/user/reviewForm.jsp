@@ -29,7 +29,7 @@
 			    <div class="modal-content">
 			    
 			      <div class="modal-header">
-			        <h1 class="modal-title fs-5" id="exampleModalLabel">지원자 아무개님</h1>
+			        <h1 class="modal-title fs-5" id="exampleModalLabel">지원자</h1>
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			      </div>
 			      <div class="modal-body" >
@@ -49,10 +49,8 @@
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 
 <script>
-    const listContainer = document.querySelector('.interviewees_list');
-
-    var companyName = "";
-
+    const listContainer = document.querySelectorAll('.interviewees_list');
+    var applyList = $('#applyList');
     // 지원내역 리스트 불러오기
     $.ajax({
         url: 'http://localhost:9001/api/v1/myapply',
@@ -62,15 +60,16 @@
             'username': username  // HTTP 요청 헤더에 username 추가
         },
         success: function(data) {
-            var applyList = $('#applyList');
+            //var applyList = $('#applyList');
             applyList.empty(); // 기존 내용을 비웁니다.
-			
+            console.log('길이 : ' + data.length);
+            //console.log('listContainer:', listContainer); 
             //데이터가 있으면 리스트 출력
             if (data.length > 0) {
                 // 받은 데이터 반복 처리
                 $.each(data, function(index, apply) {
-                	console.log("apply.ratingStatus 출력 : " + apply.ratingStatus);
-                    if (apply.status === "면접완료" || apply.status === "합격" || apply.status === "불합격" && apply.ratingStatus === false) {
+                    console.log("apply.ratingStatus 출력 : " + apply.ratingStatus);
+                    if ((apply.status === "면접완료" || apply.status === "합격" || apply.status === "불합격") && apply.ratingStatus === false)  {
                         var div = $('<div class="apply"></div>');
                         var ul = $('<ul class="res"></ul>'); // ul 태그 생성
 
@@ -81,15 +80,13 @@
                         var regdate = new Date(apply.regdate).toISOString().split('T')[0];
                         ul.append('<li>지원날짜 : ' + regdate + '</li>');
                         ul.append('<li>상태 : ' + apply.status + '</li>');
-						
+                        
                         if (apply.ratingStatus == false) {
-                            div.append('<a href="#" class="review" data-jno="' + apply.jobAd.jno + '">평점 등록하기</a>');
+                            div.append('<a href="#" class="review" data-jno="' + apply.jobAd.jno + '" data-company="' + apply.jobAd.company.name + '">평점 등록하기</a>');
                         }else{
-                        	div.append('평점 등록 완료');
+                            div.append('평점 등록 완료');
                         }
                         
-                        companyName = apply.jobAd.company.name;
-
                         div.append(ul);
                         applyList.append(div);
                     }
@@ -97,14 +94,15 @@
 
             } else {
                 // 지원 내역이 없는 경우 메시지 표시
-                applyList.html('지원 내역이 없습니다.');
+                 applyList.append = '<p>평점을 남길 수 있는 지원내역이 없습니다.</p>';
             }
             
             // 평점 등록 링크 클릭 이벤트 핸들러 설정
             $('#applyList').on('click', '.review', function(e) {
                 e.preventDefault();
                 var jno = $(this).data('jno');
-                openRegModal(jno);
+                var companyName = $(this).data('company');
+                openRegModal(jno, companyName);
             });
             
         },
@@ -114,7 +112,7 @@
     });
 
     // 평점 등록 기능
-    function openRegModal(jno) {
+    function openRegModal(jno, companyName) {
         // 모달을 보여줍니다.
         $('#exampleModal').modal('show');
 
@@ -142,8 +140,8 @@
                 });
             });
 
-            // 평점 등록 버튼 클릭 이벤트 핸들러 설정
-            document.querySelector("#regBtn").addEventListener("click", function() {
+            // 평점 등록 버튼 클릭 이벤트 핸들러 설정 전에 기존 핸들러 제거
+            $('#regBtn').off('click').on('click', function() {
                 // ajax 요청으로 평점 등록
                 console.log("평점 등록: jno=" + jno + ", score=" + finalScore);
                 const data = {"rating": finalScore};

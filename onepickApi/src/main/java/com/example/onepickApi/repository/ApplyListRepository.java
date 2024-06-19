@@ -29,5 +29,8 @@ public interface ApplyListRepository extends JpaRepository<ApplyList, Long> {
 	
 	@Query(value="select * from apply_list where uid=:uid and jno=:jno", nativeQuery=true)
 	public ApplyList findApply(@Param("uid") String uid, @Param("jno") Long jno);
+	
+	
+	
 
 }

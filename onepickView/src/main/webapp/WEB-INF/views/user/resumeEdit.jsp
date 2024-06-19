@@ -430,11 +430,11 @@ $(document).ready(function() {
             const data = JSON.parse(this.responseText);
 
             // 직무 옵션 초기화
-            if(selectSector2.value == null){
+            /* if(selectSector2.value == null){
             	selectJob2.innerHTML = '<option value="">직무 선택</option>';
-            }
+            } */
          	// 업종 선택에 따른 직무 업데이트 실행
-            updateSelectJob2();
+            //updateSelectJob2();
          	
          	
             // 업종 선택 변경 시 직무 업데이트 함수 정의
@@ -456,8 +456,12 @@ $(document).ready(function() {
             selectSector2.addEventListener('change', updateSelectJob2);
 
             // 초기값 설정
+			 setTimeout(() => {
+				 updateSelectJob2();
+				 selectJob2.value = resume.careers[0].position;
+            }, 100); // 약간의 딜레이를 두어 옵션이 로드될 시간을 확보
 
-            selectJob2.value = resume.careers[0].position;
+            //selectJob2.value = resume.careers[0].position;
             console.log('포지션 출력 : '+resume.careers[0].position);
 
             

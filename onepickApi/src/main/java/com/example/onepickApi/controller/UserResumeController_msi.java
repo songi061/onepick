@@ -26,6 +26,7 @@ import com.example.onepickApi.dto.LicenseDto;
 import com.example.onepickApi.dto.OaDto;
 import com.example.onepickApi.dto.ResumeDto;
 import com.example.onepickApi.dto.SchoolDto;
+import com.example.onepickApi.entity.ApplyList;
 import com.example.onepickApi.entity.Career;
 import com.example.onepickApi.entity.Experience;
 import com.example.onepickApi.entity.License;
@@ -34,6 +35,7 @@ import com.example.onepickApi.entity.Oa;
 import com.example.onepickApi.entity.Resume;
 import com.example.onepickApi.entity.School;
 import com.example.onepickApi.entity.User;
+import com.example.onepickApi.repository.ApplyListRepository;
 import com.example.onepickApi.repository.ResumeRepository;
 import com.example.onepickApi.repository.UserRepository;
 import com.example.onepickApi.service.ResumeService;
@@ -54,6 +56,9 @@ public class UserResumeController_msi {
 
 	@Autowired
 	private ResumeService resumeService;
+	
+	@Autowired
+	private ApplyListRepository applyRepo;
 
 	// 이력서 등록하기
 	@PostMapping("/resume")
@@ -146,7 +151,7 @@ public class UserResumeController_msi {
 	
 	
 	
-	// 이력서 가져오기
+	// 이력서 리스트 가져오기
 	@GetMapping("/resume")
 	public List<Resume> getResumeList(HttpServletRequest request) {
 		
@@ -181,12 +186,15 @@ public class UserResumeController_msi {
 
 	
 	
-	
+	//이력서 상세페이지
 	@GetMapping("/resume/{rno}")
 	public ResponseEntity<?> getResume(@PathVariable("rno") Long rno) {
         try {
             Map<String, Object> result = resumeService.getResumeDetails(rno);
-            System.out.println("이력서 및 관련 데이터 출력 : " + result);
+            System.out.println("이력서 상세 데이터 출력 : " + result);
+            
+            //지원 여부 확인
+            //List<ApplyList> apply = applyRepo.findByRno(rno);         
             
             return ResponseEntity.ok(result);
         } catch (IllegalArgumentException e) {
