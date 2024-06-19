@@ -22,13 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.onepickApi.entity.BoardReport;
 import com.example.onepickApi.entity.Company;
 import com.example.onepickApi.entity.JobAd;
+import com.example.onepickApi.entity.ReplyReport;
 import com.example.onepickApi.entity.User;
 import com.example.onepickApi.repository.BoardReportRepository;
+import com.example.onepickApi.repository.CompanyBoardRepository;
 import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.InterestedCopRepository;
 import com.example.onepickApi.repository.JobAdRepository;
 import com.example.onepickApi.repository.JobadScrapRepository;
 import com.example.onepickApi.repository.ReplyReportRepository;
+import com.example.onepickApi.repository.UserBoardRepository;
 import com.example.onepickApi.repository.UserRepository;
 
 @CrossOrigin("*")
@@ -50,6 +53,12 @@ public class AdminController {
 	
 	@Autowired
 	private ReplyReportRepository replyReportRepository;
+	
+	@Autowired
+	private UserBoardRepository userBoardRepository;
+	
+	@Autowired
+	private CompanyBoardRepository companyBoardRepository;
 	
 	@Autowired
 	private InterestedCopRepository interestedCopRepository;
@@ -120,6 +129,12 @@ public class AdminController {
 	@GetMapping("/reported-board")
 	public ResponseEntity<List<BoardReport>> boardReportList(){
 		List<BoardReport> list = boardReportRepository.findAll();
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping("/reported-reply")
+	public ResponseEntity<List<ReplyReport>> replyReportList(){
+		List<ReplyReport> list = replyReportRepository.findAll();
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	

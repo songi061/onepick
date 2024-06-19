@@ -1,6 +1,7 @@
 package com.example.onepickApi.entity;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,4 +40,5 @@ public class User extends BaseEntity implements Member{
     private String militaryService;
     @Column(unique = true)
     private String token;
+    private Date realRegDate;
 }

@@ -64,8 +64,8 @@ const resume_img =  document.querySelector("#resume_img")
                const listItem = document.createElement('div');
                listItem.className = 'apply_list_item';
                listItem.innerHTML =  "<div class='accordion-item'> <h2 class='accordion-header'><div class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#"+listItemId+"' aria-expanded='false' aria-controls='"+listItemId+"'>"
-                  +"<span style='display:none;' class='jno'>"+data.jobAd.jno+"</span><span style='display:none;' class='rno'>"+data.resume.rno+"</span><button class='btn btn-onepick' onclick='changeStatus(event)' data-bs-toggle='modal' data-bs-target='#exampleModal'>"   +   data.status+"</button>" +    "[공고 제목] "+data.jobAd.wantedTitle+"     [지원자 " +data.user.name +"]      "+data.resume.title+ " 지원 날짜 : "+data.regdate.slice(0, 10)+
-               "</div></h2><div id='"+listItemId+"' class='accordion-collapse collapse' data-bs-parent='.accordion'><div class='accordion-body'><img src='"+
+                  +"<span style='display:none;' class='jno'>"+data.jobAd.jno+"</span><span style='display:none;' class='rno'>"+data.resume.rno+"</span><button class='btn btn-onepick me-3' onclick='changeStatus(event)' data-bs-toggle='modal' data-bs-target='#exampleModal'>"   +   data.status+"</button>" +    "<div><div style='font-weight:bolder;'>[공고 제목] "+data.jobAd.wantedTitle+"  </div>  <div> [지원자 " +data.user.name +"]      "+data.resume.title+ "</div></div><div class='ms-auto'> 지원 날짜 : "+data.regdate.slice(0, 10)+
+               "</div></div></h2><div id='"+listItemId+"' class='accordion-collapse collapse' data-bs-parent='.accordion'><div class='accordion-body'><img src='"+
                data.save+"' alt='Resume Image'></div></div></div>";
               
                listContainer.appendChild(listItem);

@@ -196,9 +196,19 @@ $(document).ready(function() {
         success: function(data) {
             //console.log('Resume data:', data);
             var resume = data.resume;
-
-            // 각 input 요소에 값 설정
+			
+            
+            
             $('#disclo_check').prop('checked', resume.disclo === 'public');
+            
+            $('#disclo_check').change(function() {
+                if (resume.def === "Y") {
+                    alert("대표이력서는 비공개 설정을 할 수 없습니다!");
+                    $(this).prop('checked', true);
+                }
+            });
+            
+            
             $('#title').val(resume.title);
             $('#selfInfoTitle').val(resume.selfInfoTitle);
             $('#selfInfoContent').val(resume.selfInfoContent);
@@ -241,12 +251,21 @@ $(document).ready(function() {
             var skill = data.oaList[0]; // 예시로 첫 번째 스킬을 사용
             $('#select_skill').val(skill.skillName);
             $('#oa_content').val(skill.oa_content);
+            
+            
+            
+            
+            
+            
         },
         error: function(xhr, status, error) {
             console.error('AJAX 요청 실패:', status, error);
         }
     });
-
+    
+    
+    
+    
     function updateSelectElements(resume) {
         const xhttp1 = new XMLHttpRequest();
         xhttp1.onload = function() {
@@ -430,11 +449,11 @@ $(document).ready(function() {
             const data = JSON.parse(this.responseText);
 
             // 직무 옵션 초기화
-            if(selectSector2.value == null){
+            /* if(selectSector2.value == null){
             	selectJob2.innerHTML = '<option value="">직무 선택</option>';
-            }
+            } */
          	// 업종 선택에 따른 직무 업데이트 실행
-            updateSelectJob2();
+            //updateSelectJob2();
          	
          	
             // 업종 선택 변경 시 직무 업데이트 함수 정의
@@ -456,8 +475,12 @@ $(document).ready(function() {
             selectSector2.addEventListener('change', updateSelectJob2);
 
             // 초기값 설정
+			 setTimeout(() => {
+				 updateSelectJob2();
+				 selectJob2.value = resume.careers[0].position;
+            }, 100); // 약간의 딜레이를 두어 옵션이 로드될 시간을 확보
 
-            selectJob2.value = resume.careers[0].position;
+            //selectJob2.value = resume.careers[0].position;
             console.log('포지션 출력 : '+resume.careers[0].position);
 
             
@@ -474,7 +497,8 @@ function putData(e){
 	e.preventDefault();
 	var form = document.forms['frm'];
 	var formData = new FormData(form);
-
+	
+	
 	$.ajax({
 		type: "PUT",
 		url: 'http://localhost:9001/api/v1/resume/' + rno,

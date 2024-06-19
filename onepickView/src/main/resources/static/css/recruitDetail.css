@@ -178,6 +178,12 @@
     font-weight:bold;
 }
 
+
+.min-width-100{
+	display:inline-block;
+	width: 80px;
+}
+
 /* Add responsive behavior */
 @media (max-width: 768px) {
     .container {

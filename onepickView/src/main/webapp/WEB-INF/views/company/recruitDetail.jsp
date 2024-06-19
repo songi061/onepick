@@ -12,7 +12,100 @@
 <link href="/css/recruitDetail.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="/js/CloseBrowserClearlocalStorage.js"></script>
+<style>
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
 
+/* 모달 헤더 */
+.modal-header {
+    background-color: #42d056;
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 15px;
+}
+
+.modal-title {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/* 닫기 버튼 */
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: white;
+    opacity: 1;
+}
+
+.btn-close:hover {
+    color: #007bff;
+}
+
+/* 모달 바디 */
+.modal-body {
+    padding: 20px;
+    font-size: 1em;
+    background-color: #f9f9f9;
+}
+
+/* 이력서 리스트 스타일 */
+#resumeList ul.res {
+    list-style-type: none;
+    padding: 10px;
+    margin: 0 0 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+#resumeList ul.res:hover {
+    background-color: #f1f1f1;
+}
+
+#resumeList ul.res li {
+    margin-bottom: 5px;
+}
+
+/* 모달 푸터 */
+.modal-footer {
+    background-color: #f9f9f9;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 15px;
+}
+
+/* 지원하기 버튼 */
+#applyBtn, .modal-footer .btn-primary {
+    background-color: #42d056;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#applyBtn:hover, .modal-footer .btn-primary:hover {
+    background-color: #26af3a;
+}
+
+/* 창닫기 버튼 */
+.modal-footer .btn-secondary {
+    background-color: #007bff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.modal-footer .btn-secondary:hover {
+    background-color: #c9302c;
+}
+
+.resumelink{
+	text-decoration: underline;
+}
+</style>
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
@@ -97,10 +190,42 @@
 				<img style="width:25px; height:25px;" src="/icon/heart.png">
 			</div>
 		</div>
-		<button id="applyBtn" class="btn btn-onepick apply-btn" onclick="apply()">지원하기</button>
+		
+		<button id="applyBtn" class="btn btn-onepick apply-btn" onclick="openRegModal()">지원하기</button>
 		</div>
 		</div>
+		
+		
+		
+		
+		
+		<div class="interviewees_list">
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			    
+			      <div class="modal-header">
+			        <h1 class="modal-title fs-5" id="exampleModalLabel">이력서 선택</h1>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      <div class="modal-body" >
+			        <div id="resumeList"></div>
+			      </div>
+			      <div class="modal-footer">
+			        <button class="btn btn-primary" data-bs-dismiss="modal" onclick="closeModal()">창닫기</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+		</div>
+		
+		
+		
+		
+		
+		
 	</div>
+	
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 
 <script>
@@ -438,7 +563,7 @@ function calcDday(targetDate) {
 
  
  
-function apply(){
+/* function apply(){
 	 if (confirm("해당 채용공고에 지원하시겠습니까?")) {
 		 $.ajax({
 			    url: 'http://localhost:9001/api/v1/apply?rno=' + 1 + '&jno=' + jno,
@@ -450,19 +575,71 @@ function apply(){
 			    	alert(data);
 			    },
 			    error: function(xhr, status, error) {
-			        console.error('AJAX 요청 실패:', status, error);
-			    }
+	                if (xhr.status === 409) {
+	                    alert(xhr.responseText);
+	                } else {
+	                    alert('지원 중 오류가 발생했습니다.');
+	                }
+	                console.error('AJAX 요청 실패:', status, error);
+	            }
 			});
+
 	 }
- } 
+ }  */
+ 
+ function openRegModal() {
+     $('#exampleModal').modal('show');
+
+     $('#exampleModal').on('shown.bs.modal', function() {
+         document.querySelector("#exampleModalLabel").innerText = "지원할 이력서 리스트 선택";
+
+         $.ajax({
+             url: 'http://localhost:9001/api/v1/resume',
+             type: 'GET',
+             headers: {
+                 'username': username
+             }, 
+             success: function(data) {
+                 var resumeList = $('#resumeList');
+                 resumeList.empty(); // 기존 내용을 비웁니다
+
+                 $.each(data, function(index, resume) {
+                     var ul = $('<ul class="res"></ul>'); // ul 태그 생성
+                     
+                     if(resume.def === "Y"){
+                    	 ul.append('<li style="color : #007bff;">대표 이력서📄</li>');
+                     }
+                     
+                     ul.append('<li>' + (index + 1) + '번째 이력서</li>');
+                     
+                     
+                     ul.append('<li class="resumelink"><a href="/user/resumeDetail?rno=' + resume.rno + '">' + resume.title + '</a></li>');
+
+                     if (resume.moddate == null) {
+                         var regdate = new Date(resume.regdate).toISOString().split('T')[0];
+                         ul.append('<li>최종수정날짜 : ' + regdate + '</li>');
+                     } else {
+                         var moddate = new Date(resume.moddate).toISOString().split('T')[0];
+                         ul.append('<li>최종수정날짜 : ' + moddate + '</li>');
+                     }
+                     
+
+                     resumeList.append(ul); // ul 태그를 resumeList에 추가
+                 });
+             },
+             error: function(xhr, status, error) {
+                 console.error('AJAX 요청 실패:', status, error);
+             }
+         });
+
+         function closeModal(){
+             $('#exampleModal').modal('hide');
+         }
+     });
+ }
  
  
- 
- 
- 
- 
- 
- 
+
  
  
  

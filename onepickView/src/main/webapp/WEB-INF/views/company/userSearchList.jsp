@@ -127,6 +127,13 @@ resumeSearchBtn.addEventListener("click", function(){
     }
 });
 
+function pageActive(){
+	// 기존의 'active' 클래스를 제거합니다.
+	document.querySelector("header .nav-item a").classList.remove('active');
+	// 'active' 클래스를 추가합니다.
+	document.querySelector("header #userSearchPage").classList.add('active');
+}
+pageActive();
 	
 </script>
 </body>

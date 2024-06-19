@@ -28,6 +28,7 @@ import com.example.onepickApi.repository.BoardReportRepository;
 import com.example.onepickApi.repository.CompanyBoardRepository;
 import com.example.onepickApi.repository.CompanyReplyRepository;
 import com.example.onepickApi.repository.CompanyRepository;
+import com.example.onepickApi.repository.ReplyReportRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -44,8 +45,8 @@ public class CompanyCommunityController {
 	CompanyReplyRepository crRepo;
 	@Autowired
 	BoardReportRepository brRepo;
-//	@Autowired
-//	ReplyReportRepository rrRepo;
+	@Autowired
+	ReplyReportRepository rrRepo;
 
 	// 게시글 등록
 	@PostMapping("/community-board")
@@ -213,6 +214,7 @@ public class CompanyCommunityController {
 		replyReport.setCompany(company);
 		replyReport.setCReply(cr);
 		replyReport.setReport_date(new Date());
+		rrRepo.save(replyReport);
 
 		return new ResponseEntity<>("댓글신고완료", HttpStatus.OK);
 	}

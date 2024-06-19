@@ -15,7 +15,7 @@
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
 	<div class="container">
-		<div class="title">기업 목록</div>
+		<div class="page_title">기업 목록</div>
 		<div class="company_list">	</div>
 	</div>
 <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -43,6 +43,16 @@ const listContainer = document.querySelector('.company_list');
 	  }
 	xhttp.open("GET", "http://localhost:9001/api/v1/company/", true);
 	xhttp.send();
+	
+	function pageActive(){
+		// 기존의 'active' 클래스를 제거합니다.
+		document.querySelector("header .nav-item a").classList.remove('active');
+		// 'active' 클래스를 추가합니다.
+		document.querySelectorAll("header .companyPage").forEach(function(element) {
+		    element.classList.add('active');
+		});
+	}
+	pageActive();
 </script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

@@ -56,6 +56,13 @@ public class ApplyController_user {
 		Optional<User> result = userRepo.findById(username);
 		User user = result.get();
 		
+		
+		ApplyList existingApply = applyRepo.findApply(user.getUsername(), jno);
+	    if (existingApply != null) {
+	        return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 지원했습니다.");
+	    }
+		
+	
 		JobAd jobad = jobadRepo.findById(jno).get();
 		Resume resume = resumeRepo.findById(rno).get();
 		
@@ -96,7 +103,7 @@ public class ApplyController_user {
 		
 		System.out.println(al);
 		
-		
+
 		return new ResponseEntity<>("done", HttpStatus.OK);
 	}
 	

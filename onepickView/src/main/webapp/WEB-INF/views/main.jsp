@@ -52,7 +52,7 @@
 					document.querySelector("#receipt_close_dt_list").innerHTML += 
 						"<div class='col-md-6 col-xl-4 mb-3'>"
 					+ "<a class='d-block d-flex align-items-center border text-decoration-none rounded p-4 pointer recruit_box' href='/company/recruitDetail?jno=" + obj.jno + "''>"
-					+ "<div class='logo w-25'><img src='" + logoSrc + "' alt='회사로고'></div>"
+					+ "<div class='logo w-25'><div><img src='" + logoSrc + "' alt='회사로고'></div></div>"
 					+ "<div class='w-75 ps-3'>"
 					+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
 					+ "<div class='recruitTitle text-ellipsis fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
@@ -81,7 +81,7 @@
 							document.querySelector("#suggestion_list").innerHTML += 
 								"<div class='col-md-6 col-xl-4 mb-3'>"
 							+ "<a class='d-block d-flex align-items-center border text-decoration-none rounded p-4 pointer recruit_box' href='/company/recruitDetail?jno=" + obj.jno + "''>"
-							+ "<div class='logo w-25'><img src='" + logoSrc + "' alt='회사로고'></div>"
+							+ "<div class='logo w-25'><div><img src='" + logoSrc + "' alt='회사로고'></div></div>"
 							+ "<div class='w-75 ps-3'>"
 							+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
 							+ "<div class='recruitTitle text-ellipsis fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
@@ -118,7 +118,7 @@
 						document.querySelector("#allJobAdList").innerHTML += 
 							"<div class='col-md-6 col-xl-4 mb-3'>"
 						+ "<a class='d-block d-flex align-items-center border text-decoration-none rounded p-4 pointer recruit_box' href='/company/recruitDetail?jno=" + obj.jno + "''>"
-						+ "<div class='logo w-25'><img src='" + logoSrc + "' alt='회사로고'></div>"
+						+ "<div class='logo w-25'><div><img src='" + logoSrc + "' alt='회사로고'></div></div>"
 						+ "<div class='w-75 ps-3'>"
 						+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
 						+ "<div class='recruitTitle text-ellipsis fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
@@ -157,7 +157,7 @@
 								document.querySelector("#allJobAdList").innerHTML += 
 									"<div class='col-md-6 col-xl-4 mb-3'>"
 								+ "<a class='d-block d-flex align-items-center border text-decoration-none rounded p-4 pointer recruit_box' href='/company/recruitDetail?jno=" + obj.jno + "''>"
-								+ "<div class='logo w-25'><img src='" + logoSrc + "' alt='회사로고'></div>"
+								+ "<div class='logo w-25'><div><img src='" + logoSrc + "' alt='회사로고'></div></div>"
 								+ "<div class='w-75 ps-3'>"
 								+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
 								+ "<div class='recruitTitle text-ellipsis fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
@@ -177,6 +177,15 @@
 					xhttp4.send();
 				}
 			});
+			
+			
+			function pageActive(){
+				// 기존의 'active' 클래스를 제거합니다.
+				document.querySelector("header .nav-item a").classList.remove('active');
+				// 'active' 클래스를 추가합니다.
+				document.querySelector("header #mainPage").classList.add('active');
+			}
+			pageActive();
 			
 		</script>
 		<jsp:include page="layout/footer.jsp"></jsp:include>

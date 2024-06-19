@@ -20,11 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.onepickApi.dto.BoardDto;
 import com.example.onepickApi.dto.UserReplyDto;
 import com.example.onepickApi.entity.BoardReport;
-import com.example.onepickApi.entity.Company;
-import com.example.onepickApi.entity.CompanyBoard;
+import com.example.onepickApi.entity.ReplyReport;
 import com.example.onepickApi.entity.User;
 import com.example.onepickApi.entity.UserBoard;
 import com.example.onepickApi.entity.UserReply;
+import com.example.onepickApi.repository.BoardReportRepository;
+import com.example.onepickApi.repository.ReplyReportRepository;
 import com.example.onepickApi.repository.UserBoardRepository;
 import com.example.onepickApi.repository.UserReplyRepository;
 import com.example.onepickApi.repository.UserRepository;
@@ -42,6 +43,10 @@ public class UserCommunityController {
 	UserBoardRepository ubRepo;
 	@Autowired
 	UserReplyRepository urRepo;
+	@Autowired
+	BoardReportRepository brRepo;
+	@Autowired
+	ReplyReportRepository rrRepo;
 
 	// 게시물 등록
 	@PostMapping("/community-board")
@@ -88,7 +93,7 @@ public class UserCommunityController {
 	
 	// 게시물 상세보기
 	@GetMapping("/community-board/{ubno}")
-	public UserBoard communityDetail(@PathVariable("ubno") Long ubno){
+	public UserBoard communityDetail(HttpServletRequest request, @PathVariable("ubno") Long ubno){
 		UserBoard ub = ubRepo.findById(ubno).get();
 		
 		return ub;
@@ -169,9 +174,38 @@ public class UserCommunityController {
 		boardReport.setUser(user);
 		boardReport.setUb(ub);
 		
-		return new ResponseEntity<>("수정완료", HttpStatus.OK);
-		
+		return new ResponseEntity<>("게시글신고완료", HttpStatus.OK);
 	}
+	
+	// 댓글 신고
+	@PostMapping("/reply-report")
+	public ResponseEntity<String> replyReport(HttpServletRequest request, @RequestParam("ubno") Long ubno) {
+		// 사용자 정보 - username 받기
+		String username = request.getHeader("username");
+		// 신고자 정보
+		User user = new User();
+		user.setUsername(username);
+
+		// 신고당한 댓글 번호 - ubno로 알 수 있잖아!
+		UserBoard userBoard = new UserBoard();
+		userBoard.setUbno(ubno);
+
+		UserReply ur = new UserReply();
+		ur.setReplyno(userBoard.getUbno());
+		System.out.println("!!!!!!company replyno : " + userBoard.getUbno());
+
+		// 댓글 신고 엔티티에 이제 다넣어 (replyno, username)
+		ReplyReport replyReport = new ReplyReport();
+		replyReport.setUser(user);
+		replyReport.setUReply(ur);
+		replyReport.setReport_date(new Date());
+		rrRepo.save(replyReport);
+
+		return new ResponseEntity<>("댓글신고완료", HttpStatus.OK);
+	}
+	
+	
+	
 	
 	// 구직자 마이페이지 - 내가 쓴 게시글 목록 조회
 	@GetMapping("/community-myboard")

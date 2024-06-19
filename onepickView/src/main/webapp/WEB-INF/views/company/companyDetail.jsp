@@ -16,7 +16,8 @@
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
 	<div class="container">
-	  <div class='company-header'>
+	<div class="border p-4 rounded my-3">
+	  <div class='company-header pt-0'>
             <div class='com_file'>
                 <img alt="기업 대표이미지">
             </div>
@@ -35,20 +36,20 @@
             <img style="display:float; width:30px; height: 30px;"src="/icon/heart.png" alt="구독하기버튼" onclick="likeTheCom(event)">
         	</div>
         </div>
-         <div class='section'>
-            <div class='section-title'>기업 상세정보</div>
-            <div><span class='title_s'>대표명 </span><span class='com_ceo'></span></div>
-            <div><span class='title_s'>연매출 </span><span class='com_yrSales'></span> <span class='title_s'>원 </span></div>
-            <div><span class='title_s'>사원 수 </span><span class='com_employeesNum'></span> <span class='title_s'>명</span></div>
+         <div class='section border-bottom'>
+            <div class='section-title fs-4 mt-4 mb-2 title_s'>기업 상세정보</div>
+            <div><span class='min-width-100'>대표명 </span><span class='com_ceo'></span></div>
+            <div><span class='min-width-100'>연매출 </span><span class='com_yrSales'></span> <span class='title_s'>원 </span></div>
+            <div><span class='min-width-100 mb-4'>사원 수 </span><span class='com_employeesNum'></span> <span class='title_s'>명</span></div>
         </div>
        	<div class="section">
-       	  <div class='section-title'>해당 기업 현재 채용진행 중인 공고</div>
-       	  <div class='company-recruit'></div>
+       	  <div class='section-title fs-4 mt-4 mb-2 title_s'>해당 기업 현재 채용진행 중인 공고</div>
+       	  <div class='company-recruit row'></div>
        	  
        	</div>
 		
 
-		
+		</div>
 	</div>
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 
@@ -103,12 +104,12 @@ let liked = null;
 				objs.forEach(obj => {
 					let logoSrc = obj.company.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.company.fileName;
 					document.querySelector(".company-recruit").innerHTML += 
-						"<div class='col-md-6 col-xl-4 mb-3'>"
+						"<div class='col-md-6 mb-3'>"
 					+ "<a class='d-block d-flex align-items-center border text-decoration-none rounded p-4 pointer recruit_box' href='/company/recruitDetail?jno=" + obj.jno + "''>"
-					+ "<div class='logo w-25 me-3'><img src='" + logoSrc + "' alt='회사로고'></div>"
-					+ "<div class='w-75'>"
+					+ "<div class='logo w-25'><div class='mx-auto'><img src='" + logoSrc + "' alt='회사로고'></div></div>"
+					+ "<div class='ps-3 w-75'>"
 					+ "<div class='companyName fs-6'>" + obj.company.name + "</div>"
-					+ "<div class='recruitTitle fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
+					+ "<div class='recruitTitle text-ellipsis fs-4 fw-bold'>" + obj.wantedTitle + "</div>"
 					+ "<div class='fs-6 text-secondary'> 공고 마감일 " + obj.receiptCloseDt + "</div>"
 					+ "<div class='recruitInfo text-ellipsis fs-6 text-secondary'> 모집 인원 " + obj.collectPsncnt + ", " + obj.position1 + ", " + obj.position2 + ", " + obj.region1 + ", " + obj.region2  + "</div>"
 					+ "</div></a></div>";
@@ -196,7 +197,14 @@ let liked = null;
 		}
 		
 	} 
-  
+
+	function pageActive(){
+		// 기존의 'active' 클래스를 제거합니다.
+		document.querySelector("header .nav-item a").classList.remove('active');
+		// 'active' 클래스를 추가합니다.
+		document.querySelector("header .companyPage").classList.add('active');
+	}
+	pageActive();
 
 </script>
 </body>

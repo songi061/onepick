@@ -68,7 +68,7 @@
 					
 					console.log("role : " + role);
 					console.log("username : " + username);
-					location.href="/admintest";
+					location.href="/admin/dashboard";
 			    } else {
 			        // 로그인 실패
 			        alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
