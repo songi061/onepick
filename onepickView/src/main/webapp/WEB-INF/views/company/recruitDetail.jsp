@@ -109,6 +109,7 @@
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
+
 	<div class="container">
 	<div class="dDay-container">
     공고 마감일까지 <span id="dDay"></span>
@@ -197,8 +198,6 @@
 		
 		
 		
-		
-		
 		<div class="interviewees_list">
 			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
@@ -218,12 +217,6 @@
 			  </div>
 			</div>
 		</div>
-		
-		
-		
-		
-		
-		
 	</div>
 	
 <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -613,7 +606,8 @@ function calcDday(targetDate) {
                      ul.append('<li>' + (index + 1) + '번째 이력서</li>');
                      
                      
-                     ul.append('<li class="resumelink"><a href="/user/resumeDetail?rno=' + resume.rno + '">' + resume.title + '</a></li>');
+                     
+                     ul.append('<li class="resumelink"><a onclick="window.open(\'http://localhost:8093/user/resumeDetailForApply?jno=' + jno + '&rno=' + resume.rno + '\', \'팝업 창\', \'width=1200,height=1000\')">' + resume.title + '</a></li>');
 
                      if (resume.moddate == null) {
                          var regdate = new Date(resume.regdate).toISOString().split('T')[0];
