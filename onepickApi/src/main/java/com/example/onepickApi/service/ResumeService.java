@@ -267,10 +267,13 @@ public class ResumeService {
 	
 		@Transactional
 	    public String setDefResume(Long rno) {
+			resumeRepo.resetAllDefResumes();
+			
 	        Optional<Resume> optionalResume = resumeRepo.findById(rno);
 	        if (optionalResume.isPresent()) {
 	            Resume resume = optionalResume.get();
 	            resume.setDef("Y"); // 대표 이력서로 설정
+	            resume.setDisclo("public");
 	            resumeRepo.save(resume); // 변경 사항 저장
 	            return "대표 이력서로 설정되었습니다.";
 	        } else {

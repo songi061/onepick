@@ -3,6 +3,7 @@ package com.example.onepickApi.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -15,5 +16,9 @@ public interface ResumeRepository extends JpaRepository<Resume, Long>{
 
 	@Query(value="SELECT * FROM resume WHERE uid =:username AND def = :def", nativeQuery=true)
 	Resume findByUserAndDef(@Param("username") String username, @Param("def") String def);
-
+		
+	
+	@Modifying
+    @Query("UPDATE Resume r SET r.def = 'N' WHERE r.def = 'Y'")
+    void resetAllDefResumes(); 
 }
