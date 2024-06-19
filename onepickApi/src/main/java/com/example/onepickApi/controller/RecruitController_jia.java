@@ -30,11 +30,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.onepickApi.entity.ApplyList;
 import com.example.onepickApi.entity.InterestedCop;
 import com.example.onepickApi.entity.JobAd;
+import com.example.onepickApi.entity.JobadScrap;
 import com.example.onepickApi.entity.Skill;
 import com.example.onepickApi.repository.ApplyListRepository;
 import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.InterestedCopRepository;
 import com.example.onepickApi.repository.JobAdRepository;
+import com.example.onepickApi.repository.JobadScrapRepository;
 import com.example.onepickApi.repository.SkillRepository;
 import com.example.onepickApi.service.NotificationService;
 
@@ -58,6 +60,8 @@ public class RecruitController_jia {
 	private NotificationService notificationService;
 	@Autowired
 	private ApplyListRepository applyListRepo;
+	@Autowired
+	private JobadScrapRepository jobadScrapRepo;
 	private final Path rootLocation = Paths.get("/upload");
 	
 	
@@ -109,6 +113,12 @@ public class RecruitController_jia {
 	//confirm메세지 이후에 진짜로 삭제
 	@DeleteMapping("/")
 	public ResponseEntity<String> deleteJobad1(@RequestParam("jno") Long jno) {
+		//스크랩한사람도 다 지우기
+		if(jobadScrapRepo.findByJno(jno) != null) {
+			for(JobadScrap js : jobadScrapRepo.findByJno(jno)) {
+				jobadScrapRepo.delete(js);
+			}
+		}
 		if(applyListRepo.findByJno(jno) != null) {
 			List<ApplyList> list = applyListRepo.findByJno(jno);
 			//이미 지원한 사람이 있을때 그 사람들에게 알림 메시지 보내주기
