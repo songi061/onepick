@@ -37,8 +37,8 @@ public class CompanyCommunityController {
 		return "company/community/communityEdit";
 	}
 	
-	// 구직자 마이페이지 - 내가 쓴 게시글 목록 조회
-	@RequestMapping("/myBoard")
+	// 기업 마이페이지 - 내가 쓴 게시글 목록 조회
+	@RequestMapping("/myBoardList")
 	public String myBoard() {
 		
 		return "company/myBoardList";

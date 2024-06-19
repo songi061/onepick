@@ -39,18 +39,19 @@ public class UserCommunityController {
 	}
 	
 	// 구직자 마이페이지 - 내가 쓴 게시글 목록 조회
-	@RequestMapping("/myBoard")
+	@RequestMapping("/myBoardList")
 	public String myBoard() {
 		
 		return "user/myBoardList";
 	}
 	
-	
-	
-	
-	
-	
-	
+//	// 구직자 마이페이지 - 내가 쓴 게시글 디테일
+//	@RequestMapping("/myBoardDetail")
+//	public String myBoard(@RequestParam("ubno") Long ubno, Model model) {
+//		model.addAttribute("ubno", ubno);
+//		
+//		return "user/myBoardList";
+//	}
 	
 	
 }

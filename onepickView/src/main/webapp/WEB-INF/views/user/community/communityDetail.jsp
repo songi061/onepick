@@ -172,37 +172,7 @@ $(document).ready(function(){
 				}
 			});
 		}
-		
-// 		// 댓글 수정 기능
-// 		function replyEdit(event, replyId){
-// 			event.preventDefault();
-// 			let replyContent = prompt("댓글을 수정하세요:", event.target.closest('tr').previousElementSibling.textContent);
-// 			if (replyContent !== null && replyContent.trim() !== "") {
-// 				$.ajax({
-// 					type: 'PUT',
-// 					url: 'http://localhost:9001/api/v1/user/community-comment/'+ replyno,
-// 					headers:{
-// 						"jwtToken" : localStorage.getItem("jwtToken"),
-// 				        "username" : localStorage.getItem("username"),
-// 				        "role" : localStorage.getItem("role")
-// 					},
-// 					data: JSON.stringify({
-// 						"content": replyContent
-// 					}),
-// 					contentType: 'application/json; charset=utf-8',
-// 					success: function(data){
-// 						if(data !== null){
-// 							alert("댓글이 수정되었습니다.");
-// 							loadComments(); // 댓글 수정 후 댓글 목록을 새로 불러옴
-// 						}
-// 					},
-// 					error: function(xhr, status, error) {
-// 						console.error("Request failed with status code: " + xhr.status);
-// 					}
-// 				});
-// 			}
-// 		}
-		
+
 		
 		// 게시글 신고 기능
 		$('#btn_commu_report').click(function(event){

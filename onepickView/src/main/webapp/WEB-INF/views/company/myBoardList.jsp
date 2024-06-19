@@ -36,12 +36,12 @@
 $(document).ready(function(){
 	$.ajax({
 		type: 'GET',
-		url: 'http://localhost:9001/api/v1/user/community-myboard',
+		url: 'http://localhost:9001/api/v1/company/community-myboard',
 		headers:{
 			"jwtToken" : localStorage.getItem("jwtToken"),
 	        "username" : localStorage.getItem("username")
 		},
-		//data: {ubno: ubno}
+		//data: {cbno: cbno}
 		dataType: 'json',
 		success: function(data){
 			console.log(data);
@@ -49,17 +49,17 @@ $(document).ready(function(){
 			if (data !== null) {
 				let str='';
 				for(var i=0; i<data.length; i++){
-					str += '<tr class="clickable" data-id="'+data[i].ubno+'"><td>'+data[i].category +'</td>' 
-					+ '<td>'+data[i].ubno + '</td>'+'<td>'+data[i].title +'</td></tr>';
+					str += '<tr  class="clickable" data-id="'+data[i].cbno+'"><td>'+data[i].category +
+					'</td> '+ '<td>'+data[i].cbno + '</td>'+'<td>'+data[i].title +
+					'</td></tr>';
 				}
-				
 				$('#MyBoardTableBody').html(str);
 				
 				// 행 클릭 시 상세 페이지로 이동
 				$('.clickable').click(function(){
-					let ubno = $(this).data('id');
-				    console.log(ubno);
-				    window.location.href = '/user/communityDetail?ubno=' + ubno;
+					let cbno = $(this).data('id');
+				    console.log(cbno);
+				    window.location.href = '/company/communityDetail?cbno=' + cbno;
 				});
 			}
 		},

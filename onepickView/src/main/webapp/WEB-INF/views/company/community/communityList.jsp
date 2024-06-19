@@ -190,7 +190,6 @@
 	
 	// 정보가 표시되는 div를 button으로 해서 누르면 상세페이지로 이동하게 하기
 	// -->행 클릭 시 상세 페이지로 이동
-
 	$(document).on('click', '.clickable', function(){
 		// let idList = document.querySelectorAll('.clickable').id;
 		console.log(this.id);
