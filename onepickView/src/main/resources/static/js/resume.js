@@ -204,11 +204,15 @@ xhttp5.send();
 
 
 
-function postData(e){
+/*function postData(e){
+	
 	e.preventDefault();
+	
+
 	var form = document.forms['frm'];
 	var formData = new FormData(form);
 	console.log(formData);
+	
 	$.ajax({
 		type: "POST",
 		url : "http://localhost:9001/api/v1/resume",
@@ -229,7 +233,7 @@ function postData(e){
 	
 	});
 }
-
+*/
 
 
 
