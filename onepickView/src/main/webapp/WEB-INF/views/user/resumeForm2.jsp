@@ -117,27 +117,27 @@
 	<br>
 	포트폴리오 URL<input type="text" name="portfolioUrl" placeholder="내용을 입력하세요" class="textbox"><br><br>
 	
-	<div class="d-flex mb-3">
+	<div class="d-flex">
 		<span class="subtitle">사회활동</span><br>
 		<i class="bi bi-plus-circle ms-auto" data-bs-toggle="modal" data-bs-target="#exampleModal" ></i>
 	</div>
 	<div class="experienceContainer"></div>
-	<div class="d-flex mb-3">
+	<div class="d-flex">
 		<span class="subtitle">자격증</span><br>
 		<i class="bi bi-plus-circle ms-auto" data-bs-toggle="modal" data-bs-target="#exampleModal1" ></i>
 	</div>
 	<div class="licenseContainer"></div>
-	<div class="d-flex mb-3">
+	<div class="d-flex">
 		<span class="subtitle">학력사항</span><br>
 		<i class="bi bi-plus-circle ms-auto" data-bs-toggle="modal" data-bs-target="#exampleModal2" ></i>
 	</div>
 	<div class="schoolContainer"></div>
-	<div class="d-flex mb-3">
+	<div class="d-flex">
 		<span class="subtitle">경력사항</span><br>
 		<i class="bi bi-plus-circle ms-auto" data-bs-toggle="modal" data-bs-target="#exampleModal3" ></i>
 	</div>
 	<div class="careerContainer"></div>
-	<div class="d-flex mb-3">
+	<div class="d-flex">
 		<span class="subtitle">보유능력 *</span><br>
 		<i class="bi bi-plus-circle ms-auto" data-bs-toggle="modal" data-bs-target="#exampleModal4" ></i>
 	</div>
