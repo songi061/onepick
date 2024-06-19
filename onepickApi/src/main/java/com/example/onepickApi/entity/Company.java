@@ -1,13 +1,10 @@
 package com.example.onepickApi.entity;
 
-import java.util.List;
+import java.util.Date;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,4 +44,5 @@ public class Company extends BaseEntity implements Member{
 	    private String yrSales;
 	    @Column(unique = true)
 	    private String token;
+	    private Date realRegDate;
 }

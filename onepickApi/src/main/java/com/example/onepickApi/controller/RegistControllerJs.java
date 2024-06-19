@@ -1,5 +1,6 @@
 package com.example.onepickApi.controller;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,8 @@ public class RegistControllerJs {
 		
 		user.setPassword(newPw);
 		user.setRole(role);
+		Date now = new Date();
+		user.setRealRegDate(now);
 		
 		User result = userRepository.save(user);
 		if(result != null) {
@@ -92,6 +95,8 @@ public class RegistControllerJs {
 		
 		company.setPassword(newPw);
 		company.setRole(role);
+		Date now = new Date();
+		company.setRealRegDate(now);
 		Company result = companyRepository.save(company);
 		
 		if(result != null) {
