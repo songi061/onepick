@@ -39,7 +39,7 @@
 		        <div class="dropdown">
 				  <button class="nav-link dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">고객센터</button>
 				  <ul class="dropdown-menu">
-				    <li><a class="dropdown-item" href="/user/myQnaList">QnA</a></li>
+				    <li><a class="dropdown-item" href="#" onclick="userMyQnaCheck()">QnA</a></li>
 				    <li><a class="dropdown-item" href="/faqList">FAQ</a></li>
 				    <li><a class="dropdown-item" href="/noticeList">공지사항</a></li>
 				  </ul>
@@ -51,12 +51,12 @@
 	      <ul id="companyMenu" class="nav nav-pills" style="display:none">
 	        <li class="nav-item"><a id="userSearchPage" href="/company/userSearchList" class="nav-link" aria-current="page">인재채용</a></li>
 	        <li class="nav-item"><a href="/company/companyList" class="nav-link companyPage">기업정보</a></li>
-	        <li class="nav-item"><a href="/company/communityList" class="nav-link">기업회원 커뮤니티</a></li>
+	        <li class="nav-item"><a href="#" onclick="companyCommunityCheck()" class="nav-link">기업회원 커뮤니티</a></li>
 	        <li class="nav-item">
 		        <div class="dropdown">
 				  <button class="nav-link dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">고객센터</button>
 				  <ul class="dropdown-menu">
-				    <li><a class="dropdown-item" href="/company/myQnaList">QnA</a></li>
+				    <li><a class="dropdown-item" href="#" onclick="companyMyQnaCheck()">QnA</a></li>
 				    <li><a class="dropdown-item" href="/faqList">FAQ</a></li>
 				    <li><a class="dropdown-item" href="/noticeList">공지사항</a></li>
 				  </ul>
@@ -135,4 +135,30 @@
 		console.log(searchResultInput.value);
 		location.href="/searchResult?keyword=" + searchResultInput.value;
 	}
+	
+	
+	function companyCommunityCheck(){
+		if(role == "ROLE_COMPANY" || role == "ROLE_ADMIN"){
+			location.href="/company/communityList";
+		}else{
+			alert("기업회원만 접속 가능합니다.");
+		}
+	}
+	
+	function companyMyQnaCheck(){
+		if(role == "ROLE_COMPANY" || role == "ROLE_ADMIN"){
+			location.href="/company/myQnaList";
+		}else{
+			alert("기업회원만 접속 가능합니다.");
+		}
+	}
+	
+	function userMyQnaCheck(){
+		if(role == "ROLE_USER" || role == "ROLE_ADMIN"){
+			location.href="/user/myQnaList";
+		}else{
+			alert("개인회원만 접속 가능합니다.");
+		}
+	}
+	
 </script>
