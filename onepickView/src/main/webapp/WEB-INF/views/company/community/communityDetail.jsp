@@ -46,6 +46,7 @@
 // 전역변수 --------------
 // 로컬 스토리지에서 username을 가져옴
 const storagedUsername = localStorage.getItem('username');
+const storedRole = localStorage.getItem('role');
 console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+storagedUsername)
 
 // 모든 게시물 요소를 가져옴
@@ -74,7 +75,7 @@ $(document).ready(function(){
 					'<tr><td>'+data.regdate + '</td></tr>';
 				$('#data_board_detail').html(str);
 
-		        if (storagedUsername === writer) {
+		        if (storagedUsername === writer || storedRole === "ROLE_ADMIN") {
 		            console.log(storagedUsername === writer)
 		            editBtn.style.display="block";
 		   	 	};
