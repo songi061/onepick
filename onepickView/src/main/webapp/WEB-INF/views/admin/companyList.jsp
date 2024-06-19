@@ -1,44 +1,52 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>1PICK!</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="/css/adminstyle.css" rel="stylesheet">
-    <link href="/css/adminList.css" rel="stylesheet">
-    <script src="/js/adminInterceptor.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<title>1PICK!</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<link href="/css/adminstyle.css" rel="stylesheet">
+<link href="/css/adminList.css" rel="stylesheet">
+<script src="/js/adminInterceptor.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+	crossorigin="anonymous"></script>
 </head>
 
 <body class="d-flex flex-column h-100 min-h-100">
-    <jsp:include page="../layout/adminHeader.jsp"></jsp:include>
-    <div class="container">
-        <div class="page_title">기업 회원관리</div>
-        <div class="float-end input-group main_seaerch_box mt-md-5">
-            <input type="text" class="form-control" placeholder="회원 검색" name="searchInput" aria-label="제목 검색" aria-describedby="jobAdSearchBtn">
-            <button class="btn btn-outline-secondary" type="button" id="SearchBtn">검색</button>
-        </div>
-        <div id="allCompanyList" class="row mb-5"></div>
-        <table class="table">
-            <thead>
-                <tr id="tbl_header">
-                    <th>번호</th>
-                    <th>아이디</th>
-                    <th>기업명</th>
-                    <th>가입일</th>
-                    <th>관리</th>
-                </tr>
-            </thead>
-            <tbody id="companyTableBody">
-                <!-- AJAX로 데이터가 삽입될 부분 -->
-            </tbody>
-        </table>
+	<jsp:include page="../layout/adminHeader.jsp"></jsp:include>
+	<div class="container">
+		<div class="page_title">기업 회원관리</div>
+		<div class="float-end input-group main_seaerch_box mt-md-5">
+			<input type="text" class="form-control" placeholder="회원 검색"
+				name="searchInput" aria-label="제목 검색"
+				aria-describedby="jobAdSearchBtn">
+			<button class="btn btn-outline-secondary" type="button"
+				id="SearchBtn">검색</button>
+		</div>
+		<div id="allCompanyList" class="row mb-5"></div>
+		<table class="table">
+			<thead>
+				<tr id="tbl_header">
+					<th>번호</th>
+					<th>아이디</th>
+					<th>기업명</th>
+					<th>가입일</th>
+					<th>관리</th>
+				</tr>
+			</thead>
+			<tbody id="companyTableBody">
+				<!-- AJAX로 데이터가 삽입될 부분 -->
+			</tbody>
+		</table>
 	</div>
-    <jsp:include page="../layout/footer.jsp"></jsp:include>
+	<jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
 <script>
    $(document).ready(function () {
@@ -117,18 +125,46 @@ function displayUsers(companies) {
 
             row.append($("<td>").text(formattedDate));
 
-            var companyTd = $("<td>");
-            var companyButton = $("<button class='delete-btn' data-username='" + company.username + "'>").text("회원삭제");
-
-            companyTd.append(companyButton);
-            row.append(companyTd);
+            var userStatus = $("<td>");
+            if (company.active) {
+                userStatus.html('<p class="ing">활동중</p>');
+            } else {
+                userStatus.html('<p class="stop">활동중지</p>');
+            }
+            row.append(userStatus);
 
             tbody.append(row);
         });
+            // tr 클릭 이벤트 핸들러 추가
+            $("#companyTableBody").on("click", "tr", function () {
+            var username = $(this).data("username");
+            if (confirm("해당 회원의 활동 상태를 변경하시겠습니까?")) {
+                var currentActiveStatus = $(this).find("p").hasClass("ing");
+                toggleUserActive(username, !currentActiveStatus);
+            }
+        });
     }
 }
+
+    function toggleUserActive(username, active) {
+            $.ajax({
+                url: "http://localhost:9001/api/v1/admin/company/" + username + "/active?active=" + active,
+                method: "PUT",
+                success: function () {
+                	alert("변경 되었습니다.");
+                    loadAllUsers();
+                },
+                error: function (error) {
+                    console.log("상태 변경 에러 :", error);
+                    console.log("상태 변경 에러 상세 정보: ", error.responseText);
+                }
+            });
+        }
+
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+	crossorigin="anonymous"></script>
 
 </html>

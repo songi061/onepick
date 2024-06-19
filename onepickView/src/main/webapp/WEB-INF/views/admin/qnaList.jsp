@@ -103,9 +103,6 @@ $(document).ready(function(){
                 answerLink.append(answerButton);
                 answerTd.append(answerLink);
                 row.append(answerTd);
-
-                tbody.append(row);
-                
                 tbody.append(row); // 설정한 모든 row 요소들을 tbody에 삽입
             });
 

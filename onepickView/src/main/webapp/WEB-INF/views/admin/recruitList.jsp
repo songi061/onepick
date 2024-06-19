@@ -1,47 +1,54 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>1PICK!</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="/css/adminstyle.css" rel="stylesheet">
-    <link href="/css/adminList.css" rel="stylesheet">
-    <script src="/js/adminInterceptor.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<title>1PICK!</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<link href="/css/adminstyle.css" rel="stylesheet">
+<link href="/css/adminList.css" rel="stylesheet">
+<script src="/js/adminInterceptor.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+	crossorigin="anonymous"></script>
 </head>
 
 <body class="d-flex flex-column h-100 min-h-100">
-    <jsp:include page="../layout/adminHeader.jsp"></jsp:include>
-    <div class="container">
-        <div class="page_title">채용공고 관리</div>
-        <div class="float-end input-group main_seaerch_box mt-md-5">
-            <input type="text" class="form-control" placeholder="공고 검색" name="searchInput" aria-label="제목 검색" aria-describedby="jobAdSearchBtn">
-            <button class="btn btn-outline-secondary" type="button" id="SearchBtn">검색</button>
-        </div>
-        <div id="allJobAdList" class="row mb-5">
-        </div>
-        <table class="table">
-            <thead>
-                <tr id="tbl_header">
-                    <th>번호</th>
-                    <th>아이디</th>
-                    <th>기업명</th>
-                    <th>공고명</th>
-                    <th>등록일</th>
-                    <th>마감일</th>
-                    <th>관리</th>
-                </tr>
-            </thead>
-            <tbody id="jabAdTableBody">
-                <!-- AJAX로 데이터가 삽입될 부분 -->
-            </tbody>
-        </table>
-    </div>
-    <jsp:include page="../layout/footer.jsp"></jsp:include>
+	<jsp:include page="../layout/adminHeader.jsp"></jsp:include>
+	<div class="container">
+		<div class="page_title">채용공고 관리</div>
+		<div class="float-end input-group main_seaerch_box mt-md-5">
+			<input type="text" class="form-control" placeholder="공고 검색"
+				name="searchInput" aria-label="제목 검색"
+				aria-describedby="jobAdSearchBtn">
+			<button class="btn btn-outline-secondary" type="button"
+				id="SearchBtn">검색</button>
+		</div>
+		<div id="allJobAdList" class="row mb-5"></div>
+		<table class="table">
+			<thead>
+				<tr id="tbl_header">
+					<th>번호</th>
+					<th>아이디</th>
+					<th>기업명</th>
+					<th>공고명</th>
+					<th>등록일</th>
+					<th>마감일</th>
+					<th>관리</th>
+				</tr>
+			</thead>
+			<tbody id="jabAdTableBody">
+				<!-- AJAX로 데이터가 삽입될 부분 -->
+			</tbody>
+		</table>
+	</div>
+	<jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
 <script>
     $(document).ready(function () {
@@ -168,8 +175,10 @@
         });
     }
     </script>
-    
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+	crossorigin="anonymous"></script>
 
 </html>
