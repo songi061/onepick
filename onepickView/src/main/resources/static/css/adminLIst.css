@@ -38,7 +38,7 @@
 }
 
 .table tbody tr:hover {
-    background-color: #f1f1f1;
+	opacity: 50%;
     cursor: pointer;
 }
 
@@ -46,8 +46,8 @@
     line-height: 30px;
 }
 
-
 .delete-btn{
+	position: relative;
     width: 70px; height: 30px;
     border: 1px solid gainsboro;
     background-color: #fff;
@@ -55,8 +55,16 @@
 }
 
 .delete-btn:hover{
-    background-color: #42d056;
-    transition-duration: 0.5s;
+    background-color: rgb(0, 0, 0);
     color: #fff;
+    opacity: 100% !important;
+}
+
+.ing{
+	color: #42d056;
+}
+
+.stop{
+	color: red;
 }
 
