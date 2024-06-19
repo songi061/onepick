@@ -1,6 +1,6 @@
 package com.example.onepickApi.controller;
 
-import java.util.Date;
+import java.util.Enumeration;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,8 @@ import com.example.onepickApi.entity.Company;
 import com.example.onepickApi.entity.User;
 import com.example.onepickApi.repository.CompanyRepository;
 import com.example.onepickApi.repository.UserRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @CrossOrigin("*")
 @RestController
@@ -105,5 +107,38 @@ public class RegistControllerJs {
 		}
 		
 	}
+	
+	@GetMapping("/user/status")
+	public ResponseEntity<Boolean> userStatusCheck(HttpServletRequest request){
+		Enumeration<String> headers = request.getHeaderNames();
+		while(headers.hasMoreElements()) {
+			//System.out.println(headers.nextElement());
+			if(headers.nextElement().equals("username")) {
+				System.out.println(request.getHeader("username"));
+			}
+		}
+		User user = userRepository.findById(request.getHeader("username")).get();
+		boolean result = user.isActive();
+		System.out.println(result);
+		
+		return new ResponseEntity<>(result ,HttpStatus.OK);
+	}
+	
+	@GetMapping("/company/status")
+	public ResponseEntity<Boolean> companyStatusCheck(HttpServletRequest request){
+		Enumeration<String> headers = request.getHeaderNames();
+		while(headers.hasMoreElements()) {
+			//System.out.println(headers.nextElement());
+			if(headers.nextElement().equals("username")) {
+				System.out.println(request.getHeader("username"));
+			}
+		}
+		Company company = companyRepository.findById(request.getHeader("username")).get();
+		boolean result = company.isActive();
+		System.out.println(result);
+		
+		return new ResponseEntity<>(result ,HttpStatus.OK);
+	}
+	
 	
 }

@@ -233,16 +233,34 @@ public class UserCommunityController {
 		return new ResponseEntity<>("댓글신고완료", HttpStatus.OK);
 	}
 	
+	// http://localhost:9001/api/v1/user/community-myboard
 	// 구직자 마이페이지 - 내가 쓴 게시글 목록 조회
 	@GetMapping("/community-myboard")
-	public List<UserBoard> communityMyBoardList(@RequestBody BoardDto boardDto){
+	public List<UserBoard> communityMyBoardList(HttpServletRequest request){
+		
+		String username = request.getHeader("username");
 		User user = new User();
-		user.setUsername(boardDto.getUsername());
+		user.setUsername(username);
 		
 		List<UserBoard> ubList = ubRepo.findByUser(user);
-		
+		System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnn"+ubList);
 		return ubList;
 	}
+	
+//	// 구직자 마이페이지 - 내가 쓴 게시글 디테일
+//	@GetMapping("/community-myboardDetail")
+//	public UserBoard communityMyBoard(HttpServletRequest request, @RequestParam("ubno") Long ubno){
+//		
+//		String username = request.getHeader("username");
+//		User user = new User();
+//		user.setUsername(username);
+//		
+//		UserBoard ub = ubRepo.findById(ubno).get();
+//		System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnn"+ub);
+//		return ub;
+//	}
+	
+	
 	
 	// 유저 커뮤니티 검색 리스트
 	@GetMapping("/community-board/search-result/{keyword}")

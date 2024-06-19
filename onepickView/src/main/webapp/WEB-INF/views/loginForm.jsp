@@ -72,6 +72,8 @@
 		
 	    var serializedData = params.toString();
 	    console.log(serializedData);
+	    
+	    
 	
 		const xhttp = new XMLHttpRequest();
 		xhttp.onload = function() {
@@ -85,16 +87,33 @@
 				// 헤더 값 읽기
 				let role = xhttp.getResponseHeader("Role");
 				let username = xhttp.getResponseHeader("username");
+			
 				if(role=="ROLE_COMPANY"){
 					alert("로그인에 실패했습니다.");
 					
 				}else{
-					localStorage.setItem("role", role);
-					localStorage.setItem("username", username);
-					
-					console.log("role : " + role);
-					console.log("username : " + username);
-					location.href="/";
+
+					const xhttp22 = new XMLHttpRequest();
+					xhttp22.onload = function() {
+						if (xhttp22.responseText == "true") {
+							
+							localStorage.setItem("role", role);
+							localStorage.setItem("username", username);
+							console.log("role : " + role);
+							console.log("username : " + username);
+							
+							location.href="/";
+
+						}else{
+							 alert("활동 정지 상태입니다. 고객센터(0000-000)으로 문의하세요.");
+						}
+					}
+					xhttp22.open("GET", "http://localhost:9001/api/v1/register/user/status");
+					xhttp22.setRequestHeader("Authorization", token);
+					xhttp22.setRequestHeader("username", username);
+					xhttp22.setRequestHeader("Access-Control-Expose-Headers", "Authorization, username");
+					xhttp22.send();
+				
 				}
 				
 			}else{
@@ -139,12 +158,28 @@
 					alert("로그인에 실패했습니다.");
 					
 				}else{
-					localStorage.setItem("role", role);
-					localStorage.setItem("username", username);
 					
-					console.log("role : " + role);
-					console.log("username : " + username);
-					location.href="/";
+					const xhttp22 = new XMLHttpRequest();
+					xhttp22.onload = function() {
+						if (xhttp22.responseText == "true") {
+							
+							localStorage.setItem("role", role);
+							localStorage.setItem("username", username);
+							console.log("role : " + role);
+							console.log("username : " + username);
+							
+							location.href="/";
+
+						}else{
+							 alert("활동 정지 상태입니다. 고객센터(0000-000)으로 문의하세요.");
+						}
+					}
+					xhttp22.open("GET", "http://localhost:9001/api/v1/register/company/status");
+					xhttp22.setRequestHeader("Authorization", token);
+					xhttp22.setRequestHeader("username", username);
+					xhttp22.setRequestHeader("Access-Control-Expose-Headers", "Authorization, username");
+					xhttp22.send();
+				
 				}
 				
 			}else{
