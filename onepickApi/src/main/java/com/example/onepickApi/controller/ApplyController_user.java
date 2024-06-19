@@ -1,6 +1,7 @@
 package com.example.onepickApi.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,7 +66,12 @@ public class ApplyController_user {
 		applyList.setJobAd(jobad);
 		applyList.setResume(resume);
 		
+		//applyList 테이블에 저장
 		applyRepo.save(applyList);
+		
+		//저장된 데이터의 pk가져오기
+		String ano= Long.toString(applyList.getAno());
+
 		
 		System.out.println("지원내역 출력 : " + applyList);
 		
@@ -73,11 +80,24 @@ public class ApplyController_user {
 			String token = jobad.getCompany().getToken();
 			notificationService.sendNotification(token, " 📢 새로운 지원자 알림 ", jobad.getCompany().getName() +" 님이 올리신 공고에 "+ user.getName() + " 님이 지원했어요! 확인해보세요😉 ");
 		}
+		return new ResponseEntity<>(ano, HttpStatus.OK);
+	}
+	
+	//이력서 캡쳐 이미지 applyList에저장하기
+	@PostMapping("/apply-img")
+	public ResponseEntity<String> applySave(@RequestBody Map<String, String> payload, @RequestParam("ano") Long ano) {
+		String imgData = (String) payload.get("imgData");
+		System.out.println("실행됐씀=========================");
+		System.out.println(payload);
+		
+		ApplyList al = applyRepo.findById(ano).get();
+		al.setSave(imgData);
+		applyRepo.save(al);
+		
+		System.out.println(al);
 		
 		
-		
-		return ResponseEntity.ok("지원 완료!!");
-		
+		return new ResponseEntity<>("done", HttpStatus.OK);
 	}
 	
 	

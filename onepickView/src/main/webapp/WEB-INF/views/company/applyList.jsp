@@ -17,8 +17,8 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 	<div class="container">
 		<div class="title">지원 내역 리스트</div>
-		<div class="apply_list"></div>
-		
+		<div class="accordion"></div>
+	
 		<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -40,31 +40,37 @@
     </div>
   </div>
 </div>
+
 	</div>
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 
 <script>
-const listContainer = document.querySelector('.apply_list');
+const listContainer = document.querySelector('.accordion');
 const radioTypes = document.querySelectorAll("input[type='radio']")
 const status_wait = document.querySelector("#status-wait")
 const status_interviewed = document.querySelector("#status-interviewed")
 const status_accepted = document.querySelector("#status-accepted")
 const status_rejected = document.querySelector("#status-rejected")
 const status_applied = document.querySelector("#status-applied")
+const resume_img =  document.querySelector("#resume_img")
 
     const xhttp = new XMLHttpRequest();
 	xhttp.onload = function() {
 		let datas = JSON.parse(this.responseText);
 		if (datas && datas.length > 0) {
            datas.forEach(data => {
+        	   console.log(data)
+        	   const listItemId = "collapse" + data.ano;
                const listItem = document.createElement('div');
                listItem.className = 'apply_list_item';
-               listItem.innerHTML = "<span style='display:none;' class='jno'>"+data.jobAd.jno+"</span><div>"+data.jobAd.wantedTitle+"</div><div><a href='/user/resumeDetail?rno="+data.resume.rno+"'>"+ data.resume.title+"</a></div><div>"+data.user.name+"</div><div> 지원날짜 " +data.regdate.slice(0, 10)+
-               "</div> <div><button class='btn btn-onepick' onclick='changeStatus(event)' data-bs-toggle='modal' data-bs-target='#exampleModal'>" + data.status + "</button></div>";
+               listItem.innerHTML =  "<div class='accordion-item'> <h2 class='accordion-header'><div class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#"+listItemId+"' aria-expanded='false' aria-controls='"+listItemId+"'>"
+                  +"<span style='display:none;' class='jno'>"+data.jobAd.jno+"</span><span style='display:none;' class='rno'>"+data.resume.rno+"</span><button class='btn btn-onepick' onclick='changeStatus(event)' data-bs-toggle='modal' data-bs-target='#exampleModal'>"   +   data.status+"</button>" +    "[공고 제목] "+data.jobAd.wantedTitle+"     [지원자 " +data.user.name +"]      "+data.resume.title+ " 지원 날짜 : "+data.regdate.slice(0, 10)+
+               "</div></h2><div id='"+listItemId+"' class='accordion-collapse collapse' data-bs-parent='.accordion'><div class='accordion-body'><img src='"+
+               data.save+"' alt='Resume Image'></div></div></div>";
+              
                listContainer.appendChild(listItem);
            });
            const statusBtns = document.querySelectorAll(".apply_list_item button");
-           console.log(statusBtns)
            statusBtns.forEach(btn=>{
         	   if(btn.innerText == "불합격"){
         		   btn.style.backgroundColor="red";
@@ -81,7 +87,6 @@ const status_applied = document.querySelector("#status-applied")
         		   btn.removeAttribute("data-bs-target");
         	   }
            })
-
 		}else{
 			 // 지원한 지원자가 아직 없을경우
 	        listContainer.innerHTML = '지원한 지원자가 아직 존재하지 않습니다.';
@@ -94,8 +99,11 @@ const status_applied = document.querySelector("#status-applied")
 	xhttp.setRequestHeader("Access-Control-Expose-Headers", "jwtToken, username, role")
 	xhttp.send();
 	
+
 	
 	function changeStatus(e){
+		const jno = e.target.parentElement.querySelector(".jno").innerText;
+		const rno = e.target.parentElement.querySelector(".rno").innerText;
 		const originalStatus = e.target.innerText;
 	
 		if(originalStatus == "지원완료"){
@@ -114,15 +122,11 @@ const status_applied = document.querySelector("#status-applied")
 				radio.checked = true;
 			}
 		})
-		const rno = e.target.parentElement.parentElement.querySelector("a").href.split("=")[1]
-		const jno = e.target.parentElement.parentElement.querySelector(".jno").innerText
-		console.log(document.querySelector("#changeBtn"))
-		console.log(jno)
-		console.log(rno)
 		
 		document.querySelector("#changeBtn").addEventListener("click", function(){
 			//뭐가 선택됐는지 체크
 			const status = document.querySelector('input[name="status"]:checked').value;
+			console.log(status)
 			//버튼 누르면 ajax콜로 status업데이트 해주기
 			 const xhttp = new XMLHttpRequest();
 				xhttp.onload = function() {
