@@ -36,7 +36,7 @@ public class Resume extends BaseEntity{
 	@Column
     private String def = "N"; //대표이력서 설정 ("Y","N")
 	@Column
-    private String disclo = "private"; //공개,비공개 설정("public","private")
+    private String disclo; //공개,비공개 설정
 
     private String portfolioUrl;
     private String selfInfoTitle;
