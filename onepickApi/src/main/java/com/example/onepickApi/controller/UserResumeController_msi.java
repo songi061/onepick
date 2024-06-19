@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.onepickApi.dto.CareerDto;
@@ -145,13 +147,14 @@ public class UserResumeController_msi {
 	
 	// 이력서 등록하기
 		@PostMapping("/resume")
-		public ResponseEntity<String> registResume(Map<String, List<Object>> data, HttpServletRequest request) {
+		public ResponseEntity<String> registResume(@RequestBody Map<String, List<Object>> data, HttpServletRequest request) {
 			
 			String username = request.getHeader("username");
 			User user = new User();
 			user.setUsername(username);
 
-			
+			System.out.println("map출력 : " + data);
+			System.out.println(data.get("resume"));
 			String result = resumeService.saveToDatabase(data, user);
 
 
@@ -160,7 +163,7 @@ public class UserResumeController_msi {
 			} else {
 				return ResponseEntity.notFound().build(); // 404 Not Found
 			}
-
+			//return ResponseEntity.ok("");
 		}
 	
 	

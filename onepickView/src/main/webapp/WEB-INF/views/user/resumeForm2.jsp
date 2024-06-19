@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="/css/style.css" rel="stylesheet">
 <link href="/css/resumeForm.css" rel="stylesheet">
-<!-- <script src="/js/resume.js"></script> -->
+<script src="/js/resume.js"></script>
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
@@ -328,7 +328,7 @@ function getResumeData() {
 	    const disclo = document.querySelector("input[name=disclo]");
 	    const title = document.querySelector("input[name=title]");
 	    const selfInfoTitle = document.querySelector("input[name=selfInfoTitle]");
-	    const selfInfoContent = document.querySelector("input[name=selfInfoContent]");
+	    const selfInfoContent = document.querySelector("textarea[name=selfInfoContent]");
 	    const region1 = document.querySelector("select[name=region1]");
 	    const region1_1 = document.querySelector("select[name=region1_1]");
 	    const region2 = document.querySelector("select[name=region2]");
@@ -609,27 +609,27 @@ function getResumeData() {
 	    };
 	    console.log(data)
 
-// 	    // JSON으로 변환
-// 	    const jsonData = JSON.stringify(data);
+ 	    // JSON으로 변환
+ 	    const jsonData = JSON.stringify(data);
 
-// 	    $.ajax({
-// 	        type: "POST",
-// 	        url: "http://localhost:9001/api/v1/resume",
-// 	        data: jsonData,
-// 	        contentType: "application/json", // JSON 데이터 전송을 위해 Content-Type을 설정
-// 	        headers: {
-// 	            'username': localStorage.getItem("username")  // HTTP 요청 헤더에 username 추가
-// 	        }, 
-// 	        success: function(response) {
-// 	            // 서버 응답 성공 처리
-// 	            console.log("서버 응답:", response);
-// 	            window.location.href = "/user/resumeList";
-// 	        },
-// 	        error: function(jqXHR, textStatus, errorThrown) {
-// 	            // 에러 발생 시 처리
-// 	            console.log("에러 발생:", textStatus, errorThrown);
-// 	        }
-// 	    });
+	    $.ajax({
+	        type: "POST",
+	        url: "http://localhost:9001/api/v1/resume",
+	        data: jsonData,
+	        contentType: "application/json", // JSON 데이터 전송을 위해 Content-Type을 설정
+	        headers: {
+	            'username': localStorage.getItem("username")  // HTTP 요청 헤더에 username 추가
+	        }, 
+	        success: function(response) {
+	            // 서버 응답 성공 처리
+	            console.log("서버 응답:", response);
+	            window.location.href = "/user/resumeList";
+	        },
+	        error: function(jqXHR, textStatus, errorThrown) {
+	            // 에러 발생 시 처리
+	            console.log("에러 발생:", textStatus, errorThrown);
+	        }
+	    });
 	}
 	
 	

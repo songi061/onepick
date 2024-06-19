@@ -399,8 +399,30 @@ public class ResumeService {
 		    List<Object> resumeList = dataMap.get("resume");
 		    if (resumeList != null) {
 		        for (Object obj : resumeList) {
-		            if (obj instanceof Resume) {
-		                savedResume = resumeRepo.save((Resume) obj);
+		            System.out.println(obj);
+		            if (obj instanceof Map) {
+		                Map<String, String> resumeData = (Map<String, String>) obj;
+		                
+		                // Create a new Resume object and set its properties
+		                Resume resume = new Resume();
+		                resume.setDisclo(resumeData.get("disclo"));
+		                resume.setTitle(resumeData.get("title"));
+		                resume.setSelfInfoTitle(resumeData.get("selfInfoTitle"));
+		                resume.setSelfInfoContent(resumeData.get("selfInfoContent"));
+		                resume.setRegion1(resumeData.get("region1"));
+		                resume.setRegion1_1(resumeData.get("region1_1"));
+		                resume.setRegion2(resumeData.get("region2"));
+		                resume.setRegion2_1(resumeData.get("region2_1"));
+		                resume.setSector(resumeData.get("sector"));
+		                resume.setJob(resumeData.get("job"));
+		                resume.setPortfolioUrl(resumeData.get("portfolioUrl"));
+		                
+		                // Set the User for the Resume object
+		                resume.setUser(user);
+		                
+		                // Save the Resume object
+		                savedResume = resumeRepo.save(resume);
+		                
 		                System.out.println("저장된 이력서 : " + savedResume);
 		            } else {
 		                throw new IllegalArgumentException("이력서가 올바르지 않습니다");
@@ -411,84 +433,84 @@ public class ResumeService {
 		    if (savedResume == null) {
 		        throw new IllegalStateException("이력서 저장이 안되었어요");
 		    }
-
-	        // licence 리스트 저장
-	        List<Object> licenceList = dataMap.get("licence");
-	        if (licenceList != null) {
-	            for (Object obj : licenceList) {
-	                if (obj instanceof License) {
-	                    License license = (License) obj;
-	                    license.setResume(savedResume);
-	                    license.setUser(user);
-	                    licenseRepo.save(license);
-	                } else {
-	                    throw new IllegalArgumentException("자격증이 올바르지 않습니다");
-	                }
-	            }
-	        }
-	        
-	        
-
-	        // career 리스트 저장
-	        List<Object> careerList = dataMap.get("career");
-	        if (careerList != null) {
-	            for (Object obj : careerList) {
-	                if (obj instanceof Career) {
-	                    Career career = (Career) obj;
-	                    career.setResume(savedResume);
-	                    career.setUser(user);
-	                    careerRepo.save(career);
-	                } else {
-	                    throw new IllegalArgumentException("경력사항이 올바르지 않습니다");
-	                }
-	            }
-	        }
-
-	        // experience 리스트 저장
-	        List<Object> experienceList = dataMap.get("experience");
-	        if (experienceList != null) {
-	            for (Object obj : experienceList) {
-	                if (obj instanceof Experience) {
-	                    Experience experience = (Experience) obj;
-	                    experience.setResume(savedResume);
-	                    experience.setUser(user);
-	                    experienceRepo.save(experience);
-	                } else {
-	                    throw new IllegalArgumentException("사회경력이 올바르지 않습니다");
-	                }
-	            }
-	        }
-
-	        // oa 리스트 저장
-	        List<Object> oaList = dataMap.get("oa");
-	        if (oaList != null) {
-	            for (Object obj : oaList) {
-	                if (obj instanceof Oa) {
-	                    Oa oa = (Oa) obj;
-	                    oa.setResume(savedResume);
-	                    oa.setUser(user);
-	                    oaRepo.save(oa);
-	                } else {
-	                    throw new IllegalArgumentException("스킬(OA)이 올바르지 않습니다");
-	                }
-	            }
-	        }
-
-	        // school 리스트 저장
-	        List<Object> schoolList = dataMap.get("school");
-	        if (schoolList != null) {
-	            for (Object obj : schoolList) {
-	                if (obj instanceof School) {
-	                    School school = (School) obj;
-	                    school.setResume(savedResume);
-	                    school.setUser(user);
-	                    schoolRepo.save(school);
-	                } else {
-	                    throw new IllegalArgumentException("학력사항이 올바르지 않습니다");
-	                }
-	            }
-	        }
-	        
+//
+//	        // licence 리스트 저장
+//	        List<Object> licenceList = dataMap.get("licence");
+//	        if (licenceList != null) {
+//	            for (Object obj : licenceList) {
+//	                if (obj instanceof License) {
+//	                    License license = (License) obj;
+//	                    license.setResume(savedResume);
+//	                    license.setUser(user);
+//	                    licenseRepo.save(license);
+//	                } else {
+//	                    throw new IllegalArgumentException("자격증이 올바르지 않습니다");
+//	                }
+//	            }
+//	        }
+//	        
+//	        
+//
+//	        // career 리스트 저장
+//	        List<Object> careerList = dataMap.get("career");
+//	        if (careerList != null) {
+//	            for (Object obj : careerList) {
+//	                if (obj instanceof Career) {
+//	                    Career career = (Career) obj;
+//	                    career.setResume(savedResume);
+//	                    career.setUser(user);
+//	                    careerRepo.save(career);
+//	                } else {
+//	                    throw new IllegalArgumentException("경력사항이 올바르지 않습니다");
+//	                }
+//	            }
+//	        }
+//
+//	        // experience 리스트 저장
+//	        List<Object> experienceList = dataMap.get("experience");
+//	        if (experienceList != null) {
+//	            for (Object obj : experienceList) {
+//	                if (obj instanceof Experience) {
+//	                    Experience experience = (Experience) obj;
+//	                    experience.setResume(savedResume);
+//	                    experience.setUser(user);
+//	                    experienceRepo.save(experience);
+//	                } else {
+//	                    throw new IllegalArgumentException("사회경력이 올바르지 않습니다");
+//	                }
+//	            }
+//	        }
+//
+//	        // oa 리스트 저장
+//	        List<Object> oaList = dataMap.get("oa");
+//	        if (oaList != null) {
+//	            for (Object obj : oaList) {
+//	                if (obj instanceof Oa) {
+//	                    Oa oa = (Oa) obj;
+//	                    oa.setResume(savedResume);
+//	                    oa.setUser(user);
+//	                    oaRepo.save(oa);
+//	                } else {
+//	                    throw new IllegalArgumentException("스킬(OA)이 올바르지 않습니다");
+//	                }
+//	            }
+//	        }
+//
+//	        // school 리스트 저장
+//	        List<Object> schoolList = dataMap.get("school");
+//	        if (schoolList != null) {
+//	            for (Object obj : schoolList) {
+//	                if (obj instanceof School) {
+//	                    School school = (School) obj;
+//	                    school.setResume(savedResume);
+//	                    school.setUser(user);
+//	                    schoolRepo.save(school);
+//	                } else {
+//	                    throw new IllegalArgumentException("학력사항이 올바르지 않습니다");
+//	                }
+//	            }
+//	        }
+//	        
 	        
 	        
 	        return "등록완료";
