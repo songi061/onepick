@@ -105,7 +105,7 @@
 							location.href="/";
 
 						}else{
-							 alert("활동 정지 상태입니다. 관리자에게 문의하세요.");
+							 alert("활동 정지 상태입니다. 고객센터(0000-000)으로 문의하세요.");
 						}
 					}
 					xhttp22.open("GET", "http://localhost:9001/api/v1/register/user/status");
@@ -171,7 +171,7 @@
 							location.href="/";
 
 						}else{
-							 alert("활동 정지 상태입니다. 관리자에게 문의하세요.");
+							 alert("활동 정지 상태입니다. 고객센터(0000-000)으로 문의하세요.");
 						}
 					}
 					xhttp22.open("GET", "http://localhost:9001/api/v1/register/company/status");
