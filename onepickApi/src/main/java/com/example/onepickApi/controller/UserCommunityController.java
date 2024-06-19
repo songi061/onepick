@@ -1,5 +1,6 @@
 package com.example.onepickApi.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -108,6 +109,25 @@ public class UserCommunityController {
 		List<UserReply> ur = urRepo.findByUserBoard(ub);
 		return ur;
 	}
+	
+	
+//	// 구직자 마이페이지 - 내가 쓴 댓글 목록 조회
+//	@GetMapping("/community-comment")
+//	public List<UserReply> communityMyComment(HttpServletRequest request){
+//		
+//		String username = request.getHeader("username");
+//		User user = new User();
+//		user.setUsername(username);
+//		
+//		List<UserReply> ur = urRepo.findByUser(user);
+//	    if (ur != null) {
+//	        return ur;
+//	    }else {
+//	    	return null;
+//	    } 
+//	    
+//	}
+//	
 	
 	// 댓글 등록
 	@PostMapping("/community-comment")
@@ -248,21 +268,7 @@ public class UserCommunityController {
 		System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnn"+ubList);
 		return ubList;
 	}
-	
-//	// 구직자 마이페이지 - 내가 쓴 게시글 디테일
-//	@GetMapping("/community-myboardDetail")
-//	public UserBoard communityMyBoard(HttpServletRequest request, @RequestParam("ubno") Long ubno){
-//		
-//		String username = request.getHeader("username");
-//		User user = new User();
-//		user.setUsername(username);
-//		
-//		UserBoard ub = ubRepo.findById(ubno).get();
-//		System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnn"+ub);
-//		return ub;
-//	}
-	
-	
+
 	
 	// 유저 커뮤니티 검색 리스트
 	@GetMapping("/community-board/search-result/{keyword}")

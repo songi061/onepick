@@ -1,0 +1,77 @@
+@charset "UTF-8";
+
+#detail_wrap{
+    width: 100%;
+    border-top: 2px solid lightgray;
+}
+
+#detail_head{
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#detail_head>li{
+    text-align: center;
+    line-height: 90px;
+    float: left;
+}
+
+#title{
+    font: 900 20px/30px 'Pretendard-Regular';
+    margin: 10px 0;
+}
+
+#detail_info{
+    display: flex;
+    flex-direction: row;
+}
+#detail_info>li:nth-child(2){
+    margin: 0 20px;
+}
+#category{
+    color: #42d056;
+}
+
+#repBtn{
+	margin-left: 10px;
+}
+
+#content{
+    width: 100%;
+    height: 500px;
+    padding: 20px;
+   	border-top: 1px solid lightgray;
+    border-bottom: 2px solid lightgray;
+}
+
+#btn_commu_report{
+    border: 0;
+    background-color: #fff;
+}
+
+#editBtn{
+    border: 1px solid gainsboro;
+    width: 60px; height: 40px;
+    background-color: #fff;
+    color: #666;
+    float: right;
+    position: relative;
+    top: -50px;
+}
+.replyForm{
+    width: 1200px;
+    margin: 20px auto;
+}
+#input_reply_content{
+    width: 95%; height: 40px;
+    border: 1px solid lightgray;
+}
+
+#btn_postComment{
+    border: 1px solid #6c757d;
+    width: 60px; height: 40px;
+    background-color: #6c757d;
+    color: #fff;
+    float: right;
+}
