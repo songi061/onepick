@@ -131,6 +131,7 @@
 		자격증명<input type="text" name="lname" placeholder="내용을 입력하세요" class="textbox"><br>
 		발급기관<input type="text" name="org" placeholder="내용을 입력하세요" class="textbox"><br>
 		취득일<input type="date" name="getDate" class="datebox"><br><br>
+		<button onclick="getLicenseData(event)">추가</button>
 	</div>
 	
 	<div>
@@ -229,6 +230,93 @@
 	        $('#counter').html("(500 / 500)");
 	    }
 	});
+	
+	
+	let licenseArr=[];
+	//let licenseDiv = document.querySelector("#license");
+	
+	   function getLicenseData(e) {
+		    e.preventDefault();
+		
+		    // 부모 요소에서 입력 값을 가져오기
+		    const parentElement = e.target.parentElement;
+		
+		    // 입력 요소 선택
+		    const lname = parentElement.querySelector("input[name=lname]");
+		    const org = parentElement.querySelector("input[name=org]");
+		    const getDate = parentElement.querySelector("input[name=getDate]");
+		
+		    // 입력 값을 객체로 변환
+		    let licenseObj = {
+		        "lname": lname.value,
+		        "org": org.value,
+		        "getDate": getDate.value
+		    };
+		
+		    // 콘솔에 객체 출력
+		    console.log("licenseObj 출력 : ", licenseObj);
+		
+		    // 배열에 객체 추가
+		    licenseArr.push(licenseObj);
+		
+		    // 콘솔에 배열 출력
+		    console.log("licenseArr 출력 : ", licenseArr);
+		
+		    // 입력 폼 초기화
+		    lname.value = "";
+		    org.value = "";
+		    getDate.value = "";
+		}
+	
+	   
+	   
+	   
+	   let resumeArr = [];
+		
+		   function getResumeData(e) {
+			    e.preventDefault();
+
+			
+			    // 입력 요소 선택
+			    const disclo = document.querySelector("input[name=disclo]");
+			    const title = document.querySelector("input[name=title]");
+			    const selfInfoTitle = document.querySelector("input[name=selfInfoTitle]");
+			    const selfInfoContent = document.querySelector("input[name=selfInfoContent]");
+			    const region1 = document.querySelector("select[name=region1]");
+			    const region1_1 = document.querySelector("select[name=region1_1]");
+			    const region2 = document.querySelector("select[name=region2]");
+			    const region2_1 = document.querySelector("select[name=region2_1]");
+			    const sector = document.querySelector("select[name=sector]");
+			    const job = document.querySelector("select[name=job]");
+			    const portfolioUrl = document.querySelector("input[name=portfolioUrl]")
+			
+			    // 입력 값을 객체로 변환
+			    let resumeObj = {
+			        "disclo": disclo.value,
+			        "title": title.value,
+			        "selfInfoTitle": selfInfoTitle.value,
+			        "selfInfoContent": selfInfoContent.value,
+			        "region1": region1.value,
+			        "region1_1": region1_1.value,
+			        "region2": region2.value,
+			        "region2_1": region2_1.value,
+			        "sector": sector.value,
+			        "job": job.value,
+			        "portfolioUrl": portfolioUrl.value,
+			    };
+			
+			    // 콘솔에 객체 출력
+			    console.log("resumeObj 출력 : ", resumeObj);
+			
+			    // 배열에 객체 추가
+			    resumeArr.push(resumeObj);
+			
+			    // 콘솔에 배열 출력
+			    console.log("resumeArr 출력 : ", resumeArr);
+			
+			    
+			}
+	
 
 
 </script>
