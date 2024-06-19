@@ -15,7 +15,7 @@
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="../layout/header.jsp"></jsp:include>
 	<div class="container">
-		<div class="title">기업 목록</div>
+		<div class="page_title">기업 목록</div>
 		<div class="company_list">	</div>
 	</div>
 <jsp:include page="../layout/footer.jsp"></jsp:include>
