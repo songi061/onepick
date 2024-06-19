@@ -74,8 +74,7 @@ public class RegistControllerJs {
 		
 		user.setPassword(newPw);
 		user.setRole(role);
-		Date now = new Date();
-		user.setRealRegDate(now);
+		user.setActive(true);
 		
 		User result = userRepository.save(user);
 		if(result != null) {
@@ -95,8 +94,7 @@ public class RegistControllerJs {
 		
 		company.setPassword(newPw);
 		company.setRole(role);
-		Date now = new Date();
-		company.setRealRegDate(now);
+		company.setActive(true);
 		Company result = companyRepository.save(company);
 		
 		if(result != null) {

@@ -40,5 +40,5 @@ public class User extends BaseEntity implements Member{
     private String militaryService;
     @Column(unique = true)
     private String token;
-    private Date realRegDate;
+    private boolean active; // 활동 상태 추가
 }

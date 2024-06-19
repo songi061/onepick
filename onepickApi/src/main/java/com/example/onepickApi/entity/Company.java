@@ -44,5 +44,6 @@ public class Company extends BaseEntity implements Member{
 	    private String yrSales;
 	    @Column(unique = true)
 	    private String token;
-	    private Date realRegDate;
+	    private boolean active; // 활동 상태 추가
+	    
 }
