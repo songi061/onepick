@@ -45,6 +45,7 @@
 
 // 로컬 스토리지에서 username을 가져옴
 const storedUsername = localStorage.getItem('username');
+const storedRole = localStorage.getItem('role');
 // 모든 게시물 요소를 가져옴
 const post = document.getElementById('board_detail');
 const editBtn = document.getElementById("editBtn");
@@ -55,6 +56,11 @@ $(document).ready(function(){
 	$.ajax({
 		type: 'GET',
 		url: 'http://localhost:9001/api/v1/user/community-board/'+ubno,
+		headers: {
+			"jwtToken" : localStorage.getItem("jwtToken"),
+            "username" : localStorage.getItem("username"),
+            "role" : localStorage.getItem("role")
+		},
 		//data: { ubno: "job_hunting"},
 		dataType: 'json',
 		success: function(data){
@@ -70,7 +76,7 @@ $(document).ready(function(){
 					'<tr><td>'+data.regdate + '</td></tr>';
 				$('#data_board_detail').html(str);
 
-		        if (storedUsername == data.user.username) {
+		        if (storedUsername == data.user.username || storedRole === "ROLE_ADMIN") {
 		            console.log("xxxx")
 		            editBtn.style.display="block";
 		   	 	};
@@ -85,7 +91,7 @@ $(document).ready(function(){
 
 	//수정버튼 클릭이벤트 핸들러 추가
 	editBtn.addEventListener("click", function(){
-	console.log("수정버튼 클릭ㅇ=ㅎㅎ")
+	console.log("수정버튼 클릭")
 	window.location.href = '/user/communityEdit?ubno='+ubno;
 	})
 

@@ -93,7 +93,7 @@ public class UserCommunityController {
 	
 	// 게시물 상세보기
 	@GetMapping("/community-board/{ubno}")
-	public UserBoard communityDetail(@PathVariable("ubno") Long ubno){
+	public UserBoard communityDetail(HttpServletRequest request, @PathVariable("ubno") Long ubno){
 		UserBoard ub = ubRepo.findById(ubno).get();
 		
 		return ub;
