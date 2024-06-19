@@ -19,74 +19,74 @@
     		<a class="list-group-item list-group-item-action" id="freeBoard" aria-current="true" href="#list-item-1">자유글</a>
 	      	<a class="list-group-item list-group-item-action" id="information" href="#list-item-2">정보공유</a>
 	      	<a class="list-group-item list-group-item-action" id="dispatch" href="#list-item-3">파견</a>
-	      	<a class="list-group-item list-group-item-action" id="seminar" href="#list-item-3">세미나</a>
+	      	<a class="list-group-item list-group-item-action" id="seminar" href="#list-item-4">세미나</a>
 	    </div>
 	</div>
 <div class="col-8">
 	<div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
 		<div id="data_freeBoard">
 			<table id="freeBoard">
-				<tr>
-					<th>게시글 번호</th><th>제목</th><th>내용</th><th>작성자</th>
-				</tr>
 			</table>
 		</div>
 		<div id="data_information">
 			<table id="information">
-				<tr>
-					<th>게시글 번호</th><th>제목</th><th>내용</th><th>작성자</th>
-				</tr>
 			</table>
 		</div>
 		<div id="data_dispatch">
 			<table id="dispatch">
-				<tr>
-					<th>게시글 번호</th><th>제목</th><th>내용</th><th>작성자</th>
-				</tr>	
 			</table>
 		</div>
 		<div id="data_seminar">
 			<table id="seminar">
-				<tr>
-					<th>게시글 번호</th><th>제목</th><th>내용</th><th>작성자</th>
-				</tr>	
 			</table>
 		</div>
 	</div>
 </div>
 <script>
-	// 게시물 조회 - 자유글
+	// 기본페이지를 자유글로 설정
 	$(document).ready(function(){
-		$('#freeBoard').ready(function(){
-			$.ajax({
-				type: 'GET',
-				url: 'http://localhost:9001/api/v1/company/community-board',
-				data: { category: "freeBoard"},
-				dataType: 'json',
-				success: function(data){
-					console.log(data);
-					$('#data_information').empty();
-					$('#data_dispatch').empty();
-					$('#data_seminar').empty();
-					
-					if (data !== null) {
-						let str = '';
-						for(var i=0; i<data.length; i++){
-							str += '<tr id="'+data[i].cbno+'" class="clickable"><td>'+data[i].cbno +
-								'</td> '+ '<td>'+data[i].title + '</td>'+
-								'<td>'+data[i].content +'</td>'+
-								'<td>'+data[i].company.username+'</td>'+
-								'<td>'+data[i].views+'</td></tr>';
-						}
-						$('#data_freeBoard').html(str);
-					}
-				},
-				error:function(error){
-					alert(error);
-				}
-			});
-		});
+		loadBoard();
 	});
+	
+	function loadBoard(){
+		$.ajax({
+			type: 'GET',
+			url: 'http://localhost:9001/api/v1/company/community-board',
+			data: { category: "freeBoard"},
+			dataType: 'json',
+			success: function(data){
+				console.log(data);
+				$('#data_information').empty();
+				$('#data_dispatch').empty();
+				$('#data_seminar').empty();
+				
+				if (data !== null) {
+					let str = '';
+					for(var i=0; i<data.length; i++){
+						str += '<tr id="'+data[i].cbno+'" class="clickable"><td>'+data[i].cbno +
+							'</td> '+ '<td>'+data[i].title + '</td>'+
+							'<td>'+data[i].content +'</td>'+
+							'<td>'+data[i].company.username+'</td>'+
+							'<td>'+data[i].views+'</td></tr>';
+					}
+					$('#data_freeBoard').html(str);
+				}
+			},
+			error:function(error){
+				alert(error);
+			}
+		});
+		
+	}
+	
+	
+	
+	// 게시물 조회 - 자유글
+	
+		$('#freeBoard').click(function(){
+			loadBoard();
+		});
+	
 	
 	// 게시물 조회 - 정보공유
 	$(document).ready(function(){
@@ -156,7 +156,7 @@
 	
 	// 게시물 조회 - 세미나
 	$(document).ready(function(){
-		$('#seminar').ready(function(){
+		$('#seminar').click(function(){
 			$.ajax({
 				type: 'GET',
 				url: 'http://localhost:9001/api/v1/company/community-board',
