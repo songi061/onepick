@@ -72,6 +72,7 @@
 							if(data !== null){
 								alert("게시물이 정상적으로 등록되었습니다.");
 								console.log(data);
+								location.href="/company/communityList";
 							}
 						},
 						error: function(xhr, status, error) {

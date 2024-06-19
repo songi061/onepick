@@ -13,6 +13,7 @@
 <jsp:include page="..//../layout/header.jsp"></jsp:include>
 <div class="container">
 	<div class="page_title"><h3>기업 커뮤니티</h3></div>
+	<div class="go_regist"><a href action="/company/communityForm">게시글 등록</a></div>
 	<div class="col-4">
 	    <div id="list-example" class="list-group list-group-horizontal">
     		<a class="list-group-item list-group-item-action" id="freeBoard" aria-current="true" href="#list-item-1">자유글</a>
