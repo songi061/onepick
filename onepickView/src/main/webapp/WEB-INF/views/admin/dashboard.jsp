@@ -53,7 +53,7 @@
                             <th>순위</th>
                             <th>분야</th>
                             <th>기업명</th>
-                            <th>구독 수</th>
+                            <th>구독자</th>
                         </tr>
                     </thead>
                     <tbody id="interestedCopTableBody">
@@ -69,7 +69,7 @@
                             <th>순위</th>
                             <th>기업명</th>
                             <th>공고명</th>
-                            <th>스크랩 수</th>
+                            <th>스크랩</th>
                         </tr>
                     </thead>
                     <tbody id="jobadScrapTableBody">
@@ -78,7 +78,8 @@
                 </table>
             </li>
         </ul>
-    </div>
+    </div>]
+    <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
 <script>
     $(document).ready(function () {
@@ -169,12 +170,23 @@
             url: "http://localhost:9001/api/v1/admin/dashboard-2",
             method: "GET",
             success: function (data) {
+            	var maxToShow = 5;
                 var tbody1 = $("#interestedCopTableBody");
                 tbody1.empty();
 
-                $.each(data.interestedCompanies, function (index, item) {
+                $.each(data.interestedCompanies.slice(0, maxToShow), function (index, item) {
                     var row = $("<tr>");
-                    row.append($("<td>").text(index + 1));
+                    
+                    if(index === 0){
+                        row.append($("<td>").text('🥇'));
+                    }else if(index === 1){
+                        row.append($("<td>").text('🥈'));
+                    }else if(index === 2){
+                        row.append($("<td>").text('🥉'));
+                    }else{
+                    	row.append($("<td>").text(index + 1));
+                    }
+                    
                     row.append($("<td>").text(item[0].sector)); // 기업 분야
                     row.append($("<td>").text(item[0].name)); // 기업명
                     row.append($("<td>").text(item[1])); // 구독 수
@@ -184,10 +196,20 @@
                 var tbody2 = $("#jobadScrapTableBody");
                 tbody2.empty();
 
-                $.each(data.popularJobAds, function (index, item) {
+                $.each(data.popularJobAds.slice(0, maxToShow), function (index, item) {
                 	console.log(data.popularJobAds);
                     var row = $("<tr>");
-                    row.append($("<td>").text(index + 1));
+                    
+                    if(index === 0){
+                        row.append($("<td>").text('🥇'));
+                    }else if(index === 1){
+                        row.append($("<td>").text('🥈'));
+                    }else if(index === 2){
+                        row.append($("<td>").text('🥉'));
+                    }else{
+                    	row.append($("<td>").text(index + 1));
+                    }
+                    
                     row.append($("<td>").text(item[0].company.name));
                     row.append($("<td>").text(item[0].wantedTitle));     
                     row.append($("<td>").text(item[1])); // 스크랩 수
