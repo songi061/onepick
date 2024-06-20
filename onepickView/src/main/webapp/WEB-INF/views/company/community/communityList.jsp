@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <div class="go_regist"><button class="btn btn-onepick" id="go_regist">등록</button></div>
+        <div class="go_regist"><button class="btn btn-onepick" id="go_regist">글쓰기</button></div>
     </div>
     <script>
         // 기본 페이지 - 자유글

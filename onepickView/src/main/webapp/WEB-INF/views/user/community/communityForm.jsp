@@ -10,10 +10,6 @@
 <link href="/css/style.css" rel="stylesheet">
 <link href="/css/qnaForm.css" rel="stylesheet">
 <style>
-.noticeBtn{
-	position:static;
-	float:right;
-}
 </style>
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
@@ -35,8 +31,8 @@
       </div>
       <div class="frm_content overflow-hidden">
            <p>내용</p><textarea class="w-75" id="inputContent" name="content"></textarea>
-        </div>
-       	<input type="submit" class="btn btn-onepick noticeBtn mt-3 float-end"  id="btn-boardRegist"  value="등록">
+    	</div>
+       	<button type="submit" class="btn btn-onepick noticeBtn mt-3 float-end"  id="btn-boardRegist">등록</button>
      </form>
 	
 	<script>

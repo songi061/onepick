@@ -8,21 +8,16 @@
 <title>1PICK!</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="/css/style.css" rel="stylesheet">
+<link href="/css/qnaForm.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="..//../layout/header.jsp"></jsp:include>
 <div class="container">
-	<div class="page_title"><h3>기업 커뮤니티</h3></div>
-	<form class="communityForm" id="communityForm">
-	  <div class="col-12">
-	    제목<input type="text" name="title" class="form-control" id="inputTitle" placeholder="제목을 입력하세요.">
-	  </div>
-	  <div class="col-md-6">
-	    내용<textarea class="form-control" id="inputContent" name="content" placeholder="내용을 입력하세요."></textarea>
-	  </div>
-	  <div class="col-md-4">
-	    <label for="inputState" class="form-label">카테고리</label>
-	    <select id="Category" class="form-select">
+	<div class="page_title">기업 커뮤니티</div>
+	<form name="frm" class="communityForm" id="communityForm">
+	  <div id="frm_category">
+	    <p>카테고리</p>
+	    <select id="Category" name="category" class="ms-3">
 	      <option selected>카테고리를 선택하세요</option>
 	      <option value="freeBoard">자유글</option>
 	      <option value="information">정보공유</option>
@@ -30,9 +25,13 @@
 	      <option value="seminar">세미나</option>
 	    </select>
 	  </div>
-	  <div class="col-12">
-	    <input type="submit" id="btn-boardRegist" value="등록하기">
+	 <div id="frm_title">
+	    <p>제목</p><input type="text" name="title" class="w-75" id="inputTitle" placeholder="제목을 입력하세요.">
 	  </div>
+	  <div class="frm_content overflow-hidden">
+	    <p>내용</p><textarea class="w-75" id="inputContent" name="content" placeholder="내용을 입력하세요."></textarea>
+	  </div>
+	    <button type="submit" class="btn btn-onepick noticeBtn mt-3 float-end" id="btn-boardRegist">등록</button>
 	</form>
 	<script>
 		// 게시글 등록
