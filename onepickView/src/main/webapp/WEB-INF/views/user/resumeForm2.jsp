@@ -150,14 +150,14 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">사회 활동</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">사회 활동 *</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        시작일<input type="date" name="startDay" class="datebox">
-		종료일<input type="date" name="endDay" class="datebox"><br>
-		참여기관<input type="text" name="ex_org" placeholder="내용을 입력하세요" class="textbox"><br>
-		활동내역<input type="text" name="ex_content" placeholder="내용을 입력해주세요" class="textbox"><br><br>
+        시작일 *<input type="date" name="startDay" class="datebox">
+		종료일 *<input type="date" name="endDay" class="datebox"><br>
+		참여기관 *<input type="text" name="ex_org" placeholder="내용을 입력하세요" class="textbox"><br>
+		활동내역 *<input type="text" name="ex_content" placeholder="내용을 입력해주세요" class="textbox"><br><br>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="return getExperienceData(event)">저장</button>
@@ -171,13 +171,13 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">자격증</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">자격증 *</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-       	자격증명<input type="text" name="lname" placeholder="내용을 입력하세요" class="textbox"><br>
-		발급기관<input type="text" name="org" placeholder="내용을 입력하세요" class="textbox"><br>
-		취득일<input type="date" name="getDate" class="datebox"><br><br>
+       	자격증명 *<input type="text" name="lname" placeholder="내용을 입력하세요" class="textbox"><br>
+		발급기관 *<input type="text" name="org" placeholder="내용을 입력하세요" class="textbox"><br>
+		취득일 *<input type="date" name="getDate" class="datebox"><br><br>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="return getLicenseData(event)">저장</button>
@@ -191,7 +191,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">학력사항</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">학력사항 *</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -201,7 +201,7 @@
 			전공학과<input type="text" name="major" placeholder="내용을 입력하세요" class="textbox"><br>
 			학점<input type="text" name="score" placeholder="내용을 입력하세요" class="textbox">
 			
-			<label for="select_degree">상태</label>
+			<label for="select_degree">상태 *</label>
 			<select name="s_status" id="select_degree" class="selectbox">
 				<option value="졸업">졸업</option>
 				<option value="중퇴">중퇴</option>
@@ -233,24 +233,24 @@
 		
 		
 		
-		<label for="select_sector2">업종</label>
+		<label for="select_sector2">업종 *</label>
 		<select name="c_type" id="select_sector2" class="selectbox">
-			<option value="">업종 선택</option>
+			<option value="">업종 선택 *</option>
 		</select>
 		
-		<label for="select_job2">직무</label>
+		<label for="select_job2">직무 *</label>
 		<select name="position" id="select_job2" class="selectbox">
-			<option value="">업종을 먼저 선택해주세요</option>
+			<option value="">업종을 먼저 선택해주세요 *</option>
 		</select><br>
 		
-		<label for="select_career">상태</label>
+		<label for="select_career">상태 *</label>
 		<select name="career_status" id="select_career" class="selectbox">
-			<option value="재직">재직중</option>
-			<option value="퇴사">퇴사</option>
-			<option value="기타">기타</option>
+			<option value="재직">재직중 *</option>
+			<option value="퇴사">퇴사 *</option>
+			<option value="기타">기타 *</option>
 		</select><br>
 		
-		업무 내용<input type="text" name="work" placeholder="내용을 입력하세요" class="textbox"><br><br>
+		업무 내용 *<input type="text" name="work" placeholder="내용을 입력하세요" class="textbox"><br><br>
 
       </div>
       <div class="modal-footer">
@@ -267,13 +267,13 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">보유능력</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">보유능력 *</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-       	<label for="select_skill">타입</label>
+       	<label for="select_skill">타입 *</label>
 		<select name="skillName" id="select_skill" class="selectbox">
-			<option value="">스킬 선택</option>
+			<option value="">스킬 선택 *</option>
 			<option value="java">java</option>
 			<option value="python">python</option>
 			<option value="javascript">javascript</option>
@@ -589,7 +589,7 @@ function getResumeData() {
 	    $('#exampleModal4').modal('hide');
 	}
 	
-	
+	 
 	
 	function postData(e) {
 	    e.preventDefault();
