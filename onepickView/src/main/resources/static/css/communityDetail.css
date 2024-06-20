@@ -97,10 +97,10 @@
     margin-right: 10px;
     float: left;
 }
-#r_username{
+#username, #r_username{
     font-weight: 700;
 }
-#r_date{
+#date ,#r_date{
     font-size: 13px;
     line-height: 25px;
     color: darkgray;
@@ -118,6 +118,7 @@ input:focus {outline:none;}
 input[type="text"]{
     padding-left: 10px;
 }
+
 .btn_reply_report{
     border: none;
     background-color: aliceblue;
