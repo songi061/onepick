@@ -152,8 +152,9 @@ public class RecruitController_jia {
 		return new ResponseEntity<>("done", HttpStatus.OK);
 	}
 	
-	@PutMapping("/")
+	@GetMapping("/")
 	public ResponseEntity<String> editJobad1(@RequestParam("jno") Long jno) {
+		System.out.println("cheeeeee");
 		//이미 지원한 사람이 있을때 수정 못하게 
 		if(applyListRepo.findByJno(jno) != null) {
 			return new ResponseEntity<>("cannot edit", HttpStatus.OK);

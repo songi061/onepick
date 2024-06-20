@@ -269,7 +269,7 @@ function goToEditForm(e){
 				location.href="/company/recruitEdit?jno="+jno;
 			}
 		}
-		xhttp.open("PUT", "http://localhost:9001/api/v1/recruit/?jno="+jno, true);
+		xhttp.open("GET", "http://localhost:9001/api/v1/recruit?jno="+jno, true);
 		xhttp.send();
 	};
 	
