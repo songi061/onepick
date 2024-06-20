@@ -235,7 +235,7 @@
 				const xhttp = new XMLHttpRequest();
 				xhttp.onload = function() {
 				  console.log(this.responseText);
-				  location.href="/";
+				  location.href="/loginForm";
 				  }
 				xhttp.open("POST", "http://localhost:9001/api/v1/register/user", true);
 				xhttp.setRequestHeader("Content-type", "application/json");
@@ -282,7 +282,7 @@
 				const xhttp = new XMLHttpRequest();
 				xhttp.onload = function() {
 				  console.log(this.responseText);
-				  location.href="/";
+				  location.href="/loginForm";
 				  }
 				xhttp.open("POST", "http://localhost:9001/api/v1/register/company", true);
 				xhttp.setRequestHeader("Content-type", "application/json");

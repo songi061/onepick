@@ -149,11 +149,12 @@
 						let objs = JSON.parse(this.responseText);
 						console.log(objs);
 						if(objs.length != 0){
+							document.querySelector("#allJobAdList").innerHTML = "";
 							objs.forEach(obj => {
 								console.log(obj);
 								let logoSrc = obj.company.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.company.fileName;
 								console.log(logoSrc);
-								document.querySelector("#allJobAdList").innerHTML = "";
+								
 								document.querySelector("#allJobAdList").innerHTML += 
 									"<div class='col-md-6 col-xl-4 mb-3'>"
 								+ "<a class='d-block d-flex align-items-center border text-decoration-none rounded p-4 pointer recruit_box' href='/company/recruitDetail?jno=" + obj.jno + "''>"

@@ -43,7 +43,14 @@ const xhttp = new XMLHttpRequest();
 		let objs = JSON.parse(this.responseText);
 		objs.forEach(obj => {
 			console.log(obj);
-			let logoSrc = obj.user.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.user.fileName;
+			//let logoSrc = obj.user.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.user.fileName;
+			 let logoSrc = "";
+             if(token_role == "ROLE_COMPANY" || token_role == "ROLE_ADMIN"){
+             	logoSrc = obj.user.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.user.fileName;
+             }else{
+             	logoSrc = "/img/no_img.jpg";
+             }
+             
 			console.log(logoSrc);
 			let currentTime = Date.now();
 			console.log(obj.user.birthDate);
@@ -55,8 +62,8 @@ const xhttp = new XMLHttpRequest();
 			let age = Math.floor(ageInYears);
 			console.log();
 			document.querySelector("#resumeList").innerHTML += 
-				"<div class='col-md-6 col-xl-4'>"
-				+ "<a class='d-block underline-none border p-4 rounded d-flex pointer' href='/user/resumeDetail?rno=" + obj.resume.rno +"'>"
+				"<div class='col-md-6 col-xl-4 mb-3'>"
+				+ "<a class='d-block underline-none border p-4 rounded d-flex pointer' style='cursor:pointer' onclick='roleCheckAfterLink(event, " + JSON.stringify(obj) + ")'>"
 				+ "<div class='profileImg_box'>"
 				+ "<img src=" + logoSrc + " alt='사진'>"
 				+ "</div>"
@@ -76,6 +83,14 @@ const xhttp = new XMLHttpRequest();
 }
 mainAllList();
 
+function roleCheckAfterLink(event, obj) {
+    event.preventDefault(); 
+    if (token_role === "ROLE_COMPANY" || token_role === "ROLE_ADMIN") {
+        location.href = '/user/resumeDetail?rno=' + obj.resume.rno;
+    } else {
+        alert("기업회원만 접근 가능합니다!");
+    }
+}
 
 resumeSearchBtn.addEventListener("click", function(){
     let keyword = searchInput.value;
@@ -91,7 +106,14 @@ resumeSearchBtn.addEventListener("click", function(){
             if (objs.length > 0) {
                 objs.forEach(obj => {
                     console.log(obj);
-                    let logoSrc = obj.user.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.user.fileName;
+                    //let logoSrc = obj.user.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.user.fileName;
+                    let logoSrc = "";
+                    if(token_role == "ROLE_COMPANY" || token_role == "ROLE_ADMIN"){
+                    	logoSrc = obj.user.fileName == null ? "/img/no_img.jpg" : "/images/" + obj.user.fileName;
+                    }else{
+                    	logoSrc = "/img/no_img.jpg";
+                    }
+                    
                     console.log(logoSrc);
                     let currentTime = Date.now();
                     console.log(obj.user.birthDate);
@@ -103,8 +125,8 @@ resumeSearchBtn.addEventListener("click", function(){
                     let age = Math.floor(ageInYears);
                     console.log();
                     document.querySelector("#resumeList").innerHTML += 
-                        "<div class='col-md-6 col-xl-4'>"
-                        + "<a class='d-block underline-none border p-4 rounded d-flex pointer' href='/user/resumeDetail?rno=" + obj.resume.rno +"'>"
+                        "<div class='col-md-6 col-xl-4 mb-3'>"
+                        + "<a class='d-block underline-none border p-4 rounded d-flex pointer'  style='cursor:pointer' onclick='roleCheckAfterLink(event, " + JSON.stringify(obj) + ")'>"
                         + "<div class='profileImg_box'>"
                         + "<img src=" + logoSrc + " alt='사진'>"
                         + "</div>"
