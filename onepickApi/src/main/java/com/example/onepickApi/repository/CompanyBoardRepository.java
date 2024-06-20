@@ -16,4 +16,7 @@ public interface CompanyBoardRepository extends JpaRepository<CompanyBoard, Long
 	
 	@Query(value="DELETE FROM company_board WHERE cbno= :cbno", nativeQuery=true)
 	void deleteByCbno(@Param("cbno") Long cbno);
+	
+	@Query(value="DELETE FROM company_board WHERE ubno= :ubno", nativeQuery=true)
+	void deleteByUbno(@Param("ubno") Long ubno);
 }

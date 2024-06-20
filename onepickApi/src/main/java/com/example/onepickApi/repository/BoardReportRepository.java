@@ -18,4 +18,6 @@ public interface BoardReportRepository  extends JpaRepository<BoardReport, Long>
 	@Query(value="DELETE FROM board_report WHERE cbno = :cbno", nativeQuery=true)
     void deleteByCompanyBoardCbno(@Param("cbno") Long cbno);
 	
+	@Query(value="DELETE FROM board_report WHERE ubno = :ubno", nativeQuery=true)
+    void deleteByUserBoardUbno(@Param("ubno") Long ubno);
 }

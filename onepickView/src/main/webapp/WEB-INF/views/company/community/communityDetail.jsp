@@ -115,13 +115,13 @@ $(document).ready(function(){
 		            console.log(storagedUsername === writer)
 		            editBtn.style.display="block";
 		            boardDeleteBtn.style.display="block";
-		   	 	};
+		   	 	}
 		   	 	
 		   		// 게시글 신고 버튼이 내가 쓴 글에는 안보이게
 		   	 	if(storagedUsername === writer){
 		   	 		boardReportBtn.style.display="none";
 		   	 	
-		   	 	};
+		   	 	}
 			};
 			// 초기 댓글 로드
 			loadComments();
@@ -167,7 +167,6 @@ $(document).ready(function(){
 		}
 		
 	});
-
 
 	
 	//수정버튼 클릭이벤트 핸들러 추가
@@ -258,7 +257,6 @@ $(document).ready(function(){
 				}
 			});
 		}
-		
 		
 		// 게시글 삭제 기능
 		deleteBtn.addEventListener('click', function(event){
