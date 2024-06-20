@@ -96,7 +96,7 @@
                     event.preventDefault(); // 기본 동작 방지
 
                     const storedUsername = localStorage.getItem("username"); // 로컬 스토리지에서 username 가져오기
-
+                    
                     if (qna.user && qna.user.username === storedUsername) {
                         window.location.href = "/user/myQnaList";
                     } else if (qna.company && qna.company.username === storedUsername) {
@@ -129,18 +129,13 @@
             method: "DELETE",
             success: function(qna){
                 alert("삭제되었습니다.");
-                console.log(qna);
                 
-                const storedUsername = localStorage.getItem("username"); // 로컬 스토리지에서 username 가져오기
-
-                if (qna.user && qna.user.username === storedUsername) {
+                if (localStorage.getItem("role") === 'ROLE_USER') {
                     window.location.href = "/user/myQnaList";
-                } else if (qna.company && qna.company.username === storedUsername) {
+                } else if (localStorage.getItem("role") === 'ROLE_COMPANY') {
                     window.location.href = "/company/myQnaList";
-                } else if (storedUsername === "admin") {
+                } else if (localStorage.getItem("role") === 'ROLE_ADMIN') {
                     window.location.href = "/admin/qnaList";
-                } else {
-                    alert("해당 사용자 또는 기업의 QnA 리스트가 없습니다.");
                 }
             },
             error: function(error){

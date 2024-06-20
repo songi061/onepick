@@ -153,15 +153,15 @@
     
     function confirmDelete(event, jno) {
         if (confirm("정말 삭제하시겠습니까?")) {
+        	event.preventDefault();
             deleteRecruit(jno);
         }
     }
     
     function deleteRecruit(jno){
-        event.preventDefault();
         console.log(jno);
         $.ajax({
-            url: "http://localhost:9001/api/v1/admin/recruit/" + jno,
+            url: "http://localhost:9001/api/v1/recruit/?jno=" + jno,
             method: "DELETE",
             success: function(response){
                 alert("삭제되었습니다.");
