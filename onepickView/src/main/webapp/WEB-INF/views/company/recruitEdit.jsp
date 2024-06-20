@@ -431,7 +431,7 @@ function addSkills(jno) {
   }).then(response => {
     console.log(response)
   }).then(result => {
-//     location.href = "/company/recruitList";
+    location.href = "/company/recruitList";
   }).catch(error => {
     console.log('Error:', error);
   });
