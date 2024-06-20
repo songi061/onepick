@@ -105,29 +105,30 @@ public class UserCommunityController {
 	@GetMapping("/community-comment")
 	public List<UserReply> communityReply(@RequestParam("ubno") Long ubno){
 		// Map<String, Optional> map = new HashMap<>();
+		
 		UserBoard ub = ubRepo.findById(ubno).get();
 		List<UserReply> ur = urRepo.findByUserBoard(ub);
 		return ur;
 	}
 	
 	
-//	// 구직자 마이페이지 - 내가 쓴 댓글 목록 조회
-//	@GetMapping("/community-comment")
-//	public List<UserReply> communityMyComment(HttpServletRequest request){
-//		
-//		String username = request.getHeader("username");
-//		User user = new User();
-//		user.setUsername(username);
-//		
-//		List<UserReply> ur = urRepo.findByUser(user);
-//	    if (ur != null) {
-//	        return ur;
-//	    }else {
-//	    	return null;
-//	    } 
-//	    
-//	}
-//	
+	// 구직자 마이페이지 - 내가 쓴 댓글 목록 조회
+	@GetMapping("/community-myComment")
+	public List<UserReply> communityMyComment(HttpServletRequest request){
+		
+		String username = request.getHeader("username");
+		User user = new User();
+		user.setUsername(username);
+		
+		List<UserReply> ur = urRepo.findByUser(user);
+	    if (ur != null) {
+	        return ur;
+	    }else {
+	    	return null;
+	    } 
+	    
+	}
+	
 	
 	// 댓글 등록
 	@PostMapping("/community-comment")
