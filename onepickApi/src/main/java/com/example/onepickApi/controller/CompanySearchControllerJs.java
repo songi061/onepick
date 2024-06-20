@@ -31,13 +31,14 @@ public class CompanySearchControllerJs {
 	@GetMapping("/resume-search")
 	public ResponseEntity<List<School>> getResumeSearch(){
 		List<School> list = schoolRepository.findAll();
+		System.out.println("list" + list);
 		List<School> defList = new ArrayList<>();
 		for(School aa : list) {
 			if(aa.getResume().getDef().equals("Y")) {
 				defList.add(aa);
 			};
 		}
-		//System.out.println(defList);
+		System.out.println("defList" + defList);
 		
 		return new ResponseEntity<>(defList, HttpStatus.OK);
 	}

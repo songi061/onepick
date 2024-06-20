@@ -89,7 +89,9 @@
 <div class="info" id="oaList"></div>
 </div>
 </div>
-<input type="button" id="applyBtn" value="이 이력서로 지원하기">
+<div class="px-5 pb-5">
+	<input type="button" class="btn btn-lg w-100 btn-onepick" id="applyBtn" value="이 이력서로 지원하기">
+</div>
 <script>
 let rno = null;
 let jno = "${jno}"
