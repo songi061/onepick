@@ -17,7 +17,7 @@
 		<table id="replyTable">
 			<thead>
 				<tr>
-					<th>댓글 번호</th>
+					<th>게시글 번호</th>
 					<th>내용</th>
 				</tr>	
 			</thead> 
@@ -33,7 +33,7 @@ $(document).ready(function(){
 	
 	$.ajax({
 		type: 'GET',
-		url: 'http://localhost:9001/api/v1/user/community-comment',
+		url: 'http://localhost:9001/api/v1/user/community-myComment',
 		headers:{
 			"jwtToken" : localStorage.getItem("jwtToken"),
 	        "username" : localStorage.getItem("username")
@@ -41,25 +41,21 @@ $(document).ready(function(){
 		dataType: 'json',
 		success: function(data){
 			console.log(data);
-			
 			if (data !== null) {
 				let str='';
 				for(var i=0; i<data.length; i++){
-					str += '<tr class="clickable" data-id="'+data[i].userBoard.ubno+'"><a href="/user/communityDetail?ubno='+data[i].userBoard.ubno+'">클릭</a><td>'+data[i].userBoard.ubno+'"></td>' 
-					+'<td>'+data[i].content +'</td></tr>';
-					
-					// 행 클릭 시 상세 페이지로 이동
-// 					$('.clickable').click(function(){
-// 						ubno = $(this).data('id');
-// 					    console.log(ubno);
-// 					    window.location.href = '/user/communityDetail?ubno=' + ;
-// 					});
-					
-					
+					const ubno = data[i].userBoard.ubno;
+					str += '<tr class="clickable" data-id="'+ubno+'"><td>'
+							+ubno+'</td><td>'+data[i].content +'</td></tr>';
 				}
 				
 				$('#MyReplyTableBody').html(str);
-				
+				// 행 클릭 시 상세 페이지로 이동
+				$('#MyReplyTableBody').on('click', '.clickable', function(){
+					const ubno = $(this).data('id');
+				    console.log("ubno는!!!!!"+ubno);
+				    window.location.href = '/user/communityDetail?ubno=' + ubno;
+				});
 			}
 		},
 		error:function(error){
