@@ -128,7 +128,7 @@
 	</div>
 	<div class="licenseContainer"></div>
 	<div class="d-flex">
-		<span class="subtitle">학력사항</span><br>
+		<span class="subtitle">학력사항 *</span><br>
 		<i class="bi bi-plus-circle ms-auto" data-bs-toggle="modal" data-bs-target="#exampleModal2" ></i>
 	</div>
 	<div class="schoolContainer"></div>
@@ -195,11 +195,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-       		입학일자<input type="date" name="accDate" class="datebox">
+       		입학일자*<input type="date" name="accDate" class="datebox">
 			졸업일자<input type="date" name="gradDate" class="datebox"><br>
-			학교명<input type="text" name="eduName" placeholder="내용을 입력하세요" class="textbox">
-			전공학과<input type="text" name="major" placeholder="내용을 입력하세요" class="textbox"><br>
-			학점<input type="text" name="score" placeholder="내용을 입력하세요" class="textbox">
+			학교명 *<input type="text" name="eduName" placeholder="내용을 입력하세요" class="textbox">
+			전공학과 *<input type="text" name="major" placeholder="내용을 입력하세요" class="textbox"><br>
+			학점 *<input type="text" name="score" placeholder="내용을 입력하세요" class="textbox">
 			
 			<label for="select_degree">상태 *</label>
 			<select name="s_status" id="select_degree" class="selectbox">
@@ -226,10 +226,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-       입사일자<input type="date" name="startDate" class="datebox">
-		퇴사일자<input type="date" name="endDate" class="datebox"><br>
-		회사명<input type="text" name="companyName" placeholder="내용을 입력하세요" class="textbox">
-		직급<input type="text" name="rank" placeholder="내용을 입력하세요" class="textbox"><br>
+       입사일자 *<input type="date" name="startDate" class="datebox">
+		퇴사일자 *<input type="date" name="endDate" class="datebox"><br>
+		회사명 *<input type="text" name="companyName" placeholder="내용을 입력하세요" class="textbox">
+		직급 *<input type="text" name="rank" placeholder="내용을 입력하세요" class="textbox"><br>
 		
 		
 		
@@ -245,9 +245,9 @@
 		
 		<label for="select_career">상태 *</label>
 		<select name="career_status" id="select_career" class="selectbox">
-			<option value="재직">재직중 *</option>
-			<option value="퇴사">퇴사 *</option>
-			<option value="기타">기타 *</option>
+			<option value="재직">재직중</option>
+			<option value="퇴사">퇴사</option>
+			<option value="기타">기타</option>
 		</select><br>
 		
 		업무 내용 *<input type="text" name="work" placeholder="내용을 입력하세요" class="textbox"><br><br>
@@ -375,7 +375,7 @@ function getResumeData() {
 		const score = parentElement.querySelector("input[name=score]");
 		
 		//빈값이면 제출안되게
-		if(accDate.value == "" || gradDate.value == "" || eduName.value == ""|| major.value == ""
+		if(accDate.value == "" || eduName.value == ""|| major.value == ""
 				|| sStatus.value == "" || score.value == ""){
 			alert("필수 입력사항이 비어있습니다. 다시 입력해주세요.")
 			return false;
@@ -395,7 +395,7 @@ function getResumeData() {
 		//목록 넣어주기
 		const listItem = document.createElement("ul");
 		listItem.classList = "school-item"; 
-		listItem.innerHTML = "<li> 재학기간 : "+ accDate.value + "  ~  " + gradDate.value +"</li><li> 학교명 : "
+		listItem.innerHTML = " <span style='position:absolute; top:10px; right:10px;' onclick='deleteEl(event)'>❌</span><li> 재학기간 : "+ accDate.value + "  ~  " + gradDate.value +"</li><li> 학교명 : "
 		+eduName.value	+"</li><li> 전공학과 : " +  major.value+"</li>"
 		+"<li> 학점 : " +  score.value+"</li>"
 		+"<li> 상태 : " +  sStatus.value+"</li>"
@@ -451,7 +451,7 @@ function getResumeData() {
 		//목록 넣어주기
 		const listItem = document.createElement("ul");
 		listItem.classList = "career-item"; 
-		listItem.innerHTML = "<li> 근무기간 : "+ startDate.value + "  ~  " + endDate.value +"</li><li> 회사명 : "
+		listItem.innerHTML = "<span style='position:absolute; top:10px; right:10px;' onclick='deleteEl(event)'>❌</span><li> <li> 근무기간 : "+ startDate.value + "  ~  " + endDate.value +"</li><li> 회사명 : "
 		+companyName.value	+"</li><li> 직급 : " +  rank.value+"</li>"
 		+"<li> 업종 : " +  cType.value+"</li>"
 		+"<li> 직무 : " +  position.value+"</li>"
@@ -499,7 +499,7 @@ function getResumeData() {
 		//목록 넣어주기
 		const listItem = document.createElement("ul");
 		listItem.classList = "license-item"; 
-		listItem.innerHTML = "<li> 자격증명 : "+lname.value + "</li><li> 발급기관 : "+org.value	+"</li><li> 취득일 : " +  getDate.value+"</li>"
+		listItem.innerHTML = "<span style='position:absolute; top:10px; right:10px;' onclick='deleteEl(event)'>❌</span><li> <li> 자격증명 : "+lname.value + "</li><li> 발급기관 : "+org.value	+"</li><li> 취득일 : " +  getDate.value+"</li>"
 		licenseContainer.appendChild(listItem);
 		
 		// input 필드를 초기화
@@ -539,7 +539,7 @@ function getResumeData() {
 		//목록 넣어주기
 		const listItem = document.createElement("ul");
 		listItem.classList = "experience-item"; 
-		listItem.innerHTML = "<li> 활동 기간 : "+startDay.value + ' ~ ' + endDay.value +"</li><li> 참여기관 : "+exOrg.value
+		listItem.innerHTML = "<span style='position:absolute; top:10px; right:10px;' onclick='deleteEl(event)'>❌</span><li> <li> 활동 기간 : "+startDay.value + ' ~ ' + endDay.value +"</li><li> 참여기관 : "+exOrg.value
 		+"</li><li> 활동내역 : "+exContent.value +"</li>"
 		experienceContainer.appendChild(listItem);
 		
@@ -578,7 +578,7 @@ function getResumeData() {
 		//목록 넣어주기
 		const listItem = document.createElement("ul");
 		listItem.classList = "oa-item"; 
-		listItem.innerHTML = "<li> 스킬 : "+skillName.value + "</li><li> 내용 : "+oaContent.value	+"</li>"
+		listItem.innerHTML = "<span style='position:absolute; top:10px; right:10px;' onclick='deleteEl(event)'>❌</span><li> <li> 스킬 : "+skillName.value + "</li><li> 내용 : "+oaContent.value	+"</li>"
 		oaContainer.appendChild(listItem);
 		
 		// input 필드를 초기화
@@ -592,46 +592,53 @@ function getResumeData() {
 	 
 	
 	function postData(e) {
+		console.log(resumeArr)
+		console.log(oaArr)
 	    e.preventDefault();
-	    getResumeData();
-	    if(oaArr ==""){
-	    	alert("보유능력은 필수입력사항 입니다. 다시 입력해주세요.")
-	    	return false;
-	    }
-	    	
-	    let data = {
-	        "resume": resumeArr,
-	        "school": schoolArr,
-	        "experience": experienceArr,
-	        "license": licenseArr,
-	        "career": careerArr,
-	        "oa": oaArr,
-	    };
-	    console.log(data)
+// 	    getResumeData();
+// 	    if(oaArr ==""){
+// 	    	alert("보유능력은 필수입력사항 입니다. 다시 입력해주세요.")
+// 	    	return false;
+// 	    }else{
+// 	    	 let data = {
+// 	    		        "resume": resumeArr,
+// 	    		        "school": schoolArr,
+// 	    		        "experience": experienceArr,
+// 	    		        "license": licenseArr,
+// 	    		        "career": careerArr,
+// 	    		        "oa": oaArr,
+// 	    		    };
+// 	    		    console.log(data)
 
- 	    // JSON으로 변환
- 	    const jsonData = JSON.stringify(data);
+// 	    	 	    // JSON으로 변환
+// 	    	 	    const jsonData = JSON.stringify(data);
 
-	    $.ajax({
-	        type: "POST",
-	        url: "http://localhost:9001/api/v1/resume",
-	        data: jsonData,
-	        contentType: "application/json", // JSON 데이터 전송을 위해 Content-Type을 설정
-	        headers: {
-	            'username': localStorage.getItem("username")  // HTTP 요청 헤더에 username 추가
-	        }, 
-	        success: function(response) {
-	            // 서버 응답 성공 처리
-	            console.log("서버 응답:", response);
-	            window.location.href = "/user/resumeList";
-	        },
-	        error: function(jqXHR, textStatus, errorThrown) {
-	            // 에러 발생 시 처리
-	            console.log("에러 발생:", textStatus, errorThrown);
-	        }
-	    });
+// 	    		    $.ajax({
+// 	    		        type: "POST",
+// 	    		        url: "http://localhost:9001/api/v1/resume",
+// 	    		        data: jsonData,
+// 	    		        contentType: "application/json", // JSON 데이터 전송을 위해 Content-Type을 설정
+// 	    		        headers: {
+// 	    		            'username': localStorage.getItem("username")  // HTTP 요청 헤더에 username 추가
+// 	    		        }, 
+// 	    		        success: function(response) {
+// 	    		            // 서버 응답 성공 처리
+// 	    		            console.log("서버 응답:", response);
+// 	    		            window.location.href = "/user/resumeList";
+// 	    		        },
+// 	    		        error: function(jqXHR, textStatus, errorThrown) {
+// 	    		            // 에러 발생 시 처리
+// 	    		            console.log("에러 발생:", textStatus, errorThrown);
+// 	    		        }
+// 	    		    });
+// 	    }
 	}
 	
+	
+	function deleteEl(e){
+		console.log(e.target.parentElement.remove())
+		//각 arr에서 해당 요소 빼주기
+	}
 	
 	
 	
@@ -646,6 +653,8 @@ function getResumeData() {
 	        $('#counter').html("(500 / 500)");
 	    }
 	});
+	
+	
 </script>
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
