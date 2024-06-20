@@ -107,6 +107,9 @@
 <div class="container">
 
 	<div id="resumeForm">
+		<div   id="scrapBtn" onclick="scrapResume()">
+			<img class="ms-auto" style="width:25px; height:25px;" src="/icon/save.png">
+		</div>
 		<div class="d-flex">
 			<div id="resume"></div>
 		</div>
