@@ -625,7 +625,9 @@ function calcDday(targetDate) {
                      
                      
                      
+
                      ul.append('<li class="resumelink"><span style="display:none;">'+resume.rno+'</span><a href="#" onclick="clickHandle(event)">' + resume.title + '</a></li>');
+
 
                      if (resume.moddate == null) {
                          var regdate = new Date(resume.regdate).toISOString().split('T')[0];

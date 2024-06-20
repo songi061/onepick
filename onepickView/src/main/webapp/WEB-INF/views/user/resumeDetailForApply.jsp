@@ -231,7 +231,7 @@ $(document).ready(function() {
 document.getElementById('applyBtn').addEventListener('click', function () {
 		 if (confirm("해당 채용공고에 지원하시겠습니까?")) {
 			 $.ajax({
-				    url: 'http://localhost:9001/api/v1/apply?rno=' + 1 + '&jno=' + jno,
+				    url: 'http://localhost:9001/api/v1/apply?rno=' + rno + '&jno=' + jno,
 				    type: 'POST',
 				    headers: {
 				    	'username': localStorage.getItem("username")
