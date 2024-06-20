@@ -24,6 +24,10 @@ body{
     width: 100%;
 }
 
+#dash_ul2{
+	margin-bottom: 10px;
+}
+
 .li1{
     width: 31%;
     float: left;
