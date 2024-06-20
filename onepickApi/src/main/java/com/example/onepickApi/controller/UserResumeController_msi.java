@@ -147,7 +147,7 @@ public class UserResumeController_msi {
 	
 	// 이력서 등록하기
 		@PostMapping("/resume")
-		public ResponseEntity<String> registResume(@RequestBody Map<String, List<Object>> data, HttpServletRequest request) {
+		public ResponseEntity<String> registResume(@RequestBody Map<String, List<Map<String, String>>> data, HttpServletRequest request) {
 			
 			String username = request.getHeader("username");
 			User user = new User();

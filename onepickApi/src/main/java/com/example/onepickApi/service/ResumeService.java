@@ -392,12 +392,12 @@ public class ResumeService {
 		
 		
 		@Transactional
-	    public String saveToDatabase(Map<String, List<Object>> dataMap, User user) {
+	    public String saveToDatabase(Map<String, List<Map<String, String>>> dataMap, User user) {
 			Resume savedResume = null;
 			
-			
+		
 		    // resume 리스트 저장
-		    List<Object> resumeList = dataMap.get("resume");
+			List<Map<String, String>> resumeList = dataMap.get("resume");
 		    if (resumeList != null) {
 		        for (Object obj : resumeList) {
 		            System.out.println(obj);
@@ -439,11 +439,11 @@ public class ResumeService {
 
 		    
 		 // licence 리스트 저장
-		    List<Object> licenseList = dataMap.get("license");
+		    List<Map<String, String>> licenseList = dataMap.get("license");
+		    
 		    if (licenseList != null) {
-		        for (Object obj : licenseList) {
-		            if (obj instanceof License) {
-		            	Map<String, String> licenseData = (Map<String, String>) obj;
+		    	 for (Map<String, String> licenseData : licenseList) {
+		    		 try {
 		            	
 		                License license = new License();
 		                license.setResume(savedResume);
@@ -453,7 +453,7 @@ public class ResumeService {
 		                license.setOrg(licenseData.get("org"));
 	
 		                licenseRepo.save(license);
-		            } else {
+		            } catch(Exception e) {
 		                throw new IllegalArgumentException("자격증이 올바르지 않습니다");
 		            }
 		        }
@@ -461,11 +461,10 @@ public class ResumeService {
 
 		    
 		    // career 리스트 저장
-		    List<Object> careerList = dataMap.get("career");
+		    List<Map<String, String>> careerList = dataMap.get("career");
 		    if (careerList != null) {
-		        for (Object obj : careerList) {
-		            if (obj instanceof Career) {
-		            	Map<String, String> careerData = (Map<String, String>) obj;
+		    	 for (Map<String, String> careerData : careerList) {
+		           try {
 		                Career career = new Career();
 		                career.setResume(savedResume);
 		                career.setUser(user);
@@ -479,57 +478,56 @@ public class ResumeService {
 		                career.setWork(careerData.get("work"));
 		                
 		                careerRepo.save(career);
-		            } else {
+		            } catch(Exception e) {
 		                throw new IllegalArgumentException("경력사항이 올바르지 않습니다");
 		            }
 		        }
 		    }
 
 		    // experience 리스트 저장
-		    List<Object> experienceList = dataMap.get("experience");
+		    List<Map<String, String>> experienceList = dataMap.get("experience");
 		    if (experienceList != null) {
-		        for (Object obj : experienceList) {
-		            if (obj instanceof Experience) {
-		            	Map<String, String> exData = (Map<String, String>) obj;
+		    	 for (Map<String, String> experienceData : experienceList) {
+		    		 try {
 		                Experience ex = new Experience();
 		                ex.setResume(savedResume);
 		                ex.setUser(user);
-		                ex.setEndDay(LocalDate.parse(exData.get("endDay")));
-		                ex.setEx_content(exData.get("exContent"));
-		                ex.setEx_org(exData.get("ex_org"));
-		                ex.setStartDay(LocalDate.parse(exData.get("startDay")));
+		                ex.setEndDay(LocalDate.parse(experienceData.get("endDay")));
+		                ex.setEx_content(experienceData.get("exContent"));
+		                ex.setEx_org(experienceData.get("ex_org"));
+		                ex.setStartDay(LocalDate.parse(experienceData.get("startDay")));
 	
 		                experienceRepo.save(ex);
-		            } else {
+		            } catch(Exception e) {
 		                throw new IllegalArgumentException("사회경력이 올바르지 않습니다");
 		            }
 		        }
 		    }
 
 		    // oa 리스트 저장
-		    List<Object> oaList = dataMap.get("oa");
+		    List<Map<String, String>> oaList = dataMap.get("oa");
 		    if (oaList != null) {
-		        for (Object obj : oaList) {
-		            if (obj instanceof Oa) {
-		            	Map<String, String> oaData = (Map<String, String>) obj;
+		    	for (Map<String, String> oaData : oaList) {
+		            try {
 		                Oa oa = new Oa();
 		                oa.setResume(savedResume);
 		                oa.setUser(user);
 		                oa.setOa_content(oaData.get("oa_content"));
 		                oa.setSkillName(oaData.get("skillName"));
 		                oaRepo.save(oa);
-		            } else {
+		            } catch(Exception e) {
 		                throw new IllegalArgumentException("스킬(OA)이 올바르지 않습니다");
 		            }
 		        }
 		    }
 
 		    // school 리스트 저장
-		    List<Object> schoolList = dataMap.get("school");
+		    List<Map<String, String>> schoolList = dataMap.get("school");
+		    System.out.println("schoolList    " + schoolList);
 		    if (schoolList != null) {
-		        for (Object obj : schoolList) {
-		            if (obj instanceof School) {
-		            	Map<String, String> scData = (Map<String, String>) obj;
+		    	for (Map<String, String> scData : schoolList) {
+		    		System.out.println("scData    " + scData);
+		    		 try {
 		                School school = new School();
 		                school.setResume(savedResume);
 		                school.setUser(user);
@@ -537,20 +535,16 @@ public class ResumeService {
 		                school.setEduName(scData.get("eduName"));
 		                school.setGradDate(LocalDate.parse(scData.get("gradDate")));
 		                school.setMajor(scData.get("major"));
-		                school.setS_status(scData.get("s_status"));
+		                school.setS_status(scData.get("sStatus"));
 		                school.setScore(scData.get("score"));
 		                
 		                schoolRepo.save(school);
-		            } else {
+		            } catch(Exception e) {
 		                throw new IllegalArgumentException("학력사항이 올바르지 않습니다");
 		            }
 		        }
 		    }
-	        
-	        
-	        
 	        return "등록완료";
-	        
 	    }
 		
 		
