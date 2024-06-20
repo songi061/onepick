@@ -73,6 +73,16 @@
                     if (username !== 'admin') {
                         $('#response_section').hide();
                     }
+                    
+                    if(username === "admin"){
+                        $("#title").attr("readonly", true);
+                        $("#category").on('mousedown', function(e){
+                            e.preventDefault();
+                            this.blur();
+                            window.focus();
+                        });
+                        $("#content").attr("readonly", true);
+                    }
                 },
                 error: function (error) {
                     console.log("에러 :", error);
