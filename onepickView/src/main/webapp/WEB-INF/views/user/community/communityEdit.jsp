@@ -7,30 +7,29 @@
 <title>1PICK!</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="/css/style.css" rel="stylesheet">
+<link href="/css/qnaForm.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column h-100 min-h-100">
 <jsp:include page="..//../layout/header.jsp"></jsp:include>
 <div class="container">
-	<div class="page_title"><h3>구직자 커뮤니티</h3></div>
-    <form class="communityEditForm" id="communityEditForm">
-        <div class="col-12">
-            제목<input type="text" name="title" class="form-control" id="inputTitle">
-        </div>
-        <div class="col-md-6">
-        	내용<textarea class="form-control" id="inputContent" name="content"></textarea>
-        </div>
-        <div class="col-md-4">
-	        <label for="inputState" class="form-label">카테고리</label>
-	        <select id="category" class="form-select">
+	<div class="page_title">구직자 커뮤니티</div>
+    <form name="frm" class="communityEditForm" id="communityEditForm">
+        <div id="frm_category">
+	        <p>카테고리</p>
+	        <select id="Category" name="category" class="ms-3">
 	        	<option selected>카테고리를 선택하세요</option>
 	            <option value="freeBoard">자유글</option>
 	            <option value="job_hunting">취업준비</option>
 	            <option value="turnover">이직</option>
 	        </select>
         </div>
-        <div class="col-12">
-        	<button type="submit" id="btn-boardRegist">수정하기</button>
+		<div id="frm_title">
+            <p>제목</p><input class="w-75" type="text" name="title" class="form-control" id="inputTitle">
         </div>
+        <div class="frm_content overflow-hidden">
+        	<p>내용</p><textarea class="w-75" id="inputContent" name="content"></textarea>
+        </div>
+		<button type="submit" class="btn btn-onepick noticeBtn mt-3 float-end" id="btn-boardRegist">수정</button>
     </form>
 </div>
 <script>
@@ -38,7 +37,7 @@ const ubno = ${ubno};
 console.log("xxxxxxxxxxxxxxx"+ubno)
 let input_title = document.getElementById('inputTitle');
 let input_content = document.getElementById('inputContent');
-const selected = document.getElementById('category');
+const selected = document.getElementById('Category');
 
 // 게시글 디테일 불러오기
 $(document).ready(function(){
@@ -56,9 +55,9 @@ $(document).ready(function(){
 				input_title.value = data.title;
 				input_content.value = data.content;
 				
-			    for (let i = 0; i < $('#category')[0].options.length; i++) {
-                	if ($('#category')[0].options[i].value == data.category) {
-                		$('#category')[0].options[i].selected = true;
+			    for (let i = 0; i < $('#Category')[0].options.length; i++) {
+                	if ($('#Category')[0].options[i].value == data.category) {
+                		$('#Category')[0].options[i].selected = true;
                 		break;
                		}
 				}
