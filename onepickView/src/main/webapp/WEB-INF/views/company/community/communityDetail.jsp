@@ -25,7 +25,7 @@
 		<table id="data_board_detail"></table>
 	</div>
 	<div class="report">
-		<button id="btn_commu_report">신고</button>
+		<button id="btn_commu_report" style="display: block;">신고</button>
 	</div>
 	<div class="edit">
 		<button id="editBtn" style="display: none;">수정하기</button>
@@ -54,6 +54,7 @@ console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+storagedUsername)
 // 모든 게시물 요소를 가져옴
 const post = document.getElementById('board_detail');
 const editBtn = document.getElementById("editBtn");
+const boardReportBtn = document.getElementById("btn_commu_report");
 const cbno = ${cbno};
 console.log("-----------------cbno="+cbno)
 
@@ -65,8 +66,37 @@ $(document).ready(function(){
 		//data: { ubno: "job_hunting"},
 		dataType: 'json',
 		success: function(data){
+			//const regdate = data.regdate;
+			//const moddate = data.moddate;
+			
 			$(data).empty();
 			writer = data.company.username;
+			
+			// 카테고리 한글로 바꿔서 나타내기
+			if(data.category ==="freeBoard"){
+				data.category = "자유글";
+			
+			}else if(data.category ==="information"){
+				data.category = "정보공유";
+			
+			}else if(data.category ==="dispatch"){
+				data.category = "파견";
+				
+			}else if(data.category ==="seminar"){
+				data.category = "세미나";
+			}
+			
+			// 날짜 형식 포맷하기
+			const regdate = data.regdate ? new Date(data.regdate) : null;
+            const moddate = data.moddate ? new Date(data.moddate) : null;
+ 
+            let formattedDate = '';
+            if (regdate) {
+            	formattedDate = regdate.getFullYear() + '-' + ('0' + (regdate.getMonth() + 1)).slice(-2) + '-' + ('0' + regdate.getDate()).slice(-2);
+            } else if (moddate) {
+            	formattedDate = moddate.getFullYear() + '-' + ('0' + (moddate.getMonth() + 1)).slice(-2) + '-' + ('0' + moddate.getDate()).slice(-2);
+            }
+            
 			if (data !== null) {
 				let str = '';
 				str += '<tr><td>'+data.category +'</td></tr> '+ 
@@ -74,12 +104,19 @@ $(document).ready(function(){
 					'<tr><td>'+data.content + '</td></tr>'+
 					'<tr><td>'+data.views +'</td></tr>'+
 					'<tr><td id="writer">'+data.company.username+'</td></tr>'+
-					'<tr><td>'+data.regdate + '</td></tr>';
+					'<tr><td>'+formattedDate + '</td></tr>';
 				$('#data_board_detail').html(str);
-
+				
+				// 수정 버튼이 나+관리자한테만 보이게
 		        if (storagedUsername === writer || storagedRole === "ROLE_ADMIN") {
 		            console.log(storagedUsername === writer)
 		            editBtn.style.display="block";
+		   	 	};
+		   	 	
+		   		// 게시글 신고 버튼이 내가 쓴 글에는 안보이게
+		   	 	if(storagedUsername === writer){
+		   	 		boardReportBtn.style.display="none";
+		   	 	
 		   	 	};
 			};
 			// 초기 댓글 로드
@@ -168,33 +205,38 @@ $(document).ready(function(){
 			});
 		}
 		
+		
 		// 게시글 신고 기능
 		$('#btn_commu_report').click(function(event){
 			event.preventDefault();
 			
-			console.log("----------------"+cbno+"-----------------")
-			$.ajax({
-				type: 'post',
-				url: 'http://localhost:9001/api/v1/company/community-report?cbno='+cbno,
-				headers:{
-					"jwtToken" : localStorage.getItem("jwtToken"),
-		            "username" : localStorage.getItem("username"),
-		            "role" : localStorage.getItem("role")
-				},
-			
-				contentType: 'application/json; charset=utf-8',
-				success: function(data){
-					if(data === "게시글신고완료"){
-						console.log(data);
-						alert("게시글 신고 완료");
+			if(confirm("이 게시글을 신고하시겠습니까?")){
+				$.ajax({
+					type: 'post',
+					url: 'http://localhost:9001/api/v1/company/community-report?cbno='+cbno,
+					headers:{
+						"jwtToken" : localStorage.getItem("jwtToken"),
+		            	"username" : localStorage.getItem("username"),
+		            	"role" : localStorage.getItem("role")
+					},
+					contentType: 'application/json; charset=utf-8',
+					success: function(data){
+						if(data === "게시글신고완료"){
+							console.log(data);
+							alert("게시글 신고 완료");
+						}
+					},
+					error: function(xhr, status, error) {
+						// 요청이 실패한 경우 처리할 코드
+						console.error("Request failed with status code: " + xhr.status);
 					}
-				},
-				error: function(xhr, status, error) {
-					// 요청이 실패한 경우 처리할 코드
-					console.error("Request failed with status code: " + xhr.status);
-				}
 					
-			});
+				});
+			}else {
+				// 신고 취소 버튼 시 알림
+				alert("신고가 취소되었습니다.");
+			}
+			
 		});
 
 });
@@ -226,7 +268,7 @@ $(document).ready(function(){
 				
 		});
 
-}
+	}
 	// 댓글 수정 기능
 	function openEditForm(event){
 		
@@ -278,12 +320,6 @@ $(document).ready(function(){
 		})
 		
 	}
-	
-	
-	
-	
-	
-	
 	
 </script>
 	</div>
