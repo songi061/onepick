@@ -269,9 +269,15 @@ public class UserResumeController_msi {
     
     // 대표 이력서 설정 기능
     @PutMapping("/resume/setDef/{rno}")
-    public ResponseEntity<String> setDefResume(@PathVariable("rno") Long rno) {
+    public ResponseEntity<String> setDefResume(@PathVariable("rno") Long rno, HttpServletRequest request) {
+    	
+    	String username = request.getHeader("username"); 
+		Optional<User> result2 = userRepo.findById(username);
+		User user = result2.get();
+		
+		
         try {
-            String result = resumeService.setDefResume(rno); // 서비스 메서드 호출
+            String result = resumeService.setDefResume(rno,user); // 서비스 메서드 호출
             return ResponseEntity.ok(result); // 200 OK
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("대표 이력서 설정 중 오류 발생");

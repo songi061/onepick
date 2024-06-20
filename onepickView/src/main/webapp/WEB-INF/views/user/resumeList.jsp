@@ -144,6 +144,9 @@ $(document).ready(function() {
                 $.ajax({
                     url: 'http://localhost:9001/api/v1/resume/setDef/' + rno,
                     type: 'PUT', // 대표 이력서 설정을 나타내는 PUT 요청 보냄
+                    headers: {
+				    	'username': localStorage.getItem("username")
+				    }, 
                     success: function(response) {
                         console.log('대표 이력서 설정 성공:', response);
                         alert('대표 이력서로 설정되었습니다.');

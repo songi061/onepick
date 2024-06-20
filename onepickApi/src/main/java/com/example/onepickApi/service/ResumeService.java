@@ -267,8 +267,14 @@ public class ResumeService {
 	
 	
 		@Transactional
-	    public String setDefResume(Long rno) {
-			resumeRepo.resetAllDefResumes();
+	    public String setDefResume(Long rno, User user) {
+			
+			List<Resume> resumeList = resumeRepo.findByUser(user);
+			for (Resume resume : resumeList) {
+			    resume.setDef("N");
+			}
+			resumeRepo.saveAll(resumeList);
+
 			
 	        Optional<Resume> optionalResume = resumeRepo.findById(rno);
 	        if (optionalResume.isPresent()) {
@@ -283,113 +289,6 @@ public class ResumeService {
 	    }
 	
 	
-	
-		
-//		@Transactional
-//	    public void saveResumeObj(Map<String, List<Resume>> map) {
-//	        for (Map.Entry<String, List<Resume>> entry : map.entrySet()) {
-//	            List<Resume> list = entry.getValue();
-//	            for (Resume resume : list) {
-//	                resumeRepo.save(resume);
-//	                System.out.println("저장 완료: " + entry.getKey() + " - " + resume.getLname());
-//	            }
-//	        }
-//	    }
-		
-		
-//		@Transactional
-//	    public void saveToDatabase(Map<String, List<Object>> dataMap, User user) {
-//			
-//			Long rno;
-//			
-//	        // resume 리스트 저장
-//	        List<Object> resumeList = dataMap.get("resume");
-//	        if (resumeList != null) {
-//	            for (Object obj : resumeList) {
-//	                if (obj instanceof Resume) {
-//	                    Resume resultResume = resumeRepo.save((Resume) obj);
-//	                    rno = resultResume.getRno();
-//	                } else {
-//	                    throw new IllegalArgumentException("이력서가 올바르지 않습니다");
-//	                }
-//	            }
-//	        }
-//
-//	        // licence 리스트 저장
-//	        List<Object> licenceList = dataMap.get("licence");
-//	        if (licenceList != null) {
-//	            for (Object obj : licenceList) {
-//	                if (obj instanceof License) {
-//	                	((License) obj).setResume(resumeRepo.findById(rno).get());
-//	                	((License) obj).setUser(user);
-//	                    licenseRepo.save((License) obj);
-//	                } else {
-//	                    throw new IllegalArgumentException("자격증이 올바르지 않습니다");
-//	                }
-//	            }
-//	        }
-//	        
-//	        
-//	        
-//	        List<Object> careerList = dataMap.get("career");
-//	        if (careerList != null) {
-//	            for (Object obj : careerList) {
-//	                if (obj instanceof Career) {
-//	                	((Career) obj).setResume(resumeRepo.findById(rno).get());
-//	                	((Career) obj).setUser(user);
-//	                    careerRepo.save((Career) obj);
-//	                } else {
-//	                    throw new IllegalArgumentException("경력사항이 올바르지 않습니다");
-//	                }
-//	            }
-//	        }
-//	        
-//	        
-//	        List<Object> experienceList = dataMap.get("experience");
-//	        if (experienceList != null) {
-//	            for (Object obj : experienceList) {
-//	                if (obj instanceof Experience) {
-//	                	((Experience) obj).setResume(resumeRepo.findById(rno).get());
-//	                	((Experience) obj).setUser(user);
-//	                	experienceRepo.save((Experience) obj);
-//	                } else {
-//	                    throw new IllegalArgumentException("사회경력이 올바르지 않습니다");
-//	                }
-//	            }
-//	        }
-//	        
-//	        
-//	        List<Object> oaList = dataMap.get("oa");
-//	        if (oaList != null) {
-//	            for (Object obj : oaList) {
-//	                if (obj instanceof Oa) {
-//	                	((Oa) obj).setResume(resumeRepo.findById(rno).get());
-//	                	((Oa) obj).setUser(user);
-//	                	oaRepo.save((Oa) obj);
-//	                } else {
-//	                    throw new IllegalArgumentException("스킬(OA)이 올바르지 않습니다");
-//	                }
-//	            }
-//	        }
-//	        
-//	        
-//	        List<Object> schoolList = dataMap.get("school");
-//	        if (oaList != null) {
-//	            for (Object obj : schoolList) {
-//	                if (obj instanceof School) {
-//	                	((School) obj).setResume(resumeRepo.findById(rno).get());
-//	                	((School) obj).setUser(user);
-//	                	schoolRepo.save((School) obj);
-//	                } else {
-//	                    throw new IllegalArgumentException("학력사항이 올바르지 않습니다");
-//	                }
-//	            }
-//	        }
-//
-//	    }
-		
-		
-		
 		
 		@Transactional
 	    public String saveToDatabase(Map<String, List<Map<String, String>>> dataMap, User user) {
