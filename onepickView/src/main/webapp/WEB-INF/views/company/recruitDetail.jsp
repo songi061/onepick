@@ -306,11 +306,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 		dDay.innerHTML = "공고마감";
 		applyBtn.innerText="공고마감";
 		applyBtn.style.backgroundColor="red";
-		
+		applyBtn.disabled = true;
 	}else{
 		dDay.innerHTML = "D- " + dday + " 일";
 	}
-	
+	 
 
 	//스킬 정보 넣어주기
 		const skillContainer = document.querySelector(".skillContainer");
@@ -599,6 +599,8 @@ function calcDday(targetDate) {
  }
  
  function openRegModal() {
+
+	 
      $('#exampleModal').modal('show');
 
      $('#exampleModal').on('shown.bs.modal', function() {
