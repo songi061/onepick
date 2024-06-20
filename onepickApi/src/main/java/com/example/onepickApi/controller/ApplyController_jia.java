@@ -54,7 +54,7 @@ public class ApplyController_jia {
 			Long jno = ja.getJno();
 			jnoList.add(jno);
 		}
-		
+		System.out.println(jnoList);
 		//해당기업이 올린 공고의 jno를 이용해서 해당 공고에 지원한 지원내역을 모두 뽑음
 		for(Long jno : jnoList) {
 			List<ApplyList> al = applyListRepo.findByJno(jno);
