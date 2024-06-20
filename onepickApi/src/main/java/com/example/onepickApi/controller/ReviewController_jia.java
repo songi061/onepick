@@ -85,9 +85,7 @@ public class ReviewController_jia {
 			}
 		}
 		System.out.println(applyList);
-		
-			return new ResponseEntity<>(applyList, HttpStatus.OK);
-
+		return new ResponseEntity<>(applyList, HttpStatus.OK);
 	}
 	
 	
