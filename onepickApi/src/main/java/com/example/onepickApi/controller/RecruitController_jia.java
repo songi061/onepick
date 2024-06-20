@@ -71,6 +71,7 @@ public class RecruitController_jia {
 		Map<String, Object> map = new HashMap<>();
 		map.put("jobad", jobAdRepo.findById(jno).get());
 		map.put("skill", skillRepo.findAllByJno(jno));
+		map.put("apply", applyListRepo.findByJno(jno));
 		
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}

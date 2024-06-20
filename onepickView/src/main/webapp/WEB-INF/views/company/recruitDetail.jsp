@@ -245,9 +245,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!jobResponse.ok) {
       throw new Error('채용 공고 데이터를 가져오는 데 실패했습니다.');
     }
+
     const data = await jobResponse.json();
+
     const jobad = data.jobad;
     const company = data.jobad.company;
+    const apply = data.apply;
     cid = company.username;
     const skills = data.skill;
     
@@ -344,6 +347,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     await checkLikeStatus();
     //공고찜상태체크
     await checkScrapStatus();
+    //지원이력체크
+    apply.forEach(function(a) {
+        if (a.user.username === localStorage.getItem("username")) {
+            // 지원 버튼 텍스트를 "지원완료"로 변경
+            document.querySelector("#applyBtn").innerText = "지원완료";
+            // 지원 버튼을 비활성화
+            document.querySelector("#applyBtn").setAttribute("disabled", "true");
+        }
+    });
 
   } catch (error) {
     console.error('작업 중 오류가 발생했습니다:', error);
@@ -580,12 +592,18 @@ function calcDday(targetDate) {
 	 }
  }  */
  
+ function clickHandle(e){
+	 const selectedRno = e.target.parentElement.querySelector("span").innerText
+	 window.open("http://localhost:8093/user/resumeDetailForApply?jno=" + jno + "&rno=" + selectedRno, "팝업 창", "width=1200,height=1000");
+     $('#exampleModal').modal('hide');
+ }
+ 
  function openRegModal() {
      $('#exampleModal').modal('show');
 
      $('#exampleModal').on('shown.bs.modal', function() {
          document.querySelector("#exampleModalLabel").innerText = "지원할 이력서 리스트 선택";
-
+       
          $.ajax({
              url: 'http://localhost:9001/api/v1/resume',
              type: 'GET',
@@ -595,7 +613,7 @@ function calcDday(targetDate) {
              success: function(data) {
                  var resumeList = $('#resumeList');
                  resumeList.empty(); // 기존 내용을 비웁니다
-
+              
                  $.each(data, function(index, resume) {
                      var ul = $('<ul class="res"></ul>'); // ul 태그 생성
                      
@@ -607,7 +625,7 @@ function calcDday(targetDate) {
                      
                      
                      
-                     ul.append('<li class="resumelink"><a onclick="window.open(\'http://localhost:8093/user/resumeDetailForApply?jno=' + jno + '&rno=' + resume.rno + '\', \'팝업 창\', \'width=1200,height=1000\')">' + resume.title + '</a></li>');
+                     ul.append('<li class="resumelink"><span style="display:none;">'+resume.rno+'</span><a onclick="clickHandle(event)">' + resume.title + '</a></li>');
 
                      if (resume.moddate == null) {
                          var regdate = new Date(resume.regdate).toISOString().split('T')[0];
@@ -616,16 +634,17 @@ function calcDday(targetDate) {
                          var moddate = new Date(resume.moddate).toISOString().split('T')[0];
                          ul.append('<li>최종수정날짜 : ' + moddate + '</li>');
                      }
-                     
-
                      resumeList.append(ul); // ul 태그를 resumeList에 추가
                  });
+                 
+                 
              },
              error: function(xhr, status, error) {
                  console.error('AJAX 요청 실패:', status, error);
              }
          });
 
+         
          function closeModal(){
              $('#exampleModal').modal('hide');
          }
