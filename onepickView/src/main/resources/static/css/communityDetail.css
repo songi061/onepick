@@ -75,3 +75,77 @@
     color: #fff;
     float: right;
 }
+
+#data_reply_detail{
+    width: 100%;
+    background-color: aliceblue;
+}
+
+.replyItem{
+    width: 100%;
+    padding: 20px;
+    border-bottom: 1px solid rgb(232, 236, 240);
+    box-sizing: border-box;
+}
+
+#reply_info{
+    width: 500px;
+    height: 30px;
+}
+#reply_info>li{
+    margin-right: 10px;
+    float: left;
+}
+#username, #r_username{
+    font-weight: 700;
+}
+#date ,#r_date{
+    font-size: 13px;
+    line-height: 25px;
+    color: darkgray;
+}
+
+#reply_info li input{
+    float: right;
+}
+
+#reply_content{
+    width: 300px;
+}
+
+input:focus {outline:none;}
+input[type="text"]{
+    padding-left: 10px;
+}
+
+.btn_reply_report{
+    border: none;
+    background-color: aliceblue;
+}
+
+.btn_reply_edit{
+    border: 1px solid gainsboro;
+    width: 50px; height: 25px;
+    font: 400 15px/25px 'Pretendard-Regular';
+    background-color: #fff;
+    color: #999;
+}
+
+.edit_wrap{
+    width: 100%;
+    position: relative;
+    top: -20px; left: 0;
+}
+
+.editContent{
+    width: 90%; height: 80px;
+    border: 1px solid lightgray;
+}
+.editSubmit{
+    width: 10%; height: 80px;
+    font: 400 15px/40px 'Pretendard-Regular';
+    border: 1px solid #a9b5be;
+    background-color: #a9b5be;
+    color: #fff;
+    float: right;
+}

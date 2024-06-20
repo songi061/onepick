@@ -41,9 +41,10 @@
 				</form>
 			</div>
 			<div id="commentSection">
-				<table id="data_reply_detail">
-				</table>
+				<div id="data_reply_detail">
+				</div>
 			</div>
+
 			<hr>
 			<script>
 				// 로컬 스토리지에서 username을 가져옴
@@ -75,7 +76,17 @@
 								$('#title').text(data.title);
 
 								// 카테고리, 사용자 이름, 날짜, 조회수 채우기
-								$('#category').text(data.category);
+								var categoryFormat = data.category;
+								if(categoryFormat === "freeBoard"){
+									categoryFormat = "자유글";
+								
+								}else if(categoryFormat === "job_hunting"){
+									categoryFormat = "취업준비";
+								
+								}else if(categoryFormat === "turnover"){
+									categoryFormat = "이직";
+								}
+								$('#category').text(categoryFormat);
 								$('#username').text(data.user.username);
 
 								var regdate = data.regdate ? new Date(data.regdate) : null;
@@ -153,10 +164,9 @@
 					});
 
 					// 해당 게시글의 댓글 불러오기
-					// $(document).ready(function(){
 					function loadComments() {
 						const ubno = ${ ubno };
-						console.log(ubno)
+						console.log(ubno);
 						$.ajax({
 							type: 'GET',
 							url: 'http://localhost:9001/api/v1/user/community-comment?ubno=' + ubno,
@@ -164,27 +174,41 @@
 							dataType: 'json',
 							success: function (da) {
 								if (da !== null) {
-									let str = '';
+									// 댓글 초기화
+									$('#data_reply_detail').empty();
+
 									da.forEach(data => {
-										str += '<tr class="replyItem"><td class="content">' + data.content + '</td>' +
-											'<td>' + data.user.username + '</td>' +
-											'<td>' + data.report + '</td>' +
-											'<td>' + data.regdate + '</td>' +
-											'<td><input type="button" class="btn_reply_report" onclick="replyReport(event)" value="신고"></td>' +
-											'<td><input type="button" class="btn_reply_edit" onclick="openEditForm(event)" data-replyNo="' + data.replyno + '" style="display: none;" value="댓글수정"></td></tr>';
+										let replyItem = $('<div class="replyItem"></div>');
+
+										let replyInfo = $('<ul id="reply_info"></ul>');
+										replyInfo.append('<li id="r_username">' + data.user.username + '</li>');
+
+										let regdate = data.regdate ? new Date(data.regdate) : null;
+										let moddate = data.moddate ? new Date(data.moddate) : null;
+
+										let formattedDate = '';
+										if (regdate) {
+											formattedDate = regdate.getFullYear() + '-' + ('0' + (regdate.getMonth() + 1)).slice(-2) + '-' + ('0' + regdate.getDate()).slice(-2);
+										} else if (moddate) {
+											formattedDate = moddate.getFullYear() + '-' + ('0' + (moddate.getMonth() + 1)).slice(-2) + '-' + ('0' + moddate.getDate()).slice(-2);
+										}
+
+										replyInfo.append('<li id="r_date">' + formattedDate + '</li>');
+										replyInfo.append('<li id="r_repBtn"><input type="button" class="btn_reply_report" onclick="replyReport(event)" value="🚨"></li>');
+										replyInfo.append('<li id="r_editBtn"><input type="button" class="btn_reply_edit" onclick="openEditForm(event)" data-replyNo="' + data.replyno + '" style="display: none;" value="수정"></li>');
+
+										replyItem.append(replyInfo);
+
+										let replyContent = $('<div id="reply_content" class="content"></div>').text(data.content);
+										replyItem.append(replyContent);
+
+										$('#data_reply_detail').append(replyItem);
+
+										if (storagedUsername === data.user.username || storagedRole === "ROLE_ADMIN") {
+											replyItem.find('.btn_reply_edit').css('display', 'block');
+										}
 									});
-
-									$('#data_reply_detail').html(str);
-
-									da.forEach(data => {
-										$('#data_reply_detail .btn_reply_edit').each(function (index) {
-											if (index === da.indexOf(data) && storagedUsername === data.user.username || storagedRole === "ROLE_ADMIN") {
-												$(this).css('display', 'block');
-											}
-										});
-									})
 								}
-
 							},
 							error: function (error) {
 								alert(error);
@@ -258,14 +282,14 @@
 
 				// 댓글 수정 기능
 				function openEditForm(event) {
-
 					let replyno = event.target.getAttribute("data-replyNo")
 
-					const parentElement = event.target.parentElement.parentElement;
+					const parentElement = event.target.parentElement.parentElement.parentElement;
 					//버튼 사라지게 처리해주기
 					event.target.style.display = "none";
 
-					let editForm = document.createElement("span")
+					let editForm = document.createElement("div")
+					editForm.classList = "edit_wrap";
 					editForm.innerHTML = "<input type='text' class='editContent' placeholder='수정하시오'><input type='button' class='editSubmit' value='수정'>";
 					parentElement.append(editForm);
 					//수정폼에 원래 댓글 컨텐트 넣어주기

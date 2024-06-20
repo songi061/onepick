@@ -615,7 +615,7 @@ function calcDday(targetDate) {
                  resumeList.empty(); // 기존 내용을 비웁니다
               
                  $.each(data, function(index, resume) {
-                     var ul = $('<ul class="res"></ul>'); // ul 태그 생성
+                     var ul = $('<ul class="res p-4 mb-3"></ul>'); // ul 태그 생성
                      
                      if(resume.def === "Y"){
                     	 ul.append('<li style="color : #007bff;">대표 이력서📄</li>');
@@ -625,7 +625,9 @@ function calcDday(targetDate) {
                      
                      
                      
-                     ul.append('<li class="resumelink"><span style="display:none;">'+resume.rno+'</span><a onclick="clickHandle(event)">' + resume.title + '</a></li>');
+
+                     ul.append('<li class="resumelink"><span style="display:none;">'+resume.rno+'</span><a href="#" onclick="clickHandle(event)">' + resume.title + '</a></li>');
+
 
                      if (resume.moddate == null) {
                          var regdate = new Date(resume.regdate).toISOString().split('T')[0];
