@@ -66,6 +66,12 @@
 
                         tableContent += '</tbody></table>';
                         $('#data_content').html(tableContent);
+                        
+                        if (localStorage.getItem("role") === 'ROLE_USER' ){
+                        	$('#go_regist').show();
+                        }else{
+                        	$('#go_regist').hide();
+                        }
                     },
                     error: function (error) {
                         alert(error);

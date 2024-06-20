@@ -58,6 +58,7 @@
 
                     tableContent += '</tbody></table>';
                     $('#data_content').html(tableContent);
+               
                 },
                 error: function (error) {
                     alert(error);
