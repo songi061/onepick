@@ -77,11 +77,12 @@ public class ReviewController_jia {
 		//해당기업이 올린 공고의 jno를 이용해서 해당 공고에 지원한 지원내역을 모두 뽑음
 		for(Long jno : jnoList) {
 			ApplyList al = applyListRepo.findIntervieweesByJno(jno);
+			
 			if(al != null) {
 				applyList.add(al);
 			}
 		}
-		
+		System.out.println(applyList);
 		
 			return new ResponseEntity<>(applyList, HttpStatus.OK);
 
@@ -109,7 +110,7 @@ public class ReviewController_jia {
 			
 			//해당 지원자를 applyList테이블에서 상태 변경해주기 ->더이상 면접완료x
 			ApplyList ap = applyListRepo.findInterviewee(username, jno);
-			ap.setRatingStatus(true);
+			ap.setRatingStatus1(true);
 			applyListRepo.save(ap);
 			
 			return new ResponseEntity<>("done", HttpStatus.OK);

@@ -150,7 +150,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">사회 활동 *</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">사회 활동</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -171,7 +171,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">자격증 *</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">자격증</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -191,7 +191,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">학력사항 *</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">학력사항</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -267,7 +267,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">보유능력 *</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">보유능력</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -391,6 +391,7 @@ function getResumeData() {
 		}
 		console.log(schoolObj)
 		schoolArr.push(schoolObj)
+		
 		
 		//목록 넣어주기
 		const listItem = document.createElement("ul");
@@ -575,9 +576,13 @@ function getResumeData() {
 		console.log(oaObj)
 		oaArr.push(oaObj)
 		
+		
+		
 		//목록 넣어주기
 		const listItem = document.createElement("ul");
 		listItem.classList = "oa-item"; 
+		let index = oaArr.length;
+		listItem.setAttribute("data-index", index);  
 		listItem.innerHTML = "<span style='position:absolute; top:10px; right:10px;' onclick='deleteEl(event)'>❌</span><li> <li> 스킬 : "+skillName.value + "</li><li> 내용 : "+oaContent.value	+"</li>"
 		oaContainer.appendChild(listItem);
 		
@@ -595,50 +600,46 @@ function getResumeData() {
 		console.log(resumeArr)
 		console.log(oaArr)
 	    e.preventDefault();
-// 	    getResumeData();
-// 	    if(oaArr ==""){
-// 	    	alert("보유능력은 필수입력사항 입니다. 다시 입력해주세요.")
-// 	    	return false;
-// 	    }else{
-// 	    	 let data = {
-// 	    		        "resume": resumeArr,
-// 	    		        "school": schoolArr,
-// 	    		        "experience": experienceArr,
-// 	    		        "license": licenseArr,
-// 	    		        "career": careerArr,
-// 	    		        "oa": oaArr,
-// 	    		    };
-// 	    		    console.log(data)
+	    getResumeData();
+	    if(oaArr ==""){
+	    	alert("보유능력은 필수입력사항 입니다. 다시 입력해주세요.")
+	    	return false;
+	    }else{
+	    	 let data = {
+	    		        "resume": resumeArr,
+	    		        "school": schoolArr,
+	    		        "experience": experienceArr,
+	    		        "license": licenseArr,
+	    		        "career": careerArr,
+	    		        "oa": oaArr,
+	    		    };
+	    		    console.log(data)
 
-// 	    	 	    // JSON으로 변환
-// 	    	 	    const jsonData = JSON.stringify(data);
+	    	 	    // JSON으로 변환
+	    	 	    const jsonData = JSON.stringify(data);
 
-// 	    		    $.ajax({
-// 	    		        type: "POST",
-// 	    		        url: "http://localhost:9001/api/v1/resume",
-// 	    		        data: jsonData,
-// 	    		        contentType: "application/json", // JSON 데이터 전송을 위해 Content-Type을 설정
-// 	    		        headers: {
-// 	    		            'username': localStorage.getItem("username")  // HTTP 요청 헤더에 username 추가
-// 	    		        }, 
-// 	    		        success: function(response) {
-// 	    		            // 서버 응답 성공 처리
-// 	    		            console.log("서버 응답:", response);
-// 	    		            window.location.href = "/user/resumeList";
-// 	    		        },
-// 	    		        error: function(jqXHR, textStatus, errorThrown) {
-// 	    		            // 에러 발생 시 처리
-// 	    		            console.log("에러 발생:", textStatus, errorThrown);
-// 	    		        }
-// 	    		    });
-// 	    }
+	    		    $.ajax({
+	    		        type: "POST",
+	    		        url: "http://localhost:9001/api/v1/resume",
+	    		        data: jsonData,
+	    		        contentType: "application/json", // JSON 데이터 전송을 위해 Content-Type을 설정
+	    		        headers: {
+	    		            'username': localStorage.getItem("username")  // HTTP 요청 헤더에 username 추가
+	    		        }, 
+	    		        success: function(response) {
+	    		            // 서버 응답 성공 처리
+	    		            console.log("서버 응답:", response);
+	    		            window.location.href = "/user/resumeList";
+	    		        },
+	    		        error: function(jqXHR, textStatus, errorThrown) {
+	    		            // 에러 발생 시 처리
+	    		            console.log("에러 발생:", textStatus, errorThrown);
+	    		        }
+	    		    });
+	    }
 	}
 	
 	
-	function deleteEl(e){
-		console.log(e.target.parentElement.remove())
-		//각 arr에서 해당 요소 빼주기
-	}
 	
 	
 	
