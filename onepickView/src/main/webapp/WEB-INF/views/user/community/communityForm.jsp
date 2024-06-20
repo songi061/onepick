@@ -23,7 +23,7 @@
 	<form name="frm" id="communityForm">  
        <div id="frm_category">
            <p>카테고리</p>
-          <select id="Category" name="category">
+          <select id="Category" name="category" class="ms-3">
 	      <option selected>카테고리를 선택하세요</option>
 	      <option value="freeBoard">자유글</option>
 	      <option value="job_hunting">취업준비</option>
@@ -31,10 +31,10 @@
 	    </select>
        </div>
       <div id="frm_title">
-            <p>제목</p><input type="text" name="title" id="inputTitle">
+            <p>제목</p><input class="w-75" type="text" name="title" id="inputTitle">
       </div>
       <div class="frm_content overflow-hidden">
-           <p>내용</p><textarea id="inputContent" name="content"></textarea>
+           <p>내용</p><textarea class="w-75" id="inputContent" name="content"></textarea>
         </div>
        	<input type="submit" class="btn btn-onepick noticeBtn mt-3 float-end"  id="btn-boardRegist"  value="등록">
      </form>
