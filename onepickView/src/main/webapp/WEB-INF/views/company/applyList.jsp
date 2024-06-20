@@ -120,6 +120,7 @@ const resume_img =  document.querySelector("#resume_img")
            statusBtns.forEach(btn=>{
         	   if(btn.innerText == "불합격"){
         		   btn.style.backgroundColor="red";
+        		   btn.style.borderColor="red";
         		   btn.removeAttribute("data-bs-toggle");
         		   btn.removeAttribute("data-bs-target");
         	   }else if(btn.innerText == "면접대기"){
