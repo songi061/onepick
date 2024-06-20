@@ -55,7 +55,7 @@ console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+storagedUsername)
 // 모든 게시물 요소를 가져옴
 const post = document.getElementById('board_detail');
 const editBtn = document.getElementById("editBtn");
-const deleteBtn = document.getElementById("deleteBtn");
+const boardDeleteBtn = document.getElementById("deleteBtn");
 const boardReportBtn = document.getElementById("btn_commu_report");
 const cbno = ${cbno};
 console.log("-----------------cbno="+cbno)
@@ -114,7 +114,7 @@ $(document).ready(function(){
 		        if (storagedUsername === writer || storagedRole === "ROLE_ADMIN") {
 		            console.log(storagedUsername === writer)
 		            editBtn.style.display="block";
-		            deleteBtn.style.display="block";
+		            boardDeleteBtn.style.display="block";
 		   	 	};
 		   	 	
 		   		// 게시글 신고 버튼이 내가 쓴 글에는 안보이게
@@ -168,6 +168,7 @@ $(document).ready(function(){
 		
 	});
 
+
 	
 	//수정버튼 클릭이벤트 핸들러 추가
 	editBtn.addEventListener("click", function(){
@@ -216,36 +217,85 @@ $(document).ready(function(){
 			$.ajax({
 				type: 'GET',
 				url: 'http://localhost:9001/api/v1/company/community-comment?cbno='+cbno,
-				//data: {cbno: cbno},
 				dataType: 'json',
 				success: function(da){
 					if(da !== null){
 						let str = '';
-						da.forEach(data=>{
+						da.forEach(data =>{
+							//const writer = data.company.username;
+							console.log(data.replyno);
 							str += '<tr class="replyItem"><td class="content">'+data.content+'</td>'+
 								'<td>'+data.company.username+'</td>'+
 								'<td>'+data.report+'</td>'+
 								'<td>'+data.regdate+'</td>'+
 								'<td><input type="button" class="btn_reply_report" onclick="replyReport(event)" value="신고"></td>'+
-								'<td><input type="button" class="btn_reply_edit" onclick="openEditForm(event)" data-replyNo="'+ data.replyno +'" style="display: none;" value="댓글수정"></td></tr>';
+								'<td><input type="button" class="btn_reply_edit" onclick="openEditForm(event)" data-replyNo="'+ data.replyno +'" style="display: none;" value="댓글수정"></td>'+
+								'<td><input type="button" class="btn_reply_delete" onclick="openDeleteForm(event)" data-replyNo="'+ data.replyno +'" style="display: none;" value="댓글삭제"></td></tr>';
 						});
 						$('#data_reply_detail').html(str);
 					
 						console.log(da);
 						da.forEach(data =>{
 							  $('#data_reply_detail .btn_reply_edit').each(function(index) {
-		                          if (index === da.indexOf(data) && storagedUsername === data.company.username || storagedRole === "ROLE_ADMIN") {
+		                          if (index === da.indexOf(data) && (storagedUsername === data.company.username || storagedRole === "ROLE_ADMIN")) {
 		                              $(this).css('display', 'block');
 		                          }
 		                      });
-						})	
-					};
+						});
+						
+						// 관리자 + 내가 쓴 댓글에는 삭제 버튼 보이게 하기
+						da.forEach(data => {
+				        	$('#data_reply_detail .btn_reply_delete').each(function(index) {
+				            	if (index === da.indexOf(data) && (storagedUsername === data.company.username || storagedRole === "ROLE_ADMIN")) {
+				                	$(this).css('display', 'block');
+				            	}
+				            });
+				        });
+				     }
 				},
 				error: function(error){
 					alert(error);
 				}
 			});
 		}
+		
+		
+		// 게시글 삭제 기능
+		deleteBtn.addEventListener('click', function(event){
+			console.log("xxx삭제 버튼 클릭 됨xxx");
+			console.log(cbno);
+			event.preventDefault();
+			
+			if(confirm("이 게시글을 삭제하시겠습니까?")){
+				$.ajax({
+					type: 'delete',
+					url: 'http://localhost:9001/api/v1/company/community-board?cbno='+cbno,
+					headers:{
+						"jwtToken" : localStorage.getItem("jwtToken"),
+		            	"username" : localStorage.getItem("username"),
+		            	"role" : localStorage.getItem("role")
+					},
+					contentType: 'application/json; charset=utf-8',
+					//dataType: 'json'
+					success: function(data){
+						if(data === "게시글 삭제 완료"){
+							console.log(data);
+							alert("게시글 삭제 완료");
+							window.location.href='/company/communityList';
+						}
+					},
+					error: function(xhr, status, error) {
+						// 요청이 실패한 경우 처리할 코드
+						console.error("Request failed with status code: " + xhr.status);
+					}
+					
+				});
+			}else {
+				// 신고 취소 버튼 시 알림
+				alert("삭제가 취소되었습니다.");
+			}
+			
+		});
 		
 		
 		// 게시글 신고 기능
@@ -315,7 +365,7 @@ $(document).ready(function(){
 	// 댓글 수정 기능
 	function openEditForm(event){
 		
-		let replyno = event.target.getAttribute("data-replyNo")
+		let replyno = event.target.getAttribute("data-replyNo");
 	
 		const parentElement = event.target.parentElement.parentElement;
 		//버튼 사라지게 처리해주기
@@ -364,10 +414,40 @@ $(document).ready(function(){
 		
 	}
 	
+	// 댓글 삭제 기능
+	function openDeleteForm(event){
+		event.preventDefault();
+		let replyno = event.target.getAttribute("data-replyNo");
+		if(confirm("이 댓글을 삭제하시겠습니까?")){
+			$.ajax({
+				type: 'delete',
+				url: 'http://localhost:9001/api/v1/company/community-reply?replyno='+replyno,
+				headers:{
+					"jwtToken" : localStorage.getItem("jwtToken"),
+	            	"username" : localStorage.getItem("username"),
+	            	"role" : localStorage.getItem("role")
+				},
+				contentType: 'application/json; charset=utf-8',
+				//dataType: 'json'
+				success: function(data){
+					if(data === "댓글 삭제 완료"){
+						console.log(data);
+						alert("댓글 삭제 완료");
+						location.href="/company/communityDetail?cbno="+cbno;
+					}
+				},
+				error: function(xhr, status, error) {
+					// 요청이 실패한 경우 처리할 코드
+					console.error("Request failed with status code: " + xhr.status);
+				}
 
+			});
+		}else {
+			// 신고 취소 버튼 시 알림
+			alert("삭제가 취소되었습니다.");
+		}
 	
-	
-	
+	}
 </script>
 	</div>
 	<jsp:include page="..//../layout/footer.jsp"></jsp:include>
