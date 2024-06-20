@@ -26,13 +26,15 @@ const listContainer = document.querySelector('.company_list');
     const xhttp = new XMLHttpRequest();
 	xhttp.onload = function() {
 		let data = JSON.parse(this.responseText);
+		
 		  if (data && data.length > 0) {
            data.forEach(company => {
+        	   const yrSales = Number(company.yrSales).toLocaleString('en-US');
                const listItem = document.createElement('div');
                listItem.className = 'company';
                listItem.innerHTML = "<div><a class='company_detail' href='/company/companyDetail?username="+ company.username +"'>"+ company.name+"</a></div><div>" +company.sector+
                "</div> <div>" + company.size + "</div><div>사원수 : "+ company.employeesNum+
-               " 명 </div><div>연매출액 : " + company.yrSales + " 원 </div><div>주소 : " + company.addr +
+               " 명 </div><div>연매출액 : " + yrSales + " 원 </div><div>주소 : " + company.addr +
                "</div>";
                listContainer.appendChild(listItem);
            });
