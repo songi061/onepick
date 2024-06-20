@@ -399,10 +399,8 @@ public class ResumeService {
 		    // resume 리스트 저장
 			List<Map<String, String>> resumeList = dataMap.get("resume");
 		    if (resumeList != null) {
-		        for (Object obj : resumeList) {
-		            System.out.println(obj);
-		            if (obj instanceof Map) {
-		                Map<String, String> resumeData = (Map<String, String>) obj;
+		    	 for (Map<String, String> resumeData : resumeList) {
+		           try {
 		                
 		                // Create a new Resume object and set its properties
 		                Resume resume = new Resume();
@@ -427,7 +425,7 @@ public class ResumeService {
 		                
 		               
 		                System.out.println("저장된 이력서 : " + savedResume);
-		            } else {
+		            } catch(Exception e) {
 		                throw new IllegalArgumentException("이력서가 올바르지 않습니다");
 		            }
 		        }
@@ -468,8 +466,8 @@ public class ResumeService {
 		                Career career = new Career();
 		                career.setResume(savedResume);
 		                career.setUser(user);
-		                career.setC_type(careerData.get("c_type"));
-		                career.setCareer_status(careerData.get("career_status"));
+		                career.setC_type(careerData.get("cType"));
+		                career.setCareer_status(careerData.get("careerStatus"));
 		                career.setCompanyName(careerData.get("companyName"));
 		                career.setEndDate(LocalDate.parse(careerData.get("endDate")));
 		                career.setPosition(careerData.get("position"));
@@ -494,7 +492,7 @@ public class ResumeService {
 		                ex.setUser(user);
 		                ex.setEndDay(LocalDate.parse(experienceData.get("endDay")));
 		                ex.setEx_content(experienceData.get("exContent"));
-		                ex.setEx_org(experienceData.get("ex_org"));
+		                ex.setEx_org(experienceData.get("exOrg"));
 		                ex.setStartDay(LocalDate.parse(experienceData.get("startDay")));
 	
 		                experienceRepo.save(ex);
@@ -512,7 +510,7 @@ public class ResumeService {
 		                Oa oa = new Oa();
 		                oa.setResume(savedResume);
 		                oa.setUser(user);
-		                oa.setOa_content(oaData.get("oa_content"));
+		                oa.setOa_content(oaData.get("oaContent"));
 		                oa.setSkillName(oaData.get("skillName"));
 		                oaRepo.save(oa);
 		            } catch(Exception e) {
@@ -546,22 +544,6 @@ public class ResumeService {
 		    }
 	        return "등록완료";
 	    }
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	
 	
 	
 	
