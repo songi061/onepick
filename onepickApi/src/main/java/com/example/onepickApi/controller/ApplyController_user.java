@@ -70,6 +70,7 @@ public class ApplyController_user {
 		applyList.setStatus("지원완료");
 		applyList.setUser(user);
 		applyList.setRatingStatus(false);
+		applyList.setRatingStatus1(false);
 		applyList.setJobAd(jobad);
 		applyList.setResume(resume);
 		
