@@ -18,7 +18,14 @@
 .subtitle{
 	font-size : 1.1em;
 	font-weight : bold;
+	margin : 8px;
 }
+
+.subtitle2{
+	font-size : 1.1em;
+	margin : 8px;
+}
+
 .pub{
 	color : #42d056; 
 	font-weight : bold;
@@ -63,6 +70,25 @@
     color: white;
 }    
 
+
+.profile-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profileImg_box img {
+    width: 110px; 
+    height: 110px;
+    object-fit: cover; 
+    border-radius: 50%; 
+    border: 2px solid #42d056 ; 
+    margin-right : 30px;
+}
+
+.resume-info {
+    flex: 1;
+}
     
 </style>
 
@@ -71,28 +97,33 @@
 
 <div class="container" id="capture">
 <div id="resumeForm">
+<div class="d-flex">
 <div id="resume"></div>
+</div>
 <hr>
-<p class="subtitle">사회활동</p>
+<p class="subtitle">✔️ 사회활동</p>
 <div class="info" id="experiences"></div>
 <hr>
-<p class="subtitle">경력사항</p>
+<p class="subtitle">✔️ 경력사항</p>
 <div class="info" id="careers"></div>
 <hr>
-<p class="subtitle">학력사항</p>
+<p class="subtitle">✔️ 학력사항</p>
 <div class="info" id="schools"></div>
 <hr>
-<p class="subtitle">자격증</p>
+<p class="subtitle">✔️ 자격증</p>
 <div class="info" id="licenses"></div>
 <hr>
-<p class="subtitle">보유능력</p>
+<p class="subtitle">✔️ 보유능력</p>
 <div class="info" id="oaList"></div>
 </div>
 </div>
 <div class="px-5 pb-5">
 	<input type="button" class="btn btn-lg w-100 btn-onepick" id="applyBtn" value="이 이력서로 지원하기">
 </div>
+
+
 <script>
+
 let rno = null;
 let jno = "${jno}"
 
@@ -113,38 +144,85 @@ $(document).ready(function() {
 	    }, */
 	    success: function(data) {
 	    	
-	        
-	     // Resume 정보
+	    	console.log(data);
+            var resume = data.resume;
+            
+            
+            // Resume 정보
             var resumeDiv = $('#resume');
             resumeDiv.empty();
-            var resumeUl = $('<ul class="resume"></ul>');
-            var resume = data.resume;
+            
+            
+            
+            
+            
+			
+            // 프로필 이미지와 정보를 포함하는 컨테이너 생성
+            var profileContainer = $('<div class="profile-container"></div>');
 
-            if (resume.disclo == "public") {
-                resumeUl.append('<li class="pub">공개 이력서</li>');
+            // 프로필 이미지 박스
+            var profileImgBox = $('<div class="profileImg_box position-relative"><img src="" alt="사진"></div>');
+            if (data.resume.user.fileName == null) {
+                profileImgBox.find('img').attr('src', '/img/no_img.jpg');
             } else {
-                resumeUl.append('<li class="pub">비공개 이력서</li>');
+                profileImgBox.find('img').attr('src', '/images/' + data.resume.user.fileName);
             }
-            resumeUl.append('<li class="title">' + resume.title + '</li><hr>');
-            resumeUl.append('<li class="subtitle" style="color : #2E9AFE;">기본정보</li>');
-            resumeUl.append('<li class="subtitle">💚 이름 :  ' + resume.user.name + '</li>');
-            resumeUl.append('<li class="subtitle">💚 이메일 :  ' + resume.user.email + '</li>');
-            resumeUl.append('<li class="subtitle">💚 전화번호 :  ' + resume.user.tel + '</li>');
-            resumeUl.append('<li class="subtitle">💚 주소 :  ' + resume.user.addr + '</li>');
-            resumeUl.append('<li class="subtitle">💚 성별 :  ' + resume.user.gender + '</li>');
-            resumeUl.append('<li class="subtitle">💚 생년월일 :  ' + resume.user.birthDate + '</li><br><br>');
-            resumeUl.append('<li class="subtitle">자기소개서 제목</li>');
-            resumeUl.append('<li>' + resume.selfInfoTitle + '</li><br>');
-            resumeUl.append('<li class="subtitle">자기소개서 내용</li>');
-            resumeUl.append('<li>' + resume.selfInfoContent + '</li><br><hr>');
-            resumeUl.append('<li class="subtitle">희망근무지역</li>');
-            resumeUl.append('<li>1순위 : ' + resume.region1 + ' ' + resume.region1_1 + ' / 2순위 : ' + resume.region2 + ' ' + resume.region2_1 + '</li><br>');
-            resumeUl.append('<li class="subtitle">관심업종/직무</li>');
-            resumeUl.append('<li>' + resume.sector + ' / ' + resume.job + '</li><br>');
-            resumeUl.append('<li class="subtitle">포트폴리오 URL</li>');
-            resumeUl.append('<li>' + resume.portfolioUrl + '</li>');
 
-            resumeDiv.append(resumeUl);
+            // 이미지 박스를 컨테이너에 추가
+            profileContainer.append(profileImgBox);
+
+            
+            
+            // 기본 정보 div
+            var basicInfoDiv = $('<div class="basic-info"></div>');
+            
+            var basicInfoTitleDiv = $('<div class="basic-info-title"></div>');
+            
+            if (resume.disclo == "public") {
+            	basicInfoTitleDiv.append('<div class="pub">공개 이력서</div>');
+            } else {
+            	basicInfoTitleDiv.append('<div class="pub">비공개 이력서</div>');
+            }
+			
+            basicInfoTitleDiv.append('<div class="title">' + resume.title + '</div><hr>');
+            
+            resumeDiv.append(basicInfoTitleDiv);
+            
+            
+            
+            
+            basicInfoDiv.append('<div class="subtitle" style="color : #2E9AFE;">기본정보</div>');
+            basicInfoDiv.append('<div class="subtitle">💚 이름 : ' + resume.user.name + '</div>');
+            basicInfoDiv.append('<div class="subtitle">💚 이메일 : ' + resume.user.email + '</div>');
+            basicInfoDiv.append('<div class="subtitle">💚 전화번호 : ' + resume.user.tel + '</div>');
+            basicInfoDiv.append('<div class="subtitle">💚 주소 : ' + resume.user.addr + '</div>');
+            basicInfoDiv.append('<div class="subtitle">💚 성별 : ' + resume.user.gender + '</div>');
+            basicInfoDiv.append('<div class="subtitle">💚 생년월일 : ' + resume.user.birthDate + '</div>');
+
+            // 기본 정보 div를 컨테이너에 추가
+            profileContainer.append(basicInfoDiv);
+			
+            
+            
+            // 프로필 컨테이너를 resumeDiv에 추가
+            resumeDiv.append(profileContainer);
+			
+            // 자기소개서 정보 div
+            var selfIntroDiv = $('<div class="self-intro"></div>');
+
+            selfIntroDiv.append('<div class="subtitle">자기소개서 제목</div>');
+            selfIntroDiv.append('<div class="subtitle2">' + resume.selfInfoTitle + '</div>');
+            selfIntroDiv.append('<div class="subtitle">자기소개서 내용</div>');
+            selfIntroDiv.append('<div class="subtitle2">' + resume.selfInfoContent + '</div><hr>');
+            selfIntroDiv.append('<div class="subtitle">희망근무지역</div>');
+            selfIntroDiv.append('<div class="subtitle2">1순위 : ' + resume.region1 + ' ' + resume.region1_1 + ' / 2순위 : ' + resume.region2 + ' ' + resume.region2_1 + '</div>');
+            selfIntroDiv.append('<div class="subtitle">관심업종/직무</div>');
+            selfIntroDiv.append('<div class="subtitle2">' + resume.sector + ' / ' + resume.job + '</div>');
+            selfIntroDiv.append('<div class="subtitle">포트폴리오 URL</div>');
+            selfIntroDiv.append('<div class="subtitle2">' + resume.portfolioUrl + '</div>');
+
+            // 자기소개서 정보를 resumeDiv에 추가
+            resumeDiv.append(selfIntroDiv);
 
             
             // Experience(사회활동) 정보
@@ -229,44 +307,44 @@ $(document).ready(function() {
 
 
 document.getElementById('applyBtn').addEventListener('click', function () {
-		 if (confirm("해당 채용공고에 지원하시겠습니까?")) {
-			 $.ajax({
-				    url: 'http://localhost:9001/api/v1/apply?rno=' + rno + '&jno=' + jno,
-				    type: 'POST',
-				    headers: {
-				    	'username': localStorage.getItem("username")
-				    }, 
-				    success: function(data) {
-				    	let ano = data;
-				    	
-				    	html2canvas(document.getElementById('capture')).then(function (canvas) {
-				          const imgData = canvas.toDataURL('image/png');
+	 if (confirm("해당 채용공고에 지원하시겠습니까?")) {
+		 $.ajax({
+			    url: 'http://localhost:9001/api/v1/apply?rno=' + rno + '&jno=' + jno,
+			    type: 'POST',
+			    headers: {
+			    	'username': localStorage.getItem("username")
+			    }, 
+			    success: function(data) {
+			    	let ano = data;
+			    	
+			    	html2canvas(document.getElementById('capture')).then(function (canvas) {
+			          const imgData = canvas.toDataURL('image/png');
 
-				          // Ajax를 통해 imgData와 jno를 POST 방식으로 전송
-				          $.ajax({
-				            type: 'POST',
-				            url: 'http://localhost:9001/api/v1/apply-img?ano='+ano,
-				            data: JSON.stringify({ imgData: imgData}),
-				            contentType: 'application/json; charset=utf-8',
-				            success: function (response) {
-				              alert("성공적으로 지원이 완료되었습니다.");
-				              window.close();
-				            },
-				            error: function (error) {
-				              alert("성공적으로 지원이 완료되었습니다.");
-				              window.close();
-				            }
-				          });
-				        });
-				    },
-				    error: function(xhr, status, error) {
-				        console.error('AJAX 요청 실패:', status, error);
-				    }
-				});
-		 }
+			          // Ajax를 통해 imgData와 jno를 POST 방식으로 전송
+			          $.ajax({
+			            type: 'POST',
+			            url: 'http://localhost:9001/api/v1/apply-img?ano='+ano,
+			            data: JSON.stringify({ imgData: imgData}),
+			            contentType: 'application/json; charset=utf-8',
+			            success: function (response) {
+			              alert("성공적으로 지원이 완료되었습니다.");
+			              window.close();
+			            },
+			            error: function (error) {
+			              alert("성공적으로 지원이 완료되었습니다.");
+			              window.close();
+			            }
+			          });
+			        });
+			    },
+			    error: function(xhr, status, error) {
+			        console.error('AJAX 요청 실패:', status, error);
+			    }
+			});
+	 }
 });
 
-	
+
 
 </script>
 
