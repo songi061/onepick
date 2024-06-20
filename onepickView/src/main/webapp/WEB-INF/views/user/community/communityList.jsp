@@ -57,7 +57,7 @@
 
                         if (data !== null) {
                             for (var i = 0; i < data.length; i++) {
-                                tableContent += '<tr id="' + data[i].ubno + '" class="clickable"><td>' + data[i].ubno +
+                                tableContent += '<tr id="' + data[i].ubno + '" class="clickable"><td>' + (i+1) +
                                     '</td><td>' + data[i].title + '</td>' +
                                     '<td>' + data[i].user.username + '</td>' +
                                     '<td>' + data[i].views + '</td></tr>';
