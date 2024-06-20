@@ -29,6 +29,7 @@
 	</div>
 	<div class="edit">
 		<button id="editBtn" style="display: none;">수정하기</button>
+		<button id="deleteBtn" style="display:none;">삭제하기</button>
 	</div>
 	<hr>
 	<div id="reply_regist">
@@ -54,6 +55,7 @@ console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+storagedUsername)
 // 모든 게시물 요소를 가져옴
 const post = document.getElementById('board_detail');
 const editBtn = document.getElementById("editBtn");
+const deleteBtn = document.getElementById("deleteBtn");
 const boardReportBtn = document.getElementById("btn_commu_report");
 const cbno = ${cbno};
 console.log("-----------------cbno="+cbno)
@@ -105,12 +107,14 @@ $(document).ready(function(){
 					'<tr><td>'+data.views +'</td></tr>'+
 					'<tr><td id="writer">'+data.company.username+'</td></tr>'+
 					'<tr><td>'+formattedDate + '</td></tr>';
+					
 				$('#data_board_detail').html(str);
 				
-				// 수정 버튼이 나+관리자한테만 보이게
+				// 수정&삭제 버튼이 나+관리자한테만 보이게
 		        if (storagedUsername === writer || storagedRole === "ROLE_ADMIN") {
 		            console.log(storagedUsername === writer)
 		            editBtn.style.display="block";
+		            deleteBtn.style.display="block";
 		   	 	};
 		   	 	
 		   		// 게시글 신고 버튼이 내가 쓴 글에는 안보이게
@@ -127,11 +131,49 @@ $(document).ready(function(){
 		}
 	});
 
+	// 게시글 삭제 기능
+	deleteBtn.addEventListener('click', function(event){
+		console.log("xxx삭제 버튼 클릭 됨xxx");
+		console.log(cbno);
+		event.preventDefault();
+		
+		if(confirm("이 게시글을 삭제하시겠습니까?")){
+			$.ajax({
+				type: 'delete',
+				url: 'http://localhost:9001/api/v1/company/community-board?cbno='+cbno,
+				headers:{
+					"jwtToken" : localStorage.getItem("jwtToken"),
+	            	"username" : localStorage.getItem("username"),
+	            	"role" : localStorage.getItem("role")
+				},
+				contentType: 'application/json; charset=utf-8',
+				//dataType: 'json'
+				success: function(data){
+					if(data === "게시글 삭제 완료"){
+						console.log(data);
+						alert("게시글 삭제 완료");
+						window.location.href='/company/communityList';
+					}
+				},
+				error: function(xhr, status, error) {
+					// 요청이 실패한 경우 처리할 코드
+					console.error("Request failed with status code: " + xhr.status);
+				}
+				
+			});
+		}else {
+			// 신고 취소 버튼 시 알림
+			alert("삭제가 취소되었습니다.");
+		}
+		
+	});
+
+	
 	//수정버튼 클릭이벤트 핸들러 추가
 	editBtn.addEventListener("click", function(){
 		console.log("수정버튼 클릭했다")
 		window.location.href = '/company/communityEdit?cbno='+cbno;
-	})
+	});
 
 	// 해당게시글에서 댓글작성 매서드
 	$('#btn_postComment').click(function(event){
@@ -195,7 +237,7 @@ $(document).ready(function(){
 		                          if (index === da.indexOf(data) && storagedUsername === data.company.username || storagedRole === "ROLE_ADMIN") {
 		                              $(this).css('display', 'block');
 		                          }
-		                    });
+		                      });
 						})	
 					};
 				},
@@ -238,7 +280,7 @@ $(document).ready(function(){
 			}
 			
 		});
-
+		
 });
 	
 	//댓글 신고 기능
@@ -269,6 +311,7 @@ $(document).ready(function(){
 		});
 
 	}
+	
 	// 댓글 수정 기능
 	function openEditForm(event){
 		
@@ -320,6 +363,10 @@ $(document).ready(function(){
 		})
 		
 	}
+	
+
+	
+	
 	
 </script>
 	</div>

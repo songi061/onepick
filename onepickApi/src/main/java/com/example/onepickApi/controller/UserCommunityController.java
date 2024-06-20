@@ -222,6 +222,7 @@ public class UserCommunityController {
 		BoardReport boardReport = new BoardReport();
 		boardReport.setUser(user);
 		boardReport.setUb(ub);
+		boardReport.setReport_date(new Date());
 		brRepo.save(boardReport);
 		
 		

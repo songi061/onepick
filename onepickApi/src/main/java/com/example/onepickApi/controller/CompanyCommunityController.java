@@ -52,6 +52,7 @@ public class CompanyCommunityController {
 	@Autowired
 	ReplyReportRepository rrRepo;
 
+	
 	// 게시글 등록
 	@PostMapping("/community-board")
 	public CompanyBoard communityForm(HttpServletRequest request, @RequestBody BoardDto boardDto) {
@@ -203,11 +204,27 @@ public class CompanyCommunityController {
 	}
 	
 	
-	
 	// 게시글 삭제
 	@DeleteMapping("/community-board")
-	public String communityDeletion() {
-		return "";
+	public String communityDeletion(HttpServletRequest request, @RequestParam("cbno") Long cbno) {
+		
+		// cbno가 외래키로 연결된 데이터를 다 삭제
+		CompanyBoard cb = cbRepo.findById(cbno).get();
+		System.out.println("cb 있음-----");
+		
+		CompanyReply cr = new CompanyReply();
+		cr.setCompanyBoard(cb);
+		
+		crRepo.delete(cr);
+		System.out.println("cr 삭제----");
+		
+		brRepo.deleteByCompanyBoardCbno(cbno);
+		System.out.println("br에서 삭제----");
+		
+		cbRepo.deleteById(cbno);
+		System.out.println("cb 삭제----");
+		
+		return "게시글 삭제 완료";
 	}
 
 
