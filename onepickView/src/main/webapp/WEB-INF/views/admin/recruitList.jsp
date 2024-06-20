@@ -83,8 +83,8 @@
                 });
 
                 // tr 클릭 이벤트 핸들러 추가
-                $("#jabAdTableBody").on("click", "tr", function(){
-                    var jno = $(this).data("jno");
+                $("#jabAdTableBody").on("click", ".title", function(){
+                    var jno = $(this).closest("tr").data("jno");
                     window.location.href = "/company/recruitDetail?jno=" + jno;
                 });
             },
@@ -125,7 +125,7 @@
                 row.append($("<td>").text(jobAd.jno));
                 row.append($("<td>").text(jobAd.company.username));
                 row.append($("<td>").text(jobAd.company.name));
-                row.append($("<td>").text(jobAd.wantedTitle));
+                row.append($("<td class='title'>").text(jobAd.wantedTitle));
     
                 var regdate = jobAd.regdate ? new Date(jobAd.regdate) : null;
                 var moddate = jobAd.moddate ? new Date(jobAd.moddate) : null;
@@ -166,7 +166,7 @@
             success: function(response){
                 alert("삭제되었습니다.");
                 console.log(response);
-                window.location.href = "/admin/recruitList";
+                location.href = "/admin/recruitList";
             },
             error: function(error){
                 console.log("에러 :", error);
