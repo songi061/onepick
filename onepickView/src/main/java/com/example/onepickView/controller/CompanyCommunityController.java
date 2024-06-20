@@ -43,4 +43,14 @@ public class CompanyCommunityController {
 		
 		return "company/myBoardList";
 	}
+	
+	//기업 마이페이지 - 내가 쓴 댓글 목록 조회
+	@RequestMapping("/myCommentList")
+	public String mycomment() {
+		
+		return "company/myCommentList";
+	}
+	
+	
+	
 }

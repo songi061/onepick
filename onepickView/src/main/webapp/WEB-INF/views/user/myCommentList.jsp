@@ -12,7 +12,7 @@
 <body>
 <jsp:include page="../layout/header.jsp"></jsp:include>
 <div class="container">
-	<!-- 내가 쓴 댓글 목록 -->
+	<!-- (구직자) 내가 쓴 댓글 목록 -->
 	<div id="myReplies" class="myBoard" data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
 		<table id="replyTable">
 			<thead>
@@ -30,7 +30,6 @@
 //내가 쓴 댓글 목록 조회 함수
 $(document).ready(function(){
 	//let ubno = new URLSearchParams(window.location.search).get('ubno');
-	
 	$.ajax({
 		type: 'GET',
 		url: 'http://localhost:9001/api/v1/user/community-myComment',
