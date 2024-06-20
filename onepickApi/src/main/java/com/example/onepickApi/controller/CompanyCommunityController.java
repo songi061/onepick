@@ -203,10 +203,19 @@ public class CompanyCommunityController {
 		}
 	}
 	
+	// 댓글 삭제
+	@DeleteMapping("/community-reply")
+	public String replyDeletion(@RequestParam("replyno") Long replyno) {
+		System.out.println("댓글 삭제 시도~~~~~~~");
+		crRepo.deleteById(replyno);
+		System.out.println("댓글 삭제 완1!!1!!!!!");
+				
+		return "댓글 삭제 완료";
+	}
 	
 	// 게시글 삭제
 	@DeleteMapping("/community-board")
-	public String communityDeletion(HttpServletRequest request, @RequestParam("cbno") Long cbno) {
+	public String communityDeletion(@RequestParam("cbno") Long cbno) {
 		
 		// cbno가 외래키로 연결된 데이터를 다 삭제
 		CompanyBoard cb = cbRepo.findById(cbno).get();
