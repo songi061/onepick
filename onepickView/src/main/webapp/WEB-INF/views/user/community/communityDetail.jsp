@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-	<!DOCTYPE html>
-	<html>
-
-	<head>
+<!DOCTYPE html>
+<html>
+<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 		<meta charset="UTF-8">
 		<title>1PICK!</title>
@@ -11,12 +10,12 @@
 		<link href="/css/style.css" rel="stylesheet">
 		<link href="/css/communityDetail.css" rel="stylesheet">
 	</head>
-
-	<body class="d-flex flex-column h-100 min-h-100">
-		<jsp:include page="..//../layout/header.jsp"></jsp:include>
-		<div class="container">
-			<div class="page_title">구직자 커뮤니티</div>
-			<button id="editBtn" style="display: none;">수정</button>
+<body class="d-flex flex-column h-100 min-h-100">
+<jsp:include page="..//../layout/header.jsp"></jsp:include>
+<div class="container">
+	<div class="page_title">구직자 커뮤니티</div>
+		<button id="editBtn" style="display: none;">수정</button>
+		<button id="deleteBtn" style="display: none;">삭제</button>
 			<ul id="detail_wrap">
 				<li id="detail_head">
 					<div id="title"></div>
@@ -32,7 +31,6 @@
 					<div id="content"></div>
 				</li>
 			</ul>
-
 			<div id="reply_regist">
 				<form class="replyForm" id="replyForm">
 					<input id="input_reply_content" type="text" name="content" size="50"
@@ -44,7 +42,6 @@
 				<div id="data_reply_detail">
 				</div>
 			</div>
-
 			<hr>
 			<script>
 				// 로컬 스토리지에서 username을 가져옴
@@ -53,7 +50,8 @@
 				// 모든 게시물 요소를 가져옴
 				const post = document.getElementById('board_detail');
 				const editBtn = document.getElementById("editBtn");
-
+				const deleteBtn = document.getElementById("deleteBtn");
+				const boardReportBtn = document.getElementById("btn_commu_report");
 				const ubno = ${ ubno };
 
 				// 게시글 디테일 불러오기
@@ -111,7 +109,15 @@
 								if (storagedUsername == data.user.username || storagedRole === "ROLE_ADMIN") {
 									console.log("xxxx");
 									editBtn.style.display = "block";
+									deleteBtn.style.display = "block";
 								}
+								
+						   		// 게시글 신고 버튼이 내가 쓴 글에는 안보이게
+						   	 	if(storagedUsername === writer){
+						   	 		console.log(writer)
+						   	 		boardReportBtn.style.display="none";
+						   	 	
+						   	 	}
 							}
 							// 초기 댓글 로드
 							loadComments();
@@ -121,6 +127,7 @@
 						}
 					});
 
+					
 					// 게시글 수정버튼 클릭이벤트 핸들러 추가
 					editBtn.addEventListener("click", function () {
 						console.log("수정버튼 클릭")
@@ -196,6 +203,8 @@
 										replyInfo.append('<li id="r_date">' + formattedDate + '</li>');
 										replyInfo.append('<li id="r_repBtn"><input type="button" class="btn_reply_report" onclick="replyReport(event)" value="🚨"></li>');
 										replyInfo.append('<li id="r_editBtn"><input type="button" class="btn_reply_edit" onclick="openEditForm(event)" data-replyNo="' + data.replyno + '" style="display: none;" value="수정"></li>');
+										// 이은지가 추가함
+										replyInfo.append('<li id="r_deleteBtn"><input type="button" class="btn_reply_delete" onclick="openDeleteForm(event)" data-replyNo="' + data.replyno + '" style="display: none;" value="삭제"></li>');
 
 										replyItem.append(replyInfo);
 
@@ -206,6 +215,7 @@
 
 										if (storagedUsername === data.user.username || storagedRole === "ROLE_ADMIN") {
 											replyItem.find('.btn_reply_edit').css('display', 'block');
+											replyItem.find('.btn_reply_delete').css('display', 'block');
 										}
 									});
 								}
@@ -216,34 +226,76 @@
 						});
 					}
 
-
+					// 이은지가 추가함
+					// 게시글 삭제 기능
+					deleteBtn.addEventListener('click', function(event){
+						console.log("xxx삭제 버튼 클릭 됨xxx");
+						event.preventDefault();
+						
+						if(confirm("이 게시글을 삭제하시겠습니까?")){
+							$.ajax({
+								type: 'delete',
+								url: 'http://localhost:9001/api/v1/user/community-board?ubno='+ubno,
+								headers:{
+									"jwtToken" : localStorage.getItem("jwtToken"),
+					            	"username" : localStorage.getItem("username"),
+					            	"role" : localStorage.getItem("role")
+								},
+								contentType: 'application/json; charset=utf-8',
+								//dataType: 'json'
+								success: function(data){
+									if(data === "게시글 삭제 완료"){
+										console.log(data);
+										alert("게시글 삭제 완료");
+										window.location.href='/user/communityList';
+									}
+								},
+								error: function(xhr, status, error) {
+									// 요청이 실패한 경우 처리할 코드
+									console.error("Request failed with status code: " + xhr.status);
+								}
+								
+							});
+						}else {
+							// 신고 취소 버튼 시 알림
+							alert("삭제가 취소되었습니다.");
+						}
+						
+					});
+					
+					
+					
 					// 게시글 신고 기능
 					$('#btn_commu_report').click(function (event) {
 						event.preventDefault();
-
-						console.log("----------------" + ubno + "-----------------")
-						$.ajax({
-							type: 'post',
-							url: 'http://localhost:9001/api/v1/user/community-report?ubno=' + ubno,
-							headers: {
-								"jwtToken": localStorage.getItem("jwtToken"),
-								"username": localStorage.getItem("username"),
-								"role": localStorage.getItem("role")
-							},
-
-							contentType: 'application/json; charset=utf-8',
-							success: function (data) {
-								if (data === "게시글신고완료") {
-									console.log(data);
-									alert("게시글 신고 완료");
+						
+						if(confirm("이 게시글을 신고하시겠습니까?")){
+							$.ajax({
+								type: 'post',
+								url: 'http://localhost:9001/api/v1/company/community-report?ubno='+ubno,
+								headers:{
+									"jwtToken" : localStorage.getItem("jwtToken"),
+					            	"username" : localStorage.getItem("username"),
+					            	"role" : localStorage.getItem("role")
+								},
+								contentType: 'application/json; charset=utf-8',
+								success: function(data){
+									if(data === "게시글신고완료"){
+										console.log(data);
+										alert("게시글 신고 완료");
+									}
+								},
+								error: function(xhr, status, error) {
+									// 요청이 실패한 경우 처리할 코드
+									console.error("Request failed with status code: " + xhr.status);
 								}
-							},
-							error: function (xhr, status, error) {
-								// 요청이 실패한 경우 처리할 코드
-								console.error("Request failed with status code: " + xhr.status);
-							}
+								
+							});
+						}else {
+							// 신고 취소 버튼 시 알림
+							alert("신고가 취소되었습니다.");
+						}
 
-						});
 					});
 
 				});
@@ -251,34 +303,34 @@
 				//댓글 신고 기능
 				function replyReport(event) {
 					console.log("댓글 신고 -------------");
-
 					event.preventDefault();
-
-					console.log("----------------" + ubno + "-----------------")
-					$.ajax({
-						type: 'post',
-						url: 'http://localhost:9001/api/v1/user/reply-report?ubno=' + ubno,
-						headers: {
-							"jwtToken": localStorage.getItem("jwtToken"),
-							"username": localStorage.getItem("username"),
-							"role": localStorage.getItem("role")
-						},
-
-						contentType: 'application/json; charset=utf-8',
-						success: function (data) {
-							if (data === "댓글신고완료") {
-								console.log(data);
-								alert("댓글 신고 완료");
-							};
-						},
-						error: function (xhr, status, error) {
-							// 요청이 실패한 경우 처리할 코드
-							console.error("Request failed with status code: " + xhr.status);
-						}
-
-					});
+					if(confirm("이 댓글을 신고하시겠습니까?")){
+					
+						$.ajax({
+							type: 'post',
+							url: 'http://localhost:9001/api/v1/user/reply-report?ubno=' + ubno,
+							headers: {
+								"jwtToken": localStorage.getItem("jwtToken"),
+								"username": localStorage.getItem("username"),
+								"role": localStorage.getItem("role")
+							},
+	
+							contentType: 'application/json; charset=utf-8',
+							success: function (data) {
+								if (data === "댓글신고완료") {
+									console.log(data);
+									alert("댓글 신고 완료");
+								};
+							},
+							error: function (xhr, status, error) {
+								// 요청이 실패한 경우 처리할 코드
+								console.error("Request failed with status code: " + xhr.status);
+							}
+	
+						});
+					
+					}
 				}
-
 
 				// 댓글 수정 기능
 				function openEditForm(event) {
@@ -332,7 +384,42 @@
 
 				}
 
+				// 이은지가 추가함
+				// 댓글 삭제 기능
+				function openDeleteForm(event){
+					event.preventDefault();
+					let replyno = event.target.getAttribute("data-replyNo");
+					if(confirm("이 댓글을 삭제하시겠습니까?")){
+						$.ajax({
+							type: 'delete',
+							url: 'http://localhost:9001/api/v1/company/community-reply?replyno='+replyno,
+							headers:{
+								"jwtToken" : localStorage.getItem("jwtToken"),
+				            	"username" : localStorage.getItem("username"),
+				            	"role" : localStorage.getItem("role")
+							},
+							contentType: 'application/json; charset=utf-8',
+							//dataType: 'json'
+							success: function(data){
+								if(data === "댓글 삭제 완료"){
+									console.log("replyno: "+replyno);
+									console.log(data);
+									alert("댓글 삭제 완료");
+									location.href="/user/communityDetail?ubno="+ubno;
+								}
+							},
+							error: function(xhr, status, error) {
+								// 요청이 실패한 경우 처리할 코드
+								console.error("Request failed with status code: " + xhr.status);
+							}
 
+						});
+					}else {
+						// 신고 취소 버튼 시 알림
+						alert("삭제가 취소되었습니다.");
+					}
+				
+				}
 			</script>
 		</div>
 		<jsp:include page="..//../layout/footer.jsp"></jsp:include>

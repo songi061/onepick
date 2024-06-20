@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.onepickApi.dto.BoardDto;
 import com.example.onepickApi.dto.UserReplyDto;
 import com.example.onepickApi.entity.BoardReport;
+import com.example.onepickApi.entity.CompanyBoard;
+import com.example.onepickApi.entity.CompanyReply;
 import com.example.onepickApi.entity.ReplyReport;
 import com.example.onepickApi.entity.User;
 import com.example.onepickApi.entity.UserBoard;
@@ -199,11 +201,38 @@ public class UserCommunityController {
 		}
 	}
 	
+	// 댓글 삭제
+	@DeleteMapping("/community-reply")
+	public String replyDeletion(@RequestParam("replyno") Long replyno) {
+		System.out.println("댓글 삭제 시도~~~~~~~");
+		urRepo.deleteById(replyno);
+		System.out.println("댓글 삭제 완1!!1!!!!!");
+				
+		return "댓글 삭제 완료";
+	}
+	
 	
 	// 게시글 삭제
 	@DeleteMapping("/community-board")
-	public String communityDeletion(){
-		return "";
+	public String communityDeletion(@RequestParam("ubno") Long ubno){
+		
+		// ubno가 외래키로 연결된 데이터를 다 삭제
+		UserBoard ub = ubRepo.findById(ubno).get();
+		System.out.println("ub 있음-----");
+		
+		UserReply ur = new UserReply();
+		ur.setUserBoard(ub);
+		
+		urRepo.delete(ur);
+		System.out.println("ur 삭제----");
+		
+		brRepo.deleteByUserBoardUbno(ubno);
+		System.out.println("br에서 삭제----");
+		
+		ubRepo.deleteById(ubno);
+		System.out.println("cb 삭제----");
+		
+		return "게시글 삭제 완료";
 	}
 	
 	
