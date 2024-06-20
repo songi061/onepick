@@ -113,6 +113,24 @@ public class CompanyCommunityController {
 		return cr;
 	}
 
+	
+	// 기업 마이페이지 - 내가 쓴 댓글 목록 조회
+	@GetMapping("/community-myComment")
+	public List<CompanyReply> communityMyComment(HttpServletRequest request){
+		
+		String username = request.getHeader("username");
+		Company company = new Company();
+		company.setUsername(username);
+		
+		List<CompanyReply> cr = crRepo.findByCompany(company);
+	    if (cr != null) {
+	        return cr;
+	    }else {
+	    	return null;
+	    } 
+	}
+	
+	
 	// 댓글 등록
 	@PostMapping("/community-comment")
 	public CompanyReply registReply(@RequestBody CompanyReplyDto crDto) {
@@ -192,16 +210,6 @@ public class CompanyCommunityController {
 		return "";
 	}
 
-//	// 기업 마이페이지 - 내가 쓴 게시글 목록 조회
-//	@GetMapping("/community-myboard")
-//	public List<CompanyBoard> communityMyBoardList(@RequestBody BoardDto boardDto) {
-//		Company company = new Company();
-//		company.setUsername(boardDto.getUsername());
-//
-//		List<CompanyBoard> cbList = cbRepo.findByCompany(company);
-//
-//		return cbList;
-//	}
 
 	// 게시글 신고
 	@PostMapping("/community-report")
@@ -255,7 +263,7 @@ public class CompanyCommunityController {
 	
 	
 	// http://localhost:9001/api/v1/company/community-myboard
-	// 구직자 마이페이지 - 내가 쓴 게시글 목록 조회
+	// 기업 마이페이지 - 내가 쓴 게시글 목록 조회
 	@GetMapping("/community-myboard")
 	public List<CompanyBoard> communityMyBoardList(HttpServletRequest request){
 		
@@ -267,26 +275,6 @@ public class CompanyCommunityController {
 		System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnn"+cbList);
 		return cbList;
 	}
-	
-	// 구직자 마이페이지 - 내가 쓴 게시글 디테일
-//	@GetMapping("/community-myboardDetail")
-//	public UserBoard communityMyBoard(HttpServletRequest request, @RequestParam("cbno") Long cbno){
-//		
-//		String username = request.getHeader("username");
-//		User user = new User();
-//		user.setUsername(username);
-//		
-//		UserBoard ub = ubRepo.findById(ubno).get();
-//		System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnn"+ub);
-//		return ub;
-//	}
-	
-	
-	
-	
-	
-	
-	
 	
 
 }

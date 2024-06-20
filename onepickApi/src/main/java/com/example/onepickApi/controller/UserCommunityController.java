@@ -126,7 +126,6 @@ public class UserCommunityController {
 	    }else {
 	    	return null;
 	    } 
-	    
 	}
 	
 	

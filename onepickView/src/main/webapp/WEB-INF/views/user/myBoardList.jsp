@@ -12,7 +12,7 @@
 <body>
 <jsp:include page="../layout/header.jsp"></jsp:include>
 <div class="container">
-	<!-- 내가 쓴 글 목록 -->
+	<!-------------------- 내가 쓴 글 목록 --------------------->
 	<div id="myposts" class="myBoard" data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
 		<table id="postTable">
 			<thead>
