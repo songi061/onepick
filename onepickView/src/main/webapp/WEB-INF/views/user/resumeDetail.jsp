@@ -17,6 +17,12 @@
 .subtitle{
 	font-size : 1.1em;
 	font-weight : bold;
+	margin : 8px;
+	
+}
+.subtitle2{
+	font-size : 1.1em;
+	margin : 8px;
 }
 .pub{
 	color : #42d056; 
@@ -62,6 +68,35 @@
     color: white;
 }    
 
+.profile-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* .profileImg_box { */
+/*     width: 160px; */
+/*     height: 160px; */
+/*     position: relative; */
+/*     overflow: hidden; */
+/*     border-radius: 50%; */
+/*     border: 2px solid #ccc; */
+/*     margin-right: 20px; */
+/* } */
+
+.profileImg_box img {
+    width: 110px; 
+    height: 110px;
+    object-fit: cover; 
+    border-radius: 50%; 
+    border: 2px solid #42d056 ; 
+    margin-right : 30px;
+}
+
+.resume-info {
+    flex: 1;
+}
+
     
 </style>
 
@@ -70,34 +105,30 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 
 <div class="container">
-	
-<div id="resumeForm">
-	<div   id="scrapBtn" onclick="scrapResume()">
-		<img class="ms-auto" style="width:25px; height:25px;" src="/icon/save.png">
+
+	<div id="resumeForm">
+		<div class="d-flex">
+			<div id="resume"></div>
+		</div>
+		<hr>
+		<p class="subtitle">✔️ 사회활동</p>
+		<div class="info" id="experiences"></div>
+		<hr>
+		<p class="subtitle">✔️ 경력사항</p>
+		<div class="info" id="careers"></div>
+		<hr>
+		<p class="subtitle">✔️ 학력사항</p>
+		<div class="info" id="schools"></div>
+		<hr>
+		<p class="subtitle">✔️ 자격증</p>
+		<div class="info" id="licenses"></div>
+		<hr>
+		<p class="subtitle">✔️ 보유능력</p>
+		<div class="info" id="oaList"></div>
+
+		<input type="button" id="editBtn" value="수정" style="display: none;" onclick="edit(<%= request.getAttribute("rno") %>)">
+
 	</div>
-<div id="resume"></div>
-<hr>
-<p class="subtitle">사회활동</p>
-<div class="info" id="experiences"></div>
-<hr>
-<p class="subtitle">경력사항</p>
-<div class="info" id="careers"></div>
-<hr>
-<p class="subtitle">학력사항</p>
-<div class="info" id="schools"></div>
-<hr>
-<p class="subtitle">자격증</p>
-<div class="info" id="licenses"></div>
-<hr>
-<p class="subtitle">보유능력</p>
-<div class="info" id="oaList"></div>
-
-
-<input type="button" id="editBtn" value="수정" style="display: none;" onclick="edit(<%= request.getAttribute("rno") %>)">
-
-
-</div>
-
 
 </div>
 
@@ -106,56 +137,94 @@ let rno = null;
 let scrapped = null;
 
 $(document).ready(function() {
-	
-	rno = <%= request.getAttribute("rno") %>;
-	
+    rno = <%= request.getAttribute("rno") %>;
+
     // AJAX 요청 보내기
-	$.ajax({
-	    url: 'http://localhost:9001/api/v1/resume/' + rno,
-	    type: 'GET',
-	    dataType: 'json',
-	    /* headers: {
-	        'Authorization': 'Bearer ' + token,
-	        'writer': token_writer,
-	        'role': token_role
-	    }, */
-	    success: function(data) {
-	    	
-	        console.log(data);
-	        
-	     // Resume 정보
+    $.ajax({
+        url: 'http://localhost:9001/api/v1/resume/' + rno,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            console.log(data);
+            var resume = data.resume;
+            
+            
+            // Resume 정보
             var resumeDiv = $('#resume');
             resumeDiv.empty();
-            var resumeUl = $('<ul class="resume"></ul>');
-            var resume = data.resume;
+            
+            
+            
+            
+            
+			
+            // 프로필 이미지와 정보를 포함하는 컨테이너 생성
+            var profileContainer = $('<div class="profile-container"></div>');
 
-            if (resume.disclo == "public") {
-                resumeUl.append('<li class="pub">공개 이력서</li>');
+            // 프로필 이미지 박스
+            var profileImgBox = $('<div class="profileImg_box position-relative"><img src="" alt="사진"></div>');
+            if (data.resume.user.fileName == null) {
+                profileImgBox.find('img').attr('src', '/img/no_img.jpg');
             } else {
-                resumeUl.append('<li class="pub">비공개 이력서</li>');
+                profileImgBox.find('img').attr('src', '/images/' + data.resume.user.fileName);
             }
-            resumeUl.append('<li class="title">' + resume.title + '</li><hr>');
-            resumeUl.append('<li class="subtitle" style="color : #2E9AFE;">기본정보</li>');
-            resumeUl.append('<li class="subtitle">💚 이름 :  ' + resume.user.name + '</li>');
-            resumeUl.append('<li class="subtitle">💚 이메일 :  ' + resume.user.email + '</li>');
-            resumeUl.append('<li class="subtitle">💚 전화번호 :  ' + resume.user.tel + '</li>');
-            resumeUl.append('<li class="subtitle">💚 주소 :  ' + resume.user.addr + '</li>');
-            resumeUl.append('<li class="subtitle">💚 성별 :  ' + resume.user.gender + '</li>');
-            resumeUl.append('<li class="subtitle">💚 생년월일 :  ' + resume.user.birthDate + '</li><br><br>');
-            resumeUl.append('<li class="subtitle">자기소개서 제목</li>');
-            resumeUl.append('<li>' + resume.selfInfoTitle + '</li><br>');
-            resumeUl.append('<li class="subtitle">자기소개서 내용</li>');
-            resumeUl.append('<li>' + resume.selfInfoContent + '</li><br><hr>');
-            resumeUl.append('<li class="subtitle">희망근무지역</li>');
-            resumeUl.append('<li>1순위 : ' + resume.region1 + ' ' + resume.region1_1 + ' / 2순위 : ' + resume.region2 + ' ' + resume.region2_1 + '</li><br>');
-            resumeUl.append('<li class="subtitle">관심업종/직무</li>');
-            resumeUl.append('<li>' + resume.sector + ' / ' + resume.job + '</li><br>');
-            resumeUl.append('<li class="subtitle">포트폴리오 URL</li>');
-            resumeUl.append('<li>' + resume.portfolioUrl + '</li>');
 
-            resumeDiv.append(resumeUl);
+            // 이미지 박스를 컨테이너에 추가
+            profileContainer.append(profileImgBox);
 
             
+            
+            // 기본 정보 div
+            var basicInfoDiv = $('<div class="basic-info"></div>');
+            
+            var basicInfoTitleDiv = $('<div class="basic-info-title"></div>');
+            
+            if (resume.disclo == "public") {
+            	basicInfoTitleDiv.append('<div class="pub">공개 이력서</div>');
+            } else {
+            	basicInfoTitleDiv.append('<div class="pub">비공개 이력서</div>');
+            }
+			
+            basicInfoTitleDiv.append('<div class="title">' + resume.title + '</div><hr>');
+            
+            resumeDiv.append(basicInfoTitleDiv);
+            
+            
+            
+            
+            basicInfoDiv.append('<div class="subtitle" style="color : #2E9AFE;">기본정보</div>');
+            basicInfoDiv.append('<div class="subtitle">💚 이름 : ' + resume.user.name + '</div>');
+            basicInfoDiv.append('<div class="subtitle">💚 이메일 : ' + resume.user.email + '</div>');
+            basicInfoDiv.append('<div class="subtitle">💚 전화번호 : ' + resume.user.tel + '</div>');
+            basicInfoDiv.append('<div class="subtitle">💚 주소 : ' + resume.user.addr + '</div>');
+            basicInfoDiv.append('<div class="subtitle">💚 성별 : ' + resume.user.gender + '</div>');
+            basicInfoDiv.append('<div class="subtitle">💚 생년월일 : ' + resume.user.birthDate + '</div>');
+
+            // 기본 정보 div를 컨테이너에 추가
+            profileContainer.append(basicInfoDiv);
+			
+            
+            
+            // 프로필 컨테이너를 resumeDiv에 추가
+            resumeDiv.append(profileContainer);
+			
+            // 자기소개서 정보 div
+            var selfIntroDiv = $('<div class="self-intro"></div>');
+
+            selfIntroDiv.append('<div class="subtitle">자기소개서 제목</div>');
+            selfIntroDiv.append('<div class="subtitle2">' + resume.selfInfoTitle + '</div>');
+            selfIntroDiv.append('<div class="subtitle">자기소개서 내용</div>');
+            selfIntroDiv.append('<div class="subtitle2">' + resume.selfInfoContent + '</div><hr>');
+            selfIntroDiv.append('<div class="subtitle">희망근무지역</div>');
+            selfIntroDiv.append('<div class="subtitle2">1순위 : ' + resume.region1 + ' ' + resume.region1_1 + ' / 2순위 : ' + resume.region2 + ' ' + resume.region2_1 + '</div>');
+            selfIntroDiv.append('<div class="subtitle">관심업종/직무</div>');
+            selfIntroDiv.append('<div class="subtitle2">' + resume.sector + ' / ' + resume.job + '</div>');
+            selfIntroDiv.append('<div class="subtitle">포트폴리오 URL</div>');
+            selfIntroDiv.append('<div class="subtitle2">' + resume.portfolioUrl + '</div>');
+
+            // 자기소개서 정보를 resumeDiv에 추가
+            resumeDiv.append(selfIntroDiv);
+
             // Experience(사회활동) 정보
             var experiencesDiv = $('#experiences');
             experiencesDiv.empty();
@@ -163,14 +232,12 @@ $(document).ready(function() {
             var experiences = data.experiences;
 
             experiences.forEach(function(experience) {
-            	
                 experiencesUl.append('<li>' + experience.ex_content + '</li>');
                 experiencesUl.append('<li>' + experience.ex_org + '</li>');
-                experiencesUl.append('<li class="right">활동 기간 : '+ experience.startDay + ' ~ ' + experience.endDay + '</li>');
+                experiencesUl.append('<li class="right">활동 기간 : ' + experience.startDay + ' ~ ' + experience.endDay + '</li>');
             });
             experiencesDiv.append(experiencesUl);
 
-            
             // Career(경력사항) 정보
             var careersDiv = $('#careers');
             careersDiv.empty();
@@ -178,29 +245,26 @@ $(document).ready(function() {
             var careers = data.careers;
 
             careers.forEach(function(career) {
-            	careersUl.append('<li>' + career.companyName + '</li>');
-            	careersUl.append('<li>' + career.c_type + '/' +career.position + '/'  + career.work + '</li>');
-            	careersUl.append('<li>' + career.rank + '/' +career.career_status + '</li>');
-            	careersUl.append('<li class="right">근무 기간 : '+ career.startDate + ' ~ ' + career.endDate + '</li>');
+                careersUl.append('<li>' + career.companyName + '</li>');
+                careersUl.append('<li>' + career.c_type + '/' + career.position + '/' + career.work + '</li>');
+                careersUl.append('<li>' + career.rank + '/' + career.career_status + '</li>');
+                careersUl.append('<li class="right">근무 기간 : ' + career.startDate + ' ~ ' + career.endDate + '</li>');
             });
             careersDiv.append(careersUl);
-			
-            
-         	// School (학력) 정보
+
+            // School (학력) 정보
             var schoolsDiv = $('#schools');
             schoolsDiv.empty();
             var schoolsUl = $('<ul class="schools"></ul>');
             var schools = data.schools;
 
             schools.forEach(function(school) {
-            	schoolsUl.append('<li>' + school.eduName +'/' + school.major + '</li>');
-            	schoolsUl.append('<li>' + school.s_status + '(학점 : ' +school.score + ')</li>');
-        
-            	schoolsUl.append('<li class="right">학업 기간 : '+ school.accDate + ' ~ ' + school.gradDate + '</li>');
+                schoolsUl.append('<li>' + school.eduName + '/' + school.major + '</li>');
+                schoolsUl.append('<li>' + school.s_status + '(학점 : ' + school.score + ')</li>');
+                schoolsUl.append('<li class="right">학업 기간 : ' + school.accDate + ' ~ ' + school.gradDate + '</li>');
             });
             schoolsDiv.append(schoolsUl);
-            
-            
+
             // License(자격증) 정보
             var licensesDiv = $('#licenses');
             licensesDiv.empty();
@@ -209,13 +273,11 @@ $(document).ready(function() {
 
             licenses.forEach(function(license) {
                 licensesUl.append('<li>' + license.lname + '</li>');
-            	licensesUl.append('<li>발급 기관 : ' + license.org + '</li>');
-           		licensesUl.append('<li>취득일 : ' + license.getDate + '</li>');
-            
+                licensesUl.append('<li>발급 기관 : ' + license.org + '</li>');
+                licensesUl.append('<li>취득일 : ' + license.getDate + '</li>');
             });
             licensesDiv.append(licensesUl);
-            
-            
+
             // OA (스킬) 정보
             var oaDiv = $('#oaList');
             oaDiv.empty();
@@ -223,36 +285,29 @@ $(document).ready(function() {
             var oaList = data.oaList;
 
             oaList.forEach(function(oa) {
-                oaUl.append('<li>&nbsp&nbsp' + oa.skillName + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'+ oa.oa_content + '</li>');
+                oaUl.append('<li>&nbsp&nbsp' + oa.skillName + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + oa.oa_content + '</li>');
             });
             oaDiv.append(oaUl);
-			
-            
-            
-            
-         	// Role에 따라 버튼 보이기 처리
+
+            // Role에 따라 버튼 보이기 처리
             var role = localStorage.getItem('role');
             var editBtn = $('#editBtn');
             var scrapBtn = $('#scrapBtn');
-            
+
             if (role === 'ROLE_USER') {
-                editBtn.show();  // 수정 버튼 보이기
+                editBtn.show(); // 수정 버튼 보이기
             } else if (role === 'ROLE_COMPANY') {
-                editBtn.hide();  // 수정 버튼 숨기기
+                editBtn.hide(); // 수정 버튼 숨기기
                 scrapBtn.show(); //기업이 구직자 스크랩하기
             }
-            
-            //var resumeForm = $('#resumeForm');
-            //resumeForm.append('<input type="button" id="editBtn" value="수정" onclick="edit(' + resume.rno + ')">');
-	    
+
             //스크랩 여부 띄워주기
             checkScrapStatus();
-	    	
-	    },
-	    error: function(xhr, status, error) {
-	        console.error('AJAX 요청 실패:', status, error);
-	    }
-	});
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX 요청 실패:', status, error);
+        }
+    });
 });
 
 function edit(rno) {
