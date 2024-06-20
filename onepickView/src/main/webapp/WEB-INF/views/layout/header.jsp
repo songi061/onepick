@@ -10,6 +10,7 @@
 					<a class="btn btn-sm btn-outline-dark" href="/regForm">회원가입</a>
 				</div>
 				<div id="login_menu" class="border-end pe-3 me-3">
+					<span id="myname"></span>
 					<button class="btn btn-sm btn-outline-dark" onclick="mypage()">마이페이지</button>
 					<button class="btn btn-sm btn-outline-dark" onclick="logoutBtn()">로그아웃</button>
 				</div>
@@ -66,6 +67,14 @@
 	    </div>
     </div>
 </header>
+<style>
+	#myname{
+		font-size: 14px;
+    	line-height: 25px;
+    	color: #666;
+		margin-right: 10px;
+	}
+</style>
 <script>
 	const menuBtn = document.querySelector("#serviceBtn");
 	const userMenu = document.querySelector("#userMenu").style;
@@ -113,7 +122,9 @@
 	}else{
 		login_menu.style.display="";
 		logout_menu.style.display="none";
-	}
+		// #myname 요소에 텍스트 추가
+		document.querySelector("#myname").innerText = "🐱‍👤 "+ username + " 님, 반갑습니다 !"
+		}
 	
 	function mypage(){
 		if(role == "ROLE_COMPANY"){
