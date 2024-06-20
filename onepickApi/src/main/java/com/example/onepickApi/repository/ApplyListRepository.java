@@ -16,7 +16,7 @@ public interface ApplyListRepository extends JpaRepository<ApplyList, Long> {
 	
 	//평점 남길 수 있는 지원자 리스트 뽑기
 	@Query(value="select * from apply_list where jno=:jno and status='면접완료' and rating_status1='false'", nativeQuery=true)
-	public ApplyList findIntervieweesByJno(@Param("jno") Long jno);
+	public List<ApplyList> findIntervieweesByJno(@Param("jno") Long jno);
 	
 	@Query(value="select * from apply_list where uid=:uid and jno=:jno", nativeQuery=true)
 	public ApplyList findInterviewee(@Param("uid") String uid, @Param("jno") Long jno);

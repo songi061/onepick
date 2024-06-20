@@ -76,10 +76,12 @@ public class ReviewController_jia {
 		
 		//해당기업이 올린 공고의 jno를 이용해서 해당 공고에 지원한 지원내역을 모두 뽑음
 		for(Long jno : jnoList) {
-			ApplyList al = applyListRepo.findIntervieweesByJno(jno);
+			List<ApplyList> al = applyListRepo.findIntervieweesByJno(jno);
 			
-			if(al != null) {
-				applyList.add(al);
+			if(al !=null) {
+				for(ApplyList a : al) {
+					applyList.add(a);
+				}
 			}
 		}
 		System.out.println(applyList);
