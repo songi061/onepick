@@ -83,7 +83,6 @@
 				var token = xhttp.getResponseHeader("Authorization");
 				console.log("JWT Token: " + token.split(" ")[1]);
 				
-				localStorage.setItem("jwtToken", token.split(" ")[1]);
 				// 헤더 값 읽기
 				let role = xhttp.getResponseHeader("Role");
 				let username = xhttp.getResponseHeader("username");
@@ -96,7 +95,7 @@
 					const xhttp22 = new XMLHttpRequest();
 					xhttp22.onload = function() {
 						if (xhttp22.responseText == "true") {
-							
+							localStorage.setItem("jwtToken", token.split(" ")[1]);
 							localStorage.setItem("role", role);
 							localStorage.setItem("username", username);
 							console.log("role : " + role);
@@ -147,7 +146,7 @@
 				var token = xhttp.getResponseHeader("Authorization");
 				console.log("JWT Token: " + token.split(" ")[1]);
 				
-				localStorage.setItem("jwtToken", token.split(" ")[1]);
+				
 				// 헤더 값 읽기
 				let role = xhttp.getResponseHeader("Role");
 				let username = xhttp.getResponseHeader("username");
@@ -160,7 +159,7 @@
 					const xhttp22 = new XMLHttpRequest();
 					xhttp22.onload = function() {
 						if (xhttp22.responseText == "true") {
-							
+							localStorage.setItem("jwtToken", token.split(" ")[1]);
 							localStorage.setItem("role", role);
 							localStorage.setItem("username", username);
 							console.log("role : " + role);
