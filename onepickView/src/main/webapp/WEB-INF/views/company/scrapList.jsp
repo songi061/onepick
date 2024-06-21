@@ -83,7 +83,7 @@ const listContainer = document.querySelector('.scrap_list');
         	   console.log(age)
                const listItem = document.createElement('div');
                listItem.className = 'scrap_list_item';
-               listItem.innerHTML = "<div class='profileImg_box img' ><img class='img' src=''></div><div class='scrap_info'><div class='scrap_title'><a href=''>"+ data.resume.title+"</a></div><div class='scrap_name'>"+ data.resume.user.name+"</div><div>"+data.resume.user.gender+"</div><div>" + age +
+               listItem.innerHTML = "<div class='profileImg_box img' ><img class='img' src=''></div><div class='scrap_info'><div class='scrap_title'><a href='/user/resumeDetail?rno="+data.resume.rno+"'>"+ data.resume.title+"</a></div><div class='scrap_name'>"+ data.resume.user.name+"</div><div>"+data.resume.user.gender+"</div><div>" + age +
                " 세</div> <div class='scrap_job'>" + data.resume.job + "</div><div class='scrap_region'>" +data.resume.region1+"</div></div>";
                listContainer.appendChild(listItem);
                
