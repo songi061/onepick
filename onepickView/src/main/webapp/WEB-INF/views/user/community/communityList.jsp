@@ -52,15 +52,14 @@
                     dataType: 'json',
                     success: function (data) {
                         let tableContent = '<table class="table">';
-                        tableContent += '<thead><tr><th>번호</th><th id="title">제목</th><th>작성자</th><th>조회 수</th></tr></thead>';
+                        tableContent += '<thead><tr><th>번호</th><th id="title">제목</th><th>작성자</th></tr></thead>';
                         tableContent += '<tbody>';
 
                         if (data !== null) {
                             for (var i = 0; i < data.length; i++) {
                                 tableContent += '<tr id="' + data[i].ubno + '" class="clickable"><td>' + (i+1) +
                                     '</td><td>' + data[i].title + '</td>' +
-                                    '<td>' + data[i].user.username + '</td>' +
-                                    '<td>' + data[i].views + '</td></tr>';
+                                    '<td>' + data[i].user.username + '</td>';
                             }
                         }
 

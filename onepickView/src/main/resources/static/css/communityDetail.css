@@ -50,7 +50,7 @@
     background-color: #fff;
 }
 
-#editBtn{
+#editBtn, #deleteBtn{
     border: 1px solid gainsboro;
     width: 60px; height: 40px;
     background-color: #fff;
@@ -58,6 +58,9 @@
     float: right;
     position: relative;
     top: -50px;
+}
+#deleteBtn{
+	margin-right: 5px;
 }
 .replyForm{
     width: 1200px;
@@ -123,7 +126,7 @@ input[type="text"]{
     background-color: aliceblue;
 }
 
-.btn_reply_edit{
+.btn_reply_edit, .btn_reply_delete{
     border: 1px solid gainsboro;
     width: 50px; height: 25px;
     font: 400 15px/25px 'Pretendard-Regular';
