@@ -57,14 +57,14 @@ public class CompanyScrapController_jia {
 	private UserRepository userRepo;
 	
 	@GetMapping("/resume-scrap")
-	public ResponseEntity<List<InterestedUser>> getScrapList(HttpServletRequest request) {
+	public ResponseEntity<List<ResumeScrap>> getScrapList(HttpServletRequest request) {
 		Enumeration<String> headers = request.getHeaderNames();
 		while(headers.hasMoreElements()) {
 			if(headers.nextElement().equals("username")) {
 //				System.out.println(request.getHeader("username"));
 			}
 		}
-			return new ResponseEntity<>(interestedUserRepo.findByCid(request.getHeader("username")), HttpStatus.OK);
+			return new ResponseEntity<>(resumeScrapRepo.findByCid(request.getHeader("username")), HttpStatus.OK);
 	}
 	
 	@PostMapping("/recruit-scrap")

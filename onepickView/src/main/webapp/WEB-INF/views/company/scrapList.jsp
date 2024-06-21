@@ -75,23 +75,23 @@ const listContainer = document.querySelector('.scrap_list');
     const xhttp = new XMLHttpRequest();
 	xhttp.onload = function() {
 		let datas = JSON.parse(this.responseText);
-	
+		 console.log(datas)
 		if (datas && datas.length > 0) {
            datas.forEach(data => {
-       console.log(data)
-        	   let age = 2024 - Number(data.user.birthDate.slice(0,4));
+      		 console.log(data)
+        	   let age = 2024 - Number(data.resume.user.birthDate.slice(0,4));
         	   console.log(age)
                const listItem = document.createElement('div');
                listItem.className = 'scrap_list_item';
-               listItem.innerHTML = "<div class='profileImg_box img' ><img class='img' src=''></div><div class='scrap_info'><div class='scrap_title'><a href=''>"+ data.resume.title+"</a></div><div class='scrap_name'>"+ data.user.name+"</div><div>"+data.user.gender+"</div><div>" + age +
+               listItem.innerHTML = "<div class='profileImg_box img' ><img class='img' src=''></div><div class='scrap_info'><div class='scrap_title'><a href='/user/resumeDetail?rno="+data.resume.rno+"'>"+ data.resume.title+"</a></div><div class='scrap_name'>"+ data.resume.user.name+"</div><div>"+data.resume.user.gender+"</div><div>" + age +
                " 세</div> <div class='scrap_job'>" + data.resume.job + "</div><div class='scrap_region'>" +data.resume.region1+"</div></div>";
                listContainer.appendChild(listItem);
                
                
-               if(data.user.fileName == null){
+               if(data.resume.user.fileName == null){
             	   listItem.querySelector(".profileImg_box img").src="/img/no_img.jpg";
 	       		}else{
-	       			listItem.querySelector(".profileImg_box img").src="/images/" + myInfo.fileName;
+	       			listItem.querySelector(".profileImg_box img").src="/images/" + data.resume.user.fileName;
 	       		}
                
            });
