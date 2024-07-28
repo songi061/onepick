@@ -1,6 +1,6 @@
 # 💼 2차 mini project – RestAPI서버(원픽)
 
-![1번이미지](https://github.com/kimjisun5963/shoppingMall/blob/main/0-1.PNG)
+![1번이미지](https://github.com/kimjisun5963/mini2/blob/main/2-1.PNG)
 
 - **소개**
 
