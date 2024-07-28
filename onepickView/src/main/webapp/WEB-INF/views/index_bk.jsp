@@ -20,7 +20,7 @@
 	</div>
 	<div id="search_result"></div>
 </div>
-<br/>
+
 <script>
 // 검색 결과 불러오기
 
