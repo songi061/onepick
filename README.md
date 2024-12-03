@@ -30,4 +30,3 @@
 회원가입, 회원정보수정, 공고 검색, 통합 검색 등 구현
 
 
-[📃 자세히 보기](https://drive.google.com/file/d/1Akx_9ZywNQ69rWRv4Zbit8aM6mLDatQD/view?usp=sharing)
